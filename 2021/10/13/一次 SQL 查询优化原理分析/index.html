@@ -1,0 +1,551 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="一次 SQL 查询优化原理分析  有一张财务流水表，未分库分表，目前的数据量为9555695，分页查询使用到了limit，优化之前的查询耗时16 s 938 ms (execution: 16 s 831 ms, fetching: 107 ms)，按照下文的方式调整SQL后，耗时347 ms (execution: 163 ms, fetching: 184 ms)； 操作： 查询条件放到子查询">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次SQL查询优化原理分析">
+<meta property="og:url" content="http://example.com/2021/10/13/%E4%B8%80%E6%AC%A1%20SQL%20%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="一次 SQL 查询优化原理分析  有一张财务流水表，未分库分表，目前的数据量为9555695，分页查询使用到了limit，优化之前的查询耗时16 s 938 ms (execution: 16 s 831 ms, fetching: 107 ms)，按照下文的方式调整SQL后，耗时347 ms (execution: 163 ms, fetching: 184 ms)； 操作： 查询条件放到子查询">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109232058529.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109232058858.webp">
+<meta property="article:published_time" content="2021-10-13T14:13:42.903Z">
+<meta property="article:modified_time" content="2021-10-12T14:12:57.088Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109232058529.webp">
+  
+  <title>一次SQL查询优化原理分析 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="一次SQL查询优化原理分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:13" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一次SQL查询优化原理分析</h1>
+            
+            <div class="markdown-body">
+              <center><h2>一次 SQL 查询优化原理分析</h2></center>
+
+<p>有一张财务流水表，未分库分表，目前的数据量为9555695，分页查询使用到了limit，优化之前的查询耗时16 s 938 ms (execution: 16 s 831 ms, fetching: 107 ms)，按照下文的方式调整SQL后，耗时347 ms (execution: 163 ms, fetching: 184 ms)；</p>
+<p><strong>操作：</strong> 查询条件放到子查询中，子查询只查主键ID，然后使用子查询中确定的主键关联查询其他的属性字段；</p>
+<p><strong>原理：</strong> 减少回表操作；</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 优化前SQL</span><br><span class="hljs-keyword">SELECT</span>  各种字段<br><span class="hljs-keyword">FROM</span>`table_name`<br><span class="hljs-keyword">WHERE</span> 各种条件<br>LIMIT0,<span class="hljs-number">10</span>;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 优化后SQL</span><br><span class="hljs-keyword">SELECT</span>  各种字段<br><span class="hljs-keyword">FROM</span>`table_name` main_tale<br>RIGHTJOIN<br>(<br><span class="hljs-keyword">SELECT</span>  子查询只查主键<br><span class="hljs-keyword">FROM</span>`table_name`<br><span class="hljs-keyword">WHERE</span> 各种条件<br>LIMIT0,<span class="hljs-number">10</span>;<br>) temp_table <span class="hljs-keyword">ON</span> temp_table.主键 <span class="hljs-operator">=</span> main_table.主键<br></code></pre></div></td></tr></table></figure>
+
+<p>找到的原理分析：MySQL 用 limit 为什么会影响性能？</p>
+<p><strong>一、前言</strong> </p>
+<p>首先说明一下MySQL的版本：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> version();<br><span class="hljs-operator">+</span><span class="hljs-comment">-----------+</span><br><span class="hljs-operator">|</span> version() <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-----------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">5.7</span><span class="hljs-number">.17</span>    <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-----------+</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>表结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">desc</span> test;<br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------------+------+-----+---------+----------------+</span><br><span class="hljs-operator">|</span> Field  <span class="hljs-operator">|</span> Type                <span class="hljs-operator">|</span> <span class="hljs-keyword">Null</span> <span class="hljs-operator">|</span> Key <span class="hljs-operator">|</span> <span class="hljs-keyword">Default</span> <span class="hljs-operator">|</span> Extra          <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------------+------+-----+---------+----------------+</span><br><span class="hljs-operator">|</span> id     <span class="hljs-operator">|</span> <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) unsigned <span class="hljs-operator">|</span> <span class="hljs-keyword">NO</span>   <span class="hljs-operator">|</span> PRI <span class="hljs-operator">|</span> <span class="hljs-keyword">NULL</span>    <span class="hljs-operator">|</span> auto_increment <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> val    <span class="hljs-operator">|</span> <span class="hljs-type">int</span>(<span class="hljs-number">10</span>) unsigned    <span class="hljs-operator">|</span> <span class="hljs-keyword">NO</span>   <span class="hljs-operator">|</span> MUL <span class="hljs-operator">|</span> <span class="hljs-number">0</span>       <span class="hljs-operator">|</span>                <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> source <span class="hljs-operator">|</span> <span class="hljs-type">int</span>(<span class="hljs-number">10</span>) unsigned    <span class="hljs-operator">|</span> <span class="hljs-keyword">NO</span>   <span class="hljs-operator">|</span>     <span class="hljs-operator">|</span> <span class="hljs-number">0</span>       <span class="hljs-operator">|</span>                <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------------+------+-----+---------+----------------+</span><br><span class="hljs-number">3</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>id为自增主键，val为非唯一索引。灌入大量数据，共500万：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> test;<br><span class="hljs-operator">+</span><span class="hljs-comment">----------+</span><br><span class="hljs-operator">|</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">----------+</span><br><span class="hljs-operator">|</span>  <span class="hljs-number">5242882</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">----------+</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">4.25</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>我们知道，当limit offset rows中的offset很大时，会出现效率问题：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> val<span class="hljs-operator">=</span><span class="hljs-number">4</span> limit <span class="hljs-number">300000</span>,<span class="hljs-number">5</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span> val <span class="hljs-operator">|</span> source <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">15.98</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>为了达到相同的目的，我们一般会改写成如下语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test a <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> (<span class="hljs-keyword">select</span> id <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> val<span class="hljs-operator">=</span><span class="hljs-number">4</span> limit <span class="hljs-number">300000</span>,<span class="hljs-number">5</span>) b <span class="hljs-keyword">on</span> a.id<span class="hljs-operator">=</span>b.id;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span> val <span class="hljs-operator">|</span> source <span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.38</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>时间相差很明显。为什么会出现上面的结果？我们看一下 select * from test where val=4 limit 300000,5; 的查询过程：</p>
+<p>查询到索引叶子节点数据。根据叶子节点上的主键值去聚簇索引上查询需要的全部字段值。</p>
+<p>类似于下面这张图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109232058529.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>像上面这样，需要查询300005次索引节点，查询300005次聚簇索引的数据，最后再将结果过滤掉前300000条，取出最后5条。MySQL耗费了大量随机I/O在查询聚簇索引的数据上，而有300000次随机I/O查询到的数据是不会出现在结果集当中的。</p>
+<p>肯定会有人问：既然一开始是利用索引的，为什么不先沿着索引叶子节点查询到最后需要的5个节点，然后再去聚簇索引中查询实际数据。这样只需要5次随机I/O，类似于下面图片的过程：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109232058858.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其实我也想问这个问题。</p>
+<p><strong>证实</strong></p>
+<p>下面我们实际操作一下来证实上述的推论：</p>
+<p>为了证实 select * from test where val=4 limit 300000, 5是扫描300005个索引节点和300005个聚簇索引上的数据节点，我们需要知道MySQL有没有办法统计在一个sql中通过索引节点查询数据节点的次数。我先试了Handler_read_*系列，很遗憾没有一个变量能满足条件。</p>
+<p>我只能通过间接的方式来证实：</p>
+<p>InnoDB中有buffer pool。里面存有最近访问过的数据页，包括数据页和索引页。所以我们需要运行两个sql，来比较buffer pool中的数据页的数量。</p>
+<p>预测结果是运行 select * from test a inner join (select id from test where val=4 limit 300000,5) b&gt;之后，buffer pool中的数据页的数量远远少于 select * from test where val=4 limit 300000,5;对应的数量，因为前一个sql只访问5次数据页，而后一个sql访问300005次数据页。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> val<span class="hljs-operator">=</span><span class="hljs-number">4</span> limit <span class="hljs-number">300000</span>,<span class="hljs-number">5</span><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> index_name,<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> information_schema.INNODB_BUFFER_PAGE <span class="hljs-keyword">where</span> INDEX_NAME <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;val&#x27;</span>,<span class="hljs-string">&#x27;primary&#x27;</span>) <span class="hljs-keyword">and</span> TABLE_NAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%test%&#x27;</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> index_name;<br><span class="hljs-keyword">Empty</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.04</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看出，目前buffer pool中没有关于test表的数据页。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> val<span class="hljs-operator">=</span><span class="hljs-number">4</span> limit <span class="hljs-number">300000</span>,<span class="hljs-number">5</span>;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span> val <span class="hljs-operator">|</span> source <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+</span><br><span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">26.19</span> sec)<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> index_name,<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> information_schema.INNODB_BUFFER_PAGE <span class="hljs-keyword">where</span> INDEX_NAME <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;val&#x27;</span>,<span class="hljs-string">&#x27;primary&#x27;</span>) <span class="hljs-keyword">and</span> TABLE_NAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%test%&#x27;</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> index_name;<br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-operator">|</span> index_name <span class="hljs-operator">|</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-operator">|</span> <span class="hljs-keyword">PRIMARY</span>    <span class="hljs-operator">|</span>     <span class="hljs-number">4098</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> val        <span class="hljs-operator">|</span>      <span class="hljs-number">208</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.04</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看出，此时buffer pool中关于test表有4098个数据页，208个索引页。</p>
+<p><strong>select * from test a inner join (select id from test where val=4 limit 300000,5) b&gt;为了防止上次试验的影响，我们需要清空buffer pool，重启mysql。</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysqladmin shutdown<br><span class="hljs-operator">/</span>usr<span class="hljs-operator">/</span><span class="hljs-keyword">local</span><span class="hljs-operator">/</span>bin<span class="hljs-operator">/</span>mysqld_safe <span class="hljs-operator">&amp;</span><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> index_name,<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> information_schema.INNODB_BUFFER_PAGE <span class="hljs-keyword">where</span> INDEX_NAME <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;val&#x27;</span>,<span class="hljs-string">&#x27;primary&#x27;</span>) <span class="hljs-keyword">and</span> TABLE_NAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%test%&#x27;</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> index_name;<br><span class="hljs-keyword">Empty</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.03</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>运行sql：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> test a <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> (<span class="hljs-keyword">select</span> id <span class="hljs-keyword">from</span> test <span class="hljs-keyword">where</span> val<span class="hljs-operator">=</span><span class="hljs-number">4</span> limit <span class="hljs-number">300000</span>,<span class="hljs-number">5</span>) b <span class="hljs-keyword">on</span> a.id<span class="hljs-operator">=</span>b.id;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span> val <span class="hljs-operator">|</span> source <span class="hljs-operator">|</span> id      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327622</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327632</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327642</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327652</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span>   <span class="hljs-number">4</span> <span class="hljs-operator">|</span>      <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">3327662</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------+-----+--------+---------+</span><br><span class="hljs-number">5</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.09</span> sec)<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> index_name,<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> information_schema.INNODB_BUFFER_PAGE <span class="hljs-keyword">where</span> INDEX_NAME <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;val&#x27;</span>,<span class="hljs-string">&#x27;primary&#x27;</span>) <span class="hljs-keyword">and</span> TABLE_NAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%test%&#x27;</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> index_name;<br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-operator">|</span> index_name <span class="hljs-operator">|</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-operator">|</span> <span class="hljs-keyword">PRIMARY</span>    <span class="hljs-operator">|</span>        <span class="hljs-number">5</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span> val        <span class="hljs-operator">|</span>      <span class="hljs-number">390</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">------------+----------+</span><br><span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.03</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>我们可以看明显的看出两者的差别：第一个sql加载了4098个数据页到buffer pool，而第二个sql只加载了5个数据页到buffer pool。符合我们的预测。也证实了为什么第一个sql会慢：读取大量的无用数据行（300000），最后却抛弃掉。 </p>
+<p>而且这会造成一个问题：加载了很多热点不是很高的数据页到buffer pool，会造成buffer pool的污染，占用buffer pool的空间。 </p>
+<p><strong>遇到的问题</strong></p>
+<p>为了在每次重启时确保清空buffer pool，我们需要关闭innodb_buffer_pool_dump_at_shutdown和innodb_buffer_pool_load_at_startup，这两个选项能够控制数据库关闭时dump出buffer pool中的数据和在数据库开启时载入在磁盘上备份buffer pool的数据。</p>
+<p> <strong>参考资料：</strong></p>
+<p>1.<a target="_blank" rel="noopener" href="https://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/">https://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/</a></p>
+<p>2.<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/innodb-information-schema-buffer-pool-tables.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-information-schema-buffer-pool-tables.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%80%8E%E4%B9%88%E5%AD%98%20IP%20%E5%9C%B0%E5%9D%80%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">怎么存 IP 地址？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E7%A5%9E%E5%A5%87%E7%9A%84%20SQL%20%E4%B9%8B%E5%88%AB%E6%A0%B7%E7%9A%84%E5%86%99%E6%B3%95%20%E2%86%92%20%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/">
+                        <span class="hidden-mobile">神奇的 SQL 之别样的写法 → 行行比较</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

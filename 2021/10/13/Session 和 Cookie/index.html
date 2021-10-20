@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Session 和 Cookie  Session和Cookie可是我们的老熟人了，不过这两个老熟人可是不怎么好相处，又熟悉又陌生，又简单又复杂，都非常的令人头疼，就连很多有一定工作经验的人也觉得是块硬骨头； 说他们熟悉，是因为天天和他们打交道，说陌生是因为根本就不了解他们，就如同天天住在一起但是不怎么说话的邻居，天天见也就是混了个脸熟，可能连人家干啥的都不知道； 说简单是因为他们本身只是HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Session 和 Cookie">
+<meta property="og:url" content="http://example.com/2021/10/13/Session%20%E5%92%8C%20Cookie/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Session 和 Cookie  Session和Cookie可是我们的老熟人了，不过这两个老熟人可是不怎么好相处，又熟悉又陌生，又简单又复杂，都非常的令人头疼，就连很多有一定工作经验的人也觉得是块硬骨头； 说他们熟悉，是因为天天和他们打交道，说陌生是因为根本就不了解他们，就如同天天住在一起但是不怎么说话的邻居，天天见也就是混了个脸熟，可能连人家干啥的都不知道； 说简单是因为他们本身只是HTTP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622115814.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202110131821476.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622115829.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622115900.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622115925.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622120032.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622120127.png">
+<meta property="article:published_time" content="2021-10-13T14:16:29.044Z">
+<meta property="article:modified_time" content="2021-10-13T10:21:52.365Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Servlet">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210622115814.png">
+  
+  <title>Session 和 Cookie - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Session 和 Cookie">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Session 和 Cookie</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Session 和 Cookie</h2></center>
+
+<p>Session和Cookie可是我们的老熟人了，不过这两个老熟人可是不怎么好相处，又熟悉又陌生，又简单又复杂，都非常的令人头疼，就连很多有一定工作经验的人也觉得是块硬骨头；</p>
+<p>说他们熟悉，是因为天天和他们打交道，说陌生是因为根本就不了解他们，就如同天天住在一起但是不怎么说话的邻居，天天见也就是混了个脸熟，可能连人家干啥的都不知道；</p>
+<p>说简单是因为他们本身只是HTTP中的一个配置项，在Servelt规范中也只是应用到一个类而已，说他们复杂主要是数量引起的，很多小问题一旦到达一定的数量就会成为一个大问题；</p>
+<p>现在我们的系统已经大到要用到很多Cookie了，我们必须要考虑HTTP如何解决由于他们的数量和大小带来的瓶颈问题；同时还会用到很多的Session,如何解决Session与多套服务器之间的共享问题？还有，安全问题也不容忽视；</p>
+<p>Session和Cookie的主要作用在于完成用户与服务器之间的交互，他们有各自的优点和缺点，但是令人更加头疼的是，他们的优点居然和他们的使用场景是矛盾的！</p>
+<h1 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a><strong>Cookie</strong></h1><h2 id="到底什么是Cookie"><a href="#到底什么是Cookie" class="headerlink" title="到底什么是Cookie?"></a><strong>到底什么是Cookie?</strong></h2><p>官方解释是：一个用户通过HTT访问一个服务器时，被访问的服务器会把一些加上限制条件的key/value键值对返回给客户端，用户下一次访问并且条件也符合的时候，数据又被完整的带回给了服务器；</p>
+<p>用人话来说就是：疫情期间出入小区需要登记信息，每次出入都要登记一遍非常麻烦，于是小区委员会就给业主们发了一张记录着个人健康信息、行程等信息的信息卡，下次只要出入时出示信息卡就可以了，不必登记，这个信息卡就是Cookie!</p>
+<p>W3C在设计Cookie的时候是这样考虑的：用户在一段时间内访问Web应用的行为路径，我们都知道HTTP是一种无状态协议，也就是说，用户在完成一次服务请求之后再访问一次，服务器是不知道这两次是不是同一个人的；</p>
+<p>服务器能不能知道是不是同一个人访问了数据是非常重要的，因为这个涉及到了性能的优化，如果一个用户频繁地访问几条数据，就可以针对这几台数据做个缓存，缓存的思想在计算机当中的重要性堪比CPU；</p>
+<p>Cookie的作用就相当于充当了一个缓存，只要是同一个用户（客户端） 请求并且每次请求都带有第一次访问时的服务端设置的信息，那么服务端就可以根据Cookie值来划分用户，从而提高数据访问的效率；</p>
+<h2 id="Cookie是如何为我们服务的？"><a href="#Cookie是如何为我们服务的？" class="headerlink" title="Cookie是如何为我们服务的？"></a><strong>Cookie是如何为我们服务的？</strong></h2><p>我们通常都是用这种方式来创建Cookie：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622115814.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202110131821476.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>即使没有设置版本号，Tomcat也会在最后创建HTTP响应头的时候自动把Version的版本设置为1，这是Tomcat创建Set-Cookie的时序图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622115829.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在这里要注意几点：</p>
+<ol>
+<li><p>当Cookie的属性项里出现Version为1的属性项时，构建HTTP响应头同样会把Version设置为1；</p>
+</li>
+<li><p>当Name和Value的值出现一些Token字符的时候，构建返回头会把该Cookie的Version设置为1；</p>
+</li>
+<li><p>创建Cookie的时候，Name必须与set-Cookie(或者是set-Cookie)的属性值一样；</p>
+</li>
+<li><p>Name和Value的值不能设置成ASSIC字符</p>
+</li>
+</ol>
+<h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a><strong>Session</strong></h1><h2 id="Session是干嘛的？"><a href="#Session是干嘛的？" class="headerlink" title="Session是干嘛的？"></a><strong>Session是干嘛的？</strong></h2><p>前面说过，Cookie可以让服务端跟踪客户端的访问，每次客户端的访问都需要返回一个Cookie，如果Cookie太多的话就会增加数据传输的负担，那这个负担由谁来抗下呢？</p>
+<p>就是Session，它的出现就应了一句话:哪有什么岁月安好，只是有人替你负重前行；</p>
+<p>再补充一点:同一个客户端与服务端交互的时候不需要每次都传回Cookie值，取而代之的是ID，这个ID是客户端第一次访问服务端的时候生成的，而且每个客户端都是唯一的，所以每个ID都是唯一的，就如同我们都有唯一的指纹一样，这个ID通常是Name为JSESIONID的一个Cookie;</p>
+<h2 id="关于Session工作原理的前期准备"><a href="#关于Session工作原理的前期准备" class="headerlink" title="关于Session工作原理的前期准备"></a><strong>关于Session工作原理的前期准备</strong></h2><p>Session有三种工作方式：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622115900.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="Session是怎么干活的？"><a href="#Session是怎么干活的？" class="headerlink" title="Session是怎么干活的？"></a><strong>Session是怎么干活的？</strong></h2><p>有了SessionID服务端就可以创建HttpSession对象了，不过第一次触发的时候需要通过request.getSession()函数，如果当前的SessionID还没有对应的HttpSession对象那就创建一个新的，然后把这个对象添加到org.apache.catalina.Manage的Session容器中保存起来；</p>
+<p>从Request中获取的Session对象保存在了org.apache.catalina.Manager类中，这个类是个抽象类，他的实现类是org.apache.catalina.session.StandardManager，通过requestedSession从StandardManager的sessions集合中取出StandardSession对象；</p>
+<p>因为Manager类是管理着Session全部生命周期的，Session一旦过期，就会被回收，服务器也会关闭，Session将会被序列化到磁盘啊，HttpSession对象存在，用户就可以根据SessionID来获取，这就叫做状态的保持，一个requestSession对应一个访问的客户端，一个  客户端也对应着一个保存着我们创建的Session值得StandardSession对象；</p>
+<p>StandardManager类负责Servelt容器中所有的StandardSession对象的生命周期管理，当Servelt容器重启或者是关闭的时候，StandardManager负责把还没有过期的StandardSession的对象给持久化到“SESSIONS.ser”文件；</p>
+<p>当StandardManager初始化时（也就是Servlet容器重启的时候）会重新读取“SESSIONS.ser”文件并解析出所有的Session对象，重新保存在StandardManager的Session集合中；</p>
+<p>这是Session的恢复状态图:</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622115925.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Servelt容器关闭之后，StandardManager类就会调用unload()函数把Session集合中的StandardSession对象写入到</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell"><span class="hljs-meta">%</span><span class="bash">3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%26lt%3Bh2%26gt%3B%E6%A3%80%E6%9F%A5%E6%81%A2%E5%A4%8D%E7%9A%84session%E6%98%AF%E5%90%A6%E8%BF%87%E6%9C%9F%26lt%3B%2Fh2%26gt%3B%22%20style%3D%22rounded%3D1%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BfillColor%3D%23dae8fc%3BstrokeColor%3D%236c8ebf%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22250%22%20y%3D%22190%22%20width%3D%22120%22%20height%3D%2260%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E“SESSIONS.ser</span><br></code></pre></div></td></tr></table></figure>
+
+<p>文件中，注意在持久化Selvelt容器中的Session对象时千万不能直接kill掉Servelt容器的进程，而是必须调用Servelt容器中stop和start命令来完成，一旦把进程结束了就不能做持久化了；</p>
+<p>再补充一点：天下没有不散的筵席，StandardManager的Session集合中的StandardSession对象并不是永远保存，要不然Servelt容器的内存就会被撑爆的，所以每一个Session对象都有个有效时间，一点超时就会被清除，在Tomcat（由backgroundProcess（）函数进行检查)中这个有效时间是60s；</p>
+<p>这是过期session状态图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622120032.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>不过，哪怕是与客户端关联的Session对象都过期了，request.getSession()函数调用的StandardSession也会一直存在，Session对象过期了咋办？重新建立一个全新的StandardSession对象（注意，之前设置的Session值不会存在了）；</p>
+<h2 id="分布式Session框架能干点啥？"><a href="#分布式Session框架能干点啥？" class="headerlink" title="分布式Session框架能干点啥？"></a>分布式Session框架能干点啥？</h2><p>先来看一下都主要存在哪些问题：</p>
+<ol>
+<li>客户端Cookie存储限制。</li>
+<li>Cookie管理混乱</li>
+<li>安全性也不是很好</li>
+</ol>
+<p>那分布式Session框架都能解决什么呢，或者说他有哪些优点？</p>
+<ol>
+<li>Session配置的统一管理</li>
+<li>Cookie使用的监控和统一规范管理</li>
+<li>Session存储的多元化</li>
+<li>Session配置的动态修改</li>
+<li>Session的key的定期修改</li>
+<li>有着很好的容灾机制，框架的稳定性比较好</li>
+<li>拥有对存储的监控以及报警支持</li>
+<li>拥有可扩展性，能够兼容更多的Session机制</li>
+<li>跟够解决跨域名Session与Cookie之间共享的问题</li>
+</ol>
+<p><strong>分布式Session框架是怎么干活的呢？一图胜千言</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210622120127.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h1><p>这就是好基友Cookie和Session相爱相杀的故事，不是，使他们一起为人类的互联网世界做贡献的故事，很多技术的研发都是为了解决量的增长带来的问题，Cookie和Session就是其中之二，我忽然想起以为计算机先贤说过的就一句话，大致意思是互联网的神奇之处就在于，他其实视为千千万万的人服务的，然而却像是专门为你一个人服务似的，我想这离不开很多像Cookie和Session这样的技术的支持！</p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Servlet/">Servlet</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Servlet/">Servlet</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/2021%20%E6%9C%80%E6%96%B0%20Spring%20%E9%9D%A2%E8%AF%95%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2021 最新 Spring 面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/Nginx%20%E9%9D%A2%E8%AF%95%E4%B8%AD%E6%9C%80%E5%B8%B8%E8%A7%81%E7%9A%84%2018%20%E9%81%93%E9%A2%98/">
+                        <span class="hidden-mobile">Nginx 面试中最常见的 18 道题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

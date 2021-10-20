@@ -1,0 +1,530 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Linux 内核驱动中的指定初始化  2.1 什么是指定初始化在标准 C 中，当我们定义并初始化一个数组时，常用方法如下： 1int a[10] &#x3D; &amp;#123;0,1,2,3,4,5,6,7,8&amp;#125;;  按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 内核驱动中的指定初始化">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C02/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Linux 内核驱动中的指定初始化  2.1 什么是指定初始化在标准 C 中，当我们定义并初始化一个数组时，常用方法如下： 1int a[10] &#x3D; &amp;#123;0,1,2,3,4,5,6,7,8&amp;#125;;  按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.427Z">
+<meta property="article:modified_time" content="2021-10-04T02:41:24.434Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Linux 内核驱动中的指定初始化 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux 内核驱动中的指定初始化">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux 内核驱动中的指定初始化</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Linux 内核驱动中的指定初始化</h2></center>
+
+<h2 id="2-1-什么是指定初始化"><a href="#2-1-什么是指定初始化" class="headerlink" title="2.1 什么是指定初始化"></a>2.1 什么是指定初始化</h2><p>在标准 C 中，当我们定义并初始化一个数组时，常用方法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>] = &#123;<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>&#125;;<br></code></pre></div></td></tr></table></figure>
+
+<p>按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数组比较大，而且数组里的非零元素并不连续时，这时候再按照固定顺序初始化就比较麻烦了。</p>
+<p>比如，我们定义一个数组 b[100]，其中 b[10]、b[30] 需要初始化，如果还按照前面的固定顺序初始化，{}中的初始化数据中间可能要填充大量的0，比较麻烦。</p>
+<p>那怎么办呢？C99 标准改进了数组的初始化方式，支持指定任意元素初始化，不再按照固定的顺序初始化。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> b[<span class="hljs-number">100</span>] =&#123; [<span class="hljs-number">10</span>] = <span class="hljs-number">1</span>, [<span class="hljs-number">30</span>] = <span class="hljs-number">2</span>&#125;;<br></code></pre></div></td></tr></table></figure>
+
+<p>通过数组索引，我们可以直接给指定的数组元素赋值。除此之外，一个结构体变量的初始化，也可以通过指定某个结构体域直接赋值。</p>
+<p>因为 GNU C 支持 C99 标准，所以 GCC 编译器也支持这一特性。甚至早期不支持 C99，只支持 C89 的 GCC 编译器版本，这一特性也被当作一个 GCC 编译器的扩展特性来提供给程序员使用。</p>
+<h2 id="2-2-指定初始化数组元素"><a href="#2-2-指定初始化数组元素" class="headerlink" title="2.2 指定初始化数组元素"></a>2.2 指定初始化数组元素</h2><p>在 GNU C 中，通过数组元素索引，我们就可以给某个指定的元素直接赋值。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> b[<span class="hljs-number">100</span>] = &#123; [<span class="hljs-number">10</span>] = <span class="hljs-number">1</span>, [<span class="hljs-number">30</span>] = <span class="hljs-number">2</span> &#125;;<br></code></pre></div></td></tr></table></figure>
+
+<p>在{ }中，我们通过 [10] 数组元素索引，就可以直接给 a[10] 赋值了。这里有个细节注意一下，就是各个赋值之间用逗号 “,” 隔开，而不是使用分号“；”。</p>
+<p>如果我们想给数组中某一个索引范围的数组元素初始化，可以采用下面的方式。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> main（<span class="hljs-keyword">void</span>）<br>&#123;<br>    <span class="hljs-keyword">int</span> b[<span class="hljs-number">100</span>] = &#123;[<span class="hljs-number">10</span> ... <span class="hljs-number">30</span>] = <span class="hljs-number">1</span>, [<span class="hljs-number">50</span> ... <span class="hljs-number">60</span>] = <span class="hljs-number">2</span>&#125;;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, a[i]);<br>        <span class="hljs-keyword">if</span>(i % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>)<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个程序中，我们使用 [10 … 30] 表示一个索引范围，相当于给 a[10] 到 a[30] 之间的20个数组元素赋值为1。</p>
+<p>GNU C 支持使用 … 表示范围扩展，这个特性不仅可以使用在数组初始化中，也可以使用在 switch-case 语句中。比如下面的程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">4</span>;<br>    <span class="hljs-keyword">switch</span>(i)<br>    &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span> ... <span class="hljs-number">8</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,i);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;9\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;default!\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个程序中，当 case 值为2到8时，都执行相同的 case 分支，可以通过 case 2 … 8: 的形式来简化代码。这里同样也有一个细节需要注意，就是 … 和其两端的数据范围2和8之间也要空格，不能写成2…8的形式，否则编译就会通不过。</p>
+<h2 id="2-3-指定初始化结构体成员变量"><a href="#2-3-指定初始化结构体成员变量" class="headerlink" title="2.3 指定初始化结构体成员变量"></a>2.3 指定初始化结构体成员变量</h2><p>跟数组类似，在标准 C 中，结构体变量的初始化也要按照固定的顺序。在 GNU C 中我们也可以通过结构域来初始化指定某个成员。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span>&#123;</span><br>    <span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];<br>    <span class="hljs-keyword">int</span> age;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stu1</span>=</span>&#123; <span class="hljs-string">&quot;wit&quot;</span>,<span class="hljs-number">20</span> &#125;;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s:%d\n&quot;</span>,stu1.name,stu1.age);<br><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stu2</span>=</span><br>    &#123;<br>        .name = <span class="hljs-string">&quot;wanglitao&quot;</span>,<br>        .age  = <span class="hljs-number">28</span><br>    &#125;;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s:%d\n&quot;</span>,stu2.name,stu2.age);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在程序中，我们定义一个结构体类型 student，然后分别定义两个结构体变量 stu1 和 stu2。初始化 stu1 时，我们采用标准 C 的初始化方式，即按照固定顺序直接初始化。初始化 stu2 时，我们采用 GNU C 的初始化方式，通过结构域名 .name 和 .age，我们就可以给结构体变量的某一个指定成员直接赋值。非常方便。</p>
+<h2 id="2-4-Linux-内核驱动注册"><a href="#2-4-Linux-内核驱动注册" class="headerlink" title="2.4 Linux 内核驱动注册"></a>2.4 Linux 内核驱动注册</h2><p>在 Linux 内核驱动中，大量使用 GNU C 的这种指定初始化方式，通过结构体成员来初始化结构体变量。比如在字符驱动程序中，我们经常见到这样的初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file_operations</span> <span class="hljs-title">ab3100_otp_operations</span> =</span> &#123;<br>.open        = ab3100_otp_open,<br>.read        = seq_read,<br>.llseek        = seq_lseek,<br>.release    = single_release,<br>&#125;;<br></code></pre></div></td></tr></table></figure>
+
+<p>在驱动程序中，我们经常使用 file_operations 这个结构体变量来注册我们开发的驱动，然后以回调的方式来执行我们驱动实现的相关功能。结构体 file_operations 在 Linux 内核中的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file_operations</span> &#123;</span><br>        <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">module</span> *<span class="hljs-title">owner</span>;</span><br>        <span class="hljs-keyword">loff_t</span> (*llseek) (struct file *, <span class="hljs-keyword">loff_t</span>, <span class="hljs-keyword">int</span>);<br>        <span class="hljs-keyword">ssize_t</span> (*read) (struct file *, <span class="hljs-keyword">char</span> __user *, <span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">loff_t</span> *);<br>        <span class="hljs-keyword">ssize_t</span> (*write) (struct file *, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user *, <span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">loff_t</span> *);<br>        <span class="hljs-keyword">ssize_t</span> (*read_iter) (struct kiocb *, struct iov_iter *);<br>        <span class="hljs-keyword">ssize_t</span> (*write_iter) (struct kiocb *, struct iov_iter *);<br>        <span class="hljs-keyword">int</span> (*iterate) (struct file *, struct dir_context *);<br>        <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">int</span> <span class="hljs-params">(*poll)</span> <span class="hljs-params">(struct file *, struct poll_table_struct *)</span></span>;<br>        <span class="hljs-keyword">long</span> (*unlocked_ioctl) (struct file *, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>);<br>        <span class="hljs-keyword">long</span> (*compat_ioctl) (struct file *, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>);<br>        <span class="hljs-keyword">int</span> (*mmap) (struct file *, struct vm_area_struct *);<br>        <span class="hljs-keyword">int</span> (*open) (struct inode *, struct file *);<br>        <span class="hljs-keyword">int</span> (*flush) (struct file *, <span class="hljs-keyword">fl_owner_t</span> id);<br>        <span class="hljs-keyword">int</span> (*release) (struct inode *, struct file *);<br>        <span class="hljs-keyword">int</span> (*fsync) (struct file *, <span class="hljs-keyword">loff_t</span>, <span class="hljs-keyword">loff_t</span>, <span class="hljs-keyword">int</span> datasync);<br>        <span class="hljs-keyword">int</span> (*aio_fsync) (struct kiocb *, <span class="hljs-keyword">int</span> datasync);<br>        <span class="hljs-keyword">int</span> (*fasync) (<span class="hljs-keyword">int</span>, struct file *, <span class="hljs-keyword">int</span>);<br>        <span class="hljs-keyword">int</span> (*lock) (struct file *, <span class="hljs-keyword">int</span>, struct file_lock *);<br>        <span class="hljs-keyword">ssize_t</span> (*sendpage) (struct file *, struct page *, <span class="hljs-keyword">int</span>, <span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">loff_t</span> *, <span class="hljs-keyword">int</span>);<br>        <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">long</span> <span class="hljs-params">(*get_unmapped_area)</span><span class="hljs-params">(struct file *,</span></span><br><span class="hljs-params"><span class="hljs-function">               <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)</span></span>;<br>        <span class="hljs-keyword">int</span> (*check_flags)(<span class="hljs-keyword">int</span>);<br>        <span class="hljs-keyword">int</span> (*flock) (struct file *, <span class="hljs-keyword">int</span>, struct file_lock *);<br>        <span class="hljs-keyword">ssize_t</span> (*splice_write)(struct pipe_inode_info *, <br>            struct file *, <span class="hljs-keyword">loff_t</span> *, <span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>);<br>        <span class="hljs-keyword">ssize_t</span> (*splice_read)(struct file *, <span class="hljs-keyword">loff_t</span> *, <br>            struct pipe_inode_info *, <span class="hljs-keyword">size_t</span>, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>);<br>        <span class="hljs-keyword">int</span> (*setlease)(struct file *, <span class="hljs-keyword">long</span>, struct file_lock **, <span class="hljs-keyword">void</span> **);<br>        <span class="hljs-keyword">long</span> (*fallocate)(struct file *file, <span class="hljs-keyword">int</span> mode, <span class="hljs-keyword">loff_t</span> offset,<br>                  <span class="hljs-keyword">loff_t</span> len);<br>        <span class="hljs-keyword">void</span> (*show_fdinfo)(struct seq_file *m, struct file *f);<br>        <span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> CONFIG_MMU</span><br>        <span class="hljs-keyword">unsigned</span> (*mmap_capabilities)(struct file *);<br>        <span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br>    &#125;;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>结构体 file_operations 里面定义了很多结构体成员，而在这个驱动中，我们只初始化了部分成员变量，通过访问结构体的成员来指定初始化，非常方便。</p>
+<h2 id="2-5-指定初始化的好处"><a href="#2-5-指定初始化的好处" class="headerlink" title="2.5 指定初始化的好处"></a>2.5 指定初始化的好处</h2><p>这种指定初始化方式，不仅使用灵活，而且还有一个好处就是：代码易于维护。尤其是在 Linux 内核这种大型项目中，几万个文件，几千万的代码量，当成百上千个文件都使用 file_operations这个结构体类型来定义变量并初始化时，那么一个很大的问题就来了：如果采用标准 C 那种按照固定顺序赋值，当我们的 file_operations 结构体类型发生改变时，如添加成员、减少成员、调整成员顺序，那么使用该结构体类型定义变量的大量 C 文件都需要重新调整初始化顺序，牵一发而动全身，想想这是多么可怕！</p>
+<p>我们通过指定初始化方式，就可以避免这个问题。无论file_operations 结构体类型如何变化，添加成员也好、减少成员也好、调整成员顺序也好，都不会影响其它文件的使用。有了指定初始化，再也不用加班修改代码了，妈妈再也不用担心我们整日加班，不回家吃饭了，多好！</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C03/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">宏构造利器：语句表达式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C13/">
+                        <span class="hidden-mobile">GNU_C总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

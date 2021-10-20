@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="总结  13.1 总结前面12节的课程，主要针对 Linux 内核中 GNU C 扩展的一些常用 C 语言语法进行了分析。GNU C 的这些扩展语法，主要用来完善 C 语言标准和编译优化。而通过 C 标准的发展过程我们又发现，对于一些编译器扩展的一些特性，或者其它编程语言（如：C++）中的好的特性和语法，C 标准也会适时地吸收进来，作为新的 C 语言标准。 在 GNU C 的这些扩展语法中，_at">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GNU_C总结">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C13/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="总结  13.1 总结前面12节的课程，主要针对 Linux 内核中 GNU C 扩展的一些常用 C 语言语法进行了分析。GNU C 的这些扩展语法，主要用来完善 C 语言标准和编译优化。而通过 C 标准的发展过程我们又发现，对于一些编译器扩展的一些特性，或者其它编程语言（如：C++）中的好的特性和语法，C 标准也会适时地吸收进来，作为新的 C 语言标准。 在 GNU C 的这些扩展语法中，_at">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.401Z">
+<meta property="article:modified_time" content="2021-10-04T03:01:13.000Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>GNU_C总结 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="GNU_C总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">GNU_C总结</h1>
+            
+            <div class="markdown-body">
+              <center><h2>总结</h2></center>
+
+<h2 id="13-1-总结"><a href="#13-1-总结" class="headerlink" title="13.1 总结"></a>13.1 总结</h2><p>前面12节的课程，主要针对 Linux 内核中 GNU C 扩展的一些常用 C 语言语法进行了分析。GNU C 的这些扩展语法，主要用来完善 C 语言标准和编译优化。而通过 C 标准的发展过程我们又发现，对于一些编译器扩展的一些特性，或者其它编程语言（如：C++）中的好的特性和语法，C 标准也会适时地吸收进来，作为新的 C 语言标准。</p>
+<p>在 GNU C 的这些扩展语法中，<em>_attribute</em>_ 和宏定义是两大特色。在嵌入式底层系统中，尤其是 Linux 内核和 U-boot 中，大量使用 GNU C 扩展的 __attribute__属性去辅助一些底层机制的实现，或者实现一些编译上的优化。在宏定义方面，通过语句表达式、可变参数宏等特性，我们可以定义一个功能复杂、安全可靠的高质量宏。</p>
+<p>本教程所讲的一些特性，都是在实际工作或阅读 Linux 内核驱动源码时经常遇见的一些特性，掌握了这些扩展特性的使用，以后再遇到类似的“奇葩 C 语言”程序，就知道怎么去分析了。除此之外，GNU C 还有一些其它扩展特性，由于他们在内核中用得不是很多，或者说仅仅是做一些编译上的优化，即使不知道也不会影响我们理解代码，限于篇幅关系，所以就暂时不讲了，比如下面这些特性。</p>
+<ul>
+<li><p>属性声明：const</p>
+</li>
+<li><p>属性声明：constructor、destructor</p>
+</li>
+<li><p>属性声明：noreturn</p>
+</li>
+<li><p>属性声明：used、unused</p>
+</li>
+<li><p>局部标签</p>
+</li>
+<li><p>嵌套函数</p>
+</li>
+<li><p>……<br>大家以后遇到类似的扩展，可以到下面这几个网站上去看看。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://tigcc.ticalc.org/doc/gnuexts.html">GNU C语法扩展大全</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/">GCC 编译器手册</a></p>
+</li>
+</ul>
+<h2 id="13-2-C-语言习题测试"><a href="#13-2-C-语言习题测试" class="headerlink" title="13.2 C 语言习题测试"></a>13.2 C 语言习题测试</h2><p>下面是几道 C 语言练习题，大家可以做一做。看看学完本教程后，有没有真正的掌握。</p>
+<p><strong>1.下面的程序，在不同编译环境下，比如分别在 C-Free、VC++6.0、TurboC 环境下编译运行，结果是否相等，为什么？</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;size: %d\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>2.定义一个宏，求两个数的最小值。</strong></p>
+<p><strong>3.将下面的程序编译为可以在 ARM 平台上运行的可执行文件 a.out，并对其进行反汇编，查看变量 global_val 的地址。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> global_val = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> uninit_val;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> local_val = <span class="hljs-number">20</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>4.在一个工程项目中，有两个源文件如下，分析下面程序的运行结果。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> b;<br><span class="hljs-keyword">int</span> c __attribute__((weak)) = <span class="hljs-number">30</span>;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a;<br><span class="hljs-keyword">int</span> b = <span class="hljs-number">20</span>;<br><span class="hljs-keyword">int</span> c = <span class="hljs-number">40</span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a: %d\n&quot;</span>,a);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;b: %d\n&quot;</span>,b);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;c: %d\n&quot;</span>,c);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p><strong>5.定义一个变参函数，实现等级打印控制：ERROR、DEBUG、INFO。用这三个宏分别代表等级打印，比如定义 ERROR 时，只打印错误的信息；定义 DEBUG 时，打印错误和调试信息；定义 INFO 时，所有的打印信息都打印出来。</strong></p>
+<p><strong>6.定义一个变参宏，实现等级打印控制：ERROR、DEBUG、INFO。用这三个宏分别代表等级打印，比如定义 ERROR 宏时，只打印错误的信息；定义 DEBUG 时，打印错误和调试信息；定义 INFO 时，所有的打印信息都打印出来。</strong></p>
+<p><strong>7.下面是 Linux 内核（Linux4.4.0）中的一些宏定义，请分析它们实现的功能。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_emerg(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_alert(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_crit(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_err(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_warning(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_warn pr_warning</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_notice(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_info(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>8.在 Linux 内核启动过程中，启动 log 的最后往往会有这么一行信息。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">Freeing unused kernel memory: <span class="hljs-number">468</span>K<br></code></pre></div></td></tr></table></figure>
+
+
+<p>请用本课程中的 section 属性声明，分析这段 log 背后的内核初始化及内存释放过程。</p>
+<p><strong>9.在嵌入式 Linux 驱动开发中，驱动模块是没有 main() 入口函数的，请用本课程学过的知识分析：驱动是如何运行和初始化的。</strong></p>
+<p><strong>10.驱动分析：在 linux4.4 源码 linux-4.4/arch/arm/mach-footbridge/ebsa285.c 中，分析下面代码的含义及 container_of 宏的作用。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">MACHINE_START(EBSA285, <span class="hljs-string">&quot;EBSA285&quot;</span>)<br>    <span class="hljs-comment">/* Maintainer: Russell King */</span><br>    .atag_offset    = <span class="hljs-number">0x100</span>,<br>    .video_start    = <span class="hljs-number">0x000a0000</span>,<br>    .video_end  = <span class="hljs-number">0x000bffff</span>,<br>    .map_io     = footbridge_map_io,<br>    .init_early = footbridge_sched_clock,<br>    .init_irq   = footbridge_init_irq,<br>    .init_time  = footbridge_timer_init,<br>    .restart    = footbridge_restart,<br>MACHINE_END<br><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> ebsa285_led_set(struct \<br>led_classdev *cdev, <span class="hljs-keyword">enum</span> led_brightness b)<br>&#123;<br>    struct ebsa285_led *led = container_of(cdev,<br>            struct ebsa285_led, cdev);<br><br>    <span class="hljs-keyword">if</span> (b == LED_OFF)<br>        hw_led_state |= led-&gt;mask;<br>    <span class="hljs-keyword">else</span><br>        hw_led_state &amp;= ~led-&gt;mask;<br>    writeb(hw_led_state, xbus);<br><br>&#125;<br><br><span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">led_brightness</span> \</span><br><span class="hljs-class"><span class="hljs-title">ebsa285_led_get</span>(<span class="hljs-keyword">struct</span> <span class="hljs-title">led_classdev</span> *<span class="hljs-title">cdev</span>)</span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ebsa285_led</span> *<span class="hljs-title">led</span> =</span> container_of(cdev,<br>            struct ebsa285_led, cdev);<br><br>    <span class="hljs-keyword">return</span> hw_led_state &amp; led-&gt;mask ? LED_OFF : LED_FULL;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="13-3-结束语"><a href="#13-3-结束语" class="headerlink" title="13.3 结束语"></a>13.3 结束语</h2><p>通过本课程的学习，再加上本节10个习题的练习，相信大家的 C 语言功底肯定又加深了一层！有了这些知识储备基础，基本上就扫除了 Linux 内核的阅读障碍。相信大家在以后的工作、学习中一定会日益精进，不断突破！</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C02/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux 内核驱动中的指定初始化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C12/">
+                        <span class="hidden-mobile">有一种宏，叫可变参数宏</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

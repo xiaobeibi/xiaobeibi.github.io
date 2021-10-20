@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="有一种宏，叫可变参数宏  12.1 什么是可变参数宏在上面的教程中，我们学会了变参函数的定义和使用，基本套路就是使用 va_list、va_start、va_end 等宏，去解析那些可变参数列表我们找到这些参数的存储地址后，就可以对这些参数进行处理了：要么自己动手，自己处理；要么继续调用其它函来处理。 1234567891011121314151617void print_num(int coun">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有一种宏，叫可变参数宏">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C12/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="有一种宏，叫可变参数宏  12.1 什么是可变参数宏在上面的教程中，我们学会了变参函数的定义和使用，基本套路就是使用 va_list、va_start、va_end 等宏，去解析那些可变参数列表我们找到这些参数的存储地址后，就可以对这些参数进行处理了：要么自己动手，自己处理；要么继续调用其它函来处理。 1234567891011121314151617void print_num(int coun">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.399Z">
+<meta property="article:modified_time" content="2021-10-04T02:59:54.578Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>有一种宏，叫可变参数宏 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="有一种宏，叫可变参数宏">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">有一种宏，叫可变参数宏</h1>
+            
+            <div class="markdown-body">
+              <center><h2>有一种宏，叫可变参数宏</h2></center>
+
+<h2 id="12-1-什么是可变参数宏"><a href="#12-1-什么是可变参数宏" class="headerlink" title="12.1 什么是可变参数宏"></a>12.1 什么是可变参数宏</h2><p>在上面的教程中，我们学会了变参函数的定义和使用，基本套路就是使用 va_list、va_start、va_end 等宏，去解析那些可变参数列表我们找到这些参数的存储地址后，就可以对这些参数进行处理了：要么自己动手，自己处理；要么继续调用其它函来处理。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_num</span><span class="hljs-params">(<span class="hljs-keyword">int</span> count, ...)</span></span><br><span class="hljs-function"></span>&#123;<br>    va_list args;<br>    va_start(args,count);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*args: %d\n&quot;</span>,*(<span class="hljs-keyword">int</span> *)args);<br>        args += <span class="hljs-number">4</span>; <br>    &#125;<br>&#125;<br><span class="hljs-keyword">void</span> __attribute__((format(<span class="hljs-built_in">printf</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>))) LOG(<span class="hljs-keyword">int</span> k,<span class="hljs-keyword">char</span> *fmt,...)<br>&#123;<br>    va_list args;<br>    va_start(args,fmt);<br>    <span class="hljs-built_in">vprintf</span>(fmt,args);<br>    va_end(args);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>GNU C 觉得这样不过瘾，再来个猛锤：干脆宏定义也支持变参吧！</p>
+<p>这一节我们要学习一下可变参数宏的定义和使用。其实，C99 标准已经支持了这个特性，但是其它的编译器不太给力，对 C99 标准的支持不是很好，只有 GNU C 支持这个功能，所以有时候我们也把这个可变参数宏看作是 GNU C 的一个语法扩展。 上面的 LOG 函数，如果我们想使用一个变参宏实现，就可以直接这样定义。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt, ...) printf(fmt, __VA_ARGS__)</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DEBUG(...) printf(__VA_ARGS__)</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    LOG(<span class="hljs-string">&quot;Hello! I&#x27;m %s\n&quot;</span>,<span class="hljs-string">&quot;Wanglitao&quot;</span>);<br>    DEBUG(<span class="hljs-string">&quot;Hello! I&#x27;m %s\n&quot;</span>,<span class="hljs-string">&quot;Wanglitao&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>变参宏的实现形式其实跟变参函数差不多：用 … 表示变参列表，变参列表由不确定的参数组成，各个参数之间用逗号隔开。可变参数宏使用 C99 标准新增加的一个 <em>_VA_ARGS</em>_ 预定义标识符来表示前面的变参列表，而不是像变参函数一样，使用 va_list、va_start、va_end 这些宏去解析变参列表。预处理器在将宏展开时，会用变参列表替换掉宏定义中的所有 __VA_ARGS__ 标识符。</p>
+<p>使用宏定义实现一个变参打印功能，你会发现，它的实现甚至比变参函数还方便！内核中的很多打印宏，经常使用可变参数宏来实现，宏定义一般为下面这个格式。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt, ...) printf(fmt, __VA_ARGS__)</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个宏定义中，有一个固定参数，通常为一个格式字符串，后面的变参用来打印各种格式的数据，跟前面的格式字符串相匹配。这种定义方式有一个漏洞，即当变参为空时，宏展开时就会产生一个语法错误。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt,...) printf(fmt,__VA_ARGS__)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    LOG(<span class="hljs-string">&quot;hello\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>上面这个程序编译时就会通不过，产生一个语法错误。这是因为，我们只给 LOG 宏传递了一个参数，而变参为空。当宏展开后，就变成了下面这个样子。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello\n&quot;</span>, );<br></code></pre></div></td></tr></table></figure>
+
+
+<p>宏展开后，在第一个字符串参数的后面还有一个逗号，所以就产生了一个语法错误。我们需要继续对这个宏进行改进，使用宏连接符 ##，来避免这个语法错误。</p>
+<h2 id="12-2-继续改进我们的宏"><a href="#12-2-继续改进我们的宏" class="headerlink" title="12.2 继续改进我们的宏"></a>12.2 继续改进我们的宏</h2><p>我们接下来，使用宏连接符 ## 来改进上面的宏。</p>
+<p>宏连接符 ## 的主要作用就是连接两个字符串，我们在宏定义中可以使用 ## 来连接两个字符。预处理器在预处理阶段对宏展开时，会将 ## 两边的字符合并，并删除 ## 这两个字符。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> A(x) a##x</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">A</span><span class="hljs-params">(<span class="hljs-number">1</span>)</span> </span>= <span class="hljs-number">2</span>; <span class="hljs-comment">//int a1 = 2;</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">A</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">3</span>;  <span class="hljs-comment">//int a=3;</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d\n&quot;</span>,a1,a);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>如上面的程序，我们定义一个宏。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> A(x) a##x</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>这个宏的功能就是连接字符 a 和 x。在程序中，A(1) 展开后就是 a1，A( ) 展开后就是 a。我们使用 printf( ) 函数可以直接打印变量 a1、a 的值，因为宏展开后，就相当于使用 int 关键字定义了两个整型变量 a1 和 a。上面的程序可以编译通过，运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-number">2</span>  <span class="hljs-number">3</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>知道了宏连接符 ## 的使用方法，我们接下来就可以就对 LOG 宏做一些修改。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt,...) printf(fmt, ##__VA_ARGS__)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    LOG(<span class="hljs-string">&quot;hello\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>我们在标识符 _<em>VA_ARGS</em>_ 前面加上宏连接符 ##，这样做的好处是，当变参列表非空时，## 的作用是连接 fmt，和变参列表，各个参数之间用逗号隔开，宏可以正常使用；当变参列表为空时，## 还有一个特殊的用处，它会将固定参数 fmt 后面的逗号删除掉，这样宏也就可以正常使用了。</p>
+<h2 id="12-3-可变参数宏的另一种写法"><a href="#12-3-可变参数宏的另一种写法" class="headerlink" title="12.3 可变参数宏的另一种写法"></a>12.3 可变参数宏的另一种写法</h2><p>当我们定义一个变参宏时，除了使用预定义标识符 <em>_VA_ARGS</em>_ 表示变参列表外，还可以使用下面这种写法。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt,args...) printf(fmt, args)</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>使用预定义标识符 _<em>VA_ARGS</em>_ 来定义一个变参宏，是 C99 标准规定的写法。而上面这种格式是 GNU C 扩展的一个新写法。我们不再使用  __VA_ARGS__，而是直接使用 args… 来表示一个变参列表，然后在后面的宏定义中，直接使用 args 代表变参列表就可以了。</p>
+<p>跟上面一样，为了避免变参列表为空时的语法错误，我们也需要添加一个连接符##。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> LOG(fmt,args...) printf(fmt,##args)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    LOG(<span class="hljs-string">&quot;hello\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>使用这种方式，你会发现这种写法比使用 <em>_VA_ARGS</em>_ 看起来更加直观和方便。</p>
+<h2 id="12-4-内核中的可变参数宏"><a href="#12-4-内核中的可变参数宏" class="headerlink" title="12.4 内核中的可变参数宏"></a>12.4 内核中的可变参数宏</h2><p>可变参数宏在内核中主要用于日志打印。一些驱动模块或子系统有时候会定义自己的打印宏，可以支持打印开关、打印格式、优先级控制等。如在 printk.h 头文件中，我们可以看到 pr_debug 宏的定义。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> defined(CONFIG_DYNAMIC_DEBUG)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_debug(fmt, ...) \</span><br><span class="hljs-meta">    dynamic_pr_debug(fmt, ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> defined(DEBUG)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_debug(fmt, ...) \</span><br><span class="hljs-meta">    printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> pr_debug(fmt, ...) \</span><br><span class="hljs-meta">    no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> dynamic_pr_debug(fmt, ...)                \</span><br><span class="hljs-meta">do &#123;                                \</span><br><span class="hljs-meta">    DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt); \</span><br><span class="hljs-meta">    <span class="hljs-meta-keyword">if</span> (unlikely(descriptor.flags       \</span><br><span class="hljs-meta">            &amp; _DPRINTK_FLAGS_PRINT))    \</span><br><span class="hljs-meta">        __dynamic_pr_debug(&amp;descriptor, pr_fmt(fmt),    \</span><br><span class="hljs-meta">                   ##__VA_ARGS__);      \</span><br><span class="hljs-meta">&#125; while (0)</span><br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> __printf(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">no_printk</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *fmt, ...)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> __printf(a, b)    \   </span><br>__attribute__((format(<span class="hljs-built_in">printf</span>, a, b)))<br></code></pre></div></td></tr></table></figure>
+
+
+<p>看到这个宏定义，不得不佩服宏的作者。一个小小的宏，综合运用各种技巧和知识点，把 C 语言发挥到极致！</p>
+<p>这个宏定义了三个版本。如果我们在编译内核时有动态调试选项，那么这个宏就定义为 dynamicprdebug。如果没有配置动态调试选项，那我们还可以通过 DEBUG 这个宏，来控制这个宏的打开和关闭。</p>
+<p>no_printk() 作为一个内联函数，定义在 printk.h 头文件中，而且通过 format 属性声明，指示编译器按照 printf 标准去做参数格式检查。</p>
+<p>最有意思的是 dynamicprdebug 宏，宏定义采用 do{ … }while(0) 结构。这看起来貌似有点多余，有它没它，我们的宏都可以工作。反正都是执行一次，为什么要用这种看似“画蛇添足”的循环结构呢？道理很简单，这样定义就是为了防止宏在条件、选择等分支结构的语句中展开后，产生宏歧义。</p>
+<p>比如我们定义一个宏，由两条打印语句构成。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DEBUG() \</span><br><span class="hljs-meta"> printf(<span class="hljs-meta-string">&quot;hello &quot;</span>);printf(<span class="hljs-meta-string">&quot;else\n&quot;</span>)</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-number">1</span>)<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello if\n&quot;</span>);<br>    <span class="hljs-keyword">else</span><br>        DEBUG();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>程序运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">hello <span class="hljs-keyword">if</span><br><span class="hljs-keyword">else</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>理论情况下，else 分支是执行不到的。但通过运行结果可以看到，程序也执行了 else 分支的一部分代码。这是因为我们定义的宏由多条语句组成，直接展开后，就变成了下面这样。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-number">1</span>)<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello if\n&quot;</span>);<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello &quot;</span>);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;else\n&quot;</span>)；<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>多条语句在宏调用处直接展开，就破坏了程序原来的 if-else 分支结构，导致程序逻辑发生变化，所以你才会看到 else 分支的非正常打印。而采用 do{ … }while(0) 这种结构，可以将我们宏定义中的复合语句包起来，宏展开后，就是一个代码块，就避免了这种逻辑错误。</p>
+<p>一个小小的宏，暗藏各个知识点，综合使用各种技巧，仔细分析下来，就能学到很多知识。大家在以后的工作和学习中，可能会接触到各种各样、形形色色的宏，只要我们有牢固的 C 语言基础，熟悉 GNU C 的常用扩展语法，再遇到这样类似的宏，我们都可以慢慢去分析了。不用怕，只有自己真正分析过，才算真正掌握，才能转化为自己的知识和能力，才能领略它的精妙之处。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C13/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GNU_C总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C11/">
+                        <span class="hidden-mobile">有一种函数，叫内建函数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

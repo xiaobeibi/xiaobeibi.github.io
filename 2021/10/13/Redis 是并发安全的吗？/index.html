@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Redis 是并发安全的吗？  Redis 作为一个非常成功的数据库，提供了非常丰富的数据类型和命令，使用这些，我们可以轻易而高效地完成很多缓存操作，可是总有一些比较特殊问题或需求需要解决，这时候可能就需要我们自己定制自己的 Redis 数据结构和命令。 Redis命令问题“线程安全”问题我们都知道 Redis 是单线程的，可是它怎么会有线程安全问题呢？ 我们正常理解的线程安全问题是指单进程多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis是并发安全的吗？">
+<meta property="og:url" content="http://example.com/2021/10/13/Redis%20%E6%98%AF%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Redis 是并发安全的吗？  Redis 作为一个非常成功的数据库，提供了非常丰富的数据类型和命令，使用这些，我们可以轻易而高效地完成很多缓存操作，可是总有一些比较特殊问题或需求需要解决，这时候可能就需要我们自己定制自己的 Redis 数据结构和命令。 Redis命令问题“线程安全”问题我们都知道 Redis 是单线程的，可是它怎么会有线程安全问题呢？ 我们正常理解的线程安全问题是指单进程多线程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102109353.png">
+<meta property="article:published_time" content="2021-10-13T14:13:57.431Z">
+<meta property="article:modified_time" content="2021-10-12T14:50:26.817Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102109353.png">
+  
+  <title>Redis是并发安全的吗？ - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Redis是并发安全的吗？">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:13" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Redis是并发安全的吗？</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Redis 是并发安全的吗？</h2></center>
+
+<p>Redis 作为一个非常成功的数据库，提供了非常丰富的数据类型和命令，使用这些，我们可以轻易而高效地完成很多缓存操作，可是总有一些比较特殊问题或需求需要解决，这时候可能就需要我们自己定制自己的 Redis 数据结构和命令。</p>
+<h3 id="Redis命令问题"><a href="#Redis命令问题" class="headerlink" title="Redis命令问题"></a>Redis命令问题</h3><h4 id="“线程安全”问题"><a href="#“线程安全”问题" class="headerlink" title="“线程安全”问题"></a>“线程安全”问题</h4><p>我们都知道 Redis 是单线程的，可是它怎么会有线程安全问题呢？</p>
+<p>我们正常理解的线程安全问题是指<code>单进程多线程</code>模型内部多个线程<code>操作进程内共享内存</code>导致的数据资源充突。而 Redis 的线程安全问题的产生，并不是来自于 Redis 服务器内部。</p>
+<p>Redis 作为数据服务器，就相当于多个客户端的共享内存，多个客户端就相当于同一进程下的多个线程，如果多个客户端之间没有良好的数据同步策略，就会产生类似线程安全的问题。</p>
+<p>典型场景是：</p>
+<ul>
+<li>Redis 内存储了一个用户的状态：<code>user5277=idle</code>；</li>
+<li>客户端连接 A 读取了用户状态，获取到用户的空闲状态 <code>status = get(&quot;user5277&quot;)</code>；</li>
+<li>客户端连接 B 也同样读取了用户状态；</li>
+<li>客户端连接 A 给用户安排了一个任务，并将 Redis 内用户状态置为忙碌 <code>set(&quot;user5277&quot;, &quot;busy&quot;)</code>；</li>
+<li>客户端连接 B 同样设置用户为忙碌状态。</li>
+<li>可是此时用户却被同时分配了两个任务。</li>
+</ul>
+<p>导致这个问题的原因就是虽然 Redis 是单线程的，能保证命令的序列化，但由于其执行效率很高，多个客户端的命令之间不做好请求同步，同样会造成命令的顺序错乱。</p>
+<p>当然这个问题也很好解决，给用户状态加锁就行了，使同一时间内只能有一个客户端操作用户状态。不过加锁我们就需要考虑锁粒度、死锁等问题了，无疑添加了程序的复杂性，不利于维护。</p>
+<h4 id="效率问题"><a href="#效率问题" class="headerlink" title="效率问题"></a>效率问题</h4><p>Redis 作为一个极其高效的内存数据服务器，其命令执行速度极快，之前看过阿里云 Redis 的一个压测结果，执行效率可以达到 10W写QPS， 60W读QPS，那么，它的效率问题又来自何处呢？</p>
+<p>答案是网络，做 Web 的都知道，效率优化要从网络做起，服务端又是优化代码，又是优化数据库，不如网络连接的一次优化，而网络优化最有效的就是减少请求数。我们要知道执行一次内存访问的耗时约是 <code>100ns</code>，而不同机房之间来回一次约需要 <code>500000ns</code>，其中的差距可想而知。</p>
+<p>Redis在单机内效率超高，但工业化部署总不会把服务器和 Redis 放在同一台机器上，如果触碰到效率瓶颈的话，那就是网络。</p>
+<p>典型场景就是我们从 Redis 里读出一条数据，再使用这条数据做键，读取另外一条数据。这样来来回回，便有两次网络往返。</p>
+<p>导致这种问题的原因就是 Redis 的普通命令没有服务端计算的能力，无法在服务器进行复合命令操作，虽然有 Redis 也提供了 <code>pipeline</code> 的特性，但它需要多个命令的请求和响应之间没有依赖关系。想简化多个相互依赖的命令就只能将数据拉回客户端，由客户端处理后再请求 Redis。</p>
+<p>综上，我们要更高效更方便的使用 Redis 就需要自己“定制”一些命令了。</p>
+<h3 id="内嵌Lua的执行"><a href="#内嵌Lua的执行" class="headerlink" title="内嵌Lua的执行"></a>内嵌Lua的执行</h3><p>万幸 Redis 内嵌了 Lua 执行环境，支持 Lua 脚本的执行，通过执行 Lua 脚本，我们可以把多个命令复合为一个 Lua 脚本，通过 Lua 脚本来实现上文中提到的 Redis 命令的次序性和 Redis 服务端计算。</p>
+<h4 id="Lua"><a href="#Lua" class="headerlink" title="Lua"></a>Lua</h4><p>Lua 是一个简洁、轻量、可扩展的脚本语言，它的特性有：</p>
+<ul>
+<li>轻量：源码包只有核心库，编译后体积很小。</li>
+<li>高效：由 ANSI C 写的，启动快、运行快。</li>
+<li>内嵌：可内嵌到各种编程语言或系统中运行，提升静态语言的灵活性。如 OpenResty 就是将 Lua 嵌入到 nginx 中执行。</li>
+</ul>
+<p>而且完全不需要担心语法问题，Lua 的语法很简单，分分钟使用不成问题。</p>
+<h4 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤"></a>执行步骤</h4><p>Redis 在 2.6 版本后，启动时会创建 Lua 环境、载入 Lua 库、定义 Redis 全局表格、存储 <code>redis.pcall</code> 等 Redis 命令，以准备 Lua 脚本的执行。</p>
+<p>一个典型的 Lua 脚本执行步骤如下：</p>
+<ol>
+<li>检查脚本是否执行过，没执行过使用脚本的 sha1 校验和生成一个 Lua 函数；</li>
+<li>为函数绑定超时、错误处理勾子；</li>
+<li>创建一个伪客户端，通过这个伪客户端执行 Lua 中的 Redis 命令；</li>
+<li>处理伪客户端的返回值，最终返回给客户端；</li>
+</ol>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102109353.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>虽然 Lua 脚本使用的是伪客户端，但 Redis 处理它会跟普通客户端一样，也会将执行的 Redis 命令进行 rdb aof 主从复制等操作。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>Lua 脚本的使用可以通过 Redis 的 <code>EVAL</code> 和 <code>EVALSHA</code> 命令。</p>
+<p><code>EVAL</code> 适用于单次执行 Lua 脚本，执行脚本前会由脚本内容生成 sha1 校验和，在函数表内查询函数是否已定义，如未定义执行成功后 Redis 会在全局表里缓存这个脚本的校验和为函数名，后续再次执行此命令就不会再创建新的函数了。</p>
+<p>而要使用 <code>EVALSHA</code> 命令，就得先使用 <code>SCRIPT LOAD</code> 命令先将函数加载到 Redis，Redis 会返回此函数的 sha1 校验和， 后续就可以直接使用这个校验和来执行命令了。</p>
+<p>以下是使用上述命令的例子：</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; EVAL <span class="hljs-string">&quot;return &#x27;hello&#x27;&quot;</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span><br><span class="hljs-string">&quot;hello&quot;</span><br><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SCRIPT LOAD <span class="hljs-string">&quot;return redis.pcall(&#x27;GET&#x27;, ARGV[1])&quot;</span><br><span class="hljs-string">&quot;20b602dcc1bb4ba8fca6b74ab364c05c58161a0a&quot;</span><br><br><span class="hljs-number">127.0.0.1:6379</span>&gt; EVALSHA 20b602dcc1bb4ba8fca6b74ab364c05c58161a0a <span class="hljs-number">0</span> test<br><span class="hljs-string">&quot;zbs&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>EVAL 命令的原型是 <code>EVAL script numkeys key [key ...] arg [arg ...]</code>，在 Lua 函数内部可以使用 <code>KEYS[N]</code> 和 <code>ARGV[N]</code> 引用键和参数，需要注意 KEYS 和 ARGV 的参数序号都是从 <code>1</code> 开始的。</p>
+<p>还需要注意在 Lua 脚本中，Redis 返回为空时，结果是 <code>false</code>，而 <code>不是 nil</code>；</p>
+<h3 id="Lua-脚本实例"><a href="#Lua-脚本实例" class="headerlink" title="Lua 脚本实例"></a>Lua 脚本实例</h3><p>下面写几个 Lua 脚本的实例，用来介绍语法的，仅供参考。</p>
+<p>Redis 里 hashSet A 的 字段 B 的值是 C，取出 Redis 里键为 C 的值。</p>
+<figure class="highlight lua"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lua">// 使用: EVAL script <span class="hljs-number">2</span> A B<br><br><span class="hljs-keyword">local</span> tmpKey = redis.call(<span class="hljs-string">&#x27;HGET&#x27;</span>, KEYS[<span class="hljs-number">1</span>], KEYS[<span class="hljs-number">2</span>]);<br><span class="hljs-keyword">return</span> redis.call(<span class="hljs-string">&#x27;GET&#x27;</span>, tmpKey);<br></code></pre></div></td></tr></table></figure>
+
+<p>一次 lpop 出多个值，直到值为 n，或 list 为空（pipeline 也可轻易实现）；</p>
+<figure class="highlight lua"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lua">// 使用: EVAL script <span class="hljs-number">2</span> list count<br><br><span class="hljs-keyword">local</span> list = &#123;&#125;;<br><span class="hljs-keyword">local</span> item = <span class="hljs-literal">false</span>;<br><span class="hljs-keyword">local</span> num = <span class="hljs-built_in">tonumber</span>(KEYS[<span class="hljs-number">2</span>]);<br><span class="hljs-keyword">while</span> (num &gt; <span class="hljs-number">0</span>)<br><span class="hljs-keyword">do</span><br>    item = redis.call(<span class="hljs-string">&#x27;LPOP&#x27;</span>, KEYS[<span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">if</span> item == <span class="hljs-literal">false</span> <span class="hljs-keyword">then</span><br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">end</span>;<br>    <span class="hljs-built_in">table</span>.<span class="hljs-built_in">insert</span>(list, item);<br>    num = num - <span class="hljs-number">1</span>;<br><span class="hljs-keyword">end</span>;<br><span class="hljs-keyword">return</span> list;<br></code></pre></div></td></tr></table></figure>
+
+<p>获取 zset 内 score 最多的 n 个元素 对应 hashset 中的详细信息；</p>
+<figure class="highlight lua"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lua"><span class="hljs-keyword">local</span> elements = redis.call(<span class="hljs-string">&#x27;ZRANK&#x27;</span>, KEYS[<span class="hljs-number">1</span>], <span class="hljs-number">0</span>, KEY[<span class="hljs-number">2</span>]);<br><span class="hljs-keyword">local</span> detail = &#123;&#125;;<br><br><span class="hljs-keyword">for</span> index,ele <span class="hljs-keyword">in</span> elements <span class="hljs-keyword">do</span><br> <span class="hljs-keyword">local</span> info = redis.call(<span class="hljs-string">&#x27;HGETALL&#x27;</span>, ele);<br> <span class="hljs-built_in">table</span>.<span class="hljs-built_in">insert</span>(detail, info);<br><span class="hljs-keyword">end</span>;<br><br><span class="hljs-keyword">return</span> detail;<br></code></pre></div></td></tr></table></figure>
+
+<p>基本使用语法就是如此，更多应用就看各个具体场景了。</p>
+<h3 id="一些思考"><a href="#一些思考" class="headerlink" title="一些思考"></a>一些思考</h3><p>实现之外，还要一些东西要思考：</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p>首先来总结一下 Redis 中 Lua 的使用场景：</p>
+<ul>
+<li>可以使用 Lua 脚本实现原子性操作，避免不同客户端访问 Redis 服务器造成的数据冲突。</li>
+<li>在前后多次请求的结果有依赖时，可以使用 Lua 脚本把多个请求整合为一个请求。</li>
+</ul>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><p>使用 Lua 脚本，我们还需要注意：</p>
+<ul>
+<li>要保证安全性，在 Lua 脚本中不要使用全局变量，以免污染 Lua 环境，虽然使用全局变量全报错，Lua 脚本停止执行，但还是在定义变量时添加 <code>local</code> 关键字。</li>
+<li>要注意 Lua 脚本的时间复杂度，Redis 的单线程同样会阻塞在 Lua 脚本的执行中。</li>
+<li>使用 Lua 脚本实现原子操作时，要注意如果 Lua 脚本报错，之前的命令同样无法回滚。</li>
+<li>一次发出多个 Redis 请求，但请求前后无依赖时，使用 <code>pipeline</code>，比 Lua 脚本方便。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/Redis/">Redis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Redis/">Redis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis与MySQL双写一致性如何保证？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/">
+                        <span class="hidden-mobile">Redis面试题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

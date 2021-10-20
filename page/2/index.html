@@ -1,0 +1,1004 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="分享总结个人的学习路程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贝比">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="分享总结个人的学习路程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分享总结个人的学习路程">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%85%AC%E5%8F%B8%E5%90%8E%E5%8F%B0%E6%8A%80%E6%9C%AF%E6%A0%88/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192148801.webp" srcset="/img/loading.gif" lazyload alt="从零开始搭建公司后台技术栈">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%85%AC%E5%8F%B8%E5%90%8E%E5%8F%B0%E6%8A%80%E6%9C%AF%E6%A0%88/" target="_self">
+          从零开始搭建公司后台技术栈
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%85%AC%E5%8F%B8%E5%90%8E%E5%8F%B0%E6%8A%80%E6%9C%AF%E6%A0%88/" target="_self">
+          
+          
+            
+          
+          从零开始搭建公司后台技术栈
+
+有点眼晕，以下只是我们会用到的一些语言的合集，而且只是语言层面的一部分，就整个后台技术栈来说，这只是一个开始，从语言开始，还有很多很多的内容。今天要说的后台是大后台的概念，放在服务器上的东西都属于后台的东西，比如使用的框架，语言，数据库，服务，操作系统等等。
+整个后台技术栈我的理解包括 4 个层面的内容：
+
+语言：用了哪些开发语言，如：C++/Java/Go/PHP/
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:58" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82%E5%B9%B6%E5%AE%9E%E6%93%8D%20Nginx%20%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192216804.webp" srcset="/img/loading.gif" lazyload alt="一文读懂并实操 Nginx 反向代理">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82%E5%B9%B6%E5%AE%9E%E6%93%8D%20Nginx%20%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" target="_self">
+          一文读懂并实操 Nginx 反向代理
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E4%B8%80%E6%96%87%E8%AF%BB%E6%87%82%E5%B9%B6%E5%AE%9E%E6%93%8D%20Nginx%20%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" target="_self">
+          
+          
+            
+          
+          一文读懂并实操 Nginx 反向代理
+
+代理是个啥，既然要聊反向代理, 那首先得知道代理是个啥吧? 嗯.
+正向代理比如, 你买束花, 想要给隔壁工位的测试妹子小丽表白. 但是又怕被人家直面拒绝太没面子. 于是你把鲜花委托给平时和小丽一起的测试小伙伴小红. 让她帮忙把花送给小丽. 这就是一个简单的代理过程, 小红作为代理帮你把花送给了小丽, 当然这种情况在现实中并不推荐使用, 因为难以避免中间商赚差
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:56" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Nginx/">Nginx</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Nginx/">Nginx</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E9%85%8D%E7%BD%AE%20Nginx%20%E7%9A%84%E7%A5%9E%E5%99%A8/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192144044.webp" srcset="/img/loading.gif" lazyload alt="配置 Nginx 的神器">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E9%85%8D%E7%BD%AE%20Nginx%20%E7%9A%84%E7%A5%9E%E5%99%A8/" target="_self">
+          配置 Nginx 的神器
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E9%85%8D%E7%BD%AE%20Nginx%20%E7%9A%84%E7%A5%9E%E5%99%A8/" target="_self">
+          
+          
+            
+          
+          配置 Nginx 的神器
+
+Nginx 是前后端开发工程师必须掌握的神器。该神器有很多使用场景：
+比如反向代理、负载均衡、动静分离、跨域等等。
+把 Nginx 下载下来打开 conf 文件夹的 nginx.conf 文件，Nginx 服务器的基础配置和默认的配置都存放于此。
+
+配置是让程序员非常头疼的事，比如 Java 后端框架 SSM
+大量配置文件让不少人头皮发麻，所以才涌现了 Spring B
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:55" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Nginx/">Nginx</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Nginx/">Nginx</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/Spring%20Boot%20%E9%9D%A2%E8%AF%95%E6%9D%80%E6%89%8B%E9%94%8F%EF%BC%9A%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110202024047.webp" srcset="/img/loading.gif" lazyload alt="Spring Boot 面试杀手锏：自动配置原理">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/Spring%20Boot%20%E9%9D%A2%E8%AF%95%E6%9D%80%E6%89%8B%E9%94%8F%EF%BC%9A%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" target="_self">
+          Spring Boot 面试杀手锏：自动配置原理
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/Spring%20Boot%20%E9%9D%A2%E8%AF%95%E6%9D%80%E6%89%8B%E9%94%8F%EF%BC%9A%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" target="_self">
+          
+          
+            
+          
+          Spring Boot 面试杀手锏：自动配置原理
+
+不论在工作中，亦或是求职面试，Spring Boot已经成为我们必知必会的技能项。除了某些老旧的政府项目或金融项目持有观望态度外，如今的各行各业都在飞速的拥抱这个已经不是很新的Spring启动框架。
+当然，作为Spring Boot的精髓，自动配置原理的工作过程往往只有在“面试”的时候才能用得上，但是如果在工作中你能够深入的理解Spring Bo
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:54" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/SpringBoot/">SpringBoot</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/SpringBoot/">SpringBoot</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/Spring%20Boot%20%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81%20Controller%E3%80%81Service%E3%80%81DAO%E3%80%81Mapper/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110202001382.webp" srcset="/img/loading.gif" lazyload alt="Spring Boot 不再需要 Controller、Service、DAO、Mapper">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/Spring%20Boot%20%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81%20Controller%E3%80%81Service%E3%80%81DAO%E3%80%81Mapper/" target="_self">
+          Spring Boot 不再需要 Controller、Service、DAO、Mapper
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/Spring%20Boot%20%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81%20Controller%E3%80%81Service%E3%80%81DAO%E3%80%81Mapper/" target="_self">
+          
+          
+            
+          
+          神器！Spring Boot 不再需要 Controller、Service、DAO、Mapper
+
+Dataway 是基于 DataQL 服务聚合能力，为应用提供的一个接口配置工具。使得使用者无需开发任何代码就配置一个满足需求的接口。 
+整个接口配置、测试、冒烟、发布。一站式都通过 Dataway 提供的 UI 界面完成。UI 会以 Jar 包方式提供并集成到应用中并和应用共享同一个 http 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:53" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/SpringBoot/">SpringBoot</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/SpringBoot/">SpringBoot</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E4%BA%86%E7%A9%BA%E6%8C%87%E9%92%88%E9%97%AE%E9%A2%98/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192024691.webp" srcset="/img/loading.gif" lazyload alt="一行代码解决了空指针问题">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E4%BA%86%E7%A9%BA%E6%8C%87%E9%92%88%E9%97%AE%E9%A2%98/" target="_self">
+          一行代码解决了空指针问题
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E4%BA%86%E7%A9%BA%E6%8C%87%E9%92%88%E9%97%AE%E9%A2%98/" target="_self">
+          
+          
+            
+          
+          一行代码解决了空指针问题
+
+在文章的开头，先说下NPE问题，NPE问题就是，我们在开发中经常碰到的NullPointerException.假设我们有两个类，他们的UML类图如下图所示
+
+在这种情况下，有如下代码1user.getAddress().getProvince();
+
+这种写法，在user为null时，是有可能报NullPointerException异常的。为了解决这个问题，于是采用
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:51" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E5%B9%B2%E6%8E%89%20if%20else%EF%BC%812/" target="_self">
+          <img src="/img/Substitute3.jpg" srcset="/img/loading.gif" lazyload alt="干掉 if else！——2">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E5%B9%B2%E6%8E%89%20if%20else%EF%BC%812/" target="_self">
+          干掉 if else！——2
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E5%B9%B2%E6%8E%89%20if%20else%EF%BC%812/" target="_self">
+          
+          
+            
+          
+          干掉 if else！——2
+
+if…else控制语句，如果代码里滥用会大大降低代码的可读性、可维护性、可扩展性以及灵活性，进而使整个软件系统造成危害。因为在实际的项目中，需求往往是不断变化的，新需求也层出不穷，因此违反了违反单一职责原则和开闭原则，而且有些公司的代码审查会通不过。
+所以，if else的替代方案是很有必要的，如位语句，枚举，工厂模式，策略模式，状态模式等等。这里用一个场景详细说明
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:50" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/String%20%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192205076.webp" srcset="/img/loading.gif" lazyload alt="String 那些事">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/String%20%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_self">
+          String 那些事
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/String%20%E9%82%A3%E4%BA%9B%E4%BA%8B/" target="_self">
+          
+          
+            
+          
+          String 那些事
+
+一、前言头条三面：toString()、String.valueOf、(String)强转，有啥区别？
+相信大家在日常开发中这三种方法用到的应该很多，尤其是前两种，经常在开发的时候，随心所欲，想用哪个用哪个，既然存在，那就应该有它存在的道理，那么什么情况下用哪个呢？
+二、代码实例1、基本类型（1）基本类型没有toString()方法
+
+（2）推荐使用
+
+（3）无法强转
+
+（
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:48" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/%E5%B0%91%E4%BE%A0%EF%BC%81%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E6%89%8B%E5%A5%BD%20SQL%20%EF%BC%9F/" target="_self">
+          <img src="/img/Substitute10.jpg" srcset="/img/loading.gif" lazyload alt="少侠！如何写一手好 SQL ？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/%E5%B0%91%E4%BE%A0%EF%BC%81%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E6%89%8B%E5%A5%BD%20SQL%20%EF%BC%9F/" target="_self">
+          少侠！如何写一手好 SQL ？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/%E5%B0%91%E4%BE%A0%EF%BC%81%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E6%89%8B%E5%A5%BD%20SQL%20%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          少侠！如何写一手好 SQL ？
+
+采用阿里云数据库MySQL，最近频繁出现慢SQL告警，执行时间最长的竟然高达5分钟。导出日志后分析，主要原因竟然是没有命中索引和没有分页处理 。
+其实这是非常低级的错误，我不禁后背一凉，团队成员的技术水平亟待提高啊。改造这些SQL的过程中，总结了一些经验分享给大家，如果有错误欢迎批评指正。
+MySQL性能最大数据量抛开数据量和并发数，谈性能都是耍流氓 。MySQL
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:46" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL 8.0 新特性：直方图">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          MySQL 8.0 新特性：直方图
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          
+          
+            
+          
+          MySQL 8.0 新特性：直方图
+
+查询优化器负责将SQL查询转换为尽可能高效的执行计划，但随着数据环境不断变化，查询优化器可能无法找到最佳的执行计划，导致SQL效率低下。造成这种情况的原因是优化器对查询的数据了解的不够充足，例如：每个表有多少行数据，每列中有多少不同的值，每列的数据分布情况。
+因此MySQL8.0.3推出了直方图(histogram)功能，直方图是列的数据分布的近似值，其向优化
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:44" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/#board">23</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1009 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="分享总结个人的学习路程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贝比">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="分享总结个人的学习路程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分享总结个人的学习路程">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110202006757.webp" srcset="/img/loading.gif" lazyload alt="Java 日志体系详解">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
+          Java 日志体系详解
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
+          
+          
+            
+          
+          Java 日志体系详解
+
+本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。
+Log日志体系在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多：
+1`commons-logging.jar`、`lo
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:43" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          <img src="/img/Substitute6.jfif" srcset="/img/loading.gif" lazyload alt="Java 常用代码汇总">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          Java 常用代码汇总
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          
+          
+            
+          
+          Java 常用代码汇总
+
+1. 字符串有整型的相互转换12String a = String.valueOf(2); //integer to numeric stringint i = Integer.parseInt(a); //numeric string to an int
+
+
+
+2. 向文件末尾添加内容1234567891011BufferedWriter out = null;try 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:41" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/20/DataGrip%20%E5%A4%AA%E5%90%8A%E4%BA%86/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110192042744.webp" srcset="/img/loading.gif" lazyload alt="DataGrip 太吊了">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/20/DataGrip%20%E5%A4%AA%E5%90%8A%E4%BA%86/" target="_self">
+          DataGrip 太吊了
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/20/DataGrip%20%E5%A4%AA%E5%90%8A%E4%BA%86/" target="_self">
+          
+          
+            
+          
+          DataGrip 太吊了
+
+DataGrip使用入门最近看到一款数据库客户端工具，DataGrip，是大名鼎鼎的JetBrains公司出品的，就是那个出品Intellij IDEA的公司。
+DataGrip是一款数据库管理客户端工具，方便连接到数据库服务器，执行sql、创建表、创建索引以及导出数据等。之前试用的客户端工具是dbvisualizer，但是在试用了DataGrip以后，我就决定抛弃db
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-20 20:38" pubdate>
+              2021-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/%E5%B7%A5%E5%85%B7/">工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/16%20%E6%9D%A1%20yyds%20%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729112112.webp" srcset="/img/loading.gif" lazyload alt="16 条 yyds 的代码规范">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/16%20%E6%9D%A1%20yyds%20%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" target="_self">
+          16 条 yyds 的代码规范
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/16%20%E6%9D%A1%20yyds%20%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" target="_self">
+          
+          
+            
+          
+          16 条 yyds 的代码规范
+
+如何更规范化编写Java 代码
+Many of the happiest people are those who own the least. But are we really so happy with our IPhones, our big houses, our fancy cars?
+忘川如斯，拥有一切的人才更怕失去。
+背景：如何更规范化编写Java
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/2.5%20%E4%B8%87%E5%AD%97%E8%AF%A6%E8%A7%A3%EF%BC%9A23%20%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210705155256.png" srcset="/img/loading.gif" lazyload alt="2.5 万字详解：23 种设计模式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/2.5%20%E4%B8%87%E5%AD%97%E8%AF%A6%E8%A7%A3%EF%BC%9A23%20%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" target="_self">
+          2.5 万字详解：23 种设计模式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/2.5%20%E4%B8%87%E5%AD%97%E8%AF%A6%E8%A7%A3%EF%BC%9A23%20%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" target="_self">
+          
+          
+            
+          
+          2.5 万字详解：23 种设计模式
+
+本文简述了各大设计模式，并通过UML和代码详细说明。本文大约共 2.5W 字，建议收藏。下方是本文的目录：
+一、设计模式的认识
+二、设计模式的分类
+
+根据其目的
+根据范围
+
+三、设计模式的优点
+四、设计模式中关键点
+五、创建型模式
+
+简单（静态）工厂模式
+工厂方法模式
+抽象工厂模式
+单例模式
+原型模式
+建造者模式
+
+六、个人体会
+一、设计模式的认识设计模式(D
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E4%BC%98%E9%9B%85%E7%9A%84%E9%98%85%E8%AF%BB%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81/" target="_self">
+          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="优雅的阅读框架源码">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E4%BC%98%E9%9B%85%E7%9A%84%E9%98%85%E8%AF%BB%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81/" target="_self">
+          优雅的阅读框架源码
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E4%BC%98%E9%9B%85%E7%9A%84%E9%98%85%E8%AF%BB%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81/" target="_self">
+          
+          
+            
+          
+          优雅的阅读框架源码
+
+
+代码是形式，逻辑是神韵。
+
+引子探讨如何优雅的阅读成熟框架的源码。
+温馨提示
+欲速则不达。阅读源码很容易理解为就是直接去阅读代码本身。实际上，代码只是形式，逻辑才是神韵。
+凡是有助于去理解逻辑，理解其原理、架构、实现的，都是值得阅读的。包括而不限于官方文档和 API 文档、架构设计分析文章、原理分析文章、源码阅读分析文章。磨刀不误砍柴工。准备工作做充足，充分借助各种资源辅助
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E8%AF%B4%E8%AF%B4%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E5%90%A7/" target="_self">
+          <img src="/img/defaultindex.jpg" srcset="/img/loading.gif" lazyload alt="说说单点登录吧">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E8%AF%B4%E8%AF%B4%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E5%90%A7/" target="_self">
+          说说单点登录吧
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E8%AF%B4%E8%AF%B4%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E5%90%A7/" target="_self">
+          
+          
+            
+          
+          说说单点登录吧
+
+在 B/S 系统中，登录功能通常都是基于 Cookie 来实现的。当用户登录成功后，一般会将登录状态记录到 Session 中，或者是给用户签发一个 Token，无论哪一种方式，都需要在客户端保存一些信息（Session ID 或 Token ），并要求客户端在之后的每次请求中携带它们。在这样的场景下，使用 Cookie 无疑是最方便的，因此我们一般都会将 Session 的 I
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E7%94%9F%E6%88%90%E8%AE%A2%E5%8D%9530%E5%88%86%E9%92%9F%E6%9C%AA%E6%94%AF%E4%BB%98%EF%BC%8C%E5%88%99%E8%87%AA%E5%8A%A8%E5%8F%96%E6%B6%88%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109121558799.webp" srcset="/img/loading.gif" lazyload alt="生成订单30分钟未支付，则自动取消，该怎么实现">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E7%94%9F%E6%88%90%E8%AE%A2%E5%8D%9530%E5%88%86%E9%92%9F%E6%9C%AA%E6%94%AF%E4%BB%98%EF%BC%8C%E5%88%99%E8%87%AA%E5%8A%A8%E5%8F%96%E6%B6%88%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
+          生成订单30分钟未支付，则自动取消，该怎么实现
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E7%94%9F%E6%88%90%E8%AE%A2%E5%8D%9530%E5%88%86%E9%92%9F%E6%9C%AA%E6%94%AF%E4%BB%98%EF%BC%8C%E5%88%99%E8%87%AA%E5%8A%A8%E5%8F%96%E6%B6%88%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
+          
+          
+            
+          
+          生成订单30分钟未支付，则自动取消，该怎么实现
+
+在开发中，往往会遇到一些关于延时任务的需求。例如
+
+生成订单30分钟未支付，则自动取消
+生成订单60秒后,给用户发短信
+
+对上述的任务，我们给一个专业的名字来形容，那就是延时任务。那么这里就会产生一个问题，这个延时任务和定时任务的区别究竟在哪里呢？一共有如下几点区别
+定时任务有明确的触发时间，延时任务没有
+定时任务有执行周期，而延时任务在某事件触发
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E4%BB%80%E4%B9%88%E5%8F%AB%E6%9E%B6%E6%9E%84/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210601111247.png" srcset="/img/loading.gif" lazyload alt="什么叫架构？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E4%BB%80%E4%B9%88%E5%8F%AB%E6%9E%B6%E6%9E%84/" target="_self">
+          什么叫架构？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E4%BB%80%E4%B9%88%E5%8F%AB%E6%9E%B6%E6%9E%84/" target="_self">
+          
+          
+            
+          
+          什么叫架构？
+
+作者：Yrion | 链接：cnblogs.com/wyq178/p/12151160.html
+这个知识分享的爆炸时代,鉴于 Java 生态的完整和繁荣,各种框架、中间件和工具包供我们使用。连新培训出来的人都知道 SSM,微服务、集群、多线程、队列、高并发等技术,技术的间隔性正变得越来越小,仿佛我们只需要按部就班的去使用别人说的框架等技术就可以解决问题。
+如果刨除redis、ra
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
+          <img src="/img/Substitute6.jfif" srcset="/img/loading.gif" lazyload alt="如何优雅处理重复请求/并发请求？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
+          如何优雅处理重复请求/并发请求？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
+          
+          
+            
+          
+          如何优雅处理重复请求/并发请求？
+
+一些用户请求在某些情况下是可能重复发送的，如果是查询类操作并无大碍，但其中有些涉及写入操作，一旦重复了，可能会导致很严重的后果。例如交易接口如果重复请求，可能会重复下单。
+重复的场景有可能是：
+
+黑客拦截了请求，重放；
+
+前端/客户端因为某些原因请求重复发送了，或者用户在很短的时间内重复点击了；
+
+网关重发；
+
+……
+
+
+本文讨论的是如何在服务端优雅地统一处理这
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/#board">23</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="为什么索引可以让查询变快  概述人类存储信息的发展历程大致经历如下：  由于是个人凭着自己理解总结的，因此可能不一定精确，但是毋庸置疑的是，在当代，各大公司机构部门的数据都是维护在数据库当中的。数据库作为数据存储介质发展的最新产物，必然是具有许多优点的，其中一个很大的优点就是存储在数据库中的数据访问速度非常快。数据库访问速度快的一个很重要的原因就在于索引index的作用。也就是这篇文章的主要想介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么索引可以让查询变快">
+<meta property="og:url" content="http://example.com/2021/10/13/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B4%A2%E5%BC%95%E5%8F%AF%E4%BB%A5%E8%AE%A9%E6%9F%A5%E8%AF%A2%E5%8F%98%E5%BF%AB/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="为什么索引可以让查询变快  概述人类存储信息的发展历程大致经历如下：  由于是个人凭着自己理解总结的，因此可能不一定精确，但是毋庸置疑的是，在当代，各大公司机构部门的数据都是维护在数据库当中的。数据库作为数据存储介质发展的最新产物，必然是具有许多优点的，其中一个很大的优点就是存储在数据库中的数据访问速度非常快。数据库访问速度快的一个很重要的原因就在于索引index的作用。也就是这篇文章的主要想介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113545.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113602.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113622.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113651.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113705.webp">
+<meta property="article:published_time" content="2021-10-13T14:14:18.674Z">
+<meta property="article:modified_time" content="2021-10-13T07:50:44.303Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="事务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210715113545.webp">
+  
+  <title>为什么索引可以让查询变快 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="为什么索引可以让查询变快">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:14" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">为什么索引可以让查询变快</h1>
+            
+            <div class="markdown-body">
+              <center><h2>为什么索引可以让查询变快</h2></center>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a><strong>概述</strong></h2><p>人类存储信息的发展历程大致经历如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715113545.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>由于是个人凭着自己理解总结的，因此可能不一定精确，但是毋庸置疑的是，在当代，各大公司机构部门的数据都是维护在数据库当中的。数据库作为数据存储介质发展的最新产物，必然是具有许多优点的，其中一个很大的优点就是存储在数据库中的数据访问速度非常快。数据库访问速度快的一个很重要的原因就在于索引index的作用。也就是这篇文章的主要想介绍的内容，为什么索引可以让数据库查询变快？</p>
+<h2 id="计算机存储原理"><a href="#计算机存储原理" class="headerlink" title="计算机存储原理"></a><strong>计算机存储原理</strong></h2><p>在理解索引这个概念之前，我们需要先了解一下计算机存储方面的基本知识。</p>
+<p>我们知道数据持久化之后存在了数据库里,那么我现在的问题是数据库将数据存在了哪里？答案显然是存在了计算机的存储设备上。就个人电脑而言，数据被存在了我们的电脑存储设备上。</p>
+<p>计算机的存储设备有很多种，其中速度越快的越贵，因此容量也往往越小例如我们的RAM随机存储器，也就是大家平时说的内存条，速度慢的就相对便宜例如我们的硬盘。而我们的数据往往都是被存在最慢的存储设备硬盘上的，因为存在当中的数据在断电之后依然存在。</p>
+<p>计算机的存储介质有多种，例如硬盘，例如告诉缓存，不同的存储介质的数据读取速度是不一样的。例如，像RAM这样的易失性存储设备的读写操作就非常快，访问其中的数据几乎没有延迟性。由于这个原因，计算机操作系统的设计是这样的：数据永远不会直接从硬盘等机械设备中取出，而是首先从硬盘转移到更快的存储设备，例如RAM，从RAM当中应用程序直接按需获取数据。</p>
+<p>计算机内部的机械硬盘是下面这样的：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715113602.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在一个典型的硬盘驱动器中可以有很多个盘片，“盘片”在外观上非常类似于一个光盘（但具有很高的存储容量）。盘片又被磁道分条，同时一个盘片又可以分为扇区。</p>
+<p>要获取数据，“盘片”需要由主轴进行旋转。大多数硬盘供应商都提到了主轴旋转的速度，例如，7200转/分和15000转/分。磁盘中的数据总是以扇区的固定大小倍数表示。因此，如果要从硬盘访问数据，需要执行以下步骤，这也是性能开销的主要来源。</p>
+<ul>
+<li>确定数据所在的正确磁道，并将磁头移动到该磁道。即通常说的寻道。</li>
+<li>让“主轴”旋转盘片，使正确的扇区位于“磁盘头”下方。</li>
+<li>从扇区开始到扇区结束获取整个数据。</li>
+</ul>
+<p>如果数据恰好分布在连续扇区上，那么它将提高获取数据的性能。因为主轴和磁头本身不需要移动/旋转，也就没有太多开销，但是大多数时候这种开销是存在的。</p>
+<p>由于存在这种开销，我们不能直接从硬盘获取数据。RAM的存储器高性能的背后的主要原因是它没有像硬盘那样的机械运动部件。但是尽管RAM的性能很高，但它当中的数据却不会用作永久存储，断电之后就会消失，重新启动之后就什么都没有了，这是我们需要硬盘来进行持久化的原因所在。数据库中的数据毫无疑问就是存放在硬盘当中的，因此访问数据库中的数据不可避免的会经历磁盘操作的开销。</p>
+<h2 id="索引是如何工作的？"><a href="#索引是如何工作的？" class="headerlink" title="索引是如何工作的？"></a><strong>索引是如何工作的？</strong></h2><p>知道上述知识后，索引就更容易理解了。</p>
+<p>举个例子，想象一下，现在有一本500页厚包含几十万字的字典，同时里面的字是无序排列的，现在我需要你从中找出某几个字出来同时不允许查看目录。毫无疑问，我们只能一页一页的翻，这是非人类能接受的工作，我们必然想的是先看目录，找到相关的字或者偏旁，然后去对应的地方查找文字，这样效率就大大提高了。目录事实上就是一种索引，其思想一脉相承。</p>
+<p>数据库的索引类似于书中的这个目录。索引会帮助我们快速检索数据库，查询不需要通过整个表来获取数据，而是从索引中找到数据块。以一张数据库表为例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715113622.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表是一张真实的数据库表，其中每一行是一条记录，每条记录都有字段。假设上面的数据库是一个有10万条记录的大数据库。现在，我们想从10万条记录中搜索一些内容，那么挨着一个一个搜索无疑将花费很长的时间，这个时候我们在数据结构与算法里学的二分查找法就派上了用场。</p>
+<h2 id="二分查找法"><a href="#二分查找法" class="headerlink" title="二分查找法"></a><strong>二分查找法</strong></h2><p>使用二分查找法，需要将数据先排序，但是其查询效率将大大提高。例子如下:</p>
+<p>假设我们在上面的数据库中使用的是固定长度的记录,固定块记录大小为205个字节， 默认块大小是1024字节。则：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs txt">固定记录大小=204字节，块大小=1024字节<br></code></pre></div></td></tr></table></figure>
+
+<p>所以每个数据块的记录数=1024/204=5条记录，10万条记录就是2万个块</p>
+<p>不使用任何算法，我们要查询100000条记录中的某一条，，在最坏的情况下我们需要遍历一遍2万block才能获得全部100000条记录。但如果进行二分查找，则只需要进行20000的对数基数2，即14.287712次即可。这意味着我们只需对排序后的值进行14次搜索，就可以使用二分查找到您感兴趣的唯一值。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715113651.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图是对一串数字生成的二叉查找树。其时间复杂度为O(n)=O(log2N),即以2为底，n的对数。其中n为查找目标群体的总数据量。</p>
+<p>例如，假设N为8，则O(n) = O(2为底8的对数) = O(3).</p>
+<p>遍历方式，其时间复杂度为O(n)</p>
+<p>在上述例子当中，n就是10000。使用索引的时间复杂度为O(2为底10000的对数) 大约等于 13. 和O(10000)之间差大概800倍。</p>
+<h2 id="索引为何使得查询变快？"><a href="#索引为何使得查询变快？" class="headerlink" title="索引为何使得查询变快？"></a><strong>索引为何使得查询变快？</strong></h2><p>这个时候我们就能直接回答上述问题了，建立了索引的数据，就是通过事先排好序，从而在查找时可以应用二分查找来提高查询效率。这也解释了为什么索引应当尽可能的建立在主键这样的字段上，因为主键必须是唯一的，根据这样的字段生成的二叉查找树的效率无疑是最高的。</p>
+<h2 id="为什么索引不能建立的太多？"><a href="#为什么索引不能建立的太多？" class="headerlink" title="为什么索引不能建立的太多？"></a><strong>为什么索引不能建立的太多？</strong></h2><p>如果一个表中所有字段的索引很大，也会导致性能下降。想象一下，如果一个索引和一个表一样长，那么它将再次成为一个需要检查的开销。这就好比字典的目录非常详细，但是其长度已经和所有的文字一样长，这个时候目录本身的效率就大大下降了。</p>
+<h2 id="索引有弊端吗？"><a href="#索引有弊端吗？" class="headerlink" title="索引有弊端吗？"></a><strong>索引有弊端吗？</strong></h2><p>肯定是有的，索引可以提高查询读取性能，而它将降低写入性能。当有索引时，如果更改一条记录，或者在数据库中插入一条新的记录，它将执行两个写入操作（一个操作是写入记录本身，另一个操作是将更新索引）。因此，在定义索引时，必须牢记以下几点：</p>
+<ul>
+<li>索引表中的每个字段将降低写入性能。</li>
+<li>建议使用表中的唯一值为字段编制索引。</li>
+<li>在关系数据库中充当外键的字段必须建立索引，因为它们有助于跨多个表进行复杂查询。</li>
+<li>索引还使用磁盘空间，因此在选择要索引的字段时要小心。</li>
+</ul>
+<h2 id="什么是聚集索引"><a href="#什么是聚集索引" class="headerlink" title="什么是聚集索引"></a><strong>什么是聚集索引</strong></h2><p>聚集索引clustered index也叫聚簇索引，它的定义是：聚集索引的表中数据行的物理顺序与列值（一般是主键的那一列）的逻辑顺序相同，一个表中只能拥有一个聚集索引。</p>
+<p>例如:</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715113705.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>结合上面的表格就很好理解了：数据行的物理顺序与列值的顺序相同，如果我们查询id比较靠后的数据，那么这行数据的地址在磁盘中的物理地址也会比较靠后。聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续。</p>
+<p>为什么查询更快呢？我们通过上面的分析知道了索引是通过二叉树的数据结构来描述的，我们可以这么理解聚簇索引：索引的叶节点就是数据节点。而非聚簇索引的叶节点仍然是索引节点，只不过有一个指针指向对应的数据块。</p>
+<p>主键一般会默认创建聚集索引。</p>
+<p>在创建聚集索引之前，应先了解您的数据是如何被访问的。可考虑将聚集索引用于：</p>
+<p>包含大量非重复值的列。使用下列运算符返回一个范围值的查询：BETWEEN、&gt;、&gt;=、&lt; 和 &lt;=。被连续访问的列。返回大型结果集的查询。经常被使用联接或 GROUP BY 子句的查询访问的列；一般来说，这些是外键列。对 ORDER BY 或 GROUP BY 子句中指定的列进行索引，可以使 SQL Server 不必对数据进行排序，因为这些行已经排序。这样可以提高查询性能。OLTP型的应用程序，这些程序要求进行非常快速的单行查找（一般通过主键）。应在主键上创建聚集索引。聚集索引不适用于：</p>
+<p>频繁更改的列 这将导致整行移动，因为 SQL Server 必须按物理顺序保留行中的数据值。这一点要特别注意，因为在大数据量事务处理系统中数据是易失的</p>
+<h2 id="索引失效的典型例子"><a href="#索引失效的典型例子" class="headerlink" title="索引失效的典型例子"></a><strong>索引失效的典型例子</strong></h2><p>条件中用or，即使其中有条件带索引，也不会使用索引查询，这就是查询尽量不要用or的原因，用in吧。</p>
+<h2 id="常见的sql优化手段有哪些"><a href="#常见的sql优化手段有哪些" class="headerlink" title="常见的sql优化手段有哪些"></a><strong>常见的sql优化手段有哪些</strong></h2><h4 id="1-避免全表扫描"><a href="#1-避免全表扫描" class="headerlink" title="1.避免全表扫描"></a>1.避免全表扫描</h4><p>全表扫描往往发生在下面几种情况:</p>
+<ul>
+<li>SQL的on子句或者where子句涉及到的列上没有索引；</li>
+<li>表数据量很小，走索引查询比全表扫描更麻烦；这对于少于10行且行长度较短的表来说很常见</li>
+</ul>
+<h4 id="2-避免索引失效"><a href="#2-避免索引失效" class="headerlink" title="2.避免索引失效"></a>2.避免索引失效</h4><p>不在索引列上做任何操作（计算，函数、自动or手动类型转换），这样会导致索引失效而转向全表扫描。</p>
+<p>存储引擎不能使用索引中范围条件右边的列。这个是因为age中查询时范围查询了，pos列的索引就没有生效了</p>
+<p>尽量使用覆盖索引（只访问索引的查询（索引列和查询列一致）），减少select *。</p>
+<p>对于MySQL而言</p>
+<ul>
+<li>mysql在使用不等于（!=或者&lt;&gt;）的时候无法使用索引会导致全表扫描</li>
+<li>is null,is not null也无法使用索引</li>
+<li>like 通配符开头’%abc..’，mysql索引会失效会变成全表扫描的操作</li>
+</ul>
+<h4 id="3-避免排序，不能避免，尽量选择索引排序"><a href="#3-避免排序，不能避免，尽量选择索引排序" class="headerlink" title="3.避免排序，不能避免，尽量选择索引排序"></a>3.避免排序，不能避免，尽量选择索引排序</h4><h4 id="4-避免查询不必要的字段"><a href="#4-避免查询不必要的字段" class="headerlink" title="4.避免查询不必要的字段"></a>4.避免查询不必要的字段</h4><h4 id="5-避免临时表的创建，删除"><a href="#5-避免临时表的创建，删除" class="headerlink" title="5.避免临时表的创建，删除"></a>5.避免临时表的创建，删除</h4>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/Transaction/">Transaction</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BA%8B%E5%8A%A1/">事务</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%206%20%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">分布式事务的6种解决方案</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%86%B0%E5%B1%B1%E4%B8%80%E8%A7%92/">
+                        <span class="hidden-mobile">数据库事务的冰山一角</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

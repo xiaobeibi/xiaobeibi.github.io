@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="常用的Java工具库  发现有很多工具类库，可以大大简化代码量，提升开发效率，初级开发者却不知道。而这些类库早就成为了业界标准类库，大公司的内部也都在使用，如果刚工作的时候就有人告诉我使用这些工具类库，该多好！ 一块看一下有哪些工具类库你也用过。 1. Java自带工具方法1.1 List集合拼接成以逗号分隔的字符串12345678&#x2F;&#x2F; 如何把list集合拼接成以逗号分隔的字符串 a,b,c  L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用的Java工具库">
+<meta property="og:url" content="http://example.com/2021/10/13/%E5%B8%B8%E7%94%A8%E7%9A%84%20Java%20%E5%B7%A5%E5%85%B7%E5%BA%93/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="常用的Java工具库  发现有很多工具类库，可以大大简化代码量，提升开发效率，初级开发者却不知道。而这些类库早就成为了业界标准类库，大公司的内部也都在使用，如果刚工作的时候就有人告诉我使用这些工具类库，该多好！ 一块看一下有哪些工具类库你也用过。 1. Java自带工具方法1.1 List集合拼接成以逗号分隔的字符串12345678&#x2F;&#x2F; 如何把list集合拼接成以逗号分隔的字符串 a,b,c  L">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-13T14:15:31.097Z">
+<meta property="article:modified_time" content="2021-10-13T08:41:11.149Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>常用的Java工具库 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="常用的Java工具库">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:15" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">常用的Java工具库</h1>
+            
+            <div class="markdown-body">
+              <center><h2>常用的Java工具库</h2></center>
+
+<p>发现有很多工具类库，可以大大简化代码量，提升开发效率，初级开发者却不知道。而这些类库早就成为了业界标准类库，大公司的内部也都在使用，如果刚工作的时候就有人告诉我使用这些工具类库，该多好！</p>
+<p>一块看一下有哪些工具类库你也用过。</p>
+<h2 id="1-Java自带工具方法"><a href="#1-Java自带工具方法" class="headerlink" title="1. Java自带工具方法"></a><strong>1. Java自带工具方法</strong></h2><h3 id="1-1-List集合拼接成以逗号分隔的字符串"><a href="#1-1-List集合拼接成以逗号分隔的字符串" class="headerlink" title="1.1 List集合拼接成以逗号分隔的字符串"></a>1.1 List集合拼接成以逗号分隔的字符串</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 如何把list集合拼接成以逗号分隔的字符串 a,b,c  </span><br>List&lt;String&gt; list = Arrays.asList(<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>);  <br><span class="hljs-comment">// 第一种方法，可以用stream流  </span><br>String join = list.stream().collect(Collectors.joining(<span class="hljs-string">&quot;,&quot;</span>));  <br>System.out.println(join); <span class="hljs-comment">// 输出 a,b,c  </span><br><span class="hljs-comment">// 第二种方法，其实String也有join方法可以实现这个功能  </span><br>String join = String.join(<span class="hljs-string">&quot;,&quot;</span>, list);  <br>System.out.println(join); <span class="hljs-comment">// 输出 a,b,c  </span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="1-2-比较两个字符串是否相等，忽略大小写"><a href="#1-2-比较两个字符串是否相等，忽略大小写" class="headerlink" title="1.2 比较两个字符串是否相等，忽略大小写"></a>1.2 比较两个字符串是否相等，忽略大小写</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (strA.equalsIgnoreCase(strB)) &#123;  <br>  System.out.println(<span class="hljs-string">&quot;相等&quot;</span>);  <br>&#125;  <br></code></pre></div></td></tr></table></figure>
+
+<h3 id="1-3-比较两个对象是否相等"><a href="#1-3-比较两个对象是否相等" class="headerlink" title="1.3 比较两个对象是否相等"></a>1.3 比较两个对象是否相等</h3><p>当我们用equals比较两个对象是否相等的时候，还需要对左边的对象进行判空，不然可能会报空指针异常，我们可以用java.util包下Objects封装好的比较是否相等的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Objects.equals(strA, strB);  <br></code></pre></div></td></tr></table></figure>
+
+<p>源码是这样的</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object a, Object b)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> (a == b) || (a != <span class="hljs-keyword">null</span> &amp;&amp; a.equals(b));  <br>&#125;  <br></code></pre></div></td></tr></table></figure>
+
+<h3 id="1-4-两个List集合取交集"><a href="#1-4-两个List集合取交集" class="headerlink" title="1.4 两个List集合取交集"></a>1.4 两个List集合取交集</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list1 = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <br>list1.add(<span class="hljs-string">&quot;a&quot;</span>);  <br>list1.add(<span class="hljs-string">&quot;b&quot;</span>);  <br>list1.add(<span class="hljs-string">&quot;c&quot;</span>);  <br>List&lt;String&gt; list2 = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();  <br>list2.add(<span class="hljs-string">&quot;a&quot;</span>);  <br>list2.add(<span class="hljs-string">&quot;b&quot;</span>);  <br>list2.add(<span class="hljs-string">&quot;d&quot;</span>);  <br>list1.retainAll(list2);  <br>System.out.println(list1); <span class="hljs-comment">// 输出[a, b]  </span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="2-apache-commons工具类库"><a href="#2-apache-commons工具类库" class="headerlink" title="2. apache commons工具类库"></a><strong>2. apache commons工具类库</strong></h2><p>apache commons是最强大的，也是使用最广泛的工具类库，里面的子库非常多，下面介绍几个最常用的</p>
+<h3 id="2-1-commons-lang，java-lang的增强版"><a href="#2-1-commons-lang，java-lang的增强版" class="headerlink" title="2.1 commons-lang，java.lang的增强版"></a>2.1 commons-lang，java.lang的增强版</h3><p>建议使用commons-lang3，优化了一些api，原来的commons-lang已停止更新</p>
+<p>Maven依赖是：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-lang3<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.12.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>  <br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-1-字符串判空"><a href="#2-1-1-字符串判空" class="headerlink" title="2.1.1 字符串判空"></a>2.1.1 字符串判空</h4><p>传参CharSequence类型是String、StringBuilder、StringBuffer的父类，都可以直接下面方法判空，以下是源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-keyword">final</span> CharSequence cs)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> cs == <span class="hljs-keyword">null</span> || cs.length() == <span class="hljs-number">0</span>;  <br>&#125;  <br>  <br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isNotEmpty</span><span class="hljs-params">(<span class="hljs-keyword">final</span> CharSequence cs)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> !isEmpty(cs);  <br>&#125;  <br>  <br><span class="hljs-comment">// 判空的时候，会去除字符串中的空白字符，比如空格、换行、制表符  </span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isBlank</span><span class="hljs-params">(<span class="hljs-keyword">final</span> CharSequence cs)</span> </span>&#123;  <br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> strLen = length(cs);  <br>    <span class="hljs-keyword">if</span> (strLen == <span class="hljs-number">0</span>) &#123;  <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;  <br>    &#125;  <br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; strLen; i++) &#123;  <br>        <span class="hljs-keyword">if</span> (!Character.isWhitespace(cs.charAt(i))) &#123;  <br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;  <br>        &#125;  <br>    &#125;  <br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;  <br>&#125;  <br>  <br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isNotBlank</span><span class="hljs-params">(<span class="hljs-keyword">final</span> CharSequence cs)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> !isBlank(cs);  <br>&#125;  <br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-2-首字母转成大写"><a href="#2-1-2-首字母转成大写" class="headerlink" title="2.1.2 首字母转成大写"></a>2.1.2 首字母转成大写</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String str = <span class="hljs-string">&quot;yideng&quot;</span>;  <br>String capitalize = StringUtils.capitalize(str);  <br>System.out.println(capitalize); <span class="hljs-comment">// 输出Yideng  </span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-3-重复拼接字符串"><a href="#2-1-3-重复拼接字符串" class="headerlink" title="2.1.3 重复拼接字符串"></a>2.1.3 重复拼接字符串</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String str = StringUtils.repeat(<span class="hljs-string">&quot;ab&quot;</span>, <span class="hljs-number">2</span>);  <br>System.out.println(str); <span class="hljs-comment">// 输出abab  </span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-4-格式化日期"><a href="#2-1-4-格式化日期" class="headerlink" title="2.1.4 格式化日期"></a>2.1.4 格式化日期</h4><p>再也不用手写SimpleDateFormat格式化了</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// Date类型转String类型  </span><br>String date = DateFormatUtils.format(<span class="hljs-keyword">new</span> Date(), <span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);  <br>System.out.println(date); <span class="hljs-comment">// 输出 2021-05-01 01:01:01  </span><br>  <br><span class="hljs-comment">// String类型转Date类型  </span><br>Date date = DateUtils.parseDate(<span class="hljs-string">&quot;2021-05-01 01:01:01&quot;</span>, <span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);  <br>  <br><span class="hljs-comment">// 计算一个小时后的日期  </span><br>Date date = DateUtils.addHours(<span class="hljs-keyword">new</span> Date(), <span class="hljs-number">1</span>);  <br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-5-包装临时对象"><a href="#2-1-5-包装临时对象" class="headerlink" title="2.1.5 包装临时对象"></a>2.1.5 包装临时对象</h4><p>当一个方法需要返回两个及以上字段时，我们一般会封装成一个临时对象返回，现在有了Pair和Triple就不需要了</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 返回两个字段  </span><br>ImmutablePair&lt;Integer, String&gt; pair = ImmutablePair.of(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;yideng&quot;</span>);  <br>System.out.println(pair.getLeft() + <span class="hljs-string">&quot;,&quot;</span> + pair.getRight()); <span class="hljs-comment">// 输出 1,yideng  </span><br><span class="hljs-comment">// 返回三个字段  </span><br>ImmutableTriple&lt;Integer, String, Date&gt; triple = ImmutableTriple.of(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;yideng&quot;</span>, <span class="hljs-keyword">new</span> Date());  <br>System.out.println(triple.getLeft() + <span class="hljs-string">&quot;,&quot;</span> + triple.getMiddle() + <span class="hljs-string">&quot;,&quot;</span> + triple.getRight()); <br><span class="hljs-comment">// 输出 1,yideng,Wed Apr 07 23:30:00 CST 2021  </span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-2-commons-collections-集合工具类"><a href="#2-2-commons-collections-集合工具类" class="headerlink" title="2.2 commons-collections 集合工具类"></a>2.2 commons-collections 集合工具类</h3><p>Maven依赖是：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections4<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>  <br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-2-1-集合判空"><a href="#2-2-1-集合判空" class="headerlink" title="2.2.1 集合判空"></a>2.2.1 集合判空</h4><p>封装了集合判空的方法，以下是源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Collection&lt;?&gt; coll)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> coll == <span class="hljs-keyword">null</span> || coll.isEmpty();  <br>&#125;  <br>  <br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isNotEmpty</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Collection&lt;?&gt; coll)</span> </span>&#123;  <br>    <span class="hljs-keyword">return</span> !isEmpty(coll);  <br>&#125;  <br><span class="hljs-comment">// 两个集合取交集  </span><br>Collection&lt;String&gt; collection = CollectionUtils.retainAll(listA, listB);  <br><span class="hljs-comment">// 两个集合取并集  </span><br>Collection&lt;String&gt; collection = CollectionUtils.union(listA, listB);  <br><span class="hljs-comment">// 两个集合取差集  </span><br>Collection&lt;String&gt; collection = CollectionUtils.subtract(listA, listB);  <br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-3-common-beanutils-操作对象"><a href="#2-3-common-beanutils-操作对象" class="headerlink" title="2.3 common-beanutils 操作对象"></a>2.3 common-beanutils 操作对象</h3><p>Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-beanutils<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.9.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>  <br>public class User &#123;  <br>    private Integer id;  <br>    private String name;  <br>&#125;  <br></code></pre></div></td></tr></table></figure>
+
+<p>设置对象属性</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = <span class="hljs-keyword">new</span> User();  <br>BeanUtils.setProperty(user, <span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-number">1</span>);  <br>BeanUtils.setProperty(user, <span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;yideng&quot;</span>);  <br>System.out.println(BeanUtils.getProperty(user, <span class="hljs-string">&quot;name&quot;</span>)); <span class="hljs-comment">// 输出 yideng  </span><br>System.out.println(user); <span class="hljs-comment">// 输出 &#123;&quot;id&quot;:1,&quot;name&quot;:&quot;yideng&quot;&#125;  </span><br></code></pre></div></td></tr></table></figure>
+
+<p>对象和map互转</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 对象转map  </span><br>Map&lt;String, String&gt; map = BeanUtils.describe(user);  <br>System.out.println(map); <span class="hljs-comment">// 输出 &#123;&quot;id&quot;:&quot;1&quot;,&quot;name&quot;:&quot;yideng&quot;&#125;  </span><br><span class="hljs-comment">// map转对象  </span><br>User newUser = <span class="hljs-keyword">new</span> User();  <br>BeanUtils.populate(newUser, map);  <br>System.out.println(newUser); <span class="hljs-comment">// 输出 &#123;&quot;id&quot;:1,&quot;name&quot;:&quot;yideng&quot;&#125;  </span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-4-commons-io-文件流处理"><a href="#2-4-commons-io-文件流处理" class="headerlink" title="2.4 commons-io 文件流处理"></a>2.4 commons-io 文件流处理</h3><p>Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>  <br></code></pre></div></td></tr></table></figure>
+
+<p>文件处理</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">File file = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;demo1.txt&quot;</span>);  <br><span class="hljs-comment">// 读取文件  </span><br>List&lt;String&gt; lines = FileUtils.readLines(file, Charset.defaultCharset());  <br><span class="hljs-comment">// 写入文件  </span><br>FileUtils.writeLines(<span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;demo2.txt&quot;</span>), lines);  <br><span class="hljs-comment">// 复制文件  </span><br>FileUtils.copyFile(srcFile, destFile);  <br></code></pre></div></td></tr></table></figure>
+
+<h2 id="3-Google-Guava-工具类库"><a href="#3-Google-Guava-工具类库" class="headerlink" title="3. Google Guava 工具类库"></a><strong>3. Google Guava 工具类库</strong></h2><p>Maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.google.guava<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>guava<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>  <br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>30.1.1-jre<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>  <br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-1-创建集合"><a href="#3-1-创建集合" class="headerlink" title="3.1 创建集合"></a>3.1 创建集合</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list = Lists.newArrayList();  <br>List&lt;Integer&gt; list = Lists.newArrayList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);  <br><span class="hljs-comment">// 反转list  </span><br>List&lt;Integer&gt; reverse = Lists.reverse(list);  <br>System.out.println(reverse); <span class="hljs-comment">// 输出 [3, 2, 1]  </span><br><span class="hljs-comment">// list集合元素太多，可以分成若干个集合，每个集合10个元素  </span><br>List&lt;List&lt;Integer&gt;&gt; partition = Lists.partition(list, <span class="hljs-number">10</span>);  <br>  <br>Map&lt;String, String&gt; map = Maps.newHashMap();  <br>Set&lt;String&gt; set = Sets.newHashSet();  <br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-2-黑科技集合"><a href="#3-2-黑科技集合" class="headerlink" title="3.2 黑科技集合"></a>3.2 黑科技集合</h3><h4 id="3-2-1-Multimap-一个key可以映射多个value的HashMap"><a href="#3-2-1-Multimap-一个key可以映射多个value的HashMap" class="headerlink" title="3.2.1 Multimap 一个key可以映射多个value的HashMap"></a>3.2.1 Multimap 一个key可以映射多个value的HashMap</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Multimap&lt;String, Integer&gt; map = ArrayListMultimap.create();  <br>map.put(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-number">1</span>);  <br>map.put(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-number">2</span>);  <br>Collection&lt;Integer&gt; values = map.get(<span class="hljs-string">&quot;key&quot;</span>);  <br>System.out.println(map); <span class="hljs-comment">// 输出 &#123;&quot;key&quot;:[1,2]&#125;  </span><br><span class="hljs-comment">// 还能返回你以前使用的臃肿的Map  </span><br>Map&lt;String, Collection&lt;Integer&gt;&gt; collectionMap = map.asMap();  <br></code></pre></div></td></tr></table></figure>
+
+<p>多省事，多简洁，省得你再创建 Map&lt;String, List&gt;</p>
+<h4 id="3-2-2-BiMap-一种连value也不能重复的HashMap"><a href="#3-2-2-BiMap-一种连value也不能重复的HashMap" class="headerlink" title="3.2.2 BiMap 一种连value也不能重复的HashMap"></a>3.2.2 BiMap 一种连value也不能重复的HashMap</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">BiMap&lt;String, String&gt; biMap = HashBiMap.create();  <br><span class="hljs-comment">// 如果value重复，put方法会抛异常，除非用forcePut方法  </span><br>biMap.put(<span class="hljs-string">&quot;key&quot;</span>,<span class="hljs-string">&quot;value&quot;</span>);  <br>System.out.println(biMap); <span class="hljs-comment">// 输出 &#123;&quot;key&quot;:&quot;value&quot;&#125;  </span><br><span class="hljs-comment">// 既然value不能重复，何不实现个翻转key/value的方法，已经有了  </span><br>BiMap&lt;String, String&gt; inverse = biMap.inverse();  <br>System.out.println(inverse); <span class="hljs-comment">// 输出 &#123;&quot;value&quot;:&quot;key&quot;&#125;  </span><br></code></pre></div></td></tr></table></figure>
+
+<p>这其实是双向映射，在某些场景还是很实用的。</p>
+<h4 id="3-2-3-Table-一种有两个key的HashMap"><a href="#3-2-3-Table-一种有两个key的HashMap" class="headerlink" title="3.2.3 Table 一种有两个key的HashMap"></a>3.2.3 Table 一种有两个key的HashMap</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 一批用户，同时按年龄和性别分组  </span><br>Table&lt;Integer, String, String&gt; table = HashBasedTable.create();  <br>table.put(<span class="hljs-number">18</span>, <span class="hljs-string">&quot;男&quot;</span>, <span class="hljs-string">&quot;yideng&quot;</span>);  <br>table.put(<span class="hljs-number">18</span>, <span class="hljs-string">&quot;女&quot;</span>, <span class="hljs-string">&quot;Lily&quot;</span>);  <br>System.out.println(table.get(<span class="hljs-number">18</span>, <span class="hljs-string">&quot;男&quot;</span>)); <span class="hljs-comment">// 输出 yideng  </span><br><span class="hljs-comment">// 这其实是一个二维的Map，可以查看行数据  </span><br>Map&lt;String, String&gt; row = table.row(<span class="hljs-number">18</span>);  <br>System.out.println(row); <span class="hljs-comment">// 输出 &#123;&quot;男&quot;:&quot;yideng&quot;,&quot;女&quot;:&quot;Lily&quot;&#125;  </span><br><span class="hljs-comment">// 查看列数据  </span><br>Map&lt;Integer, String&gt; column = table.column(<span class="hljs-string">&quot;男&quot;</span>);  <br>System.out.println(column); <span class="hljs-comment">// 输出 &#123;18:&quot;yideng&quot;&#125;  </span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="3-2-4-Multiset-一种用来计数的Set"><a href="#3-2-4-Multiset-一种用来计数的Set" class="headerlink" title="3.2.4 Multiset 一种用来计数的Set"></a>3.2.4 Multiset 一种用来计数的Set</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Multiset&lt;String&gt; multiset = HashMultiset.create();  <br>multiset.add(<span class="hljs-string">&quot;apple&quot;</span>);  <br>multiset.add(<span class="hljs-string">&quot;apple&quot;</span>);  <br>multiset.add(<span class="hljs-string">&quot;orange&quot;</span>);  <br>System.out.println(multiset.count(<span class="hljs-string">&quot;apple&quot;</span>)); <span class="hljs-comment">// 输出 2  </span><br><span class="hljs-comment">// 查看去重的元素  </span><br>Set&lt;String&gt; set = multiset.elementSet();  <br>System.out.println(set); <span class="hljs-comment">// 输出 [&quot;orange&quot;,&quot;apple&quot;]  </span><br><span class="hljs-comment">// 还能查看没有去重的元素  </span><br>Iterator&lt;String&gt; iterator = multiset.iterator();  <br><span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;  <br>    System.out.println(iterator.next());  <br>&#125;  <br><span class="hljs-comment">// 还能手动设置某个元素出现的次数  </span><br>multiset.setCount(<span class="hljs-string">&quot;apple&quot;</span>, <span class="hljs-number">5</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>以上为个人经验，希望能给大家一个参考，如有错误或未考虑完全的地方，望不吝赐教。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%84%9F%E5%8F%97%20lambda%20%E4%B9%8B%E7%BE%8E/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">感受 lambda 之美</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%A0%E7%94%A8%20a.equals(b)%20%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E7%9B%B8%E7%AD%89/">
+                        <span class="hidden-mobile">不建议你用 a.equals(b) 判断对象相等</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

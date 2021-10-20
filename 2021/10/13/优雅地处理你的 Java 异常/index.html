@@ -1,0 +1,611 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="优雅地处理你的 Java 异常  本文仅按照业务系统开发角度描述异常的一些处理看法.不涉及java的异常基础知识,可以自行查阅 《Java核心技术 卷I》和 《java编程思想》 可以得到更多的基础信息. 写在前面的话笔者文笔功力尚浅,言语多有不妥,请慷慨指正,必定感激不尽. 本文提出了几个概念: 处理反馈 业务异常 代码错误 ,请认真思考一下各中区别. 在开发业务系统中,我们目前绝大多数采用MV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅地处理你的 Java 异常">
+<meta property="og:url" content="http://example.com/2021/10/13/%E4%BC%98%E9%9B%85%E5%9C%B0%E5%A4%84%E7%90%86%E4%BD%A0%E7%9A%84%20Java%20%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="优雅地处理你的 Java 异常  本文仅按照业务系统开发角度描述异常的一些处理看法.不涉及java的异常基础知识,可以自行查阅 《Java核心技术 卷I》和 《java编程思想》 可以得到更多的基础信息. 写在前面的话笔者文笔功力尚浅,言语多有不妥,请慷慨指正,必定感激不尽. 本文提出了几个概念: 处理反馈 业务异常 代码错误 ,请认真思考一下各中区别. 在开发业务系统中,我们目前绝大多数采用MV">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-13T14:15:31.075Z">
+<meta property="article:modified_time" content="2021-10-13T08:54:10.730Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>优雅地处理你的 Java 异常 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="优雅地处理你的 Java 异常">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:15" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">优雅地处理你的 Java 异常</h1>
+            
+            <div class="markdown-body">
+              <center><h2>优雅地处理你的 Java 异常</h2></center>
+
+<p>本文仅按照业务系统开发角度描述异常的一些处理看法.不涉及java的异常基础知识,可以自行查阅</p>
+<p>《Java核心技术 卷I》和 《java编程思想》 可以得到更多的基础信息.</p>
+<h3 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a><strong>写在前面的话</strong></h3><p>笔者文笔功力尚浅,言语多有不妥,请慷慨指正,必定感激不尽. 本文提出了几个概念: <strong>处理反馈</strong> <strong>业务异常</strong> <strong>代码错误</strong> ,请认真思考一下各中区别.</p>
+<p>在开发业务系统中,我们目前绝大多数采用MVC模式,但是往往有人把service跟controller紧紧的耦合在一起,甚至直接使用Threadlocal来隐式传值,并且复杂的逻辑几乎只能使用service中存储的全局对象来传递处理结果,包括异常.</p>
+<p>这样一来首先有违MVC模式,二来逻辑十分不清晰,难以维护.本文结合工作经验,给出一些异常使用建议,使用spring来实战异常为我们带来的好处.</p>
+<p>常常,我们读罢了各种java的书,异常的各种机制,特性都很清楚,但是始终还是不知道如何使用,甚至背下了概念,却不知道如何致用.</p>
+<p>我们开发的业务系统,或者是产品,常常面临着这样的问题:</p>
+<ul>
+<li>系统运行出错,但是完全不知道错误发生的位置.</li>
+<li>我们找到了错误的位置,但是完全不知道是因为什么.</li>
+<li>系统明明出了错误,但是就是看不到错误堆栈信息.</li>
+</ul>
+<h3 id="什么情况需要自定义异常"><a href="#什么情况需要自定义异常" class="headerlink" title="什么情况需要自定义异常"></a><strong>什么情况需要自定义异常</strong></h3><p>经常看到一些项目,在全局定义一个 AppException,然后所有地方都只抛出这个异常,并且把捕获的异常case到这个AppException中.会有如下问题:</p>
+<ul>
+<li>浪费log日志存储空间,并且栈顶并不是最接近发生异常的代码位置.</li>
+<li>只有一种异常类,无法精准区分开异常类型</li>
+<li>异常类后期难以修改以增加其携带的信息.</li>
+</ul>
+<h3 id="什么情况需要手动处理异常"><a href="#什么情况需要手动处理异常" class="headerlink" title="什么情况需要手动处理异常"></a><strong>什么情况需要手动处理异常</strong></h3><p>我不会把书上的东西直接复制下来,这里说一下容易记住的,并且适合业务开发的.</p>
+<ul>
+<li>你有能力处理异常,并且你知道如何处理</li>
+<li>你有责任处理异常</li>
+</ul>
+<h3 id="自定义业务异常"><a href="#自定义业务异常" class="headerlink" title="自定义业务异常"></a><strong>自定义业务异常</strong></h3><p>考虑如下场景: 系统提供一个API,用于修改用户信息,服务器端采用json数据交互.首先我们定义ServiceException,用来表示业务逻辑受理失败,<strong>它仅表示我们处理业务的时候发现无法继续执行下去.</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 业务受理失败异常</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RuntimeException</span> </span>&#123;<br>    <span class="hljs-comment">//接收reason参数用来描述业务失败原因.</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ServiceException</span><span class="hljs-params">(String reason)</span> </span>&#123;  <br>      <span class="hljs-keyword">super</span>(reason); <br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>接下来看下Controller层.</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// UserController.java </span><br> <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 修改用户信息</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> userID 用户ID</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> user 修改用户信息表单数据</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-meta">@PutMapping(&quot;&#123;userID&#125;&quot;)</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> JSONResult <span class="hljs-title">updateUser</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;userID&quot;)</span> Integer userID, <span class="hljs-meta">@RequestBody</span> UpdateUserForm userForm)</span> </span>&#123;<br>    User user = <span class="hljs-keyword">new</span> User(); <span class="hljs-comment">//准备业务逻辑层使用的领域模型</span><br>    BeanUtils.copyProperties(userForm, user); <span class="hljs-comment">//拷贝要修改的值</span><br>    user.setUserId(userID); <span class="hljs-comment">//设置主键到用户数据中</span><br>    userService.updateUser(user); <span class="hljs-comment">//调用更新业务逻辑</span><br>    JSONResult json = <span class="hljs-keyword">new</span> JSONResult(); <span class="hljs-comment">//准备要响应的数据</span><br>    json.put(<span class="hljs-string">&quot;user&quot;</span>, user); <span class="hljs-comment">//把修改后的用户数据还给页面</span><br>    <span class="hljs-keyword">return</span> json; <span class="hljs-comment">// --  </span><br>  &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>关于上述Controller写法乍一看会有一些冗余,如果无法理解,请仔细研读MVC设计模式. 先不管service,我们来考虑下. 一个业务系统不可能不对用户提交的数据进行验证,验证包括两方面 : <strong>有效性</strong>和<strong>合法性</strong>,</p>
+<ul>
+<li>有效性: 比如用户所在岗位,是否属于数据库有记录的岗位ID,如果不存在,无效.</li>
+<li>合法性: 比如用户名只允许输入最多12个字符,用户提交了20个字符,不合法.</li>
+</ul>
+<p>有效性检查,可以交给java的校验框架执行,比如JSR303. 假设用户提交的数据经过验证都合法,还是有一些情况是不能调用修改逻辑的.</p>
+<ol>
+<li>要修改的用户ID不存在.</li>
+<li>用户被锁定,不允许修改.</li>
+<li>乐观锁机制发现用户已经被被人修改过.</li>
+<li>由于某种原因,我们的程序无法保存到数据库.</li>
+<li>一些程序员错误的开发了代码,导致保存过程中出现异常,比如NPE.</li>
+</ol>
+<p>对于前3种,我们认为是<strong>有效性检查</strong>失败,第4种属与我们无法处理的异常,第5种就是程序员bug.</p>
+<p><strong>现在的问题是,前三种情况我们如何通知用户呢?</strong></p>
+<ol>
+<li>在ccontroller 调用userService的checkUserExist()方法.</li>
+<li>在controller直接书写业务逻辑.</li>
+<li>在service响应一个状态码机制,比如1 2 3表示错误信息,0 表示没有任何错误.</li>
+</ol>
+<p><strong>显然前2种方法都不可取</strong> ,因为MVC不设计模式告诉我们,controller是用来接收页面参数,并且调用逻辑处理,最后组织页面响应的地方.我们不可以在controller进行逻辑处理,controller只应该负责用户API入口和响应的处理(如若不然,思考一下如果有一天service的代码打包成jar放到另一个平台,没有controller了,该怎么办?)</p>
+<p><strong>状态码机制是个不错的选择</strong>,可是如此一来,用户保存逻辑变了,比如增加一个情况,不允许修改已经离职的用户,那么我们还需要修改controller的代码,代码量增加,维护成本增高,并且还耦合了service,不符合MVC设计模式.</p>
+<p>那么怎么办呢?现在我们来看下service代码如何编写</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 修改用户信息</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> user 要修改的用户数据</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateUser</span><span class="hljs-params">(User user)</span> </span>&#123;<br>  User userOrig = userDao.getUserById(user.getUserID());<br>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == userOrig) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ServiceException(<span class="hljs-string">&quot;用户不存在&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">if</span> (userOrig.isLocked()) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ServiceException(<span class="hljs-string">&quot;用户被锁定,不允许修改&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">if</span> (!user.getVersion().equals(userOrig.getVersion())) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ServiceException(<span class="hljs-string">&quot;用户已经被别人修改过,请刷新重试&quot;</span>);<br>  &#125;<br>  <span class="hljs-comment">// TODO 保存用户数据  ... </span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样一来只要我们检查到不允许保存的项目,我们就可以直接throw 一个新的异常,异常机制会帮助我们中断代码执行.</p>
+<p>接下来有2种选择:</p>
+<ol>
+<li>在controller 使用try-catch进行处理.</li>
+<li>直接把异常抛给上层框架统一处理.</li>
+</ol>
+<p><strong>第1种方式是不可取的</strong> ,注意我们抛出的ServiceException,它仅仅逻辑处理异常,并且我们的方法前面没有声明throws ServiceException,这表示他是一个非受查异常.controller也没有关心会发生什么异常.</p>
+<p><strong>为什么不定义成受查异常呢?</strong> 如果是一个受查异常,那么意味着controller必须要处理你的异常.并且如果有一天你的业务逻辑变了,可能多一种检查项,就需要增加一个异常,反之需要删除一个异常,那么你的方法签名也需要改变,controller也随之要改变,这又变成了紧耦合,这和用状态码123表示处理结果没有什么不同.</p>
+<p><strong>我们可以为每一种检查项定义一个异常吗?</strong> 可以,但是那样显得太多余了.因为业务逻辑处理失败的时候,根据我们需求,我们只需要通知用户失败的原因(通常应该是一段字符串),以及服务器受理失败的一个状态码(有时可能不需要状态码,这要看你的设计了),这样这需要一个包含原因属性的异常即可满足我们需求.</p>
+<p>最后我们决定这个异常继承自RuntimeException.并且包含一个接受一个错误原因的构造器,这样controller层也不需要知道异常,只要全局捕获到ServiceException做统一的处理即可,这无论是在struct1,2时代,还是springMVC中,甚至servlet年代,都是极为容易的!</p>
+<p><strong>异常不提供无参构造器</strong> ,因为绝对不允许你抛出一个逻辑处理异常,但是不指明原因,想想看,你是必须要告诉用户为什么受理失败的!</p>
+<p>如此一来,我们只需要全局统一处理下 ServiceException 就可以了,很好,spring为我们提供了ControllerAdvice机制,有关ControllerAdvice,可以查阅springMVC使用文档,下面是一个简单的示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ControllerAdvice(basePackages = &#123; &quot;com.xxx.xxx.bussiness.xxx&quot; &#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ModuleControllerAdvice</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ModuleControllerAdvice.class);<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger SERVICE_LOGGER = LoggerFactory.getLogger(ServiceException.class);<br><br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 业务受理失败</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-meta">@ResponseBody</span><br>  <span class="hljs-meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span><br>  <span class="hljs-meta">@ExceptionHandler(ServiceException.class)</span><br>  <span class="hljs-function"><span class="hljs-keyword">private</span> JSONResult <span class="hljs-title">handleServiceException</span><span class="hljs-params">(ServiceException exception)</span> </span>&#123;<br>    String message = <span class="hljs-string">&quot;业务受理失败,原因:&quot;</span> + exception.getLocalizedMessage();<br>    SERVICE_LOGGER.info(message);<br>    JSONResult json = <span class="hljs-keyword">new</span> JSONResult();<br>    json.serCode(<span class="hljs-number">500001</span>); <span class="hljs-comment">// 500000表示系统异常,500001表示业务逻辑异常</span><br>    json.setMessage(message); <br>    <span class="hljs-keyword">return</span> json;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这个时候,我们就可以很轻松的处理各种情况了.</p>
+<p>注意一点,在这个类中,我们定义了2个log对象,分别指向 ServiceException.class 和 ModuleControllerAdvice.class . 并且处理 ServiceException的时候使用了info级别的日志输出,这是很有用的.</p>
+<ul>
+<li>首先,ServiceException一定要和其他的代码错误分离,不应该混为一谈.</li>
+<li>其次,ServiceException并不一定要记录日志,我们应该提供独立的log对象,方便开关.</li>
+</ul>
+<p>接下来你可以在修改用户的时候想客户端响应这样的JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json">&#123;<br>    code: <span class="hljs-number">200001</span>,<br>    message: <span class="hljs-string">&quot;业务受理失败,原因:用户名称不存在!&quot;</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>如此一来没有任何地方需要关心异常,或者业务逻辑校验失败的情况.用户也可以得到很友好的错误提示.</p>
+<p><strong>如何对异常进行分类</strong></p>
+<p><strong>如果你只需要一句概括</strong>,那么直接定义一个简单的异常,用于中断处理,并且与用户保持友好交互即可.</p>
+<p><strong>如果不可能一句话描述清楚</strong>,并且包含附加信息,比如需要在日志或者数据库记录消息ID,此时可能专门针对这种重要/复杂业务创建独立异常.</p>
+<p>上述两种情况因为web系统,是用户发起请求之后需要等待程序给予响应结果的.</p>
+<p><strong>如果是后台作业</strong>,或者复杂业务需要追溯性.这种通常用流程判断语句控制,要用异常处理.我们认为这些流程判断一定在一个原子性处理中.并且检查到(不是遇到)的问题(不是异常)需要记录到用户可友好查看的日志.这种情况属于<strong>处理反馈</strong>,并不叫异常.</p>
+<p><strong>综上,笔者通常分为如下几类:</strong></p>
+<ol>
+<li>逻辑异常,这类异常用于描述业务无法按照预期的情况处理下去,属于用户制造的意外.</li>
+<li>代码错误,这类异常用于描述开发的代码错误,例如NPE,ILLARG,都属于程序员制造的BUG.</li>
+<li>专有异常,多用于特定业务场景,用于描述指定作业出现意外情况无法预先处理.</li>
+</ol>
+<p><strong>各类异常必须要有单独的日志记录</strong>,或者分级,分类可管理.有的时候仅仅想给三方运维看到逻辑异常.</p>
+<p><strong>写在后面的注意</strong></p>
+<blockquote>
+<p>异常设计的初衷是解决程序运行中的各种意外情况,且异常的处理效率比条件判断方式要低很多.</p>
+</blockquote>
+<p>上面这句话出自,但是我们思考如下几点:</p>
+<p><strong>业务逻辑检查,也是意外情况</strong></p>
+<p>UnknownHostException,表示找不到这样的主机,这个异常和NoUserException有什么区别么?换言之,没有这样的主机是异常,没有这样的用户不是异常了么? 所以一定要弄明白什么是用异常来控制逻辑,什么是定义程序异常.</p>
+<p><strong>异常处理效率很低</strong></p>
+<p>书中所示的例子,是在循环中大量使用try-catch进行检查,但是业务系统,用户发起请求的次数与该场景天壤地别.淘宝的11`11是个很好的反例.但是请你的系统上到这个级别再考虑这种问题.</p>
+<ol>
+<li>系统有千万并发,不可能还去考虑这些中规中矩的按部就班的方式,别忘了MVC本来就浪费很多资源,代码量增加很多.</li>
+<li>业务系统也存在很多巨量任务处理的情况.但是那些任务都是原子性的,现在MVC中的controller和service可不是原子性的,不然为什么要区分这么多层呢.</li>
+<li>如果那么在乎效率,考虑下重写Throwable的fillStackTrace方法.你要知道异常的开销大到底大在什么地方,fillStackTrace是一个native方法,会填充异常类内部的运行轨迹.</li>
+</ol>
+<blockquote>
+<p>不要用异常进行业务逻辑处理</p>
+</blockquote>
+<p>我们先来看一个例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">  <span class="hljs-comment">//这是一个非常典型的反例,也是一个误区.</span><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 处理业务消息</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> message 要处理的消息</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processMessage</span><span class="hljs-params">(Message&lt;String&gt; message)</span> </span>&#123;<br>  <span class="hljs-keyword">try</span>&#123;<br>      <span class="hljs-comment">// 处理消息验证</span><br>      <span class="hljs-comment">// 处理消息解析</span><br>      <span class="hljs-comment">// 处理消息入库</span><br>  &#125;<span class="hljs-keyword">catch</span>(ValidateException e )&#123;<br>      <span class="hljs-comment">// 验证失败</span><br>  &#125;<span class="hljs-keyword">catch</span>(ParseException e )&#123;<br>      <span class="hljs-comment">// 解析失败</span><br>  &#125;<span class="hljs-keyword">catch</span>(PersistException e )&#123;<br>      <span class="hljs-comment">// 入库失败</span><br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上述代码就是典型的使用异常来处理业务逻辑.这种方式需要严重的禁止!上述代码最大的问题在于,我们如何利用异常来自动处理事务呢?</p>
+<p>然而这和我们的异常中断service没有什么冲突.也并不是一回事.</p>
+<ul>
+<li>我们提倡在 <strong>业务处理</strong> 的时候,如果发现无法处理直接抛出异常即可.</li>
+<li>而并不是在 <strong>逻辑处理</strong> 的时候,用异常来判断逻辑进行的状况.</li>
+</ul>
+<p>改正后的逻辑</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 处理业务消息</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> message 要处理的消息</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processMessage</span><span class="hljs-params">(Message&lt;String&gt; message)</span> </span>&#123;<br>  <span class="hljs-comment">// 处理消息验证</span><br>  <span class="hljs-keyword">if</span>(!message.isValud())&#123;<br>      MessageLogService.log(<span class="hljs-string">&quot;消息校验失败&quot;</span>+message.errors())<br>      <span class="hljs-keyword">return</span> ;<br>  &#125;<br>  <span class="hljs-comment">// 处理消息解析</span><br>  <span class="hljs-keyword">if</span>(!message.parse())&#123;<br>      MessageLogService.log(<span class="hljs-string">&quot;消息解析失败&quot;</span>+message.errors())<br>      <span class="hljs-keyword">return</span> ;<br>  &#125;<br>   <span class="hljs-comment">// TODO ....</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>最后俏皮一句:微服务横行的今天,我们在action里面直接写业务处理,也无可厚非.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0%20Excel%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">优雅的实现 Excel 导入导出</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E7%94%A8Optional%E8%A7%A3%E5%86%B3%E7%A9%BA%E6%8C%87%E9%92%88%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">用 Optional 解决空指针问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,573 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Boot + Vue 如此强大？  虽然 B&#x2F;S 是目前开发的主流，但是 C&#x2F;S 仍然有很大的市场需求。受限于浏览器的沙盒限制，网页应用无法满足某些场景下的使用需求，而桌面应用可以读写本地文件、调用更多系统资源，再加上 Web 开发的低成本、高效率的优势，这种跨平台方式越来越受到开发者的喜爱。 Electron 是一个基于 Chromium 和 Node.js，使用 HTML、CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot + Vue 如此强大？">
+<meta property="og:url" content="http://example.com/2021/10/13/Spring%20Boot%20+%20Vue%20%E5%A6%82%E6%AD%A4%E5%BC%BA%E5%A4%A7%EF%BC%9F/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Boot + Vue 如此强大？  虽然 B&#x2F;S 是目前开发的主流，但是 C&#x2F;S 仍然有很大的市场需求。受限于浏览器的沙盒限制，网页应用无法满足某些场景下的使用需求，而桌面应用可以读写本地文件、调用更多系统资源，再加上 Web 开发的低成本、高效率的优势，这种跨平台方式越来越受到开发者的喜爱。 Electron 是一个基于 Chromium 和 Node.js，使用 HTML、CSS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301405966.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301405678.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301405568.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301406938.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301406428.webp">
+<meta property="article:published_time" content="2021-10-13T14:16:55.440Z">
+<meta property="article:modified_time" content="2021-10-13T10:45:24.633Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301405966.webp">
+  
+  <title>Spring Boot + Vue 如此强大？ - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Boot + Vue 如此强大？">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Boot + Vue 如此强大？</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Boot + Vue 如此强大？</h2></center>
+
+<p>虽然 B/S 是目前开发的主流，但是 C/S 仍然有很大的市场需求。受限于浏览器的沙盒限制，网页应用无法满足某些场景下的使用需求，而桌面应用可以读写本地文件、调用更多系统资源，再加上 Web 开发的低成本、高效率的优势，这种跨平台方式越来越受到开发者的喜爱。</p>
+<p>Electron 是一个基于 Chromium 和 Node.js，使用 HTML、CSS 和 JavaScript 来构建跨平台应用的跨平台开发框架，兼容 Mac、Windows 和 Linux。目前，Electron 已经创建了包括 VScode 和 Atom 在内的大量应用。</p>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a><strong>环境搭建</strong></h3><p>创建 Electron 跨平台应用之前，需要先安装一些常用的工具，如 Node、vue 和 Electron 等。</p>
+<h3 id="安装-Node"><a href="#安装-Node" class="headerlink" title="安装 Node"></a><strong>安装 Node</strong></h3><p>进入 Node 官网下载页 <a target="_blank" rel="noopener" href="http://nodejs.cn/download/%EF%BC%8C%E7%84%B6%E5%90%8E%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%9A%84%E7%89%88%E6%9C%AC%E5%8D%B3%E5%8F%AF%EF%BC%8C%E4%B8%8B%E8%BD%BD%E6%97%B6%E5%BB%BA%E8%AE%AE%E4%B8%8B%E8%BD%BD%E7%A8%B3%E5%AE%9A%E7%89%88%E6%9C%AC%E3%80%82%E5%A6%82%E6%9E%9C%E5%AE%89%E8%A3%85">http://nodejs.cn/download/，然后下载对应的版本即可，下载时建议下载稳定版本。如果安装</a> Node 使用 Homebrew 方式，建议安装时将 npm 仓库镜像改为淘宝镜像，如下所示。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">npm config <span class="hljs-built_in">set</span> registry http://registry.npm.taobao.org/<br>或者<br>npm install -g cnpm --registry=https://registry.npm.taobao.org<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="安装-升级-vue-cli"><a href="#安装-升级-vue-cli" class="headerlink" title="安装/升级 vue-cli"></a><strong>安装/升级 vue-cli</strong></h3><p>先执行以下命令，确认下本地安装的 vue-cli 版本。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">vue -V<br></code></pre></div></td></tr></table></figure>
+
+<p>如果没有安装或者不是最新版，可以执行以下命令安装/升级。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">npm install @vue/cli -g<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="安装-Electron"><a href="#安装-Electron" class="headerlink" title="安装 Electron"></a><strong>安装 Electron</strong></h3><p>使用如下命令安装 Electron 插件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">npm install -g electron<br>或者<br>cnpm install -g electron<br></code></pre></div></td></tr></table></figure>
+
+<p>为了验证是否安装成功，可以使用如下的命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">electron --version<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="创建运行项目"><a href="#创建运行项目" class="headerlink" title="创建运行项目"></a><strong>创建运行项目</strong></h3><p>Electron 官方提供了一个简单的项目，可以执行以下命令将项目克隆到本地。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> https://github.com/electron/electron-quick-start<br></code></pre></div></td></tr></table></figure>
+
+<p>然后在项目中执行如下命令即可启动项目。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> electron-quick-start<br>npm install<br>npm start<br></code></pre></div></td></tr></table></figure>
+
+<p>启动后项目的效果如下图。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301405966.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>除此之外，我们可以使用 vue-cli 脚手架工具来创建项目。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">vue init simulatedgreg/electron-vue<br></code></pre></div></td></tr></table></figure>
+
+<p>然后根据下面的提示一步步选中选项即可创建项目，如下所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301405678.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>然后，使用 npm install 命令安装项目所需要的依赖包，安装完成之后，可以使用 npm run dev 或 npm run build 命令运行 electron-vue 模版应用程序，运行效果如下图所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301405568.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="Electron-源码目录"><a href="#Electron-源码目录" class="headerlink" title="Electron 源码目录"></a><strong>Electron 源码目录</strong></h3><p>Electron 的源代码主要依据 Chromium 的拆分约定被拆成了许多部分。为了更好地理解源代码，您可能需要了解一下 Chromium 的多进程架构。</p>
+<p>Electron 源码目录结构和含义具体如下：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gherkin">Electron<br>├──atom - Electron 的源代码<br>|<span class="hljs-string">  ├── app - 系统入口代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  ├── browser - 包含了主窗口、UI 和其他所有与主进程有关的东西，它会告诉渲染进程如何管理页面</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── lib - 主进程初始化代码中 JavaScript 部分的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── ui - 不同平台上 UI 部分的实现</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   ├── cocoa - Cocoa 部分的源代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   ├── gtk - GTK+ 部分的源代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   └── win - Windows GUI 部分的源代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── default_app - 在没有指定 app 的情况下 Electron 启动时默认显示的页面</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── api - 主进程 API 的实现</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   └── lib - API 实现中 Javascript 部分的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── net - 网络相关的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── mac - 与 Mac 有关的 Objective-C 代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   └── resources - 图标，平台相关的文件等</span><br><span class="hljs-string"></span>|<span class="hljs-string">  ├── renderer - 运行在渲染进程中的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   ├── lib - 渲染进程初始化代码中 JavaScript 部分的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">   └── api - 渲染进程 API 的实现</span><br><span class="hljs-string"></span>|<span class="hljs-string">  </span>|<span class="hljs-string">       └── lib - API 实现中 Javascript 部分的代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">  └── common - 同时被主进程和渲染进程用到的代码，包括了一些用来将 node 的事件循环</span><br><span class="hljs-string"></span>|<span class="hljs-string">      </span>|<span class="hljs-string">        整合到 Chromium 的事件循环中时用到的工具函数和代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">      ├── lib - 同时被主进程和渲染进程使用到的 Javascript 初始化代码</span><br><span class="hljs-string"></span>|<span class="hljs-string">      └── api - 同时被主进程和渲染进程使用到的 API 的实现以及 Electron 内置模块的基础设施</span><br><span class="hljs-string"></span>|<span class="hljs-string">          └── lib - API 实现中 Javascript 部分的代码</span><br><span class="hljs-string">├── chromium_src - 从 Chromium 项目中拷贝来的代码</span><br><span class="hljs-string">├── docs - 英语版本的文档</span><br><span class="hljs-string">├── docs-translations - 各种语言版本的文档翻译</span><br><span class="hljs-string">├── spec - 自动化测试</span><br><span class="hljs-string">├── atom.gyp - Electron 的构建规则</span><br><span class="hljs-string">└── common.gypi - 为诸如 `node` 和 `breakpad` 等其他组件准备的编译设置和构建规则</span><br></code></pre></div></td></tr></table></figure>
+
+<p>平时开发时，需要重点关注的就是 src、package.json 和 appveyor.yml 目录。除此之外，其他需要注意的目录如下：</p>
+<ul>
+<li>script - 用于诸如构建、打包、测试等开发用途的脚本</li>
+<li>tools - 在 gyp 文件中用到的工具脚本，但与 script 目录不同， 该目录中的脚本不应该被用户直接调用</li>
+<li>vendor - 第三方依赖项的源代码，为了防止人们将它与 Chromium 源码中的同名目录相混淆， 在这里我们不使用 third_party 作为目录名</li>
+<li>node_modules - 在构建中用到的第三方 node 模块</li>
+<li>out - ninja 的临时输出目录</li>
+<li>dist - 由脚本 script/create-dist.py 创建的临时发布目录</li>
+<li>external_binaries - 下载的不支持通过 gyp 构建的预编译第三方框架</li>
+</ul>
+<h3 id="应用工程目录"><a href="#应用工程目录" class="headerlink" title="应用工程目录"></a><strong>应用工程目录</strong></h3><p>使用 electron-vue 模版创建的 Electron 工程结构如下图。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301406938.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>和前端工程的项目结构类似，Electron 项目的目录结构如下所示：</p>
+<ul>
+<li>electron-vue：Electron模版配置。</li>
+<li>build：文件夹，用来存放项目构建脚本。</li>
+<li>config：中存放项目的一些基本配置信息，最常用的就是端口转发。</li>
+<li>node_modules：这个目录存放的是项目的所有依赖，即 npm install 命令下载下来的文件。</li>
+<li>src：这个目录下存放项目的源码，即开发者写的代码放在这里。</li>
+<li>static：用来存放静态资源。</li>
+<li>index.html：则是项目的首页、入口页，也是整个项目唯一的HTML页面。</li>
+<li>package.json：中定义了项目的所有依赖，包括开发时依赖和发布时依赖。</li>
+</ul>
+<p>对于开发者来说， 90% 的工作都是在 src 中完成，src 中的文件目录如下。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301406428.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Electron 应用程序分成三个基础模块：主进程、进程间通信和渲染进程。</p>
+<h4 id="1、主进程"><a href="#1、主进程" class="headerlink" title="1、主进程"></a><strong>1、主进程</strong></h4><p>Electron 运行 package.json 的 main 脚本（background.js）的进程被称为主进程。在主进程中运行的脚本通过创建web页面来展示用户界面。一个 Electron 应用总是有且只有一个主进程。</p>
+<h4 id="2、渲染进程"><a href="#2、渲染进程" class="headerlink" title="2、渲染进程"></a><strong>2、渲染进程</strong></h4><p>由于 Electron 使用了 Chromium 来展示 Web 页面，所以 Chromium 的多进程架构也被使用到。每个 Electron 中的 Web 页面运行在它自己的渲染进程中。在普通的浏览器中，Web 页面通常在一个沙盒环境中运行，不被允许去接触原生的资源。然而 Electron 允许用户在 Node.js 的 API 支持下可以在页面中和操作系统进行一些底层交互。</p>
+<h4 id="3、主进程与渲染进程通信"><a href="#3、主进程与渲染进程通信" class="headerlink" title="3、主进程与渲染进程通信"></a><strong>3、主进程与渲染进程通信</strong></h4><p>主进程使用 BrowserWindow 实例创建页面。每个 BrowserWindow 实例都在自己的渲染进程里运行页面。当一个 BrowserWindow 实例被销毁后，相应的渲染进程也会被终止。主进程管理所有的 Web 页面和它们对应的渲染进程。每个渲染进程都是独立的，它只关心它所运行的 Web 页面。</p>
+<h3 id="src-目录结构"><a href="#src-目录结构" class="headerlink" title="src 目录结构"></a><strong>src 目录结构</strong></h3><p>在 Electron 目录中，src 会包包含 main 和 renderer 两个目录。</p>
+<h4 id="main-目录"><a href="#main-目录" class="headerlink" title="main 目录"></a><strong>main 目录</strong></h4><p>main 目录会包含 index.js 和 index.dev.js 两个文件。</p>
+<ul>
+<li><p>index.js：应用程序的主文件，electron 也从这里启动的，它也被用作 webpack 产品构建的入口文件，所有的 main 进程工作都应该从这里开始。</p>
+</li>
+<li><p>index.dev.js：此文件专门用于开发阶段，因为它会安装 electron-debug 和 vue-devtools。一般不需要修改此文件，但它可以扩展开发的需求。</p>
+</li>
+</ul>
+<h4 id="渲染进程"><a href="#渲染进程" class="headerlink" title="渲染进程"></a><strong>渲染进程</strong></h4><p>renderer 是渲染进程目录，平时项目开发源码的存放目录，包含 assets、components、router、store、App.vue 和 main.js。</p>
+<p>assets：assets 下的文件如（js、css）都会在 dist 文件夹下面的项目目录分别合并到一个文件里面去。components：此文件用于存放应用开发的组件，可以是自定义的组件。router：如果你了解 vue-router，那么 Electron 项目的路由的使用方式和 vue-router 的使用方式类似。modules：electron-vue 利用 vuex 的模块结构创建多个数据存储，并保存在 src/renderer/store/modules 中。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/Spring%20Boot%20%E6%93%8D%E4%BD%9C%20Redis%20%E7%9A%84%E5%90%84%E7%A7%8D%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring Boot 操作 Redis 的各种实现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/Spring%20Boot%20+%20MyBatis%20%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/">
+                        <span class="hidden-mobile">Spring Boot + MyBatis 多模块项目搭建教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

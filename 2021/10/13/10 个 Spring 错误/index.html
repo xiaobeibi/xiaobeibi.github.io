@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="10 个 Spring 错误   错误一：太过关注底层我们正在解决这个常见错误，是因为 “非我所创” 综合症在软件开发领域很是常见。症状包括经常重写一些常见的代码，很多开发人员都有这种症状。 虽然理解特定库的内部结构及其实现，在很大程度上是好的并且很有必要的（也可以是一个很好的学习过程），但作为软件工程师，不断地处理相同的底层实现细节对个人的开发生涯是有害的。 像 Spring 这种抽象框架的存在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10 个 Spring 错误">
+<meta property="og:url" content="http://example.com/2021/10/13/10%20%E4%B8%AA%20Spring%20%E9%94%99%E8%AF%AF/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="10 个 Spring 错误   错误一：太过关注底层我们正在解决这个常见错误，是因为 “非我所创” 综合症在软件开发领域很是常见。症状包括经常重写一些常见的代码，很多开发人员都有这种症状。 虽然理解特定库的内部结构及其实现，在很大程度上是好的并且很有必要的（也可以是一个很好的学习过程），但作为软件工程师，不断地处理相同的底层实现细节对个人的开发生涯是有害的。 像 Spring 这种抽象框架的存在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729104132.webp">
+<meta property="article:published_time" content="2021-10-13T14:16:43.219Z">
+<meta property="article:modified_time" content="2021-10-13T10:23:29.571Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729104132.webp">
+  
+  <title>10 个 Spring 错误 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="10 个 Spring 错误">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">10 个 Spring 错误</h1>
+            
+            <div class="markdown-body">
+              <center><h2>10 个 Spring 错误</h2></center>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729104132.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="错误一：太过关注底层"><a href="#错误一：太过关注底层" class="headerlink" title="错误一：太过关注底层"></a>错误一：太过关注底层</h2><p>我们正在解决这个常见错误，是因为 “非我所创” 综合症在软件开发领域很是常见。症状包括经常重写一些常见的代码，很多开发人员都有这种症状。</p>
+<p>虽然理解特定库的内部结构及其实现，在很大程度上是好的并且很有必要的（也可以是一个很好的学习过程），但作为软件工程师，不断地处理相同的底层实现细节对个人的开发生涯是有害的。</p>
+<p>像 Spring 这种抽象框架的存在是有原因的，它将你从重复地手工劳作中解放出来，并允许你专注于更高层次的细节 —— 领域对象和业务逻辑。</p>
+<p>因此，接受抽象。下次面对特定问题时，首先进行快速搜索，确定解决该问题的库是否已被集成到 Spring 中；现在，你可能找到一个合适的现成解决方案。</p>
+<p>比如，一个很有用的库，在本文的其他部分，我将在示例中使用 Project Lombok 注解。Lombok 被用作样板代码生成器，希望懒惰的开发人员在熟悉这个库时不会遇到问题。举个例子，看看使用 Lombok 的 “标准 Java Bean” 是什么样子的：</p>
+<p>如你所想，上述代码被编译为：</p>
+<p>但是，请注意，如果你打算在 IDE 中使用 Lombok，很可能需要安装一个插件，可在 此处 找到 Intellij IDEA 版本的插件。</p>
+<h2 id="错误二：内部结构-“泄露”"><a href="#错误二：内部结构-“泄露”" class="headerlink" title="错误二：内部结构 “泄露”"></a>错误二：内部结构 “泄露”</h2><p>公开你的内部结构，从来都不是一个好主意，因为它在服务设计中造成了不灵活性，从而促进了不好的编码实践。“泄露” 的内部机制表现为使数据库结构可以从某些 API 端点访问。例如，下面的POJO（“Plain Old Java Object”）类表示数据库中的一个表：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Entity</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentEntity</span> </span>&#123;<br>    <span class="hljs-meta">@Id</span>    <br>    <span class="hljs-meta">@GeneratedValue</span>    <br>    <span class="hljs-keyword">private</span> Integer id;<br>    <br>    <span class="hljs-meta">@Column</span>    <br>    <span class="hljs-keyword">private</span> String name;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TopTalentEntity</span><span class="hljs-params">(String name)</span> </span>&#123;        <br>        <span class="hljs-keyword">this</span>.name = name;    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>假设，存在一个端点，他需要访问TopTalentEntity数据。返回TopTalentEntity实例可能很诱人，但更灵活的解决方案是创建一个新的类来表示 API 端点上的TopTalentEntity数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentData</span> </span>&#123;    <br>    <span class="hljs-keyword">private</span> String name;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样，对数据库后端进行更改将不需要在服务层进行任何额外的更改。考虑下，在<code>TopTalentEntity</code>中添加一个 “password” 字段来存储数据库中用户密码的 Hash 值 —— 如果没有<code>TopTalentData</code>之类的连接器，忘记更改服务前端，将会意外地暴露一些不必要的秘密信息。</p>
+<h2 id="错误三：缺乏关注点分离"><a href="#错误三：缺乏关注点分离" class="headerlink" title="错误三：缺乏关注点分离"></a>错误三：缺乏关注点分离</h2><p>随着程序规模的增长，逐渐地，代码组织成为一个越来越重要的问题。讽刺的是，大多数好的软件工程原则开始在规模上崩溃 —— 特别是在没有太多考虑程序体系结构设计的情况下。开发人员最常犯的一个错误就是混淆代码关注点，这很容易做到！</p>
+<p>通常，打破 关注点分离 的是将新功能简单地 “倒” 在现有类中。当然，这是一个很好的短期解决方案（对于初学者来说，它需要更少的输入），但它也不可避免地会在将来成为一个问题，无论是在测试期间、维护期间还是介于两者之间。考虑下下面的控制器，它将从数据库返回<code>TopTalentData</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentController</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentRepository topTalentRepository;<br>    <br>    <span class="hljs-meta">@RequestMapping(&quot;/toptal/get&quot;)</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;TopTalentData&gt; <span class="hljs-title">getTopTalent</span><span class="hljs-params">()</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> topTalentRepository.findAll()                <br>            .stream()                <br>            .map(<span class="hljs-keyword">this</span>::entityToData)                <br>            .collect(Collectors.toList());    <br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> TopTalentData <span class="hljs-title">entityToData</span><span class="hljs-params">(TopTalentEntity topTalentEntity)</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TopTalentData(topTalentEntity.getName());    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>起初，这段代码似乎没什么特别的问题；它提供了一个从<code>TopTalentEntity</code>实例检索出来的<code>TopTalentData</code>的 List。</p>
+<p>然而，仔细观察下，我们可以看到<code>TopTalentController</code>实际上在此做了些事情；也就是说，它将请求映射到特定端点，从数据库检索数据，并将从<code>TopTalentRepository</code>接收的实体转换为另一种格式。一个“更干净” 的解决方案是将这些关注点分离到他们自己的类中。看起来可能是这个样子的：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&quot;/toptal&quot;)</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentController</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentService topTalentService;<br>    <br>    <span class="hljs-meta">@RequestMapping(&quot;/get&quot;)</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;TopTalentData&gt; <span class="hljs-title">getTopTalent</span><span class="hljs-params">()</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> topTalentService.getTopTalent();    <br>    &#125;<br>&#125;<br><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentService</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentRepository topTalentRepository;    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentEntityConverter topTalentEntityConverter;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;TopTalentData&gt; <span class="hljs-title">getTopTalent</span><span class="hljs-params">()</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> topTalentRepository.findAll()                <br>            .stream()                <br>            .map(topTalentEntityConverter::toResponse)                <br>            .collect(Collectors.toList());    <br>    &#125;<br>&#125;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentEntityConverter</span> </span>&#123;    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> TopTalentData <span class="hljs-title">toResponse</span><span class="hljs-params">(TopTalentEntity topTalentEntity)</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TopTalentData(topTalentEntity.getName());    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这种层次结构的另一个优点是，它允许我们通过检查类名来确定将功能驻留在何处。此外，在测试期间，如果需要，我们可以很容易地用模拟实现来替换任何类。</p>
+<h2 id="错误四：缺乏异常处理或处理不当"><a href="#错误四：缺乏异常处理或处理不当" class="headerlink" title="错误四：缺乏异常处理或处理不当"></a>错误四：缺乏异常处理或处理不当</h2><p>一致性的主题并非是 Spring（或 Java）所独有的，但仍然是处理 Spring 项目时需要考虑的一个重要方面。虽然编码风格可能存在争议（通常团队或整个公司内部已达成一致），但拥有一个共同的标准最终会极大地提高生产力。对多人团队尤为如此；一致性允许交流发生，而不需要花费很多资源在手把手交接上，也不需要就不同类的职责提供冗长的解释。</p>
+<p>考虑一个包含各种配置文件、服务和控制器的 Spring 项目。在命名时保持语义上的一致性，可以创建一个易于搜索的结构，任何新的开发人员都可以按照自己的方式管理代码；例如，将 Config 后缀添加到配置类，服务层以 Service 结尾，以及控制器用 Controller 结尾。</p>
+<p>与一致性主题密切相关，服务器端的错误处理值得特别强调。如果你曾经不得不处理编写很差的 API 的异常响应，那你可能知道原因 —— 正确解析异常会是一件痛苦的事情，而确定这些异常最初发生的原因则更为痛苦。</p>
+<p>作为一名 API 开发者，理想情况下你希望覆盖所有面向用户的端点，并将他们转换为常见的错误格式。这通常意味着有一个通用的错误代码和描述，而不是逃避解决问题：a) 返回一个 “500 Internal Server Error”信息。b) 直接返回异常的堆栈信息给用户。（实际上，这些都应该不惜一切代价地去避免，因为除了客户端难以处理以外，它还暴露了你的内部信息）。</p>
+<p>例如，常见错误响应格式可能长这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Value</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ErrorResponse</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Integer errorCode;    <br>    <span class="hljs-keyword">private</span> String errorMessage;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>与此类似的事情在大多数流行的 API 中也经常遇到，由于可以容易且系统地记录，效果往往很不错。将异常转换为这种格式可以通过向方法提供<code>@ExceptionHandler</code>注解来完成（注解案例可见于第六章）。</p>
+<h2 id="错误五：多线程处理不当"><a href="#错误五：多线程处理不当" class="headerlink" title="错误五：多线程处理不当"></a>错误五：多线程处理不当</h2><p>不管是桌面应用还是 Web 应用，无论是 Spring 还是 No Spring，多线程都是很难破解的。由并行执行程序所引起的问题是令人毛骨悚然且难以捉摸的，而且常常难以调试 —— 实际上，由于问题的本质，一旦你意识到你正在处理一个并行执行问题，你可能就不得不完全放弃调试器了，并 “手动” 检查代码，直到找到根本上的错误原因。</p>
+<p>不幸的是，这类问题并没有千篇一律的解决方案；根据具体场景来评估情况，然后从你认为最好的角度来解决问题。</p>
+<p>当然，理想情况下，你也希望完全避免多线程错误。同样，不存在那种一刀切的方法，但这有一些调试和防止多线程错误的实际考虑因素：</p>
+<h3 id="避免全局状态"><a href="#避免全局状态" class="headerlink" title="避免全局状态"></a><strong>避免全局状态</strong></h3><p>首先，牢记 “全局状态” 问题。如果你正创建一个多线程应用，那么应该密切关注任何可能全局修改的内容，如果可能的话，将他们全部删掉。如果某个全局变量有必须保持可修改的原因，请仔细使用 synchronization，并对程序性能进行跟踪，以确定没有因为新引入的等待时间而导致系统性能降低。</p>
+<h3 id="避免可变性"><a href="#避免可变性" class="headerlink" title="避免可变性"></a><strong>避免可变性</strong></h3><p>这点直接来自于 函数式编程，并且适用于 OOP，声明应该避免类和状态的改变。简而言之，这意味着放弃 setter 方法，并在所有模型类上拥有私有的 final 字段。它们的值唯一发生变化的时间是在构造期间。这样，你可以确定不会出现争用问题，且访问对象属性将始终提供正确的值。</p>
+<h3 id="记录关键数据"><a href="#记录关键数据" class="headerlink" title="记录关键数据"></a><strong>记录关键数据</strong></h3><p>评估你的程序可能会在何处发生异常，并预先记录所有关键数据。如果发生错误，你将很高兴可以得到信息说明收到了哪些请求，并可更好地了解你的应用程序为什么会出现错误。需要再次注意的是，日志记录引入了额外的文件 I/O，可能会严重影响应用的性能，因此请不要滥用日志。</p>
+<h3 id="复用现存实现"><a href="#复用现存实现" class="headerlink" title="复用现存实现"></a><strong>复用现存实现</strong></h3><p>每当你需要创建自己的线程时（例如：向不同的服务发出异步请求），复用现有的安全实现来代替创建自己的解决方案。这在很大程度上意味着要使用 ExecutorServices 和 Java 8 简洁的函数式 CompletableFutures 来创建线程。Spring 还允许通过 DeferredResult 类来进行异步请求处理。</p>
+<h2 id="错误六：不使用基于注解的验证"><a href="#错误六：不使用基于注解的验证" class="headerlink" title="错误六：不使用基于注解的验证"></a>错误六：不使用基于注解的验证</h2><p>假设我们之前的 TopTalent 服务需要一个端点来添加新的 TopTalent。此外，假设基于某些原因，每个新名词都需要为 10 个字符长度。执行此操作的一种方法可能如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/put&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addTopTalent</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> TopTalentData topTalentData)</span> </span>&#123;    <br>    <span class="hljs-keyword">boolean</span> nameNonExistentOrHasInvalidLength =            <br>        Optional.ofNullable(topTalentData)         <br>        .map(TopTalentData::getName)   <br>        .map(name -&gt; name.length() == <span class="hljs-number">10</span>)   <br>        .orElse(<span class="hljs-keyword">true</span>);<br>    <br>    <span class="hljs-keyword">if</span> (nameNonExistentOrInvalidLength) &#123;        <br>        <span class="hljs-comment">// throw some exception    </span><br>    &#125;<br>    <br>    topTalentService.addTopTalent(topTalentData);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然而，上面的方法（除了构造很差以外）并不是一个真正 “干净” 的解决办法。我们正检查不止一种类型的有效性（即 TopTalentData 不得为空，TopTalentData.name 不得为空，且 TopTalentData.name 为 10 个字符长度），以及在数据无效时抛出异常。</p>
+<p>通过在Spring中集成 Hibernate validator，数据校验可以更干净地进行。让我们首先重构 addTopTalent 方法来支持验证：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/put&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addTopTalent</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> <span class="hljs-meta">@NotNull</span> <span class="hljs-meta">@RequestBody</span> TopTalentData topTalentData)</span> </span>&#123;    topTalentService.addTopTalent(topTalentData);<br>&#125;<br><br><span class="hljs-meta">@ExceptionHandler</span><br><span class="hljs-meta">@ResponseStatus(HttpStatus.BAD_REQUEST)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleInvalidTopTalentDataException</span><span class="hljs-params">(MethodArgumentNotValidException methodArgumentNotValidException)</span> </span>&#123;    <br>    <span class="hljs-comment">// handle validation exception</span><br>&#125;<br>    <span class="hljs-comment">// 此外，我们还必须指出我们想要在 TopTalentData 类中验证什么属性：</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentData</span> </span>&#123;    <br>    <span class="hljs-meta">@Length(min = 10, max = 10)</span>    <br>    <span class="hljs-meta">@NotNull</span>    <br>    <span class="hljs-keyword">private</span> String name;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>现在，Spring 将在调用方法之前拦截其请求并对参数进行验证 —— 无需使用额外的手工测试。</p>
+<p>另一种实现相同功能的方法是创建我们自己的注解。虽然你通常只在需要超出 Hibernate的内置约束集 时才使用自定义注解，本例中，我们假设 @Length 不存在。你可以创建两个额外的类来验证字符串长度，一个用于验证，一个用于对属性进行注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Constraint(validatedBy = &#123; MyAnnotationValidator.class &#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> MyAnnotation &#123;<br>    <span class="hljs-function">String <span class="hljs-title">message</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;String length does not match expected&quot;</span>;<br>    Class&lt;?&gt;[] groups() <span class="hljs-keyword">default</span> &#123;&#125;;<br>    Class&lt;? extends Payload&gt;[] payload() <span class="hljs-keyword">default</span> &#123;&#125;;<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;<br>&#125;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAnnotationValidator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ConstraintValidator</span>&lt;<span class="hljs-title">MyAnnotation</span>, <span class="hljs-title">String</span>&gt; </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> expectedLength;<br>    <br>    <span class="hljs-meta">@Override</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initialize</span><span class="hljs-params">(MyAnnotation myAnnotation)</span> </span>&#123;        <br>        <span class="hljs-keyword">this</span>.expectedLength = myAnnotation.value();    <br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isValid</span><span class="hljs-params">(String s, ConstraintValidatorContext constraintValidatorContext)</span> </span>&#123;        <br>        <span class="hljs-keyword">return</span> s == <span class="hljs-keyword">null</span> || s.length() == <span class="hljs-keyword">this</span>.expectedLength;    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>请注意，这些情况下，关注点分离的最佳实践要求在属性为 null 时，将其标记为有效（<code>isValid</code>方法中的<code>s == null</code>），如果这是属性的附加要求，则使用<code>@NotNull</code>注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentData</span> </span>&#123;    <br>    <span class="hljs-meta">@MyAnnotation(value = 10)</span>    <br>    <span class="hljs-meta">@NotNull</span>    <br>    <span class="hljs-keyword">private</span> String name;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="错误七：-依旧-使用基于xml的配置"><a href="#错误七：-依旧-使用基于xml的配置" class="headerlink" title="错误七：(依旧)使用基于xml的配置"></a>错误七：(依旧)使用基于xml的配置</h2><p>虽然之前版本的 Spring 需要 XML，但如今大部分配置均可通过 Java 代码或注解来完成；XML 配置只是作为附加的不必要的样板代码。</p>
+<p>本文（及其附带的 GitHub 仓库）均使用注解来配置 Spring，Spring 知道应该连接哪些 Bean，因为待扫描的顶级包目录已在<code>@SpringBootApplication</code>复合注解中做了声明，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application</span> </span>&#123;    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;        <br>        SpringApplication.run(Application.class, args);    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>复合注解（可通过 Spring 文档 了解更多信息）只是向 Spring 提示应该扫描哪些包来检索 Bean。在我们的案例中，这意味着这个顶级包 （co.kukurin）将用于检索：</p>
+<ul>
+<li>@Component(TopTalentConverter,MyAnnotationValidator)</li>
+<li>@RestController(TopTalentController)</li>
+<li>@Repository(TopTalentRepository)</li>
+<li>@Service(TopTalentService) 类</li>
+</ul>
+<p>如果我们有任何额外的 @Configuration 注解类，它们也会检查基于 Java 的配置。</p>
+<h2 id="错误八：忽略-profile"><a href="#错误八：忽略-profile" class="headerlink" title="错误八：忽略 profile"></a>错误八：忽略 profile</h2><p>在服务端开发中，经常遇到的一个问题是区分不同的配置类型，通常是生产配置和开发配置。在每次从测试切换到部署应用程序时，不要手动替换各种配置项，更有效的方法是使用 profile。</p>
+<p>考虑这么一种情况：你正在使用内存数据库进行本地开发，而在生产环境中使用 MySQL 数据库。本质上，这意味着你需要使用不同的 URL 和 （希望如此） 不同的凭证来访问这两者。让我们看看可以如何做到这两个不同的配置文件：</p>
+<p><strong>APPLICATION.YAML 文件</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment"># set default profile to &#x27;dev&#x27;</span><br><span class="hljs-meta">spring.profiles.active</span>: <span class="hljs-string">dev</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># production database details</span><br><span class="hljs-meta">spring.datasource.url</span>: <span class="hljs-string">&#x27;jdbc:mysql://localhost:3306/toptal&#x27;</span><br><span class="hljs-meta">spring.datasource.username</span>: <span class="hljs-string">root</span><br><span class="hljs-meta">spring.datasource.password</span>:<span class="hljs-string"></span><br><span class="hljs-comment"># 8.2. APPLICATION-DEV.YAML 文件</span><br><span class="hljs-meta">spring.datasource.url</span>: <span class="hljs-string">&#x27;jdbc:h2:mem:&#x27;</span><br><span class="hljs-meta">spring.datasource.platform</span>: <span class="hljs-string">h2</span><br></code></pre></div></td></tr></table></figure>
+
+<p>假设你不希望在修改代码时意外地对生产数据库进行任何操作，因此将默认配置文件设为 dev 是很有意义的。</p>
+<p>然后，在服务器上，你可以通过提供<code>-Dspring.profiles.active=prod</code>参数给 JVM 来手动覆盖配置文件。另外，还可将操作系统的环境变量设置为所需的默认 profile。</p>
+<h2 id="错误九：无法接受依赖项注入"><a href="#错误九：无法接受依赖项注入" class="headerlink" title="错误九：无法接受依赖项注入"></a>错误九：无法接受依赖项注入</h2><p>正确使用 Spring 的依赖注入意味着允许其通过扫描所有必须的配置类来将所有对象连接在一起；这对于解耦关系非常有用，也使测试变得更为容易，而不是通过类之间的紧耦合来做这样的事情：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentController</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentService topTalentService;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TopTalentController</span><span class="hljs-params">()</span> </span>&#123;        <br>        <span class="hljs-keyword">this</span>.topTalentService = <span class="hljs-keyword">new</span> TopTalentService();    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们让 Spring 为我们做连接：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TopTalentController</span> </span>&#123;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TopTalentService topTalentService;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TopTalentController</span><span class="hljs-params">(TopTalentService topTalentService)</span> </span>&#123;        <br>        <span class="hljs-keyword">this</span>.topTalentService = topTalentService;    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>Misko Hevery 的 Google talk 深入解释了依赖注入的 “为什么”，所以，让我们看看它在实践中是如何使用的。在关注点分离（常见错误 #3）一节中，我们创建了一个服务和控制器类。</p>
+<p>假设我们想在<code>TopTalentService</code>行为正确的前提下测试控制器。我们可以通过提供一个单独的配置类来插入一个模拟对象来代替实际的服务实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SampleUnitTestConfig</span> </span>&#123;    <br>    <span class="hljs-meta">@Bean</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> TopTalentService <span class="hljs-title">topTalentService</span><span class="hljs-params">()</span> </span>&#123;        <br>        TopTalentService topTalentService = Mockito.mock(TopTalentService.class);<br>        Mockito.when(topTalentService.getTopTalent()).thenReturn(                <br>            Stream.of(<span class="hljs-string">&quot;Mary&quot;</span>, <span class="hljs-string">&quot;Joel&quot;</span>).map(TopTalentData::<span class="hljs-keyword">new</span>).collect(Collectors.toList()));        <br>        <span class="hljs-keyword">return</span> topTalentService;    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后，我们可以通过告诉 Spring 使用SampleUnitTestConfig作为它的配置类来注入模拟对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ContextConfiguration(classes = &#123; SampleUnitTestConfig.class &#125;)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>之后，我们就可以使用上下文配置将 Bean 注入到单元测试中。</p>
+<h2 id="错误十：缺乏测试，或测试不当"><a href="#错误十：缺乏测试，或测试不当" class="headerlink" title="错误十：缺乏测试，或测试不当"></a>错误十：缺乏测试，或测试不当</h2><p>尽管单元测试的概念已经存在很长时间了，但很多开发人员似乎要么 “忘记” 做这件事（特别是如果它不是 “必需” 的时候），要么只是在事后把它添加进来。这显然是不可取的，因为测试不仅应该验证代码的正确性，还应该作为程序在不同场景下应如何表现的文档。</p>
+<p>在测试 Web 服务时，很少只进行 “纯” 单元测试，因为通过 HTTP 进行通信通常需要调用 Spring 的 DispatcherServlet ，并查看当收到一个实际的 HttpServletRequest 时会发生什么（使它成为一个 “集成” 测试，处理验证、序列化等）。</p>
+<p>REST Assured，一个用于简化测试REST服务的 Java DSL，在 MockMVC 之上，已经被证明提供了一个非常优雅的解决方案。考虑以下带有依赖项注入的代码片段：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RunWith(SpringJUnit4Cla***unner.class)</span><br><span class="hljs-meta">@ContextConfiguration(classes = &#123;        </span><br><span class="hljs-meta">    Application.class,        </span><br><span class="hljs-meta">    SampleUnitTestConfig.class</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RestAssuredTestDemonstration</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span>    <br>    <span class="hljs-keyword">private</span> TopTalentController topTalentController;<br>    <br>    <span class="hljs-meta">@Test</span>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shouldGetMaryAndJoel</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;        <br>        <span class="hljs-comment">// given        </span><br>        MockMvcRequestSpecification givenRestAssuredSpecification = RestAssuredMockMvc.given()                .standaloneSetup(topTalentController);<br>        <span class="hljs-comment">// when        </span><br>        MockMvcResponse response = givenRestAssuredSpecification.when().get(<span class="hljs-string">&quot;/toptal/get&quot;</span>);<br>        <span class="hljs-comment">// then        </span><br>        response.then().statusCode(<span class="hljs-number">200</span>);        <br>        response.then().body(<span class="hljs-string">&quot;name&quot;</span>, hasItems(<span class="hljs-string">&quot;Mary&quot;</span>, <span class="hljs-string">&quot;Joel&quot;</span>));    <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>SampleUnitTestConfig类将TopTalentService的模拟实现连接到TopTalentController中，而所有的其他类都是通过扫描应用类所在包的下级包目录来推断出的标准配置。RestAssuredMockMvc只是用来设置一个轻量级环境，并向/toptal/get端点发送一个GET请求。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/50%E4%B8%AA%E7%BB%8F%E5%85%B8Spring%E9%9D%A2%E8%AF%95%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">50 个 经典 Spring 面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3%20Spring%20%E4%B8%AD%E7%9A%84%20@Bean%20%E6%B3%A8%E8%A7%A3/">
+                        <span class="hidden-mobile">详细讲解 Spring 中的 @Bean 注解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

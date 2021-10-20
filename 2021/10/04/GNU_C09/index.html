@@ -1,0 +1,602 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="链接过程中的强符号和弱符号  9.1 属性声明：weakGNU C 通过 attribute 声明weak属性，可以将一个强符号转换为弱符号。 使用方法如下。 12void  __attribute__((weak))  func(void);int  num  __attribte__((weak);   编译器在编译源程序时，无论你是变量名、函数名，在它眼里，都是一个符号而已，用来表征一个地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链接过程中的强符号和弱符号">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C09/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="链接过程中的强符号和弱符号  9.1 属性声明：weakGNU C 通过 attribute 声明weak属性，可以将一个强符号转换为弱符号。 使用方法如下。 12void  __attribute__((weak))  func(void);int  num  __attribte__((weak);   编译器在编译源程序时，无论你是变量名、函数名，在它眼里，都是一个符号而已，用来表征一个地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.332Z">
+<meta property="article:modified_time" content="2021-10-04T02:51:57.247Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>链接过程中的强符号和弱符号 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="链接过程中的强符号和弱符号">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">链接过程中的强符号和弱符号</h1>
+            
+            <div class="markdown-body">
+              <center><h2>链接过程中的强符号和弱符号</h2></center>
+
+<h2 id="9-1-属性声明：weak"><a href="#9-1-属性声明：weak" class="headerlink" title="9.1 属性声明：weak"></a>9.1 属性声明：weak</h2><p>GNU C 通过 attribute 声明weak属性，可以将一个强符号转换为弱符号。</p>
+<p>使用方法如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">void</span>  __attribute__((weak))  func(<span class="hljs-keyword">void</span>);<br><span class="hljs-keyword">int</span>  num  __attribte__((weak);<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译器在编译源程序时，无论你是变量名、函数名，在它眼里，都是一个符号而已，用来表征一个地址。编译器会将这些符号集中，存放到一个叫符号表的 section 中。</p>
+<p>在一个软件工程项目中，可能有多个源文件，由不同工程师开发。有时候可能会遇到这种情况：A 工程师在他负责的 A.c 源文件中定义了一个全局变量 num，而 B 工程师也在他负责的 B.c 源文件中定义了一个同名全局变量 num。那么当我们在程序中打印变量 num 的值时，是该打印哪个值呢？</p>
+<p>是时候表演真正的技术了。这时候，就需要用编译链接的原理知识来分析这个问题了。编译链接的基本过程其实很简单，主要分为三个阶段。</p>
+<ul>
+<li><p>编译阶段：编译器以源文件为单位，将每一个源文件编译为一个 .o 后缀的目标文件。每一个目标文件由代码段、数据段、符号表等组成。</p>
+</li>
+<li><p>链接阶段：链接器将各个目标文件组装成一个大目标文件。链接器将各个目标文件中的代码段组装在一起，组成一个大的代码段；各个数据段组装在一起，组成一个大的数据段；各个符号表也会集中在一起，组成一个大的符号表。最后再将合并后的代码段、数据段、符号表等组合成一个大的目标文件。</p>
+</li>
+<li><p>重定位：因为各个目标文件重新组装，各个目标文件中的变量、函数的地址都发生了变化，所以要重新修正这些函数、变量的地址，这个过程称为重定位。重定位结束后，就生成了可以在机器上运行的可执行程序。</p>
+</li>
+</ul>
+<p>上面举例的工程项目，在编译过程中的链接阶段，可能就会出现问题：A.c 和 B.c 文件中都定义了一个同名变量 num，那链接器到底该用哪一个呢？</p>
+<p>这个时候，就需要引入强符号和弱符号的概念了。</p>
+<h2 id="9-2-强符号和弱符号"><a href="#9-2-强符号和弱符号" class="headerlink" title="9.2 强符号和弱符号"></a>9.2 强符号和弱符号</h2><p>在一个程序中，无论是变量名，还是函数名，在编译器的眼里，就是一个符号而已。符号可以分为强符号和弱符号。</p>
+<ul>
+<li>强符号：函数名、初始化的全局变量名；</li>
+<li>弱符号：未初始化的全局变量名。</li>
+</ul>
+<p>在一个工程项目中，对于相同的全局变量名、函数名，我们一般可以归结为下面三种场景。</p>
+<ul>
+<li>强符号+强符号</li>
+<li>强符号+弱符号</li>
+<li>弱符号+弱符号</li>
+</ul>
+<p>强符号和弱符号在解决程序编译链接过程中，出现的多个同名变量、函数的冲突问题非常有用。一般我们遵循下面三个规则。</p>
+<ul>
+<li>一山不容二虎</li>
+<li>强弱可以共处</li>
+<li>体积大者胜出</li>
+</ul>
+<p>为了方便，这是我编的顺口溜。主要意思就是：在一个项目中，不能同时存在两个强符号，比如你在一个多文件的工程中定义两个同名的函数，或初始化的全局变量，那么链接器在链接时就会报重定义的错误。但一个工程中允许强符号和弱符号同时存在。比如你可以同时定义一个初始化的全局变量和一个未初始化的全局变量，这种写法在编译时是可以编译通过的。编译器对于这种同名符号冲突，在作符号决议时，一般会选用强符号，丢掉弱符号。还有一种情况就是，一个工程中，同名的符号都是弱符号，那编译器该选择哪个呢？谁的体积大，即谁在内存中存储空间大，就选谁。</p>
+<p>我们接下来写一个简单的程序，来验证上面的理论。定义两个源文件：main.c 和 func.c。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">int</span> b;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func：a = %d\n&quot;</span>, a);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func: b = %d\n&quot;</span>, b);<br>&#125;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a;<br><span class="hljs-keyword">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main：a = %d\n&quot;</span>, a);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main: b = %d\n&quot;</span>, b);<br>    func();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译程序，可以看到程序运行结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out main.c func.c<br>main: a = <span class="hljs-number">1</span><br>main: b = <span class="hljs-number">2</span><br>func: a = <span class="hljs-number">1</span><br>func: b = <span class="hljs-number">2</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>我们在 main.c 和 func.c 中分别定义了两个同名全局变量 a 和 b，但是一个是强符号，一个是弱符号。链接器在链接过程中，看到冲突的同名符号，会选择强符号，所以你会看到，无论是 main 函数，还是 func 函数，打印的都是强符号的值。</p>
+<p>一般来讲，不建议在一个工程中定义多个不同类型的弱符号，编译的时候可能会出现各种各样的问题，这里就不举例了。在一个工程中，也不能同时定义两个同名的强符号，即初始化的全局变量或函数，否则就会报重定义错误。但是我们可以使用 GNU C 扩展的 weak 属性，将一个强符号转换为弱符号。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a __attribute__((weak)) = <span class="hljs-number">1</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func：a = %d\n&quot;</span>, a);<br>&#125;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main：a = %d\n&quot;</span>, a);<br>    func();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译程序，可以看到程序运行结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out main.c func.c<br>main: a = <span class="hljs-number">4</span><br>func: a = <span class="hljs-number">4</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>我们通过 weak 属性声明，将 func.c 中的全局变量 a，转换为一个弱符号，然后在 main.c 里同样定义一个全局变量 a，并初始化 a 为4。链接器在链接时会选择 main.c 中的这个强符号，所以在两个文件中，打印变量 a 的值都是4。</p>
+<h2 id="9-3-函数的强符号和弱符号"><a href="#9-3-函数的强符号和弱符号" class="headerlink" title="9.3 函数的强符号和弱符号"></a>9.3 函数的强符号和弱符号</h2><p>链接器对于同名变量冲突的处理遵循上面的强弱规则，对于函数同名冲突，同样也遵循相同的规则。函数名本身就是一个强符号，在一个工程中定义两个同名的函数，编译时肯定会报重定义错误。但我们可以通过 weak 属性声明，将其中一个函数转换为弱符号。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a __attribute__((weak)) = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">void</span> __attribute__((weak)) func(<span class="hljs-keyword">void</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func：a = %d\n&quot;</span>, a);<br>&#125;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;I am a strong symbol!\n&quot;</span>);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main：a = %d\n&quot;</span>, a);<br>    func();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译程序，可以看到程序运行结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out main.c func.c<br>main: a = <span class="hljs-number">4</span><br>func: I am a strong symbol!<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个程序示例中，我们在 main.c 中重新定义了一个同名的 func 函数，然后将 func.c 文件中的 func() 函数，通过 weak 属性声明转换为一个弱符号。链接器在链接时会选择 main.c 中的强符号，所以我们在 main 函数中调用 func() 时，实际上调用的是 main.c 文件里的 func() 函数。</p>
+<h2 id="9-4-弱符号的用途"><a href="#9-4-弱符号的用途" class="headerlink" title="9.4 弱符号的用途"></a>9.4 弱符号的用途</h2><p>在一个源文件中引用一个变量或函数，当我们只声明，而没有定义时，一般编译是可以通过的。这是因为编译是以文件为单位的，编译器会将一个个源文件首先编译为 .o 目标文件。编译器只要能看到函数或变量的声明，会认为这个变量或函数的定义可能会在其它的文件中，所以不会报错。甚至如果你没有包含头文件，连个声明也没有，编译器也不会报错，顶多就是给你一个警告信息。但链接阶段是要报错的，链接器在各个目标文件、库中都找不到这个变量或函数的定义，一般就会报未定义错误。</p>
+<p>当函数被声明为一个弱符号时，会有一个奇特的地方：当链接器找不到这个函数的定义时，也不会报错。编译器会将这个函数名，即弱符号，设置为0或一个特殊的值。只有当程序运行时，调用到这个函数，跳转到0地址或一个特殊的地址才会报错。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a __attribute__((weak)) = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>;<br><span class="hljs-keyword">void</span> __attribute__((weak)) func(<span class="hljs-keyword">void</span>);<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main：a = %d\n&quot;</span>, a);<br>    func();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译程序，可以看到程序运行结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out main.c func.c<br>main: a = <span class="hljs-number">4</span><br>Segmentation fault (core dumped)<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个示例程序中，我们没有定义 func() 函数，仅仅是在 main.c 里作了一个声明，并将其声明为一个弱符号。编译这个工程，你会发现是可以编译通过的，只是到了程序运行时才会出错。</p>
+<p>为了防止函数运行出错，我们可以在运行这个函数之前，先做一个判断，即看这个函数名的地址是不是0，然后再决定是否调用、运行。这样就可以避免段错误了，示例代码如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//func.c</span><br><span class="hljs-keyword">int</span> a __attribute__((weak)) = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">int</span> a = <span class="hljs-number">4</span>;<br><span class="hljs-keyword">void</span> __attribute__((weak)) func(<span class="hljs-keyword">void</span>);<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;main：a = %d\n&quot;</span>, a);<br>    <span class="hljs-keyword">if</span> (func)<br>        func();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>编译程序，可以看到程序运行结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out main.c func.c<br>main: a = <span class="hljs-number">4</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>函数名的本质就是一个地址，在调用 func 之前，我们先判断其是否为0，为0的话就不调用了，直接跳过。你会发现，通过这样的设计，即使这个 func() 函数没有定义，我们整个工程也能正常的编译、链接和运行！</p>
+<p>弱符号的这个特性，在库函数中应用很广泛。比如你在开发一个库，基础的功能已经实现，有些高级的功能还没实现，那你可以将这些函数通过 weak 属性声明，转换为一个弱符号。通过这样设置，即使函数还没有定义，我们在应用程序中只要做一个非0的判断就可以了，并不影响我们程序的运行。等以后你发布新的库版本，实现了这些高级功能，应用程序也不需要任何修改，直接运行就可以调用这些高级功能。</p>
+<p>弱符号还有一个好处，如果我们对库函数的实现不满意，我们可以自定义与库函数同名的函数，实现更好的功能。比如我们 C 标准库中定义的 gets() 函数，就存在漏洞，常常成为黑客堆栈溢出攻击的靶子。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">char</span> a[<span class="hljs-number">10</span>];<br>    gets(a);<br>    <span class="hljs-built_in">puts</span>(a);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>C 标准定义的库函数 gets() 主要用于输入字符串，它的一个 Bug 就是使用回车符来判断用户输入结束标志。这样的设计很容易造成堆栈溢出。比如上面的程序，我们定义一个长度为10的字符数组用来存储用户输入的字符串，当我们输入一个长度大于10的字符串时，就会发生内存错误。</p>
+<p>接着我们定义一个跟 gets() 相同类型的同名函数，并在 main 函数中直接调用，代码如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br> <span class="hljs-function"><span class="hljs-keyword">char</span> * <span class="hljs-title">gets</span> <span class="hljs-params">(<span class="hljs-keyword">char</span> * str)</span></span><br><span class="hljs-function"> </span>&#123;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello world!\n&quot;</span>);<br>     <span class="hljs-keyword">return</span> (<span class="hljs-keyword">char</span> *)<span class="hljs-number">0</span>;<br> &#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">char</span> a[<span class="hljs-number">10</span>];<br>    gets(a);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>程序运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">hello world!<br></code></pre></div></td></tr></table></figure>
+
+
+<p>通过运行结果，我们可以看到，虽然我们定义了跟 C 标准库函数同名的 gets() 函数，但编译是可以通过的。程序运行时调用 gets() 函数时，就会跳转到我们自定义的 gets() 函数中运行。</p>
+<h2 id="9-5-属性声明：alias"><a href="#9-5-属性声明：alias" class="headerlink" title="9.5 属性声明：alias"></a>9.5 属性声明：alias</h2><p>GNU C 扩展了一个 alias 属性，这个属性很简单，主要用来给函数定义一个别名。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">void</span> __f(<span class="hljs-keyword">void</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;__f\n&quot;</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> __<span class="hljs-title">attribute__</span><span class="hljs-params">((alias(<span class="hljs-string">&quot;__f&quot;</span>)))</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    f();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>程序运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">__f<br></code></pre></div></td></tr></table></figure>
+
+
+<p>通过 alias 属性声明，我们就可以给 f() 函数定义一个别名 f()，以后我们想调用 f() 函数，可以直接通过 f() 调用即可。</p>
+<p>在 Linux 内核中，你会发现 alias 有时会和 weak 属性一起使用。比如有些函数随着内核版本升级，函数接口发生了变化，我们可以通过 alias 属性给这个旧接口名字做下封装，起一个新接口的名字。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//f.c</span><br><span class="hljs-keyword">void</span> __f(<span class="hljs-keyword">void</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;__f()\n&quot;</span>);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> __<span class="hljs-title">attribute__</span><span class="hljs-params">((weak,alias(<span class="hljs-string">&quot;__f&quot;</span>)))</span></span>;<br><br><span class="hljs-comment">//main.c</span><br><span class="hljs-keyword">void</span> __attribute__((weak)) f(<span class="hljs-keyword">void</span>);<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;f()\n&quot;</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    f();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>当我们在 main.c 中新定义了 f() 函数时，在 main 函数中调用 f() 函数，会直接调用 main.c 中新定义的函数；当 f() 函数没有新定义时，就会调用 __f() 函数。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C10/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">内联函数探究</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C08/">
+                        <span class="hidden-mobile">变参函数的格式检查</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="红黑树  当在10亿数据中只需要进行10几次比较就能查找到目标时，不禁感叹编程之魅力！人类之伟大呀！—— 学红黑树有感。 终于，在学习了几天的红黑树相关的知识后，我想把我所学所想和所感分享给大家。红黑树是一种比较难的数据结构，要完全搞懂非常耗时耗力，红黑树怎么自平衡？什么时候需要左旋或右旋？插入和删除破坏了树的平衡后怎么处理？等等一连串的问题在学习前困扰着我。如果你在学习过程中也会存在我的疑问，那">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红黑树">
+<meta property="og:url" content="http://example.com/2021/10/04/%E7%BA%A2%E9%BB%91%E6%A0%91/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="红黑树  当在10亿数据中只需要进行10几次比较就能查找到目标时，不禁感叹编程之魅力！人类之伟大呀！—— 学红黑树有感。 终于，在学习了几天的红黑树相关的知识后，我想把我所学所想和所感分享给大家。红黑树是一种比较难的数据结构，要完全搞懂非常耗时耗力，红黑树怎么自平衡？什么时候需要左旋或右旋？插入和删除破坏了树的平衡后怎么处理？等等一连串的问题在学习前困扰着我。如果你在学习过程中也会存在我的疑问，那">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201333428.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201333529.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201333236.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201334467.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201334587.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201335354.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201335710.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201335437.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201336272.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201336633.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201336465.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201337224.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201337310.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201337214.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201337762.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201338402.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201338104.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201338687.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201338225.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201338477.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201339300.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201339542.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201339819.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201339770.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201340598.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201340579.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201340532.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201340822.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201341204.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201341714.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201341456.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201342010.webp">
+<meta property="article:published_time" content="2021-10-04T14:09:54.588Z">
+<meta property="article:modified_time" content="2021-10-04T14:26:49.879Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108201333428.webp">
+  
+  <title>红黑树 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="红黑树">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 22:09" pubdate>
+        2021年10月4日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">红黑树</h1>
+            
+            <div class="markdown-body">
+              <center><h2>红黑树</h2></center>
+
+<p><strong>当在10亿数据中只需要进行10几次比较就能查找到目标时，不禁感叹编程之魅力！人类之伟大呀！—— 学红黑树有感。</strong></p>
+<p>终于，在学习了几天的红黑树相关的知识后，我想把我所学所想和所感分享给大家。红黑树是一种比较难的数据结构，要完全搞懂非常耗时耗力，红黑树怎么自平衡？什么时候需要左旋或右旋？插入和删除破坏了树的平衡后怎么处理？等等一连串的问题在学习前困扰着我。如果你在学习过程中也会存在我的疑问，那么本文对你会有帮助，本文帮助你全面、彻底地理解红黑树，面试官放马过来！</p>
+<p>本文将通过图文的方式讲解红黑树的知识点，并且不会涉及到任何代码，相信我，在懂得红黑树实现原理前，看代码会一头雾水的，当原理懂了，代码也就按部就班写而已，没任何难度。</p>
+<p>阅读本文你需具备知识点：</p>
+<ul>
+<li>二叉查找树</li>
+<li>完美平衡二叉树</li>
+</ul>
+<p>关于红黑树的知识面试经常问，本文作者是安卓大叔，欢迎点击阅读原文关注作者的简书。事不宜迟，让我们进入正题吧。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a><strong>正文</strong></h3><p>红黑树也是二叉查找树，我们知道，二叉查找树这一数据结构并不难，而红黑树之所以难是难在它是自平衡的二叉查找树，在进行插入和删除等可能会破坏树的平衡的操作时，需要重新自处理达到平衡状态。现在在脑海想下怎么实现？是不是太多情景需要考虑了？啧啧，先别急，通过本文的学习后，你会觉得，其实也不过如此而已。好吧，我们先来看下红黑树的定义和一些基本性质。</p>
+<h4 id="红黑树定义和性质"><a href="#红黑树定义和性质" class="headerlink" title="红黑树定义和性质"></a><strong>红黑树定义和性质</strong></h4><p>红黑树是一种含有红黑结点并能自平衡的二叉查找树。它必须满足下面性质：</p>
+<ul>
+<li>性质1：每个节点要么是黑色，要么是红色。</li>
+<li>性质2：根节点是黑色。</li>
+<li>性质3：每个叶子节点（NIL）是黑色。</li>
+<li>性质4：每个红色结点的两个子结点一定都是黑色。</li>
+<li><strong>性质5：任意一结点到每个叶子结点的路径都包含数量相同的黑结点。</strong></li>
+</ul>
+<p>从性质5又可以推出：</p>
+<ul>
+<li>性质5.1：如果一个结点存在黑子结点，那么该结点肯定有两个子结点</li>
+</ul>
+<p>图1就是一颗简单的红黑树。其中Nil为叶子结点，并且它是黑色的。(值得提醒注意的是，在Java中，叶子结点是为null的结点。)</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201333428.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图1 一颗简单的红黑树</center>
+
+<p>红黑树并不是一个<em>完美</em>平衡二叉查找树，从图1可以看到，根结点P的左子树显然比右子树高，但左子树和右子树的黑结点的层数是相等的，也即任意一个结点到到每个叶子结点的路径都包含数量相同的黑结点(性质5)。所以我们叫红黑树这种平衡为<strong>黑色完美平衡</strong>。</p>
+<p>介绍到此，为了后面讲解不至于混淆，我们还需要来约定下红黑树一些结点的叫法，如图2所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201333529.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图2 结点叫法约定</center>
+
+<p>我们把正在处理(遍历)的结点叫做当前结点，如图2中的D，它的父亲叫做父结点，它的父亲的另外一个子结点叫做兄弟结点，父亲的父亲叫做祖父结点。</p>
+<p>前面讲到红黑树能自平衡，它靠的是什么？三种操作：左旋、右旋和变色。</p>
+<ul>
+<li><strong>左旋</strong>：以某个结点作为支点(旋转结点)，其右子结点变为旋转结点的父结点，右子结点的左子结点变为旋转结点的右子结点，左子结点保持不变。如图3。</li>
+<li><strong>右旋</strong>：以某个结点作为支点(旋转结点)，其左子结点变为旋转结点的父结点，左子结点的右子结点变为旋转结点的左子结点，右子结点保持不变。如图4。</li>
+<li><strong>变色</strong>：结点的颜色由红变黑或由黑变红。</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201333236.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图3 左旋</center>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201334467.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图4 右旋</center>
+
+<p>上面所说的旋转结点也即旋转的支点，图4和图5中的P结点。<br>我们先忽略颜色，可以看到旋转操作不会影响旋转结点的父结点，父结点以上的结构还是保持不变的。<br><strong>左旋</strong>只影响旋转结点和其<strong>右子树</strong>的结构，把右子树的结点往左子树挪了。<br><strong>右旋</strong>只影响旋转结点和其<strong>左子树</strong>的结构，把左子树的结点往右子树挪了。</p>
+<p>所以旋转操作是<strong>局部</strong>的。另外可以看出旋转能保持红黑树平衡的一些端详了：当一边子树的结点少了，那么向另外一边子树“借”一些结点；当一边子树的结点多了，那么向另外一边子树“租”一些结点。</p>
+<p>但要保持红黑树的性质，结点不能乱挪，还得靠变色了。怎么变？具体情景又不同变法，后面会具体讲到，现在只需要记住<strong>红黑树总是通过旋转和变色达到自平衡</strong>。</p>
+<p>balabala了这么多，相信你对红黑树有一定印象了，那么现在来考考你：</p>
+<p><strong>思考题1：黑结点可以同时包含一个红子结点和一个黑子结点吗？</strong> (答案见文末)</p>
+<p>接下来先讲解红黑树的查找热热身。</p>
+<h4 id="红黑树查找"><a href="#红黑树查找" class="headerlink" title="红黑树查找"></a><strong>红黑树查找</strong></h4><p>因为红黑树是一颗二叉平衡树，并且查找不会破坏树的平衡，所以查找跟二叉平衡树的查找无异：</p>
+<ol>
+<li>从根结点开始查找，把根结点设置为当前结点；</li>
+<li>若当前结点为空，返回null；</li>
+<li>若当前结点不为空，用当前结点的key跟查找key作比较；</li>
+<li>若当前结点key等于查找key，那么该key就是查找目标，返回当前结点；</li>
+<li>若当前结点key大于查找key，把当前结点的左子结点设置为当前结点，重复步骤2；</li>
+<li>若当前结点key小于查找key，把当前结点的右子结点设置为当前结点，重复步骤2；</li>
+</ol>
+<p>如图5所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201334587.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图5 二叉树查找流程图</center>
+
+<p>非常简单，但简单不代表它效率不好。正由于红黑树总保持黑色完美平衡，所以它的查找最坏时间复杂度为O(2lgN)，也即整颗树刚好红黑相隔的时候。能有这么好的查找效率得益于红黑树自平衡的特性，而这背后的付出，红黑树的插入操作功不可没～</p>
+<h4 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a><strong>红黑树插入</strong></h4><p>插入操作包括两部分工作：一查找插入的位置；二插入后自平衡。查找插入的父结点很简单，跟查找操作区别不大：</p>
+<ol>
+<li>从根结点开始查找；</li>
+<li>若根结点为空，那么插入结点作为根结点，结束。</li>
+<li>若根结点不为空，那么把根结点作为当前结点；</li>
+<li>若当前结点为null，返回当前结点的父结点，结束。</li>
+<li>若当前结点key等于查找key，那么该key所在结点就是插入结点，更新结点的值，结束。</li>
+<li>若当前结点key大于查找key，把当前结点的左子结点设置为当前结点，重复步骤4；</li>
+<li>若当前结点key小于查找key，把当前结点的右子结点设置为当前结点，重复步骤4；</li>
+</ol>
+<p>如图6所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201335354.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图6 红黑树插入位置查找</center>
+
+<p>ok，插入位置已经找到，把插入结点放到正确的位置就可以啦，但插入结点是应该是什么颜色呢？答案是<strong>红色</strong>。理由很简单，红色在父结点（如果存在）为黑色结点时，红黑树的黑色平衡没被破坏，不需要做自平衡操作。但如果插入结点是黑色，那么插入位置所在的子树黑色结点总是多1，必须做自平衡。</p>
+<p>所有插入情景如图7所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201335710.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图7 红黑树插入情景</center>
+
+<p>嗯，插入情景很多呢，8种插入情景！但情景1、2和3的处理很简单，而情景4.2和情景4.3只是方向反转而已，懂得了一种情景就能推出另外一种情景，所以总体来看，并不复杂，后续我们将一个一个情景来看，把它彻底搞懂。</p>
+<p>另外，根据二叉树的性质，<strong>除了情景2，所有插入操作都是在叶子结点进行的</strong>。这点应该不难理解，因为查找插入位置时，我们就是在找子结点为空的父结点的。</p>
+<p>在开始每个情景的讲解前，我们还是先来约定下，如图8所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201335437.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图8 插入操作结点的叫法约定</center>
+
+<p>图8的字母并不代表结点Key的大小。I表示插入结点，P表示插入结点的父结点，S表示插入结点的叔叔结点，PP表示插入结点的祖父结点。</p>
+<p>好了，下面让我们一个一个来分析每个插入的情景以其处理。</p>
+<h5 id="插入情景1：红黑树为空树"><a href="#插入情景1：红黑树为空树" class="headerlink" title="插入情景1：红黑树为空树"></a>插入情景1：红黑树为空树</h5><p>最简单的一种情景，直接把插入结点作为根结点就行，但注意，根据红黑树性质2：根节点是黑色。还需要把插入结点设为黑色。</p>
+<p><strong>处理：把插入结点作为根结点，并把结点设置为黑色</strong>。</p>
+<h5 id="插入情景2：插入结点的Key已存在"><a href="#插入情景2：插入结点的Key已存在" class="headerlink" title="插入情景2：插入结点的Key已存在"></a>插入情景2：插入结点的Key已存在</h5><p>插入结点的Key已存在，既然红黑树总保持平衡，在插入前红黑树已经是平衡的，那么把插入结点设置为将要替代结点的颜色，再把结点的值更新就完成插入。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>把I设为当前结点的颜色</strong></li>
+<li><strong>更新当前结点的值为插入结点的值</strong></li>
+</ul>
+<h5 id="插入情景3：插入结点的父结点为黑结点"><a href="#插入情景3：插入结点的父结点为黑结点" class="headerlink" title="插入情景3：插入结点的父结点为黑结点"></a>插入情景3：插入结点的父结点为黑结点</h5><p>由于插入的结点是红色的，当插入结点的黑色时，并不会影响红黑树的平衡，直接插入即可，无需做自平衡。</p>
+<p><strong>处理：直接插入</strong>。</p>
+<h5 id="插入情景4：插入结点的父结点为红结点"><a href="#插入情景4：插入结点的父结点为红结点" class="headerlink" title="插入情景4：插入结点的父结点为红结点"></a>插入情景4：插入结点的父结点为红结点</h5><p>再次回想下红黑树的性质2：根结点是黑色。<strong>如果插入的父结点为红结点，那么该父结点不可能为根结点，所以插入结点总是存在祖父结点</strong>。这点很重要，因为后续的旋转操作肯定需要祖父结点的参与。</p>
+<p>情景4又分为很多子情景，下面将进入重点部分，各位看官请留神了。</p>
+<p><strong>插入情景4.1：叔叔结点存在并且为红结点</strong><br>从红黑树性质4可以，祖父结点肯定为黑结点，因为不可以同时存在两个相连的红结点。那么此时该插入子树的红黑层数的情况是：黑红红。显然最简单的处理方式是把其改为：红黑红。如图9和图10所示。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>将P和S设置为黑色</strong></li>
+<li><strong>将PP设置为红色</strong></li>
+<li><strong>把PP设置为当前插入结点</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201336272.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图9 插入情景4.1_1</center>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201336633.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图10 插入情景4.1_2</center>
+
+<p>可以看到，我们把PP结点设为红色了，如果PP的父结点是黑色，那么无需再做任何处理；但如果PP的父结点是红色，根据性质4，此时红黑树已不平衡了，所以还需要把PP当作新的插入结点，继续做插入操作自平衡处理，直到平衡为止。</p>
+<p>试想下PP刚好为根结点时，那么根据性质2，我们必须把PP重新设为黑色，那么树的红黑结构变为：黑黑红。换句话说，从根结点到叶子结点的路径中，黑色结点增加了。<strong>这也是唯一一种会增加红黑树黑色结点层数的插入情景</strong>。</p>
+<p>我们还可以总结出另外一个经验：<strong>红黑树的生长是自底向上的</strong>。这点不同于普通的二叉查找树，普通的二叉查找树的生长是自顶向下的。</p>
+<p><strong>插入情景4.2：叔叔结点不存在或为黑结点，并且插入结点的父亲结点是祖父结点的左子结点</strong><br>单纯从插入前来看，也即不算情景4.1自底向上处理时的情况，叔叔结点非红即为叶子结点(Nil)。因为如果叔叔结点为黑结点，而父结点为红结点，那么叔叔结点所在的子树的黑色结点就比父结点所在子树的多了，这不满足红黑树的性质5。后续情景同样如此，不再多做说明了。</p>
+<p>前文说了，需要旋转操作时，肯定一边子树的结点多了或少了，需要租或借给另一边。插入显然是多的情况，那么把多的结点租给另一边子树就可以了。</p>
+<p><strong>插入情景4.2.1：插入结点是其父结点的左子结点</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>将P设为黑色</strong></li>
+<li><strong>将PP设为红色</strong></li>
+<li><strong>对PP进行右旋</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201336465.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图11 插入情景4.2.1</center>
+
+<p>由图11可得，左边两个红结点，右边不存在，那么一边一个刚刚好，并且因为为红色，肯定不会破坏树的平衡。</p>
+<p>咦，可以把PP设为红色，I和P设为黑色吗？答案是可以！看过《算法：第4版》的同学可能知道，书中讲解的就是把PP设为红色，I和P设为黑色。但把PP设为红色，显然又会出现情景4.1的情况，需要自底向上处理，做多了无谓的操作，既然能自己消化就不要麻烦祖辈们啦～</p>
+<p><strong>插入情景4.2.2：插入结点是其父结点的右子结点</strong><br>这种情景显然可以转换为情景4.2.1，如图12所示，不做过多说明了。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>对P进行左旋</strong></li>
+<li><strong>把P设置为插入结点，得到情景4.2.1</strong></li>
+<li><strong>进行情景4.2.1的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201337224.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图12 插入情景4.2.2</center>
+
+<p><strong>插入情景4.3：叔叔结点不存在或为黑结点，并且插入结点的父亲结点是祖父结点的右子结点</strong><br>该情景对应情景4.2，只是方向反转，不做过多说明了，直接看图。</p>
+<p><strong>插入情景4.3.1：插入结点是其父结点的右子结点</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>将P设为黑色</strong></li>
+<li><strong>将PP设为红色</strong></li>
+<li><strong>对PP进行左旋</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201337310.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图13 插入情景4.3.1</center>
+
+<p><strong>插入情景4.3.2：插入结点是其父结点的右子结点</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>对P进行右旋</strong></li>
+<li><strong>把P设置为插入结点，得到情景4.3.1</strong></li>
+<li><strong>进行情景4.3.1的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201337214.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图14 插入情景4.3.2</center>
+
+<p>好了，讲完插入的所有情景了。可能又同学会想：上面的情景举例的都是第一次插入而不包含自底向上处理的情况，那么上面所说的情景都适合自底向上的情况吗？答案是肯定的。理由很简单，但每棵子树都能自平衡，那么整棵树最终总是平衡的。好吧，在出个习题，请大家拿出笔和纸画下试试（请务必动手画下，加深印象）：</p>
+<p><em><strong>习题1：请画出图15的插入自平衡处理过程。</strong></em>（答案见文末）</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201337762.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图15 习题1</center>
+
+<h4 id="红黑树删除"><a href="#红黑树删除" class="headerlink" title="红黑树删除"></a>红黑树删除</h4><p>红黑树插入已经够复杂了，但删除更复杂，也是红黑树最复杂的操作了。但稳住，胜利的曙光就在前面了！</p>
+<p>红黑树的删除操作也包括两部分工作：一查找目标结点；而删除后自平衡。查找目标结点显然可以复用查找操作，当不存在目标结点时，忽略本次操作；当存在目标结点时，删除后就得做自平衡处理了。删除了结点后我们还需要找结点来替代删除结点的位置，不然子树跟父辈结点断开了，除非删除结点刚好没子结点，那么就不需要替代。</p>
+<p>二叉树删除结点找替代结点有3种情情景：</p>
+<ul>
+<li>情景1：若删除结点无子结点，直接删除</li>
+<li>情景2：若删除结点只有一个子结点，用子结点替换删除结点</li>
+<li>情景3：若删除结点有两个子结点，用后继结点（大于删除结点的最小结点）替换删除结点</li>
+</ul>
+<p>补充说明下，情景3的后继结点是大于删除结点的最小结点，也是删除结点的右子树种最右结点。那么可以拿前继结点（删除结点的左子树最左结点）替代吗？可以的。但习惯上大多都是拿后继结点来替代，后文的讲解也是用后继结点来替代。另外告诉大家一种找前继和后继结点的直观的方法（不知为何没人提过，大家都知道？）：<strong>把二叉树所有结点投射在X轴上，所有结点都是从左到右排好序的，所有目标结点的前后结点就是对应前继和后继结点</strong>。如图16所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201338402.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图16 二叉树投射x轴后有序</center>
+
+<p>接下来，讲一个重要的思路：<strong>删除结点被替代后，在不考虑结点的键值的情况下，对于树来说，可以认为删除的是替代结点！</strong>话很苍白，我们看图17。在不看键值对的情况下，图17的红黑树最终结果是删除了Q所在位置的结点！这种思路非常重要，大大简化了后文讲解红黑树删除的情景！</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201338104.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图17 删除结点换位思路</center>
+
+<p>基于此，上面所说的3种二叉树的删除情景可以相互转换并且最终都是转换为情景1！</p>
+<ul>
+<li>情景2：删除结点用其唯一的子结点替换，子结点替换为删除结点后，可以认为删除的是子结点，若子结点又有两个子结点，那么相当于转换为情景3，一直自顶向下转换，总是能转换为情景1。（对于红黑树来说，根据性质5.1，只存在一个子结点的结点肯定在树末了）</li>
+<li>情景3：删除结点用后继结点（肯定不存在左结点），如果后继结点有右子结点，那么相当于转换为情景2，否则转为为情景1。</li>
+</ul>
+<p>二叉树删除结点情景关系图如图18所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201338687.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图18 二叉树删除情景转换</center>
+
+<p>综上所述，<strong>删除操作删除的结点可以看作删除替代结点，而替代结点最后总是在树末。</strong>有了这结论，我们讨论的删除红黑树的情景就少了很多，因为我们只考虑删除树末结点的情景了。</p>
+<p>同样的，我们也是先来总体看下删除操作的所有情景，如图19所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201338225.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图19 红黑树删除情景</center>
+
+<p>哈哈，是的，即使简化了还是有9种情景！但跟插入操作一样，存在左右对称的情景，只是方向变了，没有本质区别。同样的，我们还是来约定下，如图20所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201338477.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图20 删除操作结点的叫法约定</center>
+
+<p>图20的字母并不代表结点Key的大小。R表示替代结点，P表示替代结点的父结点，S表示替代结点的兄弟结点，SL表示兄弟结点的左子结点，SR表示兄弟结点的右子结点。灰色结点表示它可以是红色也可以是黑色。</p>
+<p>值得特别提醒的是，<strong>R是即将被替换到删除结点的位置的替代结点，在删除前，它还在原来所在位置参与树的子平衡，平衡后再替换到删除结点的位置，才算删除完成。</strong></p>
+<p>万事具备，我们进入最后的也是最难的讲解。</p>
+<h5 id="删除情景1：替换结点是红色结点"><a href="#删除情景1：替换结点是红色结点" class="headerlink" title="删除情景1：替换结点是红色结点"></a>删除情景1：替换结点是红色结点</h5><p>我们把替换结点换到了删除结点的位置时，由于替换结点时红色，删除也了不会影响红黑树的平衡，只要把替换结点的颜色设为删除的结点的颜色即可重新平衡。</p>
+<p><strong>处理：颜色变为删除结点的颜色</strong></p>
+<h5 id="删除情景2：替换结点是黑结点"><a href="#删除情景2：替换结点是黑结点" class="headerlink" title="删除情景2：替换结点是黑结点"></a>删除情景2：替换结点是黑结点</h5><p>当替换结点是黑色时，我们就不得不进行自平衡处理了。我们必须还得考虑替换结点是其父结点的左子结点还是右子结点，来做不同的旋转操作，使树重新平衡。</p>
+<p><strong>删除情景2.1：替换结点是其父结点的左子结点</strong><br><strong>删除情景2.1.1：替换结点的兄弟结点是红结点</strong><br>若兄弟结点是红结点，那么根据性质4，兄弟结点的父结点和子结点肯定为黑色，不会有其他子情景，我们按图21处理，得到删除情景2.1.2.3（后续讲解，这里先记住，此时R仍然是替代结点，它的新的兄弟结点SL和兄弟结点的子结点都是黑色）。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>将S设为黑色</strong></li>
+<li><strong>将P设为红色</strong></li>
+<li><strong>对P进行左旋，得到情景2.1.2.3</strong></li>
+<li><strong>进行情景2.1.2.3的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201339300.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图21 删除情景2.1.1</center>
+
+<p><strong>删除情景2.1.2：替换结点的兄弟结点是黑结点</strong><br>当兄弟结点为黑时，其父结点和子结点的具体颜色也无法确定（如果也不考虑自底向上的情况，子结点非红即为叶子结点Nil，Nil结点为黑结点），此时又得考虑多种子情景。</p>
+<p><strong>删除情景2.1.2.1：替换结点的兄弟结点的右子结点是红结点，左子结点任意颜色</strong><br>即将删除的左子树的一个黑色结点，显然左子树的黑色结点少1了，然而右子树又又红色结点，那么我们直接向右子树“借”个红结点来补充黑结点就好啦，此时肯定需要用旋转处理了。如图22所示。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>将S的颜色设为P的颜色</strong></li>
+<li><strong>将P设为黑色</strong></li>
+<li><strong>将SR设为黑色</strong></li>
+<li><strong>对P进行左旋</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201339542.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图22 删除情景2.1.2.1</center>
+
+<p>平衡后的图怎么不满足红黑树的性质？前文提醒过，R是即将替换的，它还参与树的自平衡，平衡后再替换到删除结点的位置，所以R最终可以看作是删除的。另外图2.1.2.1是考虑到第一次替换和自底向上处理的情况，如果只考虑第一次替换的情况，根据红黑树性质，SL肯定是红色或为Nil，所以最终结果树是平衡的。如果是自底向上处理的情况，同样，每棵子树都保持平衡状态，最终整棵树肯定是平衡的。后续的情景同理，不做过多说明了。</p>
+<p><strong>删除情景2.1.2.2：替换结点的兄弟结点的右子结点为黑结点，左子结点为红结点</strong><br>兄弟结点所在的子树有红结点，我们总是可以向兄弟子树借个红结点过来，显然该情景可以转换为情景2.1.2.1。图如23所示。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>将S设为红色</strong></li>
+<li><strong>将SL设为黑色</strong></li>
+<li><strong>对S进行右旋，得到情景2.1.2.1</strong></li>
+<li><strong>进行情景2.1.2.1的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201339819.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图23 删除情景2.1.2.2</center>
+
+<p><strong>删除情景2.1.2.3：替换结点的兄弟结点的子结点都为黑结点</strong><br>好了，此次兄弟子树都没红结点“借”了，兄弟帮忙不了，找父母呗，这种情景我们把兄弟结点设为红色，再把父结点当作替代结点，自底向上处理，去找父结点的兄弟结点去“借”。但为什么需要把兄弟结点设为红色呢？显然是为了在P所在的子树中保证平衡（R即将删除，少了一个黑色结点，子树也需要少一个），后续的平衡工作交给父辈们考虑了，还是那句，当每棵子树都保持平衡时，最终整棵总是平衡的。</p>
+<p><strong>处理：</strong></p>
+<ul>
+<li><strong>将S设为红色</strong></li>
+<li><strong>把P作为新的替换结点</strong></li>
+<li><strong>重新进行删除结点情景处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201339770.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图24 情景2.1.2.3</center>
+
+<p><strong>删除情景2.2：替换结点是其父结点的右子结点</strong><br>好啦，右边的操作也是方向相反，不做过多说明了，相信理解了删除情景2.1后，肯定可以理解2.2。</p>
+<p><strong>删除情景2.2.1：替换结点的兄弟结点是红结点</strong><br>处理：</p>
+<ul>
+<li><strong>将S设为黑色</strong></li>
+<li><strong>将P设为红色</strong></li>
+<li><strong>对P进行右旋，得到情景2.2.2.3</strong></li>
+<li><strong>进行情景2.2.2.3的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201340598.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图25 删除情景2.2.1</center>
+
+<p><strong>删除情景2.2.2：替换结点的兄弟结点是黑结点</strong><br><strong>删除情景2.2.2.1：替换结点的兄弟结点的左子结点是红结点，右子结点任意颜色</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>将S的颜色设为P的颜色</strong></li>
+<li><strong>将P设为黑色</strong></li>
+<li><strong>将SL设为黑色</strong></li>
+<li><strong>对P进行右旋</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201340579.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图26 删除情景2.2.2.1</center>
+
+<p><strong>删除情景2.2.2.2：替换结点的兄弟结点的左子结点为黑结点，右子结点为红结点</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>将S设为红色</strong></li>
+<li><strong>将SR设为黑色</strong></li>
+<li><strong>对S进行左旋，得到情景2.2.2.1</strong></li>
+<li><strong>进行情景2.2.2.1的处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201340532.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图27 删除情景2.2.2.2</center>
+
+<p><strong>删除情景2.2.2.3：替换结点的兄弟结点的子结点都为黑结点</strong><br><strong>处理：</strong></p>
+<ul>
+<li><strong>将S设为红色</strong></li>
+<li><strong>把P作为新的替换结点</strong></li>
+<li><strong>重新进行删除结点情景处理</strong></li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201340822.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图28 删除情景2.2.2.3</center>
+
+<p>综上，红黑树删除后自平衡的处理可以总结为：</p>
+<ol>
+<li>自己能搞定的自消化（情景1）</li>
+<li>自己不能搞定的叫兄弟帮忙（除了情景1、情景2.1.2.3和情景2.2.2.3）</li>
+<li>兄弟都帮忙不了的，通过父母，找远方亲戚（情景2.1.2.3和情景2.2.2.3）</li>
+</ol>
+<p>哈哈，是不是跟现实中很像，当我们有困难时，首先先自己解决，自己无力了总兄弟姐妹帮忙，如果连兄弟姐妹都帮不上，再去找远方的亲戚了。这里记忆应该会好记点～</p>
+<p>最后再做个习题加深理解（请不熟悉的同学务必动手画下）：</p>
+<p><strong>习题2：请画出图29的删除自平衡处理过程。</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201341204.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h3><p>耗时良久，终于写完了～自己加深了红黑树的理解的同时，也希望能帮助大家。如果你之前没学习过红黑树，看完这篇文章后可能还存在很多疑问，如果有疑问可以在评论区写出来，我会尽自己所能解答。另外给大家推荐一个支持红黑树在线生成的网站，来做各种情景梳理很有帮助：在线生成红黑树。（删除操作那个把替代结点看作删除结点思路就是我自己在用这个网站时自己顿悟的，我觉得这样讲解更容易理解。）</p>
+<p>少了代码是不是觉得有点空虚？哈哈，后续我会写关于Java和HashMap和TreeMap的文章，里面都有红黑树相关的知识。相信看了这篇文章后，再去看Java和HashMap和TreeMap的源码绝对没难度！</p>
+<p>最后来看下思考题和习题的答案吧。</p>
+<hr>
+<h4 id="思考题和习题答案"><a href="#思考题和习题答案" class="headerlink" title="思考题和习题答案"></a>思考题和习题答案</h4><p><em><strong>思考题1：黑结点可以同时包含一个红子结点和一个黑子结点吗？</strong></em><br>答：可以。如下图的F结点：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201341714.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><em><strong>习题1：请画出图15的插入自平衡处理过程。</strong></em><br>答：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201341456.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><em><strong>习题2：请画出图29的删除自平衡处理过程。</strong></em><br>答：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201342010.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%91/">树</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/WiFiStepUpComputer/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">蓝牙转WIFI计步上位机</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C04/">
+                        <span class="hidden-mobile">Linux 内核第一宏：container_of</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

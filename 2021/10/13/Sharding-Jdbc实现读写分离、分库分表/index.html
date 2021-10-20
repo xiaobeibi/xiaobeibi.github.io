@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Sharding-Jdbc实现读写分离、分库分表  1、概览ShardingSphere-Jdbc定位为轻量级Java框架，在Java的Jdbc层提供的额外服务。它使用客户端直连数据库，以jar包形式提供服务，可理解为增强版的Jdbc驱动，完全兼容Jdbc和各种ORM框架  2、MySQL主从复制1）、docker配置mysql主从复制1）创建主服务器所需目录 12mkdir -p &#x2F;usr&#x2F;lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sharding-Jdbc实现读写分离、分库分表">
+<meta property="og:url" content="http://example.com/2021/10/13/Sharding-Jdbc%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Sharding-Jdbc实现读写分离、分库分表  1、概览ShardingSphere-Jdbc定位为轻量级Java框架，在Java的Jdbc层提供的额外服务。它使用客户端直连数据库，以jar包形式提供服务，可理解为增强版的Jdbc驱动，完全兼容Jdbc和各种ORM框架  2、MySQL主从复制1）、docker配置mysql主从复制1）创建主服务器所需目录 12mkdir -p &#x2F;usr&#x2F;lo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722112726.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722112928.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113021.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113041.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113142.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113221.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113232.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113249.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113301.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722113310.webp">
+<meta property="article:published_time" content="2021-10-13T14:15:37.670Z">
+<meta property="article:modified_time" content="2021-10-13T09:45:53.477Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JDBC">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210722112726.webp">
+  
+  <title>Sharding-Jdbc实现读写分离、分库分表 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Sharding-Jdbc实现读写分离、分库分表">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:15" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      18k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      55 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Sharding-Jdbc实现读写分离、分库分表</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Sharding-Jdbc实现读写分离、分库分表</h2></center>
+
+<h2 id="1、概览"><a href="#1、概览" class="headerlink" title="1、概览"></a><strong>1、概览</strong></h2><p>ShardingSphere-Jdbc定位为轻量级Java框架，在Java的Jdbc层提供的额外服务。它使用客户端直连数据库，以jar包形式提供服务，可理解为增强版的Jdbc驱动，完全兼容Jdbc和各种ORM框架</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722112726.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="2、MySQL主从复制"><a href="#2、MySQL主从复制" class="headerlink" title="2、MySQL主从复制"></a><strong>2、MySQL主从复制</strong></h2><h4 id="1）、docker配置mysql主从复制"><a href="#1）、docker配置mysql主从复制" class="headerlink" title="1）、docker配置mysql主从复制"></a>1）、docker配置mysql主从复制</h4><p>1）创建主服务器所需目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mkdir -p /usr/<span class="hljs-built_in">local</span>/mysqlData/master/cnf<br>mkdir -p /usr/<span class="hljs-built_in">local</span>/mysqlData/master/data<br></code></pre></div></td></tr></table></figure>
+
+<p>2）定义主服务器配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">vim /usr/<span class="hljs-built_in">local</span>/mysqlData/master/cnf/mysql.cnf<br>[mysqld]<br><span class="hljs-comment">## 设置server_id,注意要唯一</span><br>server-id=1<br><span class="hljs-comment">## 开启binlog</span><br>log-bin=mysql-bin<br><span class="hljs-comment">## binlog缓存</span><br>binlog_cache_size=1M<br><span class="hljs-comment">## binlog格式(mixed、statement、row,默认格式是statement)</span><br>binlog_format=mixed<br></code></pre></div></td></tr></table></figure>
+
+<p>3）创建并启动mysql主服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">docker run -itd -p 3306:3306 --name master -v /usr/<span class="hljs-built_in">local</span>/mysqlData/master/cnf:/etc/mysql/conf.d -v /usr/<span class="hljs-built_in">local</span>/mysqlData/master/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7<br></code></pre></div></td></tr></table></figure>
+
+<p>4）添加复制master数据的用户reader，供从服务器使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@aliyun /]<span class="hljs-comment"># docker ps</span><br>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES<br>6af1df686fff        mysql:5.7           <span class="hljs-string">&quot;docker-entrypoint...&quot;</span>   5 seconds ago       Up 4 seconds        0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   master<br>[root@aliyun /]<span class="hljs-comment"># docker exec -it master /bin/bash</span><br>root@41d795785db1:/<span class="hljs-comment"># mysql -u root -p123456</span><br><br>mysql&gt; GRANT REPLICATION SLAVE ON *.* to <span class="hljs-string">&#x27;reader&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> identified by <span class="hljs-string">&#x27;reader&#x27;</span>;<br>Query OK, 0 rows affected, 1 warning (0.00 sec)<br><br>mysql&gt; FLUSH PRIVILEGES;<br>Query OK, 0 rows affected (0.00 sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>5）创建从服务器所需目录，编辑配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mkdir /usr/<span class="hljs-built_in">local</span>/mysqlData/slave/cnf -p<br>mkdir /usr/<span class="hljs-built_in">local</span>/mysqlData/slave/cnf -p<br>vim /usr/<span class="hljs-built_in">local</span>/mysqlData/slave/cnf/mysql.cnf<br>[mysqld]<br><span class="hljs-comment">## 设置server_id,注意要唯一</span><br>server-id=2<br><span class="hljs-comment">## 开启binlog,以备Slave作为其它Slave的Master时使用</span><br>log-bin=mysql-slave-bin<br><span class="hljs-comment">## relay_log配置中继日志</span><br>relay_log=edu-mysql-relay-bin<br><span class="hljs-comment">## 如果需要同步函数或者存储过程</span><br>log_bin_trust_function_creators=<span class="hljs-literal">true</span><br><span class="hljs-comment">## binlog缓存</span><br>binlog_cache_size=1M<br><span class="hljs-comment">## binlog格式(mixed、statement、row,默认格式是statement)</span><br>binlog_format=mixed<br><span class="hljs-comment">## 跳过主从复制中遇到的所有错误或指定类型的错误,避免slave端复制中断</span><br><span class="hljs-comment">## 如:1062错误是指一些主键重复,1032错误是因为主从数据库数据不一致</span><br>slave_skip_errors=1062<br></code></pre></div></td></tr></table></figure>
+
+<p>6）创建并运行mysql从服务器</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">docker run -itd -p 3307:3306 --name slaver -v /usr/<span class="hljs-built_in">local</span>/mysqlData/slave/cnf:/etc/mysql/conf.d -v /usr/<span class="hljs-built_in">local</span>/mysqlData/slave/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7<br></code></pre></div></td></tr></table></figure>
+
+<p>7）在从服务器上配置连接主服务器的信息</p>
+<p>首先主服务器上查看<code>master_log_file</code>、<code>master_log_pos</code>两个参数，然后切换到从服务器上进行主服务器的连接信息的设置</p>
+<p>主服务上执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">root@6af1df686fff:/<span class="hljs-comment"># mysql -u root -p123456</span><br><br>mysql&gt; show master status;<br>+------------------+----------+--------------+------------------+-------------------+<br>| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |<br>+------------------+----------+--------------+------------------+-------------------+<br>| mysql-bin.000003 |      591 |              |                  |                   |<br>+------------------+----------+--------------+------------------+-------------------+<br>1 row <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>docker查看主服务器容器的ip地址</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@aliyun /]<span class="hljs-comment"># docker inspect --format=&#x27;&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;&#x27; master</span><br>172.17.0.2<br></code></pre></div></td></tr></table></figure>
+
+<p>从服务器上执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@aliyun /]<span class="hljs-comment"># docker exec -it slaver /bin/bash</span><br>root@fe8b6fc2f1ca:/<span class="hljs-comment"># mysql -u root -p123456  </span><br><br>mysql&gt; change master to master_host=<span class="hljs-string">&#x27;172.17.0.2&#x27;</span>,master_user=<span class="hljs-string">&#x27;reader&#x27;</span>,master_password=<span class="hljs-string">&#x27;reader&#x27;</span>,master_log_file=<span class="hljs-string">&#x27;mysql-bin.000003&#x27;</span>,master_log_pos=591;<br></code></pre></div></td></tr></table></figure>
+
+<p>8）从服务器启动I/O 线程和SQL线程</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">mysql&gt; start slave;<br>Query OK, 0 rows affected, 1 warning (0.00 sec)<br><br>mysql&gt; show slave status\G<br>*************************** 1. row ***************************<br>               Slave_IO_State: Waiting <span class="hljs-keyword">for</span> master to send event<br>                  Master_Host: 172.17.0.2<br>                  Master_User: reader<br>                  Master_Port: 3306<br>                Connect_Retry: 60<br>              Master_Log_File: mysql-bin.000003<br>          Read_Master_Log_Pos: 591<br>               Relay_Log_File: edu-mysql-relay-bin.000002<br>                Relay_Log_Pos: 320<br>        Relay_Master_Log_File: mysql-bin.000003<br>             Slave_IO_Running: Yes<br>            Slave_SQL_Running: Yes<br></code></pre></div></td></tr></table></figure>
+
+<p>Slave_IO_Running: Yes，Slave_SQL_Running: Yes即表示启动成功</p>
+<h4 id="2）、binlog和redo-log回顾"><a href="#2）、binlog和redo-log回顾" class="headerlink" title="2）、binlog和redo log回顾"></a>2）、binlog和redo log回顾</h4><p><strong>1）redo log（重做日志）</strong></p>
+<p>InnoDB首先将redo log放入到redo log buffer，然后按一定频率将其刷新到redo log file</p>
+<p>下列三种情况下会将redo log buffer刷新到redo log file：</p>
+<ul>
+<li>Master Thread每一秒将redo log buffer刷新到redo log file</li>
+<li>每个事务提交时会将redo log buffer刷新到redo log file</li>
+<li>当redo log缓冲池剩余空间小于1/2时，会将redo log buffer刷新到redo log file</li>
+</ul>
+<p>MySQL里常说的WAL技术，全称是Write Ahead Log，即当事务提交时，先写redo log，再修改页。也就是说，当有一条记录需要更新的时候，InnoDB会先把记录写到redo log里面，并更新Buffer Pool的page，这个时候更新操作就算完成了</p>
+<p>Buffer Pool是物理页的缓存，对InnoDB的任何修改操作都会首先在Buffer Pool的page上进行，然后这样的页将被标记为脏页并被放到专门的Flush List上，后续将由专门的刷脏线程阶段性的将这些页面写入磁盘</p>
+<p>InnoDB的redo log是固定大小的，比如可以配置为一组4个文件，每个文件的大小是1GB，循环使用，从头开始写，写到末尾就又回到开头循环写（顺序写，节省了随机写磁盘的IO消耗）</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722112928.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Write Pos是当前记录的位置，一边写一边后移，写到第3号文件末尾后就回到0号文件开头。Check Point是当前要擦除的位置，也是往后推移并且循环的，擦除记录前要把记录更新到数据文件</p>
+<p>Write Pos和Check Point之间空着的部分，可以用来记录新的操作。如果Write Pos追上Check Point，这时候不能再执行新的更新，需要停下来擦掉一些记录，把Check Point推进一下</p>
+<p>当数据库发生宕机时，数据库不需要重做所有的日志，因为Check Point之前的页都已经刷新回磁盘，只需对Check Point后的redo log进行恢复，从而缩短了恢复的时间</p>
+<p>当缓冲池不够用时，根据LRU算法会溢出最近最少使用的页，若此页为脏页，那么需要强制执行Check Point，将脏页刷新回磁盘</p>
+<p><strong>2）binlog（归档日志）</strong></p>
+<p>MySQL整体来看就有两块：一块是Server层，主要做的是MySQL功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。redo log是InnoDB引擎特有的日志，而Server层也有自己的日志，称为binlog</p>
+<p>binlog记录了对MySQL数据库执行更改的所有操作，不包括SELECT和SHOW这类操作，主要作用是用于数据库的主从复制及数据的增量恢复</p>
+<p>使用mysqldump备份时，只是对一段时间的数据进行全备，但是如果备份后突然发现数据库服务器故障，这个时候就要用到binlog的日志了</p>
+<p>binlog格式有三种：STATEMENT，ROW，MIXED</p>
+<ul>
+<li>STATEMENT模式：binlog里面记录的就是SQL语句的原文。优点是并不需要记录每一行的数据变化，减少了binlog日志量，节约IO，提高性能。缺点是在某些情况下会导致master-slave中的数据不一致</li>
+<li>ROW模式：不记录每条SQL语句的上下文信息，仅需记录哪条数据被修改了，修改成什么样了，解决了STATEMENT模式下出现master-slave中的数据不一致。缺点是会产生大量的日志，尤其是alter table的时候会让日志暴涨</li>
+<li>MIXED模式：以上两种模式的混合使用，一般的复制使用STATEMENT模式保存binlog，对于STATEMENT模式无法复制的操作使用ROW模式保存binlog，MySQL会根据执行的SQL语句选择日志保存方式</li>
+</ul>
+<p><strong>3）redo log和binlog日志的不同</strong></p>
+<ul>
+<li>redo log是InnoDB引擎特有的；binlog是MySQL的Server层实现的，所有引擎都可以使用</li>
+<li>redo log是物理日志，记录的是在某个数据也上做了什么修改；binlog是逻辑日志，记录的是这个语句的原始逻辑，比如给ID=2这一行的c字段加1</li>
+<li>redo log是循环写的，空间固定会用完；binlog是可以追加写入的，binlog文件写到一定大小后会切换到下一个，并不会覆盖以前的日志</li>
+</ul>
+<p><strong>4）两阶段提交</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">create table T(ID int primary key, c int);<br>update T <span class="hljs-built_in">set</span> c=c+1 <span class="hljs-built_in">where</span> ID=2;<br></code></pre></div></td></tr></table></figure>
+
+<p>执行器和InnoDB引擎在执行这个update语句时的内部流程：</p>
+<ul>
+<li>执行器先找到引擎取ID=2这一行。ID是主键，引擎直接用树搜索找到这一行。如果ID=2这一行所在的数据也本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回</li>
+<li>执行器拿到引擎给的行数据，把这个值加上1，得到新的一行数据，再调用引擎接口写入这行新数据</li>
+<li>引擎将这行新数据更新到内存中，同时将这个更新操作记录到redo log里面，此时redo log处于prepare状态。然后告知执行器执行完成了，随时可以提交事务</li>
+<li>执行器生成这个操作的binlog，并把binlog写入磁盘</li>
+<li>执行器调用引擎的提交事务接口，引擎把刚刚写入的redo log改成提交状态，更新完成</li>
+</ul>
+<p>update语句的执行流程图如下，图中浅色框表示在InnoDB内部执行的，深色框表示是在执行器中执行的</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113021.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>将redo log的写入拆成了两个步骤：prepare和commit，这就是两阶段提交</p>
+<h4 id="3）、MySQL主从复制原理"><a href="#3）、MySQL主从复制原理" class="headerlink" title="3）、MySQL主从复制原理"></a>3）、MySQL主从复制原理</h4><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113041.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从库B和主库A之间维持了一个长连接。主库A内部有一个线程，专门用于服务从库B的这个长连接。一个事务日志同步的完整过程如下：</p>
+<ul>
+<li>在从库B上通过change master命令，设置主库A的IP、端口、用户名、密码，以及要从哪个位置开始请求binlog，这个位置包含文件名和日志偏移量</li>
+<li>在从库B上执行start slave命令，这时从库会启动两个线程，就是图中的I/O线程和SQL线程。其中I/O线程负责与主库建立连接</li>
+<li>主库A校验完用户名、密码后，开始按照从库B传过来的位置，从本地读取binlog，发给B</li>
+<li>从库B拿到binlog后，写到本地文件，称为中继日志</li>
+<li>SQL线程读取中继日志，解析出日志里的命令，并执行</li>
+</ul>
+<p>由于多线程复制方案的引入，SQL线程演化成了多个线程</p>
+<p>主从复制不是完全实时地进行同步，而是异步实时。这中间存在主从服务之间的执行延时，如果主服务器的压力很大，则可能导致主从服务器延时较大</p>
+<h2 id="3、Sharding-Jdbc实现读写分离"><a href="#3、Sharding-Jdbc实现读写分离" class="headerlink" title="3、Sharding-Jdbc实现读写分离"></a><strong>3、Sharding-Jdbc实现读写分离</strong></h2><p>1）、新建Springboot工程，引入相关依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.21<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.shardingsphere<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>sharding-jdbc-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.0.0-RC1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>2）、application.properties配置文件</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.main.allow-bean-definition-overriding</span>=<span class="hljs-string">true</span><br><span class="hljs-comment">#显示sql</span><br><span class="hljs-meta">spring.shardingsphere.props.sql.show</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#配置数据源</span><br><span class="hljs-meta">spring.shardingsphere.datasource.names</span>=<span class="hljs-string">ds1,ds2,ds3</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#master-ds1数据库连接信息</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.url</span>=<span class="hljs-string">jdbc:mysql://47.101.58.187:3306/sharding-jdbc-db?useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.username</span>=<span class="hljs-string">root</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.maxPoolSize</span>=<span class="hljs-string">100</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.minPoolSize</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#slave-ds2数据库连接信息</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.url</span>=<span class="hljs-string">jdbc:mysql://47.101.58.187:3307/sharding-jdbc-db?useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.username</span>=<span class="hljs-string">root</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.maxPoolSize</span>=<span class="hljs-string">100</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds2.minPoolSize</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#slave-ds3数据库连接信息</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.url</span>=<span class="hljs-string">jdbc:mysql://47.101.58.187:3307/sharding-jdbc-db?useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.username</span>=<span class="hljs-string">root</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds.maxPoolSize</span>=<span class="hljs-string">100</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds3.minPoolSize</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#配置默认数据源ds1 默认数据源,主要用于写</span><br><span class="hljs-meta">spring.shardingsphere.sharding.default-data-source-name</span>=<span class="hljs-string">ds1</span><br><span class="hljs-comment">#配置主从名称</span><br><span class="hljs-meta">spring.shardingsphere.masterslave.name</span>=<span class="hljs-string">ms</span><br><span class="hljs-comment">#置主库master,负责数据的写入</span><br><span class="hljs-meta">spring.shardingsphere.masterslave.master-data-source-name</span>=<span class="hljs-string">ds1</span><br><span class="hljs-comment">#配置从库slave节点</span><br><span class="hljs-meta">spring.shardingsphere.masterslave.slave-data-source-names</span>=<span class="hljs-string">ds2,ds3</span><br><span class="hljs-comment">#配置slave节点的负载均衡均衡策略,采用轮询机制</span><br><span class="hljs-meta">spring.shardingsphere.masterslave.load-balance-algorithm-type</span>=<span class="hljs-string">round_robin</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#整合mybatis的配置</span><br><span class="hljs-meta">mybatis.type-aliases-package</span>=<span class="hljs-string">com.ppdai.shardingjdbc.entity</span><br></code></pre></div></td></tr></table></figure>
+
+<p>3）、创建t_user表</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t_user` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,<br>  `nickname` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `password` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `sex` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `birthday` <span class="hljs-type">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">4</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8mb4;<br></code></pre></div></td></tr></table></figure>
+
+<p>4）、定义Controller、Mapper、Entity</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Integer id;<br><br>    <span class="hljs-keyword">private</span> String nickname;<br><br>    <span class="hljs-keyword">private</span> String password;<br><br>    <span class="hljs-keyword">private</span> Integer sex;<br><br>    <span class="hljs-keyword">private</span> String birthday;<br>&#125;<br><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&quot;/api/user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserMapper userMapper;<br><br>    <span class="hljs-meta">@PostMapping(&quot;/save&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">addUser</span><span class="hljs-params">()</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setNickname(<span class="hljs-string">&quot;zhangsan&quot;</span> + <span class="hljs-keyword">new</span> Random().nextInt());<br>        user.setPassword(<span class="hljs-string">&quot;123456&quot;</span>);<br>        user.setSex(<span class="hljs-number">1</span>);<br>        user.setBirthday(<span class="hljs-string">&quot;1997-12-03&quot;</span>);<br>        userMapper.addUser(user);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;success&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/findUsers&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">findUsers</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> userMapper.findUsers();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserMapper</span> </span>&#123;<br><br>    <span class="hljs-meta">@Insert(&quot;insert into t_user(nickname,password,sex,birthday) values(#&#123;nickname&#125;,#&#123;password&#125;,#&#123;sex&#125;,#&#123;birthday&#125;)&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addUser</span><span class="hljs-params">(User user)</span></span>;<br><br>    <span class="hljs-meta">@Select(&quot;select * from t_user&quot;)</span><br>    <span class="hljs-function">List&lt;User&gt; <span class="hljs-title">findUsers</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>5）、验证</p>
+<p>启动日志中三个数据源初始化成功：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113142.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>调用<code>http://localhost:8080/api/user/save</code>一直进入到ds1主节点</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113221.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>调用<code>http://localhost:8080/api/user/findUsers</code>一直进入到ds2、ds3节点，并且轮询进入</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113232.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="4、MySQL分库分表原理"><a href="#4、MySQL分库分表原理" class="headerlink" title="4、MySQL分库分表原理"></a><strong>4、MySQL分库分表原理</strong></h2><h4 id="1）、分库分表"><a href="#1）、分库分表" class="headerlink" title="1）、分库分表"></a>1）、分库分表</h4><p>水平拆分：同一个表的数据拆到不同的库不同的表中。可以根据时间、地区或某个业务键维度，也可以通过hash进行拆分，最后通过路由访问到具体的数据。拆分后的每个表结构保持一致</p>
+<p>垂直拆分：就是把一个有很多字段的表给拆分成多个表，或者是多个库上去。每个库表的结构都不一样，每个库表都包含部分字段。一般来说，可以根据业务维度进行拆分，如订单表可以拆分为订单、订单支持、订单地址、订单商品、订单扩展等表；也可以，根据数据冷热程度拆分，20%的热点字段拆到一个表，80%的冷字段拆到另外一个表</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113249.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="2）、不停机分库分表数据迁移"><a href="#2）、不停机分库分表数据迁移" class="headerlink" title="2）、不停机分库分表数据迁移"></a>2）、不停机分库分表数据迁移</h4><p>一般数据库的拆分也是有一个过程的，一开始是单表，后面慢慢拆成多表。那么我们就看下如何平滑的从MySQL单表过度到MySQL的分库分表架构</p>
+<ul>
+<li>利用MySQL+Canal做增量数据同步，利用分库分表中间件，将数据路由到对应的新表中</li>
+<li>利用分库分表中间件，全量数据导入到对应的新表中</li>
+<li>通过单表数据和分库分表数据两两比较，更新不匹配的数据到新表中</li>
+<li>数据稳定后，将单表的配置切换到分库分表配置上</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113301.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="5、Sharding-Jdbc实现分库分表"><a href="#5、Sharding-Jdbc实现分库分表" class="headerlink" title="5、Sharding-Jdbc实现分库分表"></a><strong>5、Sharding-Jdbc实现分库分表</strong></h2><h4 id="1）、逻辑表"><a href="#1）、逻辑表" class="headerlink" title="1）、逻辑表"></a>1）、逻辑表</h4><p>用户数据根据订单id%2拆分为2个表，分别是：t_order0和t_order1。他们的逻辑表名是：t_order</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722113310.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>多数据源相同表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment">#多数据源$-&gt;&#123;0..N&#125;.逻辑表名$-&gt;&#123;0..N&#125; 相同表</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.t_order$-&gt;&#123;0..1&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>多数据源不同表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment">#多数据源$-&gt;&#123;0..N&#125;.逻辑表名$-&gt;&#123;0..N&#125; 不同表</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.actual-data-nodes</span>=<span class="hljs-string">ds0.t_order$-&gt;&#123;0..1&#125;,ds1.t_order$-&gt;&#123;2..4&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>单库分表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment">#单数据源的配置方式</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.actual-data-nodes</span>=<span class="hljs-string">ds0.t_order$-&gt;&#123;0..4&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>全部手动指定：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.actual-data-nodes</span>=<span class="hljs-string">ds0.t_order0,ds1.t_order0,ds0.t_order1,ds1.t_order1</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2）、inline分片策略"><a href="#2）、inline分片策略" class="headerlink" title="2）、inline分片策略"></a>2）、inline分片策略</h4><figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.t_order$-&gt;&#123;0..1&#125;</span><br><span class="hljs-comment">#数据源分片策略</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.sharding-column</span>=<span class="hljs-string">user_id</span><br><span class="hljs-comment">#数据源分片算法</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.database-strategy.inline.algorithm-expression</span>=<span class="hljs-string">ds$-&gt;&#123;user_id%2&#125;</span><br><span class="hljs-comment">#表分片策略</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.sharding-column</span>=<span class="hljs-string">order_id</span><br><span class="hljs-comment">#表分片算法</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">t_order$-&gt;&#123;order_id%2&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>上面的配置通过user_id%2来决定具体数据源，通过order_id%2来决定具体表</p>
+<p><code>insert into t_order(user_id,order_id) values(2,3)，user_id%2 = 0</code>使用数据源ds0，order_id%2 = 1使用t_order1，insert语句最终操作的是数据源ds0的t_order1表。</p>
+<h4 id="3）、分布式主键配置"><a href="#3）、分布式主键配置" class="headerlink" title="3）、分布式主键配置"></a>3）、分布式主键配置</h4><p>Sharding-Jdbc可以配置分布式主键生成策略。默认使用雪花算法（snowflake），生成64bit的长整型数据，也支持UUID的方式</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment">#主键的列名</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.key-generator.column</span>=<span class="hljs-string">id</span><br><span class="hljs-comment">#主键生成策略</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_order.key-generator.type</span>=<span class="hljs-string">SNOWFLAKE</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="4）、inline分片策略实现分库分表"><a href="#4）、inline分片策略实现分库分表" class="headerlink" title="4）、inline分片策略实现分库分表"></a>4）、inline分片策略实现分库分表</h4><p><strong>需求：</strong></p>
+<p>对1000w的用户数据进行分库分表，对用户表的数据进行分表和分库的操作。根据年龄奇数存储在t_user1，偶数t_user0，同时性别奇数存储在ds1，偶数ds0</p>
+<p><strong>表结构：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t_user0` (<br>  `id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `nickname` <span class="hljs-type">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `password` <span class="hljs-type">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `age` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `sex` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `birthday` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span><br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8mb4;<br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t_user1` (<br>  `id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `nickname` <span class="hljs-type">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `password` <span class="hljs-type">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `age` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `sex` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `birthday` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span><br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8mb4;<br></code></pre></div></td></tr></table></figure>
+
+<p>两个数据库中都包含t_user0和t_user1两张表</p>
+<p>application.properties：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.main.allow-bean-definition-overriding</span>=<span class="hljs-string">true</span><br><span class="hljs-comment">#显示sql</span><br><span class="hljs-meta">spring.shardingsphere.props.sql.show</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#配置数据源</span><br><span class="hljs-meta">spring.shardingsphere.datasource.names</span>=<span class="hljs-string">ds0,ds1</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#ds0数据库连接信息</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.url</span>=<span class="hljs-string">jdbc:mysql://47.101.58.187:3306/t_user_db0?useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.username</span>=<span class="hljs-string">root</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.maxPoolSize</span>=<span class="hljs-string">100</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds0.minPoolSize</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#ds1数据库连接信息</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.type</span>=<span class="hljs-string">com.alibaba.druid.pool.DruidDataSource</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.driver-class-name</span>=<span class="hljs-string">com.mysql.cj.jdbc.Driver</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.url</span>=<span class="hljs-string">jdbc:mysql://47.101.58.187:3306/t_user_db1?useUnicode=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.username</span>=<span class="hljs-string">root</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.password</span>=<span class="hljs-string">123456</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.maxPoolSize</span>=<span class="hljs-string">100</span><br><span class="hljs-meta">spring.shardingsphere.datasource.ds1.minPoolSize</span>=<span class="hljs-string">5</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#整合mybatis的配置</span><br><span class="hljs-meta">mybatis.type-aliases-package</span>=<span class="hljs-string">com.ppdai.shardingjdbc.entity</span><br><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.actual-data-nodes</span>=<span class="hljs-string">ds$-&gt;&#123;0..1&#125;.t_user$-&gt;&#123;0..1&#125;</span><br><span class="hljs-comment">#数据源分片策略</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.database-strategy.inline.sharding-column</span>=<span class="hljs-string">sex</span><br><span class="hljs-comment">#数据源分片算法</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.database-strategy.inline.algorithm-expression</span>=<span class="hljs-string">ds$-&gt;&#123;sex%2&#125;</span><br><span class="hljs-comment">#表分片策略</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.table-strategy.inline.sharding-column</span>=<span class="hljs-string">age</span><br><span class="hljs-comment">#表分片算法</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.table-strategy.inline.algorithm-expression</span>=<span class="hljs-string">t_user$-&gt;&#123;age%2&#125;</span><br><span class="hljs-comment">#主键的列名</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.key-generator.column</span>=<span class="hljs-string">id</span><br><span class="hljs-meta">spring.shardingsphere.sharding.tables.t_user.key-generator.type</span>=<span class="hljs-string">SNOWFLAKE</span><br></code></pre></div></td></tr></table></figure>
+
+<p>测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootTest</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShardingJdbcApplicationTests</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserMapper userMapper;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * sex:奇数</span><br><span class="hljs-comment">     * age:奇数</span><br><span class="hljs-comment">     * ds1.t_user1</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test01</span><span class="hljs-params">()</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setNickname(<span class="hljs-string">&quot;zhangsan&quot;</span> + <span class="hljs-keyword">new</span> Random().nextInt());<br>        user.setPassword(<span class="hljs-string">&quot;123456&quot;</span>);<br>        user.setAge(<span class="hljs-number">17</span>);<br>        user.setSex(<span class="hljs-number">1</span>);<br>        user.setBirthday(<span class="hljs-string">&quot;1997-12-03&quot;</span>);<br>        userMapper.addUser(user);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * sex:奇数</span><br><span class="hljs-comment">     * age:偶数</span><br><span class="hljs-comment">     * ds1.t_user0</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test02</span><span class="hljs-params">()</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setNickname(<span class="hljs-string">&quot;zhangsan&quot;</span> + <span class="hljs-keyword">new</span> Random().nextInt());<br>        user.setPassword(<span class="hljs-string">&quot;123456&quot;</span>);<br>        user.setAge(<span class="hljs-number">18</span>);<br>        user.setSex(<span class="hljs-number">1</span>);<br>        user.setBirthday(<span class="hljs-string">&quot;1997-12-03&quot;</span>);<br>        userMapper.addUser(user);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * sex:偶数</span><br><span class="hljs-comment">     * age:奇数</span><br><span class="hljs-comment">     * ds0.t_user1</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test03</span><span class="hljs-params">()</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setNickname(<span class="hljs-string">&quot;zhangsan&quot;</span> + <span class="hljs-keyword">new</span> Random().nextInt());<br>        user.setPassword(<span class="hljs-string">&quot;123456&quot;</span>);<br>        user.setAge(<span class="hljs-number">17</span>);<br>        user.setSex(<span class="hljs-number">2</span>);<br>        user.setBirthday(<span class="hljs-string">&quot;1997-12-03&quot;</span>);<br>        userMapper.addUser(user);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * sex:偶数</span><br><span class="hljs-comment">     * age:偶数</span><br><span class="hljs-comment">     * ds0.t_user0</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test04</span><span class="hljs-params">()</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setNickname(<span class="hljs-string">&quot;zhangsan&quot;</span> + <span class="hljs-keyword">new</span> Random().nextInt());<br>        user.setPassword(<span class="hljs-string">&quot;123456&quot;</span>);<br>        user.setAge(<span class="hljs-number">18</span>);<br>        user.setSex(<span class="hljs-number">2</span>);<br>        user.setBirthday(<span class="hljs-string">&quot;1997-12-03&quot;</span>);<br>        userMapper.addUser(user);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>官方文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://shardingsphere.apache.org/document/current/cn/overview/">https://shardingsphere.apache.org/document/current/cn/overview/</a></li>
+</ul>
+<p>视频资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ei4y1K7dn">https://www.bilibili.com/video/BV1ei4y1K7dn</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JDBC/">JDBC</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JDBC/">JDBC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%94%BE%E5%BC%83%20MyBatis%EF%BC%81%E6%88%91%E9%80%89%E6%8B%A9%20JDBCTemplate%EF%BC%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">放弃 MyBatis！我选择 JDBCTemplate！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%84%9F%E5%8F%97%20lambda%20%E4%B9%8B%E7%BE%8E/">
+                        <span class="hidden-mobile">感受 lambda 之美</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="推荐一款 Spring Boot 的 HTTP 客户端框架  在SpringBoot项目直接使用okhttp、httpClient或者RestTemplate发起HTTP请求，既繁琐又不方便统一管理。 因此，在这里推荐一个适用于SpringBoot项目的轻量级HTTP客户端框架retrofit-spring-boot-starter，使用非常简单方便，同时又提供诸多功能增强。目前项目已经更新至2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐一款 Spring Boot 的 HTTP 客户端框架">
+<meta property="og:url" content="http://example.com/2021/10/13/%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%20Spring%20Boot%20%E7%9A%84%20HTTP%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="推荐一款 Spring Boot 的 HTTP 客户端框架  在SpringBoot项目直接使用okhttp、httpClient或者RestTemplate发起HTTP请求，既繁琐又不方便统一管理。 因此，在这里推荐一个适用于SpringBoot项目的轻量级HTTP客户端框架retrofit-spring-boot-starter，使用非常简单方便，同时又提供诸多功能增强。目前项目已经更新至2.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301550308.png">
+<meta property="article:published_time" content="2021-10-13T14:16:55.456Z">
+<meta property="article:modified_time" content="2021-10-13T10:58:18.570Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301550308.png">
+  
+  <title>推荐一款 Spring Boot 的 HTTP 客户端框架 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="推荐一款 Spring Boot 的 HTTP 客户端框架">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      18k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      56 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">推荐一款 Spring Boot 的 HTTP 客户端框架</h1>
+            
+            <div class="markdown-body">
+              <center><h2>推荐一款 Spring Boot 的 HTTP 客户端框架</h2></center>
+
+<p>在SpringBoot项目直接使用okhttp、httpClient或者RestTemplate发起HTTP请求，既繁琐又不方便统一管理。</p>
+<p>因此，在这里推荐一个适用于<code>SpringBoot</code>项目的轻量级HTTP客户端框架retrofit-spring-boot-starter，使用非常简单方便，同时又提供诸多功能增强。目前项目已经更新至<code>2.2.2</code>版本，并且会持续进行迭代优化。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p><code>Retrofit</code>是适用于<code>Android</code>和<code>Java</code>且类型安全的HTTP客户端，其最大的特性的是支持通过接口的方式发起HTTP请求 。而spring-boot是使用最广泛的Java开发框架，但是Retrofit官方没有支持与spring-boot框架快速整合，因此我们开发了retrofit-spring-boot-starter。</p>
+<p><strong>retrofit-spring-boot-starter实现了Retrofit与spring-boot框架快速整合，并且支持了诸多功能增强，极大简化开发</strong> 。</p>
+<p>🚀项目持续优化迭代。</p>
+<p><strong>功能特性</strong></p>
+<ul>
+<li>自定义注入OkHttpClient</li>
+<li>注解式拦截器</li>
+<li>连接池管理</li>
+<li>日志打印</li>
+<li>请求重试</li>
+<li>错误解码器</li>
+<li>全局拦截器</li>
+<li>熔断降级</li>
+<li>微服务之间的HTTP调用</li>
+<li>调用适配器</li>
+<li>数据转换器</li>
+</ul>
+<h3 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a><strong>快速使用</strong></h3><h4 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h4><figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.github.lianjiatech<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>retrofit-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.2.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="定义http接口"><a href="#定义http接口" class="headerlink" title="定义http接口"></a>定义http接口</h4><p><strong>接口必须使用</strong>@RetrofitClient`注解标记 ！http相关注解可参考官方文档：retrofit官方文档。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(baseUrl = &quot;$&#123;test.baseUrl&#125;&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HttpApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@GET(&quot;person&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="注入使用"><a href="#注入使用" class="headerlink" title="注入使用"></a>注入使用</h4><p><strong>将接口注入到其它Service中即可使用！</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestService</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> HttpApi httpApi;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">// 通过httpApi发起http请求</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="HTTP请求相关注解"><a href="#HTTP请求相关注解" class="headerlink" title="HTTP请求相关注解"></a><strong>HTTP请求相关注解</strong></h2><p><code>HTTP</code>请求相关注解，全部使用了<code>retrofit</code>原生注解。<strong>详细信息可参考官方文档：retrofit官方文档</strong> ，以下是一个简单说明。</p>
+<table>
+<thead>
+<tr>
+<th><strong>注解分类</strong></th>
+<th><strong>支持的注解</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>请求方式</td>
+<td><code>@GET</code> <code>@HEAD</code> <code>@POST</code> <code>@PUT</code> <code>@DELETE</code> <code>@OPTIONS</code></td>
+</tr>
+<tr>
+<td>请求头</td>
+<td><code>@Header</code> <code>@HeaderMap</code> <code>@Headers</code></td>
+</tr>
+<tr>
+<td>Query参数</td>
+<td><code>@Query</code> <code>@QueryMap</code> <code>@QueryName</code></td>
+</tr>
+<tr>
+<td>path参数</td>
+<td><code>@Path</code></td>
+</tr>
+<tr>
+<td>form-encoded参数</td>
+<td><code>@Field</code> <code>@FieldMap</code> <code>@FormUrlEncoded</code></td>
+</tr>
+<tr>
+<td>文件上传</td>
+<td><code>@Multipart</code> <code>@Part</code> <code>@PartMap</code></td>
+</tr>
+<tr>
+<td>url参数</td>
+<td><code>@Url</code></td>
+</tr>
+</tbody></table>
+<h2 id="配置项说明"><a href="#配置项说明" class="headerlink" title="配置项说明"></a><strong>配置项说明</strong></h2><p>retrofit-spring-boot-starter支持了多个可配置的属性，用来应对不同的业务场景。您可以视情况进行修改，具体说明如下：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>enable-log</td>
+<td>true</td>
+<td>启用日志打印</td>
+</tr>
+<tr>
+<td>logging-interceptor</td>
+<td>DefaultLoggingInterceptor</td>
+<td>日志打印拦截器</td>
+</tr>
+<tr>
+<td>pool</td>
+<td></td>
+<td>连接池配置</td>
+</tr>
+<tr>
+<td>disable-void-return-type</td>
+<td>false</td>
+<td>禁用java.lang.Void返回类型</td>
+</tr>
+<tr>
+<td>retry-interceptor</td>
+<td>DefaultRetryInterceptor</td>
+<td>请求重试拦截器</td>
+</tr>
+<tr>
+<td>global-converter-factories</td>
+<td>JacksonConverterFactory</td>
+<td>全局转换器工厂</td>
+</tr>
+<tr>
+<td>global-call-adapter-factories</td>
+<td>BodyCallAdapterFactory,ResponseCallAdapterFactory</td>
+<td>全局调用适配器工厂</td>
+</tr>
+<tr>
+<td>enable-degrade</td>
+<td>false</td>
+<td>是否启用熔断降级</td>
+</tr>
+<tr>
+<td>degrade-type</td>
+<td>sentinel</td>
+<td>熔断降级实现方式(目前仅支持Sentinel)</td>
+</tr>
+<tr>
+<td>resource-name-parser</td>
+<td>DefaultResourceNameParser</td>
+<td>熔断资源名称解析器，用于解析资源名称</td>
+</tr>
+</tbody></table>
+<p><code>yml</code>配置方式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br>  <span class="hljs-attr">enable-response-call-adapter:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-comment"># 启用日志打印</span><br>  <span class="hljs-attr">enable-log:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-comment"># 连接池配置</span><br>  <span class="hljs-attr">pool:</span><br>    <span class="hljs-attr">test1:</span><br>      <span class="hljs-attr">max-idle-connections:</span> <span class="hljs-number">3</span><br>      <span class="hljs-attr">keep-alive-second:</span> <span class="hljs-number">100</span><br>    <span class="hljs-attr">test2:</span><br>      <span class="hljs-attr">max-idle-connections:</span> <span class="hljs-number">5</span><br>      <span class="hljs-attr">keep-alive-second:</span> <span class="hljs-number">50</span><br>  <span class="hljs-comment"># 禁用void返回值类型</span><br>  <span class="hljs-attr">disable-void-return-type:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-comment"># 日志打印拦截器</span><br>  <span class="hljs-attr">logging-interceptor:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.interceptor.DefaultLoggingInterceptor</span><br>  <span class="hljs-comment"># 请求重试拦截器</span><br>  <span class="hljs-attr">retry-interceptor:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.retry.DefaultRetryInterceptor</span><br>  <span class="hljs-comment"># 全局转换器工厂</span><br>  <span class="hljs-attr">global-converter-factories:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">retrofit2.converter.jackson.JacksonConverterFactory</span><br>  <span class="hljs-comment"># 全局调用适配器工厂</span><br>  <span class="hljs-attr">global-call-adapter-factories:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.core.BodyCallAdapterFactory</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.core.ResponseCallAdapterFactory</span><br>  <span class="hljs-comment"># 是否启用熔断降级</span><br>  <span class="hljs-attr">enable-degrade:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-comment"># 熔断降级实现方式</span><br>  <span class="hljs-attr">degrade-type:</span> <span class="hljs-string">sentinel</span><br>  <span class="hljs-comment"># 熔断资源名称解析器</span><br>  <span class="hljs-attr">resource-name-parser:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.degrade.DefaultResourceNameParser</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a><strong>高级功能</strong></h2><h3 id="自定义注入OkHttpClient"><a href="#自定义注入OkHttpClient" class="headerlink" title="自定义注入OkHttpClient"></a><strong>自定义注入OkHttpClient</strong></h3><p>通常情况下，通过<code>@RetrofitClient</code>注解属性动态创建<code>OkHttpClient</code>对象能够满足大部分使用场景。但是在某些情况下，用户可能需要自定义<code>OkHttpClient</code>，这个时候，可以在接口上定义返回类型是<code>OkHttpClient.Builder</code>的静态方法来实现。代码示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(baseUrl = &quot;http://ke.com&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HttpApi3</span> </span>&#123;<br><br>    <span class="hljs-meta">@OkHttpClientBuilder</span><br>    <span class="hljs-keyword">static</span> OkHttpClient.<span class="hljs-function">Builder <span class="hljs-title">okhttpClientBuilder</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OkHttpClient.Builder()<br>                .connectTimeout(<span class="hljs-number">1</span>, TimeUnit.SECONDS)<br>                .readTimeout(<span class="hljs-number">1</span>, TimeUnit.SECONDS)<br>                .writeTimeout(<span class="hljs-number">1</span>, TimeUnit.SECONDS);<br><br>    &#125;<br><br>    <span class="hljs-meta">@GET</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Url</span> String url, <span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>方法必须使用<code>@OkHttpClientBuilder</code>注解标记！</p>
+</blockquote>
+<h4 id="注解式拦截器"><a href="#注解式拦截器" class="headerlink" title="注解式拦截器"></a>注解式拦截器</h4><p>很多时候，我们希望某个接口下的某些http请求执行统一的拦截处理逻辑。为了支持这个功能，<code>retrofit-spring-boot-starter</code>提供了<strong>注解式拦截器</strong> ，做到了<strong>基于url路径的匹配拦截</strong> 。使用的步骤主要分为2步：</p>
+<ol>
+<li><p>继承<code>BasePathMatchInterceptor</code>编写拦截处理器；</p>
+</li>
+<li><p>接口上使用<code>@Intercept</code>进行标注。如需配置多个拦截器，在接口上标注多个<code>@Intercept</code>注解即可！</p>
+</li>
+</ol>
+<p>下面以<em>给指定请求的url后面拼接timestamp时间戳</em>为例，介绍下如何使用注解式拦截器。</p>
+<p><strong>继承</strong><code>BasePathMatchInterceptor</code><strong>编写拦截处理器</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TimeStampInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BasePathMatchInterceptor</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Response <span class="hljs-title">doIntercept</span><span class="hljs-params">(Chain chain)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        Request request = chain.request();<br>        HttpUrl url = request.url();<br>        <span class="hljs-keyword">long</span> timestamp = System.currentTimeMillis();<br>        HttpUrl newUrl = url.newBuilder()<br>                .addQueryParameter(<span class="hljs-string">&quot;timestamp&quot;</span>, String.valueOf(timestamp))<br>                .build();<br>        Request newRequest = request.newBuilder()<br>                .url(newUrl)<br>                .build();<br>        <span class="hljs-keyword">return</span> chain.proceed(newRequest);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>接口上使用 <code>@Intercept </code>进行标注</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(baseUrl = &quot;$&#123;test.baseUrl&#125;&quot;)</span><br><span class="hljs-meta">@Intercept(handler = TimeStampInterceptor.class, include = &#123;&quot;/api/**&quot;&#125;, exclude = &quot;/api/test/savePerson&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HttpApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@GET(&quot;person&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br><br>    <span class="hljs-meta">@POST(&quot;savePerson&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">savePerson</span><span class="hljs-params">(<span class="hljs-meta">@Body</span> Person person)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的<code>@Intercept</code>配置表示：拦截<code>HttpApi</code>接口下<code>/api/**</code>路径下（排除<code>/api/test/savePerson</code>）的请求，拦截处理器使用<code>TimeStampInterceptor</code>。</p>
+<h4 id="扩展注解式拦截器"><a href="#扩展注解式拦截器" class="headerlink" title="扩展注解式拦截器"></a><strong>扩展注解式拦截器</strong></h4><p>有的时候，我们需要在<strong>拦截注解</strong>动态传入一些参数，然后再执行拦截的时候需要使用这个参数。这种时候，我们可以扩展实现<strong>自定义拦截注解</strong> 。<code>自定义拦截注解</code>必须使用<code>@InterceptMark</code>标记，并且注解中必须包括<strong>include()、exclude()、handler()属性信息</strong> 。使用的步骤主要分为3步：</p>
+<ol>
+<li><p>自定义拦截注解</p>
+</li>
+<li><p>继承BasePathMatchInterceptor编写拦截处理器</p>
+</li>
+<li><p>接口上使用自定义拦截注解；</p>
+</li>
+</ol>
+<p>例如我们需要<strong>在请求头里面动态加入</strong><code>accessKeyId</code>、<code>accessKeySecret</code>签名信息才能正常发起http请求，这个时候可以自定义一个加签拦截器注解<code>@Sign</code>来实现 。下面以自定义<code>@Sign</code>拦截注解为例进行说明。</p>
+<p><strong>自定义</strong><code>@Sign</code><strong>注解</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@InterceptMark</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Sign &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 密钥key</span><br><span class="hljs-comment">     * 支持占位符形式配置。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">accessKeyId</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 密钥</span><br><span class="hljs-comment">     * 支持占位符形式配置。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">accessKeySecret</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 拦截器匹配路径</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    String[] include() <span class="hljs-keyword">default</span> &#123;<span class="hljs-string">&quot;/**&quot;</span>&#125;;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 拦截器排除匹配，排除指定路径拦截</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    String[] exclude() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 处理该注解的拦截器类</span><br><span class="hljs-comment">     * 优先从spring容器获取对应的Bean，如果获取不到，则使用反射创建一个！</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    Class&lt;? extends BasePathMatchInterceptor&gt; handler() <span class="hljs-keyword">default</span> SignInterceptor.class;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>扩展自定义拦截注解有以下2点需要注意：</p>
+<ol>
+<li><p>自定义拦截注解必须使用@InterceptMark标记。</p>
+</li>
+<li><p>注解中必须包括include()、exclude()、handler()属性信息。</p>
+</li>
+</ol>
+<p><strong>实现SignInterceptor</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SignInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BasePathMatchInterceptor</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> String accessKeyId;<br><br>    <span class="hljs-keyword">private</span> String accessKeySecret;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeyId</span><span class="hljs-params">(String accessKeyId)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.accessKeyId = accessKeyId;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeySecret</span><span class="hljs-params">(String accessKeySecret)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.accessKeySecret = accessKeySecret;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Response <span class="hljs-title">doIntercept</span><span class="hljs-params">(Chain chain)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        Request request = chain.request();<br>        Request newReq = request.newBuilder()<br>                .addHeader(<span class="hljs-string">&quot;accessKeyId&quot;</span>, accessKeyId)<br>                .addHeader(<span class="hljs-string">&quot;accessKeySecret&quot;</span>, accessKeySecret)<br>                .build();<br>        <span class="hljs-keyword">return</span> chain.proceed(newReq);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上述<code>accessKeyId</code>和<code>accessKeySecret</code>字段值会依据<code>@Sign</code>注解的<code>accessKeyId()</code>和<code>accessKeySecret()</code>值自动注入，如果<code>@Sign</code>指定的是占位符形式的字符串，则会取配置属性值进行注入 。另外，<code>accessKeyId</code>和<code>accessKeySecret</code>字段必须提供<code>setter</code>方法 。</p>
+<p><strong>接口上使用</strong>@Sign</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(baseUrl = &quot;$&#123;test.baseUrl&#125;&quot;)</span><br><span class="hljs-meta">@Sign(accessKeyId = &quot;$&#123;test.accessKeyId&#125;&quot;, accessKeySecret = &quot;$&#123;test.accessKeySecret&#125;&quot;, exclude = &#123;&quot;/api/test/person&quot;&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HttpApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@GET(&quot;person&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br><br>    <span class="hljs-meta">@POST(&quot;savePerson&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">savePerson</span><span class="hljs-params">(<span class="hljs-meta">@Body</span> Person person)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样就能在指定url的请求上，自动加上签名信息了。</p>
+<h4 id="连接池管理"><a href="#连接池管理" class="headerlink" title="连接池管理"></a><strong>连接池管理</strong></h4><p>默认情况下，所有通过<code>Retrofit</code>发送的http请求都会使用<code>max-idle-connections=5 keep-alive-second=300</code>的默认连接池。当然，我们也可以在配置文件中配置多个自定义的连接池，然后通过<code>@RetrofitClient</code>的<code>poolName</code>属性来指定使用。比如我们要让某个接口下的请求全部使用<code>poolName=test1</code>的连接池，代码实现如下：</p>
+<ol>
+<li>配置连接池。</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br>   <span class="hljs-comment"># 连接池配置</span><br>   <span class="hljs-attr">pool:</span><br>       <span class="hljs-attr">test1:</span><br>       <span class="hljs-attr">max-idle-connections:</span> <span class="hljs-number">3</span><br>       <span class="hljs-attr">keep-alive-second:</span> <span class="hljs-number">100</span><br>       <span class="hljs-attr">test2:</span><br>       <span class="hljs-attr">max-idle-connections:</span> <span class="hljs-number">5</span><br>        <span class="hljs-attr">keep-alive-second:</span> <span class="hljs-number">50</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>通过<code>@RetrofitClient</code>的<code>poolName</code>属性来指定使用的连接池。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(baseUrl = &quot;$&#123;test.baseUrl&#125;&quot;, poolName=&quot;test1&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HttpApi</span> </span>&#123;<br>    <span class="hljs-meta">@GET(&quot;person&quot;)</span><br>    <span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="日志打印"><a href="#日志打印" class="headerlink" title="日志打印"></a>日志打印</h4><p>很多情况下，我们希望将http请求日志记录下来。通过retrofit.enableLog配置可以全局控制日志是否开启。针对每个接口，可以通过@RetrofitClient的enableLog控制是否开启，通过logLevel和logStrategy，可以指定每个接口的日志打印级别以及日志打印策略。retrofit-spring-boot-starter支持了5种日志打印级别(<code>ERROR</code>, <code>WARN</code>, <code>INFO</code>, <code>DEBUG</code>, <code>TRACE</code>)，默认<code>INFO</code>；支持了4种日志打印策略（<code>NONE</code>, <code>BASIC</code>, <code>HEADERS</code>, <code>BODY</code>），默认<code>BASIC</code>。4种日志打印策略含义如下：</p>
+<p><code>1. NONE</code>：No logs.</p>
+<p><code>2. BASIC</code>：Logs request and response lines.</p>
+<p><code>3. HEADERS</code>：Logs request and response lines and their respective headers.</p>
+<p><code>4. BODY</code>：Logs request and response lines and their respective headers and bodies (if present).</p>
+<p><code>retrofit-spring-boot-starter</code>默认使用了<code>DefaultLoggingInterceptor</code>执行真正的日志打印功能，其底层就是<code>okhttp</code>原生的<code>HttpLoggingInterceptor</code>。当然，你也可以自定义实现自己的日志打印拦截器，只需要继承<code>BaseLoggingInterceptor</code>（具体可以参考<code>DefaultLoggingInterceptor</code>的实现），然后在配置文件中进行相关配置即可。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br>  <span class="hljs-comment"># 日志打印拦截器</span><br>  <span class="hljs-attr">logging-interceptor:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.interceptor.DefaultLoggingInterceptor</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="请求重试"><a href="#请求重试" class="headerlink" title="请求重试"></a>请求重试</h4><p><code>retrofit-spring-boot-starter</code>支持请求重试功能，只需要在接口或者方法上加上<code>@Retry</code>注解即可。**<code>@Retry</code>支持重试次数<code>maxRetries</code>、重试时间间隔<code>intervalMs</code>以及重试规则<code>retryRules</code>配置** 。</p>
+<p>重试规则支持三种配置：</p>
+<p><code>1. RESPONSE_STATUS_NOT_2XX</code>：响应状态码不是<code>2xx</code>时执行重试；</p>
+<p><code>2. OCCUR_IO_EXCEPTION</code>：发生IO异常时执行重试；</p>
+<p><code>3. OCCUR_EXCEPTION</code>：发生任意异常时执行重试；</p>
+<p>默认响应状态码不是<code>2xx</code>或者发生IO异常时自动进行重试。需要的话，你也可以继承<code>BaseRetryInterceptor</code>实现自己的请求重试拦截器，然后将其配置上去。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br><span class="hljs-comment"># 请求重试拦截器</span><br><span class="hljs-attr">retry-interceptor:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.retry.DefaultRetryInterceptor</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301550308.png" srcset="/img/loading.gif" lazyload alt="Java后端"></p>
+<h4 id="错误解码器"><a href="#错误解码器" class="headerlink" title="错误解码器"></a><strong>错误解码器</strong></h4><p>在<code>HTTP</code>发生请求错误(包括发生异常或者响应数据不符合预期)的时候，错误解码器可将<code>HTTP</code>相关信息解码到自定义异常中。你可以在<code>@RetrofitClient</code>注解的<code>errorDecoder()</code>指定当前接口的错误解码器，自定义错误解码器需要实现<code>ErrorDecoder</code>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 错误解码器。ErrorDecoder.</span><br><span class="hljs-comment"> * 当请求发生异常或者收到无效响应结果的时候，将HTTP相关信息解码到异常中，无效响应由业务自己判断</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * When an exception occurs in the request or an invalid response result is received, the HTTP related information is decoded into the exception,</span><br><span class="hljs-comment"> * and the invalid response is determined by the business itself.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> 陈添明</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ErrorDecoder</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当无效响应的时候，将HTTP信息解码到异常中，无效响应由业务自行判断。</span><br><span class="hljs-comment">     * When the response is invalid, decode the HTTP information into the exception, invalid response is determined by business.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request  request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> response response</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> If it returns null, the processing is ignored and the processing continues with the original response.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> RuntimeException <span class="hljs-title">invalidRespDecode</span><span class="hljs-params">(Request request, Response response)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (!response.isSuccessful()) &#123;<br>            <span class="hljs-keyword">throw</span> RetrofitException.errorStatus(request, response);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当请求发生IO异常时，将HTTP信息解码到异常中。</span><br><span class="hljs-comment">     * When an IO exception occurs in the request, the HTTP information is decoded into the exception.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cause   IOException</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> RuntimeException</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> RuntimeException <span class="hljs-title">ioExceptionDecode</span><span class="hljs-params">(Request request, IOException cause)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> RetrofitException.errorExecuting(request, cause);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当请求发生除IO异常之外的其它异常时，将HTTP信息解码到异常中。</span><br><span class="hljs-comment">     * When the request has an exception other than the IO exception, the HTTP information is decoded into the exception.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cause   Exception</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> RuntimeException</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> RuntimeException <span class="hljs-title">exceptionDecode</span><span class="hljs-params">(Request request, Exception cause)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> RetrofitException.errorUnknown(request, cause);<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="全局拦截器"><a href="#全局拦截器" class="headerlink" title="全局拦截器"></a><strong>全局拦截器</strong></h2><h4 id="全局应用拦截器"><a href="#全局应用拦截器" class="headerlink" title="全局应用拦截器"></a>全局应用拦截器</h4><p>如果我们需要对整个系统的的http请求执行统一的拦截处理，可以自定义实现全局拦截器<code>BaseGlobalInterceptor</code>, 并配置成<code>spring</code>容器中的<code>bean</code>！例如我们需要在整个系统发起的http请求，都带上来源信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SourceInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseGlobalInterceptor</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Response <span class="hljs-title">doIntercept</span><span class="hljs-params">(Chain chain)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        Request request = chain.request();<br>        Request newReq = request.newBuilder()<br>                .addHeader(<span class="hljs-string">&quot;source&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>)<br>                .build();<br>        <span class="hljs-keyword">return</span> chain.proceed(newReq);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="全局网络拦截器"><a href="#全局网络拦截器" class="headerlink" title="全局网络拦截器"></a>全局网络拦截器</h4><p>只需要实现<code>NetworkInterceptor</code>接口 并配置成<code>spring</code>容器中的<code>bean</code>就支持自动织入全局网络拦截器。</p>
+<h4 id="熔断降级"><a href="#熔断降级" class="headerlink" title="熔断降级"></a>熔断降级</h4><p>在分布式服务架构中，对不稳定的外部服务进行熔断降级是保证服务高可用的重要措施之一。由于外部服务的稳定性是不能保证的，当外部服务不稳定时，响应时间会变长。相应地，调用方的响应时间也会变长，线程会产生堆积，最终可能耗尽调用方的线程池，导致整个服务不可用。因此我们需要对不稳定的弱依赖服务调用进行熔断降级，暂时切断不稳定调用，避免局部不稳定导致整体服务雪崩。</p>
+<p><code>retrofit-spring-boot-starter</code>支持熔断降级功能，底层基于Sentinel实现。具体来说，支持了<strong>熔断资源自发现</strong> 和<strong>注解式降级规则配置</strong> 。如需使用熔断降级，只需要进行以下操作即可：</p>
+<ol>
+<li>开启熔断降级功能</li>
+</ol>
+<p><strong>默认情况下，熔断降级功能是关闭的，需要设置相应的配置项来开启熔断降级功能</strong> ：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br><span class="hljs-comment"># 是否启用熔断降级</span><br><span class="hljs-attr">enable-degrade:</span> <span class="hljs-literal">true</span><br><span class="hljs-comment"># 熔断降级实现方式(目前仅支持Sentinel)</span><br><span class="hljs-attr">degrade-type:</span> <span class="hljs-string">sentinel</span><br><span class="hljs-comment"># 资源名称解析器</span><br><span class="hljs-attr">resource-name-parser:</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.degrade.DefaultResourceNameParser</span><br></code></pre></div></td></tr></table></figure>
+
+<p>资源名称解析器用于实现用户自定义资源名称，默认配置是<code>DefaultResourceNameParser</code>，对应的资源名称格式为<code>HTTP_OUT:GET:http://localhost:8080/api/degrade/test</code>。用户可以继承<code>BaseResourceNameParser</code>类实现自己的资源名称解析器。</p>
+<p>另外，由于熔断降级功能是可选的，<strong>因此启用熔断降级需要用户自行引入Sentinel依赖</strong> ：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.csp<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>sentinel-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>配置降级规则（可选）</li>
+</ol>
+<p><strong><code>retrofit-spring-boot-starter</code>支持注解式配置降级规则，通过<code>@Degrade</code>注解来配置降级规则</strong> 。<code>@Degrade</code>注解可以配置在接口或者方法上，配置在方法上的优先级更高。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Degrade &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * RT threshold or exception ratio threshold count.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">count</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Degrade recover timeout (in seconds) when degradation occurs.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">timeWindow</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> 5</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Degrade strategy (0: average RT, 1: exception ratio).</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">DegradeStrategy <span class="hljs-title">degradeStrategy</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> DegradeStrategy.AVERAGE_RT</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p><strong>如果应用项目已支持通过配置中心配置降级规则，可忽略注解式配置方式</strong> 。</p>
+</blockquote>
+<ol start="3">
+<li>@RetrofitClient设置fallback或者fallbackFactory (可选)</li>
+</ol>
+<p>如果<code>@RetrofitClient</code>不设置<code>fallback</code>或者<code>fallbackFactory</code>，当触发熔断时，会直接抛出<code>RetrofitBlockException</code>异常。用户可以通过设置<code>fallback</code>或者<code>fallbackFactory</code>来定制熔断时的方法返回值 。</p>
+<p><code>fallback</code>类必须是当前接口的实现类，<code>fallbackFactory</code>必须是<code>FallbackFactory&lt;T&gt;</code>实现类，泛型参数类型为当前接口类型。另外，<code>fallback</code>和<code>fallbackFactory</code>实例必须配置成<code>Spring</code>容器的<code>Bean</code>。</p>
+<p><strong><code>fallbackFactory</code>相对于<code>fallback</code>，主要差别在于能够感知每次熔断的异常原因(cause)</strong> 。参考示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HttpDegradeFallback</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HttpDegradeApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;Integer&gt; <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;<br>        Result&lt;Integer&gt; fallback = <span class="hljs-keyword">new</span> Result&lt;&gt;();<br>        fallback.setCode(<span class="hljs-number">100</span>)<br>                .setMsg(<span class="hljs-string">&quot;fallback&quot;</span>)<br>                .setBody(<span class="hljs-number">1000000</span>);<br>        <span class="hljs-keyword">return</span> fallback;<br>    &#125;<br>&#125;<br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HttpDegradeFallbackFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">FallbackFactory</span>&lt;<span class="hljs-title">HttpDegradeApi</span>&gt; </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Returns an instance of the fallback appropriate for the given cause</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cause fallback cause</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 实现了retrofit接口的实例。an instance that implements the retrofit interface.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> HttpDegradeApi <span class="hljs-title">create</span><span class="hljs-params">(Throwable cause)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;触发熔断了! &quot;</span>, cause.getMessage(), cause);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> HttpDegradeApi() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Result&lt;Integer&gt; <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;<br>                Result&lt;Integer&gt; fallback = <span class="hljs-keyword">new</span> Result&lt;&gt;();<br>                fallback.setCode(<span class="hljs-number">100</span>)<br>                        .setMsg(<span class="hljs-string">&quot;fallback&quot;</span>)<br>                        .setBody(<span class="hljs-number">1000000</span>);<br>                <span class="hljs-keyword">return</span> fallback;<br>            &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="微服务之间的HTTP调用"><a href="#微服务之间的HTTP调用" class="headerlink" title="微服务之间的HTTP调用"></a>微服务之间的HTTP调用</h4><p>为了能够使用微服务调用，需要进行如下配置：</p>
+<p><strong>配置</strong><code>ServiceInstanceChooser</code><strong>为</strong><code>Spring</code><strong>容器</strong><code>Bean</code></p>
+<p>用户可以自行实现<code>ServiceInstanceChooser</code>接口，完成服务实例的选取逻辑，并将其配置成<code>Spring</code>容器的<code>Bean</code>。对于<code>Spring Cloud</code>应用，<code>retrofit-spring-boot-starter</code>提供了<code>SpringCloudServiceInstanceChooser</code>实现，用户只需将其配置成<code>Spring</code>的<code>Bean</code>即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@Autowired</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ServiceInstanceChooser <span class="hljs-title">serviceInstanceChooser</span><span class="hljs-params">(LoadBalancerClient loadBalancerClient)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SpringCloudServiceInstanceChooser(loadBalancerClient);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>使用<code>@Retrofit</code>的<code>serviceId</code>和<code>path</code>属性，可以实现微服务之间的HTTP调用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RetrofitClient(serviceId = &quot;$&#123;jy-helicarrier-api.serviceId&#125;&quot;, path = &quot;/m/count&quot;, errorDecoder = HelicarrierErrorDecoder.class)</span><br><span class="hljs-meta">@Retry</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ApiCountService</span> </span>&#123;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="调用适配器和数据转码器"><a href="#调用适配器和数据转码器" class="headerlink" title="调用适配器和数据转码器"></a><strong>调用适配器和数据转码器</strong></h2><h4 id="调用适配器"><a href="#调用适配器" class="headerlink" title="调用适配器"></a>调用适配器</h4><p><code>Retrofit</code>可以通过调用适配器<code>CallAdapterFactory</code>将<code>Call&lt;T&gt;</code>对象适配成接口方法的返回值类型。<code>retrofit-spring-boot-starter</code>扩展2种<code>CallAdapterFactory</code>实现：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">BodyCallAdapterFactory</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>默认启用，可通过配置<code>retrofit.enable-body-call-adapter=false</code>关闭</li>
+<li>同步执行http请求，将响应体内容适配成接口方法的返回值类型实例。</li>
+<li>除了<code>Retrofit.Call&lt;T&gt;</code>、<code>Retrofit.Response&lt;T&gt;</code>、<code>java.util.concurrent.CompletableFuture&lt;T&gt;</code>之外，其它返回类型都可以使用该适配器。</li>
+</ul>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">ResponseCallAdapterFactory</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>默认启用，可通过配置<code>retrofit.enable-response-call-adapter=false</code>关闭</li>
+<li>同步执行http请求，将响应体内容适配成<code>Retrofit.Response&lt;T&gt;</code>返回。</li>
+<li>如果方法的返回值类型为<code>Retrofit.Response&lt;T&gt;</code>，则可以使用该适配器。</li>
+</ul>
+<p><strong>Retrofit自动根据方法返回值类型选用对应的</strong><code>CallAdapterFactory</code>执行适配处理！加上Retrofit默认的<code>CallAdapterFactory</code>，可支持多种形式的方法返回值类型：</p>
+<ul>
+<li><code>Call&lt;T&gt;</code>: 不执行适配处理，直接返回<code>Call&lt;T&gt;</code>对象</li>
+<li><code>CompletableFuture&lt;T&gt;</code>: 将响应体内容适配成<code>CompletableFuture&lt;T&gt;</code>对象返回</li>
+<li><code>Void</code>: 不关注返回类型可以使用<code>Void</code>。如果http状态码不是2xx，直接抛错！</li>
+<li><code>Response&lt;T&gt;</code>: 将响应内容适配成<code>Response&lt;T&gt;</code>对象返回</li>
+<li>其他任意Java类型：将响应体内容适配成一个对应的Java类型对象返回，如果http状态码不是2xx，直接抛错！</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Call&lt;T&gt;</span><br><span class="hljs-comment"> * 不执行适配处理，直接返回Call&lt;T&gt;对象</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@GET(&quot;person&quot;)</span><br>Call&lt;Result&lt;Person&gt;&gt; getPersonCall(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id);<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  CompletableFuture&lt;T&gt;</span><br><span class="hljs-comment"> *  将响应体内容适配成CompletableFuture&lt;T&gt;对象返回</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@GET(&quot;person&quot;)</span><br>CompletableFuture&lt;Result&lt;Person&gt;&gt; getPersonCompletableFuture(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id);<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Void</span><br><span class="hljs-comment"> * 不关注返回类型可以使用Void。如果http状态码不是2xx，直接抛错！</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@GET(&quot;person&quot;)</span><br><span class="hljs-function">Void <span class="hljs-title">getPersonVoid</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  Response&lt;T&gt;</span><br><span class="hljs-comment"> *  将响应内容适配成Response&lt;T&gt;对象返回</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@GET(&quot;person&quot;)</span><br>Response&lt;Result&lt;Person&gt;&gt; getPersonResponse(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id);<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 其他任意Java类型</span><br><span class="hljs-comment"> * 将响应体内容适配成一个对应的Java类型对象返回，如果http状态码不是2xx，直接抛错！</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@GET(&quot;person&quot;)</span><br><span class="hljs-function">Result&lt;Person&gt; <span class="hljs-title">getPerson</span><span class="hljs-params">(<span class="hljs-meta">@Query(&quot;id&quot;)</span> Long id)</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>我们也可以通过继承</strong><code>CallAdapter.Factory</code>扩展实现自己的<code>CallAdapter</code> ！</p>
+<p><code>retrofit-spring-boot-starter</code>支持通过<code>retrofit.global-call-adapter-factories</code>配置全局调用适配器工厂，工厂实例优先从Spring容器获取，如果没有获取到，则反射创建。默认的全局调用适配器工厂是<code>[BodyCallAdapterFactory, ResponseCallAdapterFactory]</code>！</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br>  <span class="hljs-comment"># 全局调用适配器工厂</span><br>  <span class="hljs-attr">global-call-adapter-factories:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.core.BodyCallAdapterFactory</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">com.github.lianjiatech.retrofit.spring.boot.core.ResponseCallAdapterFactory</span><br></code></pre></div></td></tr></table></figure>
+
+<p>针对每个Java接口，还可以通过<code>@RetrofitClient</code>注解的<code>callAdapterFactories()</code>指定当前接口采用的<code>CallAdapter.Factory</code>，指定的工厂实例依然优先从Spring容器获取。</p>
+<p><strong>注意：如果</strong><code>CallAdapter.Factory</code>没有<code>public</code>的无参构造器，请手动将其配置成<code>Spring</code>容器的<code>Bean</code>对象！</p>
+<p><strong>数据转码器</strong></p>
+<p><code>Retrofit</code>使用<code>Converter</code>将<code>@Body</code>注解标注的对象转换成请求体，将响应体数据转换成一个<code>Java</code>对象，可以选用以下几种<code>Converter</code>：</p>
+<ul>
+<li>Gson: com.squareup.Retrofit:converter-gson</li>
+<li>Jackson: com.squareup.Retrofit:converter-jackson</li>
+<li>Moshi: com.squareup.Retrofit:converter-moshi</li>
+<li>Protobuf: com.squareup.Retrofit:converter-protobuf</li>
+<li>Wire: com.squareup.Retrofit:converter-wire</li>
+<li>Simple XML: com.squareup.Retrofit:converter-simplexml</li>
+<li>JAXB: com.squareup.retrofit2:converter-jaxb</li>
+</ul>
+<p><code>retrofit-spring-boot-starter</code>支持通过<code>retrofit.global-converter-factories</code>配置全局数据转换器工厂，转换器工厂实例优先从Spring容器获取，如果没有获取到，则反射创建。</p>
+<p>默认的全局数据转换器工厂是<code>retrofit2.converter.jackson.JacksonConverterFactory</code>，你可以直接通过<code>spring.jackson.*</code>配置<code>jackson</code>序列化规则，配置可参考Customize the Jackson ObjectMapper！</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">retrofit:</span><br>  <span class="hljs-comment"># 全局转换器工厂</span><br>  <span class="hljs-attr">global-converter-factories:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">retrofit2.converter.jackson.JacksonConverterFactory</span><br></code></pre></div></td></tr></table></figure>
+
+<p>针对每个Java接口，还可以通过<code>@RetrofitClient</code>注解的<code>converterFactories()</code>指定当前接口采用的<code>Converter.Factory</code>，指定的转换器工厂实例依然优先从Spring容器获取。</p>
+<p><strong>注意：如果</strong><code>Converter.Factory</code>没有<code>public</code>的无参构造器，请手动将其配置成<code>Spring</code>容器的<code>Bean</code>对象 ！</p>
+<p><strong>总结</strong></p>
+<p><code>retrofit-spring-boot-starter</code>一个适用于<code>SpringBoot</code>项目的轻量级<code>HTTP</code>客户端框架，已在线上稳定运行两年多，并且已经有多个外部公司也接入使用。</p>
+<p>来源：juejin.cn/post/6898485806587969544</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/40%20%E4%B8%AA%20Spring%20Boot%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">40 个 Spring Boot 常用注解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/SpringBoot+SpringSecurity%20%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%20+%20Jwt%20%E7%9A%84%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81/">
+                        <span class="hidden-mobile">SpringBoot+SpringSecurity 前后端分离 + Jwt 的权限认证</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

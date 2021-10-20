@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="U-boot镜像自拷贝分析：section属性  6.1 GNU C 的扩展关键字：attributeGNU C 增加一个 atttribute 关键字用来声明一个函数、变量或类型的特殊属性。声明这个特殊属性有什么用呢？主要用途就是指导编译器在编译程序时进行特定方面的优化或代码检查。比如，我们可以通过使用属性声明指定某个变量的数据边界对齐方式。 __attribute__的使用非常简单，当我们定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="U-boot镜像自拷贝分析：section属性">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C06/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="U-boot镜像自拷贝分析：section属性  6.1 GNU C 的扩展关键字：attributeGNU C 增加一个 atttribute 关键字用来声明一个函数、变量或类型的特殊属性。声明这个特殊属性有什么用呢？主要用途就是指导编译器在编译程序时进行特定方面的优化或代码检查。比如，我们可以通过使用属性声明指定某个变量的数据边界对齐方式。 __attribute__的使用非常简单，当我们定义">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.295Z">
+<meta property="article:modified_time" content="2021-10-04T02:48:48.934Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>U-boot镜像自拷贝分析：section属性 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="U-boot镜像自拷贝分析：section属性">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">U-boot镜像自拷贝分析：section属性</h1>
+            
+            <div class="markdown-body">
+              <center><h2>U-boot镜像自拷贝分析：section属性</h2></center>
+
+<h2 id="6-1-GNU-C-的扩展关键字：attribute"><a href="#6-1-GNU-C-的扩展关键字：attribute" class="headerlink" title="6.1 GNU C 的扩展关键字：attribute"></a>6.1 GNU C 的扩展关键字：attribute</h2><p>GNU C 增加一个 atttribute 关键字用来声明一个函数、变量或类型的特殊属性。声明这个特殊属性有什么用呢？主要用途就是指导编译器在编译程序时进行特定方面的优化或代码检查。比如，我们可以通过使用属性声明指定某个变量的数据边界对齐方式。</p>
+<p>__attribute__的使用非常简单，当我们定义一个函数、变量或类型时，直接在它们名字旁边添加下面的属性声明即可：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">__atttribute__((ATTRIBUTE))<br></code></pre></div></td></tr></table></figure>
+
+
+<p>这里需要注意的是：attribute 后面是两对小括号，不能图方便只写一对，否则编译可能通不过。括号里面的 ATTRIBUTE 代表的就是要声明的属性。现在 attribute 支持十几种属性：</p>
+<ul>
+<li><p>section</p>
+</li>
+<li><p>aligned</p>
+</li>
+<li><p>packed</p>
+</li>
+<li><p>format</p>
+</li>
+<li><p>weak</p>
+</li>
+<li><p>alias</p>
+</li>
+<li><p>noinline</p>
+</li>
+<li><p>always_inline</p>
+</li>
+<li><p>……</p>
+</li>
+</ul>
+<p>在这些属性中，aligned 和 packed 用来显式指定一个变量的存储边界对齐方式。一般来讲，我们定义一个变量，编译器会根据变量类型，按照默认的规则来给这个变量分配大小、按照默认的边界对齐方式分配一个地址。而使用 atttribute 这个属性声明，就相当于告诉编译器：按照我们指定的边界地址对齐去给这个变量分配存储空间。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">char</span> c2 __attribute__((aligned(<span class="hljs-number">8</span>)) = <span class="hljs-number">4</span>;<br><span class="hljs-keyword">int</span> global_val __attribute__((section(<span class="hljs-string">&quot;.data&quot;</span>)));<br></code></pre></div></td></tr></table></figure>
+
+
+<p>有些属性可能还有自己的参数。比如 aligned(8) 表示这个变量按8字节地址对齐，参数也要使用小括号括起来。如果属性的参数是一个字符串，小括号里的参数还要用双引号引起来。</p>
+<p>当然，我们也可以对一个变量同时添加多个属性说明。在定义时，各个属性之间用逗号隔开就可以了。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">char</span> c2 __attribute__((packed,aligned(<span class="hljs-number">4</span>)));<br><span class="hljs-keyword">char</span> c2 __attribute__((packed,aligned(<span class="hljs-number">4</span>))) = <span class="hljs-number">4</span>;<br>__attribute__((packed,aligned(<span class="hljs-number">4</span>))) <span class="hljs-keyword">char</span> c2 = <span class="hljs-number">4</span>;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在上面的示例中，我们对一个变量添加2个属性声明，这两个属性都放在 atttribute(()) 的2对小括号里面，属性之间用逗号隔开。这里还有一个细节，就是属性声明要紧挨着变量，上面的三种定义方式都是没有问题的，但下面的定义方式在编译的时候可能就通不过。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">char</span> c2 = <span class="hljs-number">4</span> __attribute__((packed,aligned(<span class="hljs-number">4</span>)));<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="6-2-属性声明：section"><a href="#6-2-属性声明：section" class="headerlink" title="6.2 属性声明：section"></a>6.2 属性声明：section</h2><p>在本节教程中，我们先讲一下 section 这个属性。使用atttribute 来声明一个 section 属性，主要用途是在程序编译时，将一个函数或变量放到指定的段，即 section 中。</p>
+<p>在讲解这个功能之前，为了照顾一下对计算机编译、链接过程不是很了解的同学，我们先讲一讲程序的编译、链接过程。</p>
+<h3 id="程序的编译、链接过程"><a href="#程序的编译、链接过程" class="headerlink" title="程序的编译、链接过程"></a>程序的编译、链接过程</h3><p>一个可执行目标文件，它主要由代码段、数据段、BSS 段构成。代码段主要存放编译生成的可执行指令代码，数据段和 BSS 段用来存放全局变量、未初始化的全局变量。代码段、数据段和 BSS 段构成了一个可执行文件的主要部分。</p>
+<p>除了这三个段，可执行文件中还包含其它一些段。用编译器的专业术语讲，还会包含其它一些 section，比如只读数据段、符号表等等。我们可以使用下面的 readelf 命令，去查看一个可执行文件中各个 section 的信息。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out hello.c<br>$ readelf -S a.out<br><br>  here are <span class="hljs-number">31</span> section headers, starting at offset <span class="hljs-number">0x1848</span>:<br>Section Headers:<br>  [Nr] Name              Type            Addr     Off    Size   <br>  [ <span class="hljs-number">0</span>]                   <span class="hljs-literal">NULL</span>            <span class="hljs-number">00000000</span> <span class="hljs-number">000000</span> <span class="hljs-number">000000</span><br>  [ <span class="hljs-number">1</span>] .interp           PROGBITS        <span class="hljs-number">08048154</span> <span class="hljs-number">000154</span> <span class="hljs-number">000013</span><br>  [ <span class="hljs-number">2</span>] .note.ABI-tag     NOTE            <span class="hljs-number">08048168</span> <span class="hljs-number">000168</span> <span class="hljs-number">000020</span><br>  [ <span class="hljs-number">3</span>] .note.gnu.build-i NOTE            <span class="hljs-number">08048188</span> <span class="hljs-number">000188</span> <span class="hljs-number">000024</span><br>  [ <span class="hljs-number">4</span>] .gnu.hash         GNU_HASH        <span class="hljs-number">080481</span>ac <span class="hljs-number">0001</span>ac <span class="hljs-number">000020</span><br>  [ <span class="hljs-number">5</span>] .dynsym           DYNSYM          <span class="hljs-number">080481</span>cc <span class="hljs-number">0001</span>cc <span class="hljs-number">000040</span><br>  [ <span class="hljs-number">6</span>] .dynstr           STRTAB          <span class="hljs-number">0804820</span>c <span class="hljs-number">00020</span>c <span class="hljs-number">000045</span><br>  [ <span class="hljs-number">7</span>] .gnu.version      VERSYM          <span class="hljs-number">08048252</span> <span class="hljs-number">000252</span> <span class="hljs-number">000008</span><br>  [ <span class="hljs-number">8</span>] .gnu.version_r    VERNEED         <span class="hljs-number">0804825</span>c <span class="hljs-number">00025</span>c <span class="hljs-number">000020</span><br>  [ <span class="hljs-number">9</span>] .rel.dyn          REL             <span class="hljs-number">0804827</span>c <span class="hljs-number">00027</span>c <span class="hljs-number">000008</span><br>  [<span class="hljs-number">10</span>] .rel.plt          REL             <span class="hljs-number">08048284</span> <span class="hljs-number">000284</span> <span class="hljs-number">000008</span><br>  [<span class="hljs-number">11</span>] .init             PROGBITS        <span class="hljs-number">0804828</span>c <span class="hljs-number">00028</span>c <span class="hljs-number">000023</span><br>  [<span class="hljs-number">13</span>] .plt.got          PROGBITS        <span class="hljs-number">080482</span>d0 <span class="hljs-number">0002</span>d0 <span class="hljs-number">000008</span><br>  [<span class="hljs-number">14</span>] .text             PROGBITS        <span class="hljs-number">080482e0</span> <span class="hljs-number">0002e0</span> <span class="hljs-number">000172</span><br>  [<span class="hljs-number">15</span>] .fini             PROGBITS        <span class="hljs-number">08048454</span> <span class="hljs-number">000454</span> <span class="hljs-number">000014</span><br>  [<span class="hljs-number">16</span>] .rodata           PROGBITS        <span class="hljs-number">08048468</span> <span class="hljs-number">000468</span> <span class="hljs-number">000008</span><br>  [<span class="hljs-number">17</span>] .eh_frame_hdr     PROGBITS        <span class="hljs-number">08048470</span> <span class="hljs-number">000470</span> <span class="hljs-number">00002</span>c<br>  [<span class="hljs-number">18</span>] .eh_frame         PROGBITS        <span class="hljs-number">0804849</span>c <span class="hljs-number">00049</span>c <span class="hljs-number">0000</span>c0<br>  [<span class="hljs-number">19</span>] .init_array       INIT_ARRAY      <span class="hljs-number">08049f</span>08 <span class="hljs-number">000f</span>08 <span class="hljs-number">000004</span><br>  [<span class="hljs-number">20</span>] .fini_array       FINI_ARRAY      <span class="hljs-number">08049f</span>0c <span class="hljs-number">000f</span>0c <span class="hljs-number">000004</span><br>  [<span class="hljs-number">21</span>] .jcr              PROGBITS        <span class="hljs-number">08049f</span>10 <span class="hljs-number">000f</span>10 <span class="hljs-number">000004</span><br>  [<span class="hljs-number">22</span>] .dynamic          DYNAMIC         <span class="hljs-number">08049f</span>14 <span class="hljs-number">000f</span>14 <span class="hljs-number">0000e8</span><br>  [<span class="hljs-number">23</span>] .got              PROGBITS        <span class="hljs-number">08049f</span>fc <span class="hljs-number">000f</span>fc <span class="hljs-number">000004</span><br>  [<span class="hljs-number">24</span>] .got.plt          PROGBITS        <span class="hljs-number">0804</span>a000 <span class="hljs-number">001000</span> <span class="hljs-number">000010</span><br>  [<span class="hljs-number">25</span>] .data             PROGBITS        <span class="hljs-number">0804</span>a020 <span class="hljs-number">001020</span> <span class="hljs-number">00004</span>c<br>  [<span class="hljs-number">26</span>] .bss              NOBITS          <span class="hljs-number">0804</span>a06c <span class="hljs-number">00106</span>c <span class="hljs-number">000004</span><br>  [<span class="hljs-number">27</span>] .comment          PROGBITS        <span class="hljs-number">00000000</span> <span class="hljs-number">00106</span>c <span class="hljs-number">000034</span><br>  [<span class="hljs-number">28</span>] .shstrtab         STRTAB          <span class="hljs-number">00000000</span> <span class="hljs-number">00173</span>d <span class="hljs-number">00010</span>a<br>  [<span class="hljs-number">29</span>] .symtab           SYMTAB          <span class="hljs-number">00000000</span> <span class="hljs-number">0010</span>a0 <span class="hljs-number">000470</span><br>  [<span class="hljs-number">30</span>] .strtab           STRTAB          <span class="hljs-number">00000000</span> <span class="hljs-number">001510</span> <span class="hljs-number">00022</span>d<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在 Linux 环境下，使用 GCC 编译生成一个可执行文件 a.out，使用上面的 readelf 命令，就可以查看这个可执行文件中各个 section 的基本信息，比如大小、起始地址等等。在这些 section 中，其中 .text section 就是我们常说的代码段，.data section 是数据段，.bss section 是 BSS 段。</p>
+<p>我们知道一段源程序代码在编译生成可执行文件的过程中，函数和变量是放在不同段中的。一般默认的规则如下。</p>
+<table>
+<thead>
+<tr>
+<th>section</th>
+<th>组成</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>代码段( .text)</td>
+<td>函数定义、程序语句</td>
+</tr>
+<tr>
+<td>数据段( .data)</td>
+<td>初始化的全局变量、初始化的静态局部变量</td>
+</tr>
+<tr>
+<td>BSS段( .bss)</td>
+<td>未初始化的全局变量、未初始化的静态局部变量</td>
+</tr>
+</tbody></table>
+<p>比如，在下面的程序中，我们分别定义一个函数、一个全局变量和一个未初始化的全局变量。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-comment">//hello.c</span><br><span class="hljs-keyword">int</span> global_val = <span class="hljs-number">8</span>;<br><span class="hljs-keyword">int</span> uninit_val;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_star</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;****\n&quot;</span>);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    print_star();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>接着，我们使用 GCC 编译这个程序，并查看生成的可执行文件 a.out 的符号表和 section header 表信息。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ gcc -o a.out hello.c<br>$ readelf -s a.out<br>$ readelf -S a.out<br>符号表信息：<br>Num:  Value   Size Type    Bind   Vis      Ndx Name<br><span class="hljs-number">37</span>: <span class="hljs-number">00000000</span>     <span class="hljs-number">0</span> FILE    LOCAL  DEFAULT  ABS hello.c<br><span class="hljs-number">48</span>: <span class="hljs-number">0804</span>a024     <span class="hljs-number">4</span> OBJECT  GLOBAL DEFAULT   <span class="hljs-number">26</span> uninit_val<br><span class="hljs-number">51</span>: <span class="hljs-number">0804</span>a014     <span class="hljs-number">0</span> NOTYPE  WEAK   DEFAULT   <span class="hljs-number">25</span> data_start<br><span class="hljs-number">52</span>: <span class="hljs-number">0804</span>a020     <span class="hljs-number">0</span> NOTYPE  GLOBAL DEFAULT   <span class="hljs-number">25</span> _edata<br><span class="hljs-number">53</span>: <span class="hljs-number">080484b</span>4     <span class="hljs-number">0</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">15</span> _fini<br><span class="hljs-number">54</span>: <span class="hljs-number">0804</span>a01c     <span class="hljs-number">4</span> OBJECT  GLOBAL DEFAULT   <span class="hljs-number">25</span> global_val<br><span class="hljs-number">55</span>: <span class="hljs-number">0804</span>a014     <span class="hljs-number">0</span> NOTYPE  GLOBAL DEFAULT   <span class="hljs-number">25</span> __data_start<br><span class="hljs-number">61</span>: <span class="hljs-number">08048450</span>    <span class="hljs-number">93</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">14</span> __libc_csu_init<br><span class="hljs-number">62</span>: <span class="hljs-number">0804</span>a028     <span class="hljs-number">0</span> NOTYPE  GLOBAL DEFAULT   <span class="hljs-number">26</span> _end<br><span class="hljs-number">63</span>: <span class="hljs-number">08048310</span>     <span class="hljs-number">0</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">14</span> _start<br><span class="hljs-number">64</span>: <span class="hljs-number">080484</span>c8     <span class="hljs-number">4</span> OBJECT  GLOBAL DEFAULT   <span class="hljs-number">16</span> _fp_hw<br><span class="hljs-number">65</span>: <span class="hljs-number">0804840b</span>    <span class="hljs-number">25</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">14</span> print_star<br><span class="hljs-number">66</span>: <span class="hljs-number">0804</span>a020     <span class="hljs-number">0</span> NOTYPE  GLOBAL DEFAULT   <span class="hljs-number">26</span> __bss_start<br><span class="hljs-number">67</span>: <span class="hljs-number">08048424</span>    <span class="hljs-number">36</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">14</span> main<br><span class="hljs-number">71</span>: <span class="hljs-number">080482</span>a8     <span class="hljs-number">0</span> FUNC    GLOBAL DEFAULT   <span class="hljs-number">11</span> _init<br>section header信息：<br>Section Headers:<br>  [Nr] Name         Type        Addr     Off    Size   <br>  [<span class="hljs-number">14</span>] .text        PROGBITS    <span class="hljs-number">08048310</span> <span class="hljs-number">000310</span> <span class="hljs-number">0001</span>a2 <br>  [<span class="hljs-number">25</span>] .data        PROGBITS    <span class="hljs-number">0804</span>a014 <span class="hljs-number">001014</span> <span class="hljs-number">00000</span>c<br>  [<span class="hljs-number">26</span>] .bss         NOBITS      <span class="hljs-number">0804</span>a020 <span class="hljs-number">001020</span> <span class="hljs-number">000008</span><br>  [<span class="hljs-number">27</span>] .comment     PROGBITS    <span class="hljs-number">00000000</span> <span class="hljs-number">001020</span> <span class="hljs-number">000034</span><br>  [<span class="hljs-number">28</span>] .shstrtab    STRTAB      <span class="hljs-number">00000000</span> <span class="hljs-number">001722</span> <span class="hljs-number">00010</span>a<br>  [<span class="hljs-number">29</span>] .symtab      SYMTAB      <span class="hljs-number">00000000</span> <span class="hljs-number">001054</span> <span class="hljs-number">000480</span><br>  [<span class="hljs-number">30</span>] .strtab      STRTAB      <span class="hljs-number">00000000</span> <span class="hljs-number">0014</span>d4 <span class="hljs-number">00024</span>e<br></code></pre></div></td></tr></table></figure>
+
+
+<p>通过符号表和节头表 section header table 信息，我们可以看到，函数 print_star 被放在可执行文件中的 .text section，即代码段；初始化的全局变量 global_val 被放在了 a.out 的 .data section，即数据段；而未初始化的全局变量 uninit_val 则被放在了.bss section，即 BSS 段。</p>
+<p>编译器在编译程序时，是以源文件为单位，将一个个源文件编译生成一个个目标文件。在编译过程中，编译器都会按照这个默认规则，将函数、变量分别放在不同的 section 中，最后将各个 section 组成一个目标文件。编译过程结束后，链接器接着会将各个目标文件组装合并、重定位，生成一个可执行文件。</p>
+<p>链接器是如何将各个目标文件组装成一个可执行文件的呢？很简单，链接器首先会分别将各个目标文件的代码段整合，组装成一个大的代码段；将各个目标文件中的数据段整合，合并成一个大的数据段；接着将合并后的新代码段、数据段再合并为一个文件；最后经过重定位，就生成了一个可以运行的可执行文件了。</p>
+<p>现在又有一个疑问来了，链接器在将各个不同的 section 段组装成一个可执行文件的过程中，各个 section 的顺序如何排放呢？比如代码段、数据段、BSS 段、符号表等，谁放在前面？谁放在后面？</p>
+<p>链接器在链接过程中，会将不同的 section，按照链接脚本中指定的各个 section 的排放顺序，组装成一个可执行文件。一般在 Ubuntu 等 PC 版本的系统中，系统会有默认的链接脚本，不需要程序员操心。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">$ ld --verbose<br></code></pre></div></td></tr></table></figure>
+
+
+<p>我们使用上面命令，就可以查看编译当前程序时，链接器使用的默认链接脚本。在嵌入式系统中，因为是交叉编译，所以软件源码一般会自带一个链接脚本。比如在 U-boot 源码的根目录下面，你会看到一个 u-boot.lds 的文件，这个文件就是编译 U-boot 时，链接器要使用的链接脚本。在 Linux 内核中，同样会有 vmlinux.lds 这样一个链接脚本。</p>
+<h3 id="属性-section-编程示例"><a href="#属性-section-编程示例" class="headerlink" title="属性 section 编程示例"></a>属性 section 编程示例</h3><p>在 GNU C 中，我们可以通过 attribute 的 section 属性，显式指定一个函数或变量，在编译时放到指定的 section 里面。通过上面的程序我们知道，未初始化的全局变量是放在 .data section 中的，即放在 BSS 段中。现在我们就可以通过 section 属性，把这个未初始化的全局变量放到数据段 .data 中。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> global_val = <span class="hljs-number">8</span>;<br><span class="hljs-keyword">int</span> uninit_val __attribute__((section(<span class="hljs-string">&quot;.data&quot;</span>)));<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>通过上面的 readelf 命令查看符号表，我们可以看到，uninit_val 这个未初始化的全局变量，通过__attribute__((section(“.data”))) 属性声明，就被编译器放在了数据段 .data section 中。</p>
+<h2 id="6-3-U-boot-启动过程中的镜像自拷贝分析"><a href="#6-3-U-boot-启动过程中的镜像自拷贝分析" class="headerlink" title="6.3 U-boot 启动过程中的镜像自拷贝分析"></a>6.3 U-boot 启动过程中的镜像自拷贝分析</h2><p>有了 section 这个属性，我们接下来就可以试着分析，U-boot 在启动过程中，是如何将自身代码加载的 RAM 中的。</p>
+<p>搞嵌入式的都知道 U-boot，U-boot 的用途主要是加载 Linux 内核镜像到内存、给内核传递启动参数、然后引导 Linux 操作系统启动。</p>
+<p>U-boot 一般存储在 Nor flash 或 NAND Flash 上。无论从 Nor Flash 还是从 Nand Flash 启动，U-boot 其本身在启动过程中，也会从 Flash 存储介质上加载自身代码到内存，然后进行重定位，跳到内存 RAM 中去执行。这个功能一般叫做“自举”，是不是感觉很牛 X？U-boot 重定位的过程今天就不展开了，有兴趣的同学，可以看看我的嵌入式视频教程《C 语言嵌入式 Linux 高级编程》第3期：程序的编译、链接和运行。今天我们的主要任务是去看看 U-boot 是怎么完成自拷贝的，或者说它是怎样将自身代码从 Flash 拷贝到内存 RAM 中的。</p>
+<p>在拷贝自身代码的过程中，一个主要的疑问就是，U-boot 是如何识别自身代码的？是如何知道从哪里拷贝代码的？是如何知道拷贝到哪里停止的？这个时候我们不得不说起 U-boot 源码中的一个零长度数组。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">char</span> __image_copy_start[<span class="hljs-number">0</span>] __attribute__((section(<span class="hljs-string">&quot;.__image_copy_start&quot;</span>)));<br><span class="hljs-keyword">char</span> __image_copy_end[<span class="hljs-number">0</span>] __attribute__((section(<span class="hljs-string">&quot;.__image_copy_end&quot;</span>)));<br></code></pre></div></td></tr></table></figure>
+
+
+<p>这两行代码定义在 U-boot-2016.09 中的 arch/arm/lib/section.c 文件中。在其它版本中可能路径不同或者没有定义，为了分析这个功能，建议大家可以下载 U-boot-2016.09 这个版本的U-boot源码。</p>
+<p>这两行代码的作用是分别定义一个零长度数组，并告诉编译器要分别放在 .imagecopystart 和 <code>.image_copy_end</code> 这两个 section 中。</p>
+<p>链接器在链接各个目标文件时，会按照链接脚本里各个 section 的排列顺序，将各个 section 组装成一个可执行文件。U-boot 的链接脚本 u-boot.lds 在 U-boot 源码的根目录下面。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">OUTPUT_FORMAT(<span class="hljs-string">&quot;elf32-littlearm&quot;</span>,<br>    <span class="hljs-string">&quot;elf32-littlearm&quot;</span>,<br>    <span class="hljs-string">&quot;elf32-littlearm&quot;</span>)<br>OUTPUT_ARCH(arm)<br>ENTRY(_start)<br>SECTIONS<br>&#123;<br> . = <span class="hljs-number">0x00000000</span>;<br> . = ALIGN(<span class="hljs-number">4</span>);<br> .text :<br> &#123;<br>  *(.__image_copy_start)<br>  *(.vectors)<br>  arch/arm/cpu/armv7/start.o (.text*)<br>  *(.text*)<br> &#125;<br> . = ALIGN(<span class="hljs-number">4</span>);<br> .data : &#123;<br>  *(.data*)<br> &#125;<br>    ...<br>    ...<br> . = ALIGN(<span class="hljs-number">4</span>);<br> .image_copy_end :<br> &#123;<br>  *(.__image_copy_end)<br> &#125;<br> .end :<br> &#123;<br>  *(.__end)<br> &#125;<br> _image_binary_end = .;<br> . = ALIGN(<span class="hljs-number">4096</span>);<br> .mmutable : &#123;<br>  *(.mmutable)<br> &#125;<br> .bss_start __rel_dyn_start (OVERLAY) : &#123;<br>  KEEP(*(.__bss_start));<br>  __bss_base = .;<br> &#125;<br> .bss __bss_base (OVERLAY) : &#123;<br>  *(.bss*)<br>   . = ALIGN(<span class="hljs-number">4</span>);<br>   __bss_limit = .;<br> &#125;<br> .bss_end __bss_limit (OVERLAY) : &#123;<br>  KEEP(*(.__bss_end));<br> &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>通过链接脚本我们可以看到，__image_copy_start 和 __image_copy_end 这两个 section，在链接的时候分别放在了代码段 .text 的前面、数据段 .data 的后面，作为 U-boot 拷贝自身代码的起始地址和结束地址。而在这两个 section 中，我们除了放2个零长度数组外，并没有再放其它变量。根据前面的学习我们知道，零长度数组是不占用存储空间的，所以上面定义的两个零长度数组，其实就分别代表了 U-boot 镜像要拷贝自身镜像的起始地址和结束地址。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">char</span> __image_copy_start[<span class="hljs-number">0</span>] __attribute__((section(<span class="hljs-string">&quot;.__image_copy_start&quot;</span>)));<br><span class="hljs-keyword">char</span> __image_copy_end[<span class="hljs-number">0</span>] __attribute__((section(<span class="hljs-string">&quot;.__image_copy_end&quot;</span>)));<br></code></pre></div></td></tr></table></figure>
+
+
+<p>无论 U-boot 自身镜像是存储在 Nor Flash，还是 Nand Flash 上，我们只要知道了这两个地址，就可以直接调用相关代码拷贝。</p>
+<p>接着在 arch/arm/lib/relocate.S 中，ENTRY(relocate_code) 汇编代码主要完成代码拷贝的功能。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">ENTRY(relocate_code)<br>    ldr r1, =__image_copy_start <span class="hljs-comment">/* r1 &lt;- SRC &amp;__image_copy_start */</span><br>    subs    r4, r0, r1      <span class="hljs-comment">/* r4 &lt;- relocation offset */</span><br>    beq relocate_done       <span class="hljs-comment">/* skip relocation */</span><br>    ldr r2, =__image_copy_end   <span class="hljs-comment">/* r2 &lt;- SRC &amp;__image_copy_end */</span><br><br>copy_loop:<br>    ldmia   r1!, &#123;r10-r11&#125;      <span class="hljs-comment">/* copy from source address [r1]    */</span><br>    stmia   r0!, &#123;r10-r11&#125;      <span class="hljs-comment">/* copy to   target address [r0]    */</span><br>    cmp r1, r2          <span class="hljs-comment">/* until source end address [r2]    */</span><br>    blo copy_loop<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这段汇编代码中，寄存器 R1、R2 分别表示要拷贝镜像的起始地址和结束地址，R0 表示要拷贝到 RAM 中的地址，R4 存放的是源地址和目的地址之间的偏移，在后面重定位过程中会用到这个偏移值。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">ldr r1, =__image_copy_start<br></code></pre></div></td></tr></table></figure>
+
+
+<p>见上面指令，在汇编代码中，ARM的 ldr 指令立即寻址，直接对数组名进行引用，获取要拷贝镜像的首地址，并保存在 R1 寄存器中。数组名本身其实就代表一个地址。通过这种方式，U-boot 在嵌入式启动的初始阶段，就完成了自身代码的拷贝工作：从 Flash 上拷贝自身镜像到 RAM 中，然后再进行重定位，最后跳到 RAM 中执行。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C07/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">地址对齐那些事儿</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C05/">
+                        <span class="hidden-mobile">零长度数组</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

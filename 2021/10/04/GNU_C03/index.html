@@ -1,0 +1,602 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="宏构造利器：语句表达式  3.1 基础复习：表达式、语句和代码块表达式表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：  2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宏构造利器：语句表达式">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C03/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="宏构造利器：语句表达式  3.1 基础复习：表达式、语句和代码块表达式表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：  2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.455Z">
+<meta property="article:modified_time" content="2021-10-04T02:42:57.820Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>宏构造利器：语句表达式 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="宏构造利器：语句表达式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">宏构造利器：语句表达式</h1>
+            
+            <div class="markdown-body">
+              <center><h2>宏构造利器：语句表达式</h2></center>
+
+<h2 id="3-1-基础复习：表达式、语句和代码块"><a href="#3-1-基础复习：表达式、语句和代码块" class="headerlink" title="3.1 基础复习：表达式、语句和代码块"></a>3.1 基础复习：表达式、语句和代码块</h2><h3 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h3><p>表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：</p>
+<ul>
+<li><p>2 + 3</p>
+</li>
+<li><p>2</p>
+</li>
+<li><p>i = 2 + 3</p>
+</li>
+<li><p>i = i++ + 3</p>
+</li>
+<li><p>“wit”</p>
+</li>
+</ul>
+<p>表达式一般用来数据计算或实现某种功能的算法。表达式有2个基本属性：值和类型。如上面的表达式2+3，它的值为5。根据操作符的不同，表达式可以分为多种类型，如：</p>
+<ul>
+<li><p>关系表达式</p>
+</li>
+<li><p>逻辑表达式</p>
+</li>
+<li><p>条件表达式</p>
+</li>
+<li><p>赋值表达式</p>
+</li>
+<li><p>算术表达式</p>
+</li>
+<li><p>……</p>
+</li>
+</ul>
+<h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><p>语句是构成程序的基本单元，一般形式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">表达式; <br>i = <span class="hljs-number">2</span> + <span class="hljs-number">3</span> ;<br></code></pre></div></td></tr></table></figure>
+
+<p>表达式的后面加一个; 就构成了一条基本的语句。编译器在编译程序、解析程序时，不是根据物理行，而是根据分号 ; 来判断一条语句的结束标记的。如 i = 2 + 3; 这条语句，你写成下面的形式也是可以编译通过的：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">i =<br><span class="hljs-number">2</span> + <br><span class="hljs-number">3</span><br>;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>不同的语句，使用大括号{}括起来，就构成了一个代码块。C 语言允许在代码块里定义一个变量，这个变量的作用域也仅限于这个代码块内，因为编译器就是根据{}来做入栈出栈操作来管理变量的作用域的。如下面的程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">3</span>; <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i=%d\n&quot;</span>,i);<br>    &#123;<br>        <span class="hljs-keyword">int</span> i = <span class="hljs-number">4</span>;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i=%d\n&quot;</span>,i);<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i=%d\n&quot;</span>,i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br>运行结果为：<br>i=<span class="hljs-number">3</span><br>i=<span class="hljs-number">4</span><br>i=<span class="hljs-number">3</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="3-2-语句表达式"><a href="#3-2-语句表达式" class="headerlink" title="3.2 语句表达式"></a>3.2 语句表达式</h2><h3 id="语句表达式的定义"><a href="#语句表达式的定义" class="headerlink" title="语句表达式的定义"></a>语句表达式的定义</h3><p>GNU C 对 C 标准作了扩展，允许在一个表达式里内嵌语句，允许在表达式内部使用局部变量、for 循环和 goto 跳转语句。这样的表达式，我们称之为语句表达式。语句表达式的格式如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">(&#123; 表达式<span class="hljs-number">1</span>; 表达式<span class="hljs-number">2</span>; 表达式<span class="hljs-number">3</span>; &#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>语句表达式最外面使用小括号()括起来，里面一对大括号{}包起来的是代码块，代码块里允许内嵌各种语句。语句的格式可以是 “表达式;”这种一般格式的语句，也可以是循环、跳转等语句。</p>
+<p>跟一般表达式一样，语句表达式也有自己的值。语句表达式的值为内嵌语句中最后一个表达式的值。我们举个例子，使用语句表达式求值。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>    sum = <br>    (&#123;<br>        <span class="hljs-keyword">int</span> s = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++)<br>            s = s + i;<br>            s;<br>    &#125;);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum = %d\n&quot;</span>,sum);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在上面的程序中，通过语句表达式实现了从1到10的累加求和，因为语句表达式的值等于最后一个表达式的值，所以在 for 循环的后面，我们要添加一个 s; 语句表示整个语句表达式的值。如果不加这一句，你会发现 sum=0。或者你将这一行语句改为100; 你会发现最后 sum 的值就变成了100，这是因为语句表达式的值总等于最后一个表达式的值。</p>
+<h3 id="语句表达式内使用-goto-跳转"><a href="#语句表达式内使用-goto-跳转" class="headerlink" title="语句表达式内使用 goto 跳转"></a>语句表达式内使用 goto 跳转</h3><p>在上面的程序中，我们在语句表达式内定义了局部变量，使用了 for 循环语句。在语句表达式内，我们同样也可以使用 goto 进行跳转。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>    sum = <br>    (&#123;<br>        <span class="hljs-keyword">int</span> s = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++)<br>            s = s + i;<br>            <span class="hljs-keyword">goto</span> here;<br>            s;  <br>    &#125;);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum = %d\n&quot;</span>,sum);<br>here:<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;here:\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum = %d\n&quot;</span>,sum);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="3-3-在宏定义中使用语句表达式"><a href="#3-3-在宏定义中使用语句表达式" class="headerlink" title="3.3 在宏定义中使用语句表达式"></a>3.3 在宏定义中使用语句表达式</h2><p>语句表达式的亮点在于定义复杂功能的宏。使用语句表达式来定义宏，不仅可以实现复杂的功能，而且还能避免宏定义带来的歧义和漏洞。下面就以一个宏定义例子，让我们来见识见识语句表达式在宏定义中的强悍杀伤力！</p>
+<p>假如你此刻正在面试，面试职位是：Linux C 语言开发工程师。面试官给你出了一道题：</p>
+<blockquote>
+<p>请定义一个宏，求两个数的最大值。</p>
+</blockquote>
+<p>别看这么简单的一个考题，面试官就能根据你写出的宏，来判断你的 C 语言功底，来决定给不给你 Offer。</p>
+<h3 id="合格"><a href="#合格" class="headerlink" title="合格"></a>合格</h3><p>对于学过 C 语言的同学，写出这个宏基本上不是什么难事，使用条件运算符就能完成：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span>  MAX(x,y)  x &gt; y ? x : y</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这是最基本的 C 语言语法，如果连这个也写不出来，估计场面会比较尴尬。面试官为了缓解尴尬，一般会对你说：小伙子，你很棒，回去等消息吧，有消息，我们会通知你！这时候，你应该明白：不用再等了，赶紧把这篇文章看完，接着面下家。这个宏能写出来，也不要觉得你很牛 X，因为这只能说明你有了 C 语言的基础，但还有很大的进步空间。比如，我们写一个程序，验证一下我们定义的宏是否正确：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y) x &gt; y ? x : y</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(<span class="hljs-number">1</span>!=<span class="hljs-number">1</span>,<span class="hljs-number">1</span>!=<span class="hljs-number">2</span>));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>测试程序吗，我们肯定要把各种可能出现的情况都测一遍。这不，测试第4行语句，当宏的参数是一个表达式，发现实际运行结果为 max=0，跟我们预期结果 max=1 不一样。这是因为，宏展开后，就变成了这个样子：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,<span class="hljs-number">1</span>!=<span class="hljs-number">1</span>&gt;<span class="hljs-number">1</span>!=<span class="hljs-number">2</span>?<span class="hljs-number">1</span>!=<span class="hljs-number">1</span>:<span class="hljs-number">1</span>!=<span class="hljs-number">2</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>因为比较运算符 &gt; 的优先级为6，大于 !=（优先级为7），所以展开的表达式，运算顺序发生了改变，结果就跟我们的预期不一样了。为了避免这种展开错误，我们可以给宏的参数加一个小括号()来防止展开后，表达式的运算顺序发生变化。这样的宏才能算一个合格的宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y) (x) &gt; (y) ? (x) : (y)</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="中等"><a href="#中等" class="headerlink" title="中等"></a>中等</h3><p>上面的宏，只能算合格，但还是存在漏洞。比如，我们使用下面的代码测试：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y) (x) &gt; (y) ? (x) : (y)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,<span class="hljs-number">3</span> + MAX(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在程序中，我们打印表达式 3 + MAX(1, 2) 的值，预期结果应该是5，但实际运行结果却是1。我们展开后，发现同样有问题：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-number">3</span> + (<span class="hljs-number">1</span>) &gt; (<span class="hljs-number">2</span>) ? (<span class="hljs-number">1</span>) : (<span class="hljs-number">2</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>因为运算符 + 的优先级大于比较运算符 &gt;，所以这个表达式就变为4&gt;2?1:2，最后结果为1也就见怪不怪了。此时我们应该继续修改这个宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y) ((x) &gt; (y) ? (x) : (y))</span><br></code></pre></div></td></tr></table></figure>
+
+<p>使用小括号将宏定义包起来，这样就避免了当一个表达式同时含有宏定义和其它高优先级运算符时，破坏整个表达式的运算顺序。如果你能写到这一步，说明你比前面那个面试合格的同学强，前面那个同学已经回去等消息了，我们接着面试下一轮。</p>
+<h3 id="良好"><a href="#良好" class="headerlink" title="良好"></a>良好</h3><p>上面的宏，虽然解决了运算符优先级带来的问题，但是仍存在一定的漏洞。比如，我们使用下面的测试程序来测试我们定义的宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y) ((x) &gt; (y) ? (x) : (y))</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">int</span> j = <span class="hljs-number">6</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(i++,j++));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在程序中，我们定义两个变量 i 和 j，然后比较两个变量的大小，并作自增运算。实际运行结果发现 max = 7，而不是预期结果 max = 6。这是因为变量 i 和 j 在宏展开后，做了两次自增运算，导致打印出 i 的值为7。</p>
+<p>遇到这种情况，那该怎么办呢？ 这时候，语句表达式就该上场了。我们可以使用语句表达式来定义这个宏，在语句表达式中定义两个临时变量，分别来暂储 i 和 j 的值，然后进行比较，这样就避免了两次自增、自减问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y)(&#123;     \</span><br><span class="hljs-meta">    int _x = x;        \</span><br><span class="hljs-meta">    int _y = y;        \</span><br><span class="hljs-meta">    _x &gt; _y ? _x : _y; \</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">int</span> j = <span class="hljs-number">6</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d&quot;</span>,MAX(i++,j++));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在语句表达式中，我们定义了2个局部变量 _x、_y 来存储宏参数 x 和 y 的值，然后使用 _x 和 _y 来比较大小，这样就避免了 i 和 j 带来的2次自增运算问题。</p>
+<p>你能坚持到了这一关，并写出这样自带 BGM 的宏，面试官心里可能已经有了给你 Offer 的意愿了。但此时此刻，千万不要骄傲！为了彻底打消面试官的心理顾虑，我们需要对这个宏继续优化。</p>
+<h3 id="优秀"><a href="#优秀" class="headerlink" title="优秀"></a>优秀</h3><p>在上面这个宏中，我们定义的两个临时变量数据类型是 int 型，只能比较两个整型的数据。那对于其它类型的数据，就需要重新再定义一个宏了，这样太麻烦了！我们可以基于上面的宏继续修改，让它可以支持任意类型的数据比较大小：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(type,x,y)(&#123;     \</span><br><span class="hljs-meta">    type _x = x;        \</span><br><span class="hljs-meta">    type _y = y;        \</span><br><span class="hljs-meta">    _x &gt; _y ? _x : _y; \</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">int</span> j = <span class="hljs-number">6</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%d\n&quot;</span>,MAX(<span class="hljs-keyword">int</span>,i++,j++));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max=%f\n&quot;</span>,MAX(<span class="hljs-keyword">float</span>,<span class="hljs-number">3.14</span>,<span class="hljs-number">3.15</span>));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这个宏中，我们添加一个参数：type，用来指定临时变量 _x 和 _y 的类型。这样，我们在比较两个数的大小时，只要将2个数据的类型作为参数传给宏，就可以比较任意类型的数据了。如果你能在面试中，写出这样的宏，面试官肯定会非常高兴，他一般会跟你说：稍等，待会 HR 会跟你谈待遇问题。</p>
+<h3 id="还能不能更牛逼？"><a href="#还能不能更牛逼？" class="headerlink" title="还能不能更牛逼？"></a>还能不能更牛逼？</h3><p>如果你想薪水拿得高一点，待遇好一点，此时不应该骄傲，你应该大手一挥：且慢，我还可以更牛逼！</p>
+<p>上面的宏定义中，我们增加了一个type类型参数，来兼容不同的数据类型，此时此刻，为了薪水，我们应该把这个也省去。如何做到？使用typeof就可以了，typeof是GNU C新增的一个关键字，用来获取数据类型，我们不用传参进去，让typeof直接获取！</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> max(x, y) (&#123;    \</span><br><span class="hljs-meta">    typeof(x) _x = (x); \</span><br><span class="hljs-meta">    typeof(y) _y = (y); \</span><br><span class="hljs-meta">    (void) (&amp;_x == &amp;_y);\</span><br><span class="hljs-meta">    _x &gt; _y ? _x : _y; &#125;)</span><br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个宏定义中，使用了 typeof 关键字用来获取宏的两个参数类型。干货在(void) (&amp;x == &amp;y);这句话，简直是天才般的设计！一是用来给用户提示一个警告，对于不同类型的指针比较，编译器会给一个警告，提示两种数据类型不同；二是，当两个值比较，比较的结果没有用到，有些编译器可能会给出一个warning，加个(void)后，就可以消除这个警告！</p>
+<p>此刻，面试官看到你的这个宏，估计会倒吸一口气：乖乖，果然是后生可畏，这家伙比我还牛逼！你等着，HR待会过来跟你谈薪水！</p>
+<p>恭喜你，拿到offer了！</p>
+<h2 id="3-4-语句表达式在-Linux-内核中的使用"><a href="#3-4-语句表达式在-Linux-内核中的使用" class="headerlink" title="3.4 语句表达式在 Linux 内核中的使用"></a>3.4 语句表达式在 Linux 内核中的使用</h2><p>语句表达式，作为 GNU C 对 C 标准的一个扩展，在内核中，尤其是在内核的宏定义中，被大量的使用。使用语句表达式定义宏，不仅可以实现复杂的功能，还可以避免宏定义带来的一些歧义和漏洞。比如在 Linux 内核中，max_t 和 min_t 的宏定义，就使用了语句表达式：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> min_t(type, x, y)(&#123;</span><br>	type __min1 = (x);<br>	type __min2 = (y);<br>	__min1 &lt; __min2 ? __min1 : __min2;<br>&#125;)<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> max_t(type, x, y)(&#123;</span><br>	type __max1 = (x);<br>	type __max2 = (y);<br>	__max1 &gt; __max2 ? __max1 : __max2;<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>除此之外，在 Linux 内核、GNU 开源软件中，你会发现，还有大量的宏定义使用了语句表达式。通过本节教程的学习，相信大家以后再碰到这种使用语句表达式定义的宏，肯定就知道是怎么回事了，心中有丘壑，再也不用慌。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C04/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux 内核第一宏：container_of</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C02/">
+                        <span class="hidden-mobile">Linux 内核驱动中的指定初始化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

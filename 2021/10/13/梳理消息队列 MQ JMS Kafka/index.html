@@ -1,0 +1,637 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="梳理消息队列 MQ&#x2F;JMS&#x2F;Kafka  是不是平常听到说消息队列啊，JMS啊，MQ啊 、kafka啊巴啦啦的一堆术语，听不懂？关系混乱？今天就让我们来一起来看看他们都是什么吧。 1消息队列介绍首先举个收快递的栗子，传统的收快递，快递小哥把我们的快递送到我们的手里。他需要什么条件嗯？  快递小哥有时间送， 我们有时间取， 快递小哥和我们约定一个时间地点。  但是嗯。快递小哥有那么多的快递需要送，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梳理消息队列 MQ&#x2F;JMS&#x2F;Kafka">
+<meta property="og:url" content="http://example.com/2021/10/13/%E6%A2%B3%E7%90%86%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20MQ%20JMS%20Kafka/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="梳理消息队列 MQ&#x2F;JMS&#x2F;Kafka  是不是平常听到说消息队列啊，JMS啊，MQ啊 、kafka啊巴啦啦的一堆术语，听不懂？关系混乱？今天就让我们来一起来看看他们都是什么吧。 1消息队列介绍首先举个收快递的栗子，传统的收快递，快递小哥把我们的快递送到我们的手里。他需要什么条件嗯？  快递小哥有时间送， 我们有时间取， 快递小哥和我们约定一个时间地点。  但是嗯。快递小哥有那么多的快递需要送，可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037323.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037540.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037315.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037190.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037446.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102038971.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102038399.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102039684.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102039107.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102039568.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102039522.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102040401.webp">
+<meta property="article:published_time" content="2021-10-13T14:15:55.358Z">
+<meta property="article:modified_time" content="2021-10-13T09:54:28.873Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MQ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102037323.webp">
+  
+  <title>梳理消息队列 MQ/JMS/Kafka - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="梳理消息队列 MQ/JMS/Kafka">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:15" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">梳理消息队列 MQ/JMS/Kafka</h1>
+            
+            <div class="markdown-body">
+              <center><h2>梳理消息队列 MQ/JMS/Kafka</h2></center>
+
+<p>是不是平常听到说消息队列啊，JMS啊，MQ啊 、kafka啊巴啦啦的一堆术语，听不懂？关系混乱？今天就让我们来一起来看看他们都是什么吧。</p>
+<h2 id="1消息队列介绍"><a href="#1消息队列介绍" class="headerlink" title="1消息队列介绍"></a><strong>1消息队列介绍</strong></h2><p>首先举个收快递的栗子，传统的收快递，快递小哥把我们的快递送到我们的手里。他需要什么条件嗯？</p>
+<ul>
+<li>快递小哥有时间送，</li>
+<li>我们有时间取，</li>
+<li>快递小哥和我们约定一个时间地点。</li>
+</ul>
+<p>但是嗯。快递小哥有那么多的快递需要送，可能送我快递的时候，我不在家，可能我在家的时候，快递小哥送其他的地方的快递。所以嗯，这个时候，要么就是坐在家里等快递，要么就只能从新约个时间点在送。那怎么办去避免这个情况嗯？</p>
+<p>于是嗯快递柜出现了。快递小哥不用关心我什么时候在家，因为快递小哥有时间了，就把快递放快递柜，而我有时间了，我就去快递柜取我的快递。</p>
+<p>那么快递柜所起到的作用就是我们今天要收的消息队列。我们可以把消息队列比作是一个存放快递的的快递柜，当我们需要获取我们快递的时候就可以从快递柜里面拿到属于我们的快递。</p>
+<h3 id="1-1什么是消息队列"><a href="#1-1什么是消息队列" class="headerlink" title="1.1什么是消息队列"></a>1.1什么是消息队列</h3><p>我们可以把消息队列比作是一个存放消息的容器，当我们需要使用消息的时候可以取出消息供自己使用。我们看看维基百科上的描述：在计算机科学中，消息队列（Message queue）是一种进程间通信或同一进程的不同线程间的通信方式，软件的贮列用来处理一系列的输入，通常是来自用户。</p>
+<p>是不是很难理解，我们换个说法来理解</p>
+<blockquote>
+<p>我们可以把消息队列比作是一个存放消息的容器，当我们需要使用消息的时候可以取出消息供自己使用。</p>
+</blockquote>
+<h3 id="1-2消息队列（Message-queue）有什么用？"><a href="#1-2消息队列（Message-queue）有什么用？" class="headerlink" title="1.2消息队列（Message queue）有什么用？"></a>1.2消息队列（Message queue）有什么用？</h3><p>消息队列是分布式系统中重要的组件，使用消息队列主要是为了通过异步处理提高系统性能和削峰、降低系统耦合性。</p>
+<p>通过异步处理提高系统性能（削峰、减少响应所需时间）</p>
+<p>举个例子：我们在某个网站进行注册账号，我们需要做如下四件事：</p>
+<ul>
+<li>填写我们的注册信息；</li>
+<li>提交我们的注册信息；</li>
+<li>我们的邮箱收到注册信息；</li>
+<li>我们的短信收到注册信息。</li>
+</ul>
+<p>如果采用同步串行，所需要的时间是：a+b+c+d</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102037323.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果采用同步并行，所需要的时间是：a+b+max(c,d)</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102037540.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果采用消息队列，所需要的时间是：a+b+消息队列</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102037315.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="降低系统耦合性"><a href="#降低系统耦合性" class="headerlink" title="降低系统耦合性"></a>降低系统耦合性</h4><p>举个例子，A公司做了某个系统，B公司觉得A公司的某个功能很好，于是B公司和A公司的系统进行了集成。这时C公司也觉得A公司的这个功能很好，于是，C公司也和A公司的系统进行了集成。以后还有D公司…。</p>
+<p>介于这种情况，A公司的系统和其他公司的耦合度都很高，每集成一个公司的系统，A公司都需要修改自己的系统。如果采用消息队列，则变成了如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102037190.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>不管以后还有多少公司的应用程序想要用A公司的程序，都不需要和A公司进行集成，谁需要这个功能，谁就去消息队列里面获取。</p>
+<h3 id="1-3消息队列的两种模式"><a href="#1-3消息队列的两种模式" class="headerlink" title="1.3消息队列的两种模式"></a>1.3消息队列的两种模式</h3><h4 id="点对点模式"><a href="#点对点模式" class="headerlink" title="点对点模式"></a>点对点模式</h4><p>应用程序由：消息队列，发送方，接收方组成。</p>
+<p>每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102037446.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h4><p>用用程序有由：角色主题（Topic）、发布者(Publisher)、订阅者(Subscriber)构成。</p>
+<p>发布者发布一个消息，该消息通过topic传递给所有的客户端。该模式下，发布者与订阅者都是匿名的，即发布者与订阅者都不知道对方是谁。并且可以动态的发布与订阅Topic。Topic主要用于保存和传递消息，且会一直保存消息直到消息被传递给客户端。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102038971.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>介绍完了消息队列，接着我们介绍JMS</p>
+<h2 id="2JMS介绍"><a href="#2JMS介绍" class="headerlink" title="2JMS介绍"></a><strong>2JMS介绍</strong></h2><p>JMS即Java消息服务（Java Message Service）应用程序接口，是一个Java平台中关于面向消息中间件（MOM）的API，类似于JDBC。用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。它提供创建、发送、接收、读取消息的服务。由Sun公司和它的合作伙伴设计的应用程序接口和相应语法，使得Java程序能够和其他消息组件进行通信。</p>
+<p>JMS是一个消息服务的标准或者说是规范，允许应用程序组件基于JavaEE平台创建、发送、接收和读取消息。它使分布式通信耦合度更低，消息服务更加可靠以及异步性。</p>
+<p>介绍到这里，应该明白了消息队列和JMS的区别了吧？</p>
+<ul>
+<li>消息队列：计算机科学中，A和B进行通信的一种方式。</li>
+<li>JMS：java平台之间分布式通信的一种标准或者规范。</li>
+</ul>
+<p>换句话说，JMS就是java对于消息队列的一种实现方式。</p>
+<h3 id="2-1JSM消息模型"><a href="#2-1JSM消息模型" class="headerlink" title="2.1JSM消息模型"></a>2.1JSM消息模型</h3><p>点对点，发布订阅，消息队列中已经说的很清楚了，这里就不重复说了。</p>
+<h3 id="2-2JMS消费"><a href="#2-2JMS消费" class="headerlink" title="2.2JMS消费"></a>2.2JMS消费</h3><ul>
+<li>同步（Synchronous）</li>
+</ul>
+<p>订阅者/接收方通过调用 receive()来接收消息。在receive（）方法中，线程会阻塞直到消息到达或者到指定时间后消息仍未到达。</p>
+<ul>
+<li>异步（Asynchronous）</li>
+</ul>
+<p>消息订阅者需注册一个消息监听者，类似于事件监听器，只要消息到达，JMS服务提供者会通过调用监听器的onMessage()递送消息。</p>
+<h3 id="2-3JMS编程模型"><a href="#2-3JMS编程模型" class="headerlink" title="2.3JMS编程模型"></a>2.3JMS编程模型</h3><p>JMS编程模型非常类似于JDBC。回忆一下，我们之前讲到的MyBatis。</p>
+<ul>
+<li>SqlSessionFactoryBuilder去构造SqlSessionFactory会话工厂；</li>
+<li>SqlSessionFactory会话工厂给我们打开SqlSession会话；</li>
+<li>SqlSession帮我们去连接数据库，接着我们就可以执行增删查改。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">sqlSessionFactory = <span class="hljs-keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);<br>SqlSession openSession = sqlSessionFactory.openSession(<span class="hljs-keyword">true</span>);<br>ProjectMapper mapper = openSession.getMapper(ProjectMapper.class);<br>mapper.queryAllTaskByInit(<span class="hljs-string">&quot;init&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>JMS模型如下</p>
+<ul>
+<li>Connection Factory给我创建Connection连接;</li>
+<li>Connection连接给我们创建了Session会话；</li>
+<li>Session会话给我们创建消费者和生产者；</li>
+<li>生产者生成消息；</li>
+<li>消费者消费消息；</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102038399.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="3MQ介绍"><a href="#3MQ介绍" class="headerlink" title="3MQ介绍"></a><strong>3MQ介绍</strong></h2><p>上文中，我们说到了，JMS他并不是一种真正意义的技术，而是一种接口，一种规范。就想JDBC一样，无论是mybatis、hibernate，还是springJPA，不管你是那种技术实现，反正你得遵守JDBC的规范。</p>
+<p>在Java中，目前基于JMS实现的消息队列常见技术有ActiveMQ、RabbitMQ、RocketMQ。值得注意的是，RocketMQ并没有完全遵守JMS规范，并且Kafka不是JMS的实现。</p>
+<h3 id="3-1AMQP协议"><a href="#3-1AMQP协议" class="headerlink" title="3.1AMQP协议"></a>3.1AMQP协议</h3><p>这里我们以RabbitMQ为例介绍MQ，首先介绍下AMQP</p>
+<p>AMQP协议（Advanced Message Queuing Protocol，高级消息队列协议）是一个进程间传递异步消息的网络协议。</p>
+<h4 id="AMQP模型"><a href="#AMQP模型" class="headerlink" title="AMQP模型"></a>AMQP模型</h4><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102039684.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="AMQP工作过程"><a href="#AMQP工作过程" class="headerlink" title="AMQP工作过程"></a>AMQP工作过程</h4><p>发布者（Publisher）发布消息（Message），经由交换机（Exchange）。</p>
+<p>交换机根据路由规则将收到的消息分发给与该交换机绑定的队列、（Queue）。</p>
+<p>最后 AMQP 代理会将消息投递给订阅了此队列的消费者，或者消费者按照需求自行获取。</p>
+<p>RabbitMQ是MQ产品的典型代表，是一款基于AMQP协议可复用的企业消息系统</p>
+<h3 id="3-2RabbitMQ模型"><a href="#3-2RabbitMQ模型" class="headerlink" title="3.2RabbitMQ模型"></a>3.2RabbitMQ模型</h3><p>RabbitMQ由两部分组成，分别是服务端和应用端；</p>
+<ul>
+<li>服务端包括：队列和交换机。</li>
+<li>客户端包括：生产者和消费者。</li>
+</ul>
+<p>在rabbitmq server上可以创建多个虚拟的message broker。每一个broker本质上是一个mini-rabbitmq server，分别管理各自的exchange，和bindings。</p>
+<p>broker相当于物理的server，可以为不同app提供边界隔离，使得应用安全的运行在不同的broker实例上，相互之间不会干扰。producer和consumer连接rabbit server需要指定一个broker。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102039107.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102039568.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Exchange有4种类型：direct(默认)，fanout, topic, 和headers</p>
+<ul>
+<li>Direct：直接交换器，工作方式类似于单播，Exchange会将消息发送完全匹配ROUTING_KEY的Queue。</li>
+<li>Fanout：广播是式交换器，不管消息的ROUTING_KEY设置为什么，Exchange都会将消息转发给所有绑定的Queue(所谓绑定就是将一个特定的 Exchange 和一个特定的 Queue 绑定起来。Exchange 和Queue的绑定可以是多对多的关系)。</li>
+<li>Topic:主题交换器，工作方式类似于组播，Exchange会将消息转发和ROUTING_KEY匹配模式相同的所有队列，比如，ROUTING_KEY为user.stock的Message会转发给绑定匹配模式为 * .stock,user.stock， * . * 和#.user.stock.#的队列。（ * 表是匹配一个任意词组，#表示匹配0个或多个词组）。</li>
+</ul>
+<p>至于如何在代码中使用RabbitMQ，这里我们先不撸代码，本文目前只介绍理论梳理知识点。</p>
+<h2 id="4Kafka"><a href="#4Kafka" class="headerlink" title="4Kafka"></a><strong>4Kafka</strong></h2><p>上完中我们提到过，kafka不是JMS的实现，因此在MQ章节中，我们没有提及到它。现在我们开始学习kafka吧。</p>
+<p>先来放张kafka的原理图，相信你看到这个图片时，内心是奔溃的。我草，啥玩意。接下来我们就一点一点的消化吧。</p>
+<h3 id="4-1kafka原理图"><a href="#4-1kafka原理图" class="headerlink" title="4.1kafka原理图"></a>4.1kafka原理图</h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102039522.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>先介绍上图中的术语。</p>
+<ul>
+<li>Producer ：消息生产者，就是向kafka broker发消息的客户端。</li>
+<li>Consumer ：消息消费者，向kafka broker取消息的客户端。</li>
+<li>Topic ：kafka给消息提供的分类方式。broker用来存储不同topic的消息数据。一个Topic可以认为是一类消息，每个topic将被分成多个partition(区),每个partition在存储层面是append log文件。任何发布到此partition的消息都会被直接追加到log文件的尾部，每条消息在文件中的位置称为offset（偏移量），offset为一个long型数字，它是唯一标记一条消息。它唯一的标记一条消息。kafka并没有提供其他额外的索引机制来存储offset，因为在kafka中几乎不允许对消息进行“随机读写”。</li>
+<li>broker：中间件的kafka cluster，存储消息，是由多个server组成的集群。</li>
+<li>Partition：为了实现扩展性，一个非常大的topic可以分布到多个broker（即服务器）上，一个topic可以分为多个partition，每个partition是一个有序的队列。partition中的每条消息都会被分配一个有序的id（offset）。kafka只保证按一个partition中的顺序将消息发给consumer，不保证一个topic的整体（多个partition间）的顺序。</li>
+<li>Offset：kafka的存储文件都是按照offset.kafka来命名，例如你想找位于2049的位置，只要找到2048.kafka的文件即可。当然the first offset就是00000000000.kafka。</li>
+</ul>
+<p>类似于JMS的特性，但不是JMS规范的实现。kafka对消息保存时根据Topic进行归类，发送消息者成为Producer，消息接受者成为Consumer,此外kafka集群有多个kafka实例组成，每个实例(server)成为broker。无论是kafka集群，还是producer和consumer都依赖于zookeeper来保证系统可用性集群保存信息。</p>
+<p>kafka基于文件存储。通过分区,可以将日志内容分散到多个server上，来避免文件尺寸达到单机磁盘的上限，每个partiton都会被当前server(kafka实例)保存；可以将一个topic切分多任意多个partitions，来消息保存/消费的效率.此外越多的partitions意味着可以容纳更多的consumer，有效提升并发消费的能力。</p>
+<p>kafka和JMS不同的是:即使消息被消费,消息仍然不会被立即删除。日志文件将会根据broker中的配置要求，保留一定的时间之后删除。</p>
+<h4 id="Kafka高可用机制"><a href="#Kafka高可用机制" class="headerlink" title="Kafka高可用机制"></a>Kafka高可用机制</h4><ul>
+<li>多个broker组成，每个broker是一个节点；</li>
+<li>你创建一个topic，这个topic可以划分为多个partition，每个partition可以存在于不同的broker上，每个partition就放一部分数据。</li>
+<li>采用replica副本机制，每个partition的数据都会同步到其他机器上，形成多个replica副本。</li>
+<li>所有replica会选举一个leader出来，那么生产和消费都跟这个leader打交道，然后其他replica就是follower。</li>
+<li>读数据时，从leader读取，写数据时，leader把数据同步到所有follower上去。如果某个broker宕机了，这个broker在其他的broker还保留副本，假设这个broker上面存在leader,那么就重新选一个leader。</li>
+</ul>
+<p>内容有点多，需要结合图片一点一点消化</p>
+<h3 id="4-2生产者结构图"><a href="#4-2生产者结构图" class="headerlink" title="4.2生产者结构图"></a>4.2生产者结构图</h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102040401.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>至此，虽然看的云里雾里，不过相信你们还是能区分了吧？</p>
+<p>整理一下：</p>
+<ul>
+<li>消息队列：指计算机领域中，A和B通信的一种通信方式；</li>
+<li>JMS：Java中对于消息队列的接口规范；</li>
+<li>ActiveMQ/RabbitMQ：JMS接口规范具体实现的一种技术；</li>
+<li>RocketMQ：不完全是JMS接口规范具体实现的一种技术；</li>
+<li>Kafka：非JMS接口规范具体实现的一种技术；</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/MQ/">MQ</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MQ/">MQ</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%B6%88%E6%81%AF%E4%BC%A0%E8%BE%93%E7%9A%84%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">消息传输的架构模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E5%9B%BE%E8%A7%A3%20Kafka/">
+                        <span class="hidden-mobile">图解 Kafka</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

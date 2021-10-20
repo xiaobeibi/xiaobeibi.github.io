@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="基于 Netty 搭建 WebSocket 集群实现服务器消息推送  本文内容是构建高性能、高可用消息推送的经典案例，在微服务 Spring Cloud 环境下基于 Netty 搭建 websocket 集群实现的。 我们在实际的工作开发中，必然会遇到一些需要网页与服务器端保持连接（起码看上去是保持连接）的需求，比如类似微信网页版的聊天类应用，比如需要频繁更新页面数据（实时数据例如天气，电流电压，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Netty 搭建 WebSocket 集群实现服务器消息推送">
+<meta property="og:url" content="http://example.com/2021/10/13/%E5%9F%BA%E4%BA%8E%20Netty%20%E6%90%AD%E5%BB%BA%20WebSocket%20%E9%9B%86%E7%BE%A4%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="基于 Netty 搭建 WebSocket 集群实现服务器消息推送  本文内容是构建高性能、高可用消息推送的经典案例，在微服务 Spring Cloud 环境下基于 Netty 搭建 websocket 集群实现的。 我们在实际的工作开发中，必然会遇到一些需要网页与服务器端保持连接（起码看上去是保持连接）的需求，比如类似微信网页版的聊天类应用，比如需要频繁更新页面数据（实时数据例如天气，电流电压，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231844941.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231845642.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231845203.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231846865.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231848823.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231852692.webp">
+<meta property="article:published_time" content="2021-10-13T14:16:17.582Z">
+<meta property="article:modified_time" content="2021-10-13T10:07:50.714Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Netty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202109231844941.webp">
+  
+  <title>基于 Netty 搭建 WebSocket 集群实现服务器消息推送 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基于 Netty 搭建 WebSocket 集群实现服务器消息推送">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      15k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      47 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于 Netty 搭建 WebSocket 集群实现服务器消息推送</h1>
+            
+            <div class="markdown-body">
+              <center><h2>基于 Netty 搭建 WebSocket 集群实现服务器消息推送</h2></center>
+
+<p>本文内容是构建高性能、高可用消息推送的经典案例，在微服务 Spring Cloud 环境下基于 Netty 搭建 websocket 集群实现的。</p>
+<p>我们在实际的工作开发中，必然会遇到一些需要网页与服务器端保持连接（起码看上去是保持连接）的需求，比如类似微信网页版的聊天类应用，比如需要频繁更新页面数据（实时数据例如天气，电流电压，pm2.5等等这样类似的数据）的监控系统页面或股票看盘页面，比如服务器读取MySQL或者redis或者第三方的数据主动推送给浏览器客户端等等业务场景。我们通常采用如下几种技术：</p>
+<p><strong>（1）短轮询</strong>：前端老师利用ajax定期向服务器发起http请求，无论数据是否更新立马返回数据。这样存在的缺点就是，一方面如果后端数据木有更新，那么这一次http请求就是无用的，另一方面高并发情况下，短链接的频繁创建销毁，以及客户端数量过大造成过多无用的http请求，都会对服务器和带宽造成压力，短轮询只适用于客户端连接少，并发量不高的场景；</p>
+<p><strong>（2）长轮询</strong>：利用comet不断向服务器发起请求，服务器将请求暂时挂起，直到有新的数据的时候才返回，相对短轮询减少了请求次数得到了一定的优化，但是在高并发的场景下依然不适用；</p>
+<p><strong>（3）SSE</strong>：服务端推送（Server Send Event），在客户端发起一次请求后会保持该连接，服务器端基于该连接持续向客户端发送数据，从HTML5开始加入。</p>
+<p><strong>（4）Websocket</strong>：这是也是一种保持长连接的技术，并且是双向的，从HTML5开始加入，并非完全基于HTTP，适合于频繁和较大流量的双向通讯场景，是服务器推送消息功能的最佳实践。而实现websocket的最佳方式，就是<strong>netty</strong>。</p>
+<p>网上的很多netty搭建websocket的博文都不够全面，有很多问题都木有解决方式，我通过实际工作中的经验，把常遇到的问题总结了方法，下文会说到！</p>
+<p><strong>什么是websocekt呢？</strong></p>
+<p>websocket是一种在单个TCP连接上进行全双工通信的协议。也就是一种保持长连接的技术，并且是双向的。</p>
+<p>websocket协议本身是构建在http协议之上的升级协议，客户端首先向服务器端去建立连接，这个连接本身就是http协议只是在头信息中包含了一些websocket协议的相关信息，一旦http连接建立之后，服务器端读到这些websocket协议的相关信息就将此协议升级成websocket协议。WebSocket使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。在WebSocket API中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<p><strong>简单理解，就是一种通讯协议，重点是websocket的实现方式–netty。</strong></p>
+<p><strong>什么是netty呢?</strong></p>
+<h2 id="3-1-socket"><a href="#3-1-socket" class="headerlink" title="3.1 socket"></a>3.1 socket</h2><p>（1）<strong>网络编程本质</strong>就是说两个设备之间信息的发送与接收，通过操作相应API调度计算机硬件资源，并且利用管道（网线）进行数据交互的过程。相关技术点像ISO七层模型，TCP三次握手/四次挥手等网络编程的基础不再赘述。</p>
+<p>（2）<strong>而socket是</strong>对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket发起系统调用操作系统内核，我们才能使用TCP/IP协议。</p>
+<p>（3）<strong>我们经常说的I/O</strong>，在计算机中指Input/Output,即输入输出，实质上IO分为两种，一种是磁盘IO，磁盘上的数据读取到用户空间，那么这次数据转移操作其实就是一次I/O操作，也就是一次文件I/O。一种是网络IO，当一个客户端和服务端之间相互通信,交互我们称之为网络io(网络通讯)</p>
+<h2 id="3-2-Java-IO模型"><a href="#3-2-Java-IO模型" class="headerlink" title="3.2 Java IO模型"></a>3.2 Java IO模型</h2><p>有BIO（同步阻塞IO）、NIO（同步非阻塞IO）、AIO（异步IO），netty就是一个NIO的高性能的框架。</p>
+<p>（１）BIO：同步阻塞IO模型，适用于连接数目比较少且固定的架构，这种方式对服务器资源要求比较高，并发局限于应用中，服务器实现模式为一个连接一个线程，即客户端有连 接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造 成不必要的线程开销，可以通过线程池机制改善(实现多个客户连接服务器)。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231844941.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>（２）NIO：同步非阻塞IO模型，适用于连接数据多且连接比较短的架构，如聊天服务器，弹幕系统，服务器间通讯等；服务器实现模式为一个线程处理多个连接（一个请求一个线程），包含Selector 、Channel 、Buffer三大组件。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231845642.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>①<strong>selector选择器</strong>：用一个线程处理多个客户端的连接，就会使用到selector选择器，selector用于监听多个通道上是否有事件发生（比如连接请求，数据到达等），如果有事件发生，便获取事件然后针对于每个事件进行相应的处理，因此可以使用单个线程就可以监听多个客户端通道。</p>
+<p>②<strong>channel通道</strong>：Channel管道和Java IO中的Stream(流)是差不多一个等级的。只不过Stream是单向的，譬如：InputStream, OutputStream.而Channel是双向的，同时进行读写数据，而流只能读或者写。可以实现异步读写数据，可以从缓冲区读数据，也可以写数据到缓冲区。</p>
+<p>③<strong>buffer缓冲区</strong>：Buffer本质上是一个可以读写的内存块，可以理解成容器对象，底层是有一个数组，通过buffer实现非阻塞机制，该对象提供了一组方法，可以轻松的使用内存块，缓冲区对象内置了一些机制，能够跟踪和记录缓冲区的状态变化情况。Channel提供了从文件，网络读取数据的通道，但是读取和写入的数据必须经过buffer。</p>
+<p>（３）AIO：异步IO模型，使用于连接数目多且连接比较长（重操作）的架构，比如相册服务器，充分 调用OS参与并发操作，编程比较复杂。在Linux底层用epoll(一种轮询模型)，aio多包了一层封装，aio的api更好用。Windows上的aio是自己实现的，不是轮询模型是事件模型，完成端口实现的，要比linxu上的aio效率高。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231845203.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="3-3-netty"><a href="#3-3-netty" class="headerlink" title="3.3 netty"></a>3.3 netty</h2><h3 id="3-3-1-概念："><a href="#3-3-1-概念：" class="headerlink" title="3.3.1 概念："></a>3.3.1 概念：</h3><p>netty是一个开源异步的事件驱动的网络应用程序框架，用于快速开发可维护的高性能协议服务器和客户端。</p>
+<h3 id="3-3-2-三大特点："><a href="#3-3-2-三大特点：" class="headerlink" title="3.3.2 三大特点："></a>3.3.2 三大特点：</h3><p>①高并发：Netty 是一款基于 NIO（Nonblocking IO，非阻塞IO）开发异步事件驱动的高性能网络通信框架，nio使用了select模型（多路复用器技术），从而使得系统在单线程的情况下可以同时处理多个客户端请求。Netty使用了Reactor模型，Reactor模型有三种多线程模型，netty是在主从 Reactor 多线程模型上做了一定的改进。</p>
+<p>Netty有两个线程组，一个作为bossGroup线程组,负责客户端接收,一个workerGroup线程组负责工作线程的工作(与客户端的IO操作和任务操作等等)，Netty 的所有 IO 操作都是异步非阻塞的，通过 Future-Listener 机制，用户可以方便的主动获取或者通过通知机制获得 IO 操作结果。他的并发性能得到了很大提高。</p>
+<p>②传输快：Netty 的传输依赖于零拷贝特性，实现了更高效率的传输。零拷贝要求内核（kernel）直接将数据从磁盘文件拷贝到Socket缓冲区（套接字），而无须通过应用程序。零拷贝减少不必要的内存拷贝，不仅提高了应用程序的性能，而且减少了内核态和用户态上下文切换。</p>
+<p>③封装好：Netty 封装了 NIO 操作的很多细节，提供了易于使用调用接口。</p>
+<h3 id="3-3-3-主从Reactor架构图"><a href="#3-3-3-主从Reactor架构图" class="headerlink" title="3.3.3 主从Reactor架构图"></a>3.3.3 主从Reactor架构图</h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231846865.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>说明：</p>
+<p>①Reactor响应式编程（事件驱动模型）：一般有一个主循环和一个任务队列，所有事件只管往队列里塞，主循环则从队列里取出并处理。</p>
+<p>如果不依赖于多路复用处理多个任务就会需要多线程(与连接数对等) ,但是依赖于多路复用，这个循环就可以在单线程的情况下处理多个连接。无论是哪个连接发生了什么事件，都会被主循环从队列取出并处理(可能用回调函数处理等) ,也就是说程序的走向由事件驱动.</p>
+<p>②mainReactor：主Reactor负责 单线程就可以接受所有客户端连接</p>
+<p>③subReactor：子Reactor负责 多线程处理客户端的读写IO事件</p>
+<p>④ThreadPool：线程池负责 处理业务耗时的操作</p>
+<h3 id="3-3-4-应用场景"><a href="#3-3-4-应用场景" class="headerlink" title="3.3.4 应用场景"></a>3.3.4 应用场景</h3><p>①现在物联网的应用无处不在，大量的项目都牵涉到应用传感器和服务器端的数据通信，Netty作为基础通信组件进行网络编程。</p>
+<p>②现在互联网系统讲究的都是高并发、分布式、微服务，各类消息满天飞，Netty在这类架构里面的应用可谓是如鱼得水，如果你对当前的各种应用服务器不爽，那么完全可以基于Netty来实现自己的HTTP服务器，FTP服务器，UDP服务器，RPC服务器，WebSocket服务器，Redis的Proxy服务器，MySQL的Proxy服务器等等。</p>
+<p>现在非常多的开源软件都是基于netty开发的，例如阿里分布式服务框架 Dubbo 的 RPC 框架，淘宝的消息中间件 RocketMQ；</p>
+<p>③游戏行业：无论是手游服务端还是大型的网络游戏，Java 语言得到了越来越广泛的应用。Netty 作为高性能的基础通信组件，它本身提供了 TCP/UDP 和 HTTP 协议栈。地图服务器之间可以方便的通过 Netty 进行高性能的通信。</p>
+<p>④大数据：开源集群运算框架 Spark；分布式计算框架 Storm；</p>
+<h2 id="4-1-系统设计架构图"><a href="#4-1-系统设计架构图" class="headerlink" title="4.1 系统设计架构图"></a>4.1 系统设计架构图</h2><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231848823.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="4-2-架构中存在的六大经典问题"><a href="#4-2-架构中存在的六大经典问题" class="headerlink" title="4.2 架构中存在的六大经典问题"></a>4.2 架构中存在的六大经典问题</h2><p><strong>第一个问题</strong>：客户端和服务端单独通信，怎么实现？</p>
+<p><strong>第二个问题</strong>：单机中websocekt主动向所有客户端推送消息如何实现？在集群中如何实现？</p>
+<p><strong>第三个问题</strong>：单机如何统计同时在线的客户数量？websocket集群如何统计在线的客户数量呢？</p>
+<p><strong>第四个问题</strong>：由于客户端和websocket服务器集群中的某个节点建立长连接是随机的，如何解决服务端向某个或某些部分客户端推送消息？</p>
+<p><strong>第五个问题</strong>：websocket服务端周期性向客户端推送消息，单机或集群中如何实现？</p>
+<p><strong>第六个问题</strong>：websocket集群中一个客户端向其他客户端主动发送消息，如何实现？<br>福利来啦！！以上所有问题，已在代码中全部解决并实践！！！</p>
+<h2 id="4-3-引入pom依赖和yml配置"><a href="#4-3-引入pom依赖和yml配置" class="headerlink" title="4.3 引入pom依赖和yml配置"></a>4.3 引入pom依赖和yml配置</h2><p>（1）pom依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.netty<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>netty-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.1.36.Final<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>（2）yml配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">websocket:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">7000</span> <span class="hljs-comment">#端口</span><br>  <span class="hljs-attr">url:</span> <span class="hljs-string">/msg</span> <span class="hljs-comment">#访问url</span><br></code></pre></div></td></tr></table></figure>
+
+<p>(3) 客户端和服务端交互的消息体</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.wander.netty.websocket.yeelight;<br><span class="hljs-keyword">import</span> lombok.Data;<br><span class="hljs-keyword">import</span> java.io.Serializable;<br><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MessageRequest</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> Long unionId;<br><br>    <span class="hljs-keyword">private</span> Integer current = <span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">private</span> Integer size = <span class="hljs-number">10</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-4-Websocket-初始化器"><a href="#4-4-Websocket-初始化器" class="headerlink" title="4.4 Websocket 初始化器"></a>4.4 Websocket 初始化器</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/6/10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> websocket初始化器</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebsocketInitialization</span> </span>&#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> WebsocketChannelInitializer websocketChannelInitializer;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;websocket.port&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> Integer port;<br><br>    <span class="hljs-meta">@Async</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br><br>        <span class="hljs-comment">//bossGroup连接线程组，主要负责接受客户端连接，一般一个线程足矣</span><br>        EventLoopGroup bossGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup(<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">//workerGroup工作线程组，主要负责网络IO读写</span><br>        EventLoopGroup workerGroup = <span class="hljs-keyword">new</span> NioEventLoopGroup();<br>        <span class="hljs-keyword">try</span> &#123;<br><br>            <span class="hljs-comment">//启动辅助类</span><br>            ServerBootstrap serverBootstrap = <span class="hljs-keyword">new</span> ServerBootstrap();<br>            <span class="hljs-comment">//bootstrap绑定两个线程组</span><br>            serverBootstrap.group(bossGroup, workerGroup);<br>            <span class="hljs-comment">//设置通道为NioChannel</span><br>            serverBootstrap.channel(NioServerSocketChannel.class);<br>            <span class="hljs-comment">//可以对入站\出站事件进行日志记录，从而方便我们进行问题排查。</span><br>            serverBootstrap.handler(<span class="hljs-keyword">new</span> LoggingHandler(LogLevel.INFO));<br>            <span class="hljs-comment">//设置自定义的通道初始化器，用于入站操作</span><br>            serverBootstrap.childHandler(websocketChannelInitializer);<br>            <span class="hljs-comment">//启动服务器,本质是Java程序发起系统调用，然后内核底层起了一个处于监听状态的服务，生成一个文件描述符FD</span><br>            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();<br>            <span class="hljs-comment">//异步</span><br>            channelFuture.channel().closeFuture().sync();<br><br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            bossGroup.shutdownGracefully();<br>            workerGroup.shutdownGracefully();<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-5-websocket-通道初始化器"><a href="#4-5-websocket-通道初始化器" class="headerlink" title="4.5 websocket 通道初始化器"></a>4.5 websocket 通道初始化器</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/6/10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> websocket通道初始化器</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebsocketChannelInitializer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ChannelInitializer</span>&lt;<span class="hljs-title">SocketChannel</span>&gt; </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> WebSocketHandler webSocketHandler;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;websocket.url&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String websocketUrl;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChannel</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><br>        <span class="hljs-comment">//获取pipeline通道</span><br>        ChannelPipeline pipeline = socketChannel.pipeline();<br>        <span class="hljs-comment">//因为基于http协议，使用http的编码和解码器</span><br>        pipeline.addLast(<span class="hljs-keyword">new</span> HttpServerCodec());<br>        <span class="hljs-comment">//是以块方式写，添加ChunkedWriteHandler处理器</span><br>        pipeline.addLast(<span class="hljs-keyword">new</span> ChunkedWriteHandler());<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">          说明</span><br><span class="hljs-comment">          1. http数据在传输过程中是分段, HttpObjectAggregator ，就是可以将多个段聚合</span><br><span class="hljs-comment">          2. 这就就是为什么，当浏览器发送大量数据时，就会发出多次http请求</span><br><span class="hljs-comment">        */</span><br>        pipeline.addLast(<span class="hljs-keyword">new</span> HttpObjectAggregator(<span class="hljs-number">8192</span>));<br>        <span class="hljs-comment">/* 说明</span><br><span class="hljs-comment">          1. 对应websocket ，它的数据是以 帧(frame) 形式传递</span><br><span class="hljs-comment">          2. 可以看到WebSocketFrame 下面有六个子类</span><br><span class="hljs-comment">          3. 浏览器请求时 ws://localhost:7000/msg 表示请求的uri</span><br><span class="hljs-comment">          4. WebSocketServerProtocolHandler 核心功能是将 http协议升级为 ws协议 , 保持长连接</span><br><span class="hljs-comment">          5. 是通过一个 状态码 101</span><br><span class="hljs-comment">        */</span><br>        pipeline.addLast(<span class="hljs-keyword">new</span> WebSocketServerProtocolHandler(websocketUrl));<br>        <span class="hljs-comment">//自定义的handler ，处理业务逻辑</span><br>        pipeline.addLast(webSocketHandler);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-6-websocket-入站处理器"><a href="#4-6-websocket-入站处理器" class="headerlink" title="4.6 websocket 入站处理器"></a>4.6 websocket 入站处理器</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/6/10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> websocket处理器</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@ChannelHandler</span>.Sharable<span class="hljs-comment">//保证处理器，在整个生命周期中就是以单例的形式存在，方便统计客户端的在线数量</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebSocketHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SimpleChannelInboundHandler</span>&lt;<span class="hljs-title">TextWebSocketFrame</span>&gt; </span>&#123;<br><br>    <span class="hljs-comment">//通道map，存储channel，用于群发消息，以及统计客户端的在线数量，解决问题问题三，如果是集群环境使用redis的hash数据类型存储即可</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Map&lt;String, Channel&gt; channelMap = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br>    <span class="hljs-comment">//任务map，存储future，用于停止队列任务</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Map&lt;String, Future&gt; futureMap = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br>    <span class="hljs-comment">//存储channel的id和用户主键的映射，客户端保证用户主键传入的是唯一值，解决问题四，如果是集群中需要换成redis的hash数据类型存储即可</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Map&lt;String, Long&gt; clientMap = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 客户端发送给服务端的消息</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ctx</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> msg</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx, TextWebSocketFrame msg)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//接受客户端发送的消息</span><br>            MessageRequest messageRequest = JSON.parseObject(msg.text(), MessageRequest.class);<br><br>            <span class="hljs-comment">//每个channel都有id，asLongText是全局channel唯一id</span><br>            String key = ctx.channel().id().asLongText();<br>            <span class="hljs-comment">//存储channel的id和用户的主键</span><br>            clientMap.put(key, messageRequest.getUnionId());<br>            log.info(<span class="hljs-string">&quot;接受客户端的消息......&quot;</span> + ctx.channel().remoteAddress() + <span class="hljs-string">&quot;-参数[&quot;</span> + messageRequest.getUnionId() + <span class="hljs-string">&quot;]&quot;</span>);<br><br>            <span class="hljs-keyword">if</span> (!channelMap.containsKey(key)) &#123;<br>                <span class="hljs-comment">//使用channel中的任务队列，做周期循环推送客户端消息，解决问题二和问题五</span><br>                Future future = ctx.channel().eventLoop().scheduleAtFixedRate(<span class="hljs-keyword">new</span> WebsocketRunnable(ctx, messageRequest), <span class="hljs-number">0</span>, <span class="hljs-number">10</span>, TimeUnit.SECONDS);<br>                <span class="hljs-comment">//存储客户端和服务的通信的Chanel</span><br>                channelMap.put(key, ctx.channel());<br>                <span class="hljs-comment">//存储每个channel中的future，保证每个channel中有一个定时任务在执行</span><br>                futureMap.put(key, future);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">//每次客户端和服务的主动通信，和服务端周期向客户端推送消息互不影响 解决问题一</span><br>                ctx.channel().writeAndFlush(<span class="hljs-keyword">new</span> TextWebSocketFrame(Thread.currentThread().getName() + <span class="hljs-string">&quot;服务器时间&quot;</span> + LocalDateTime.now() + <span class="hljs-string">&quot;wdy&quot;</span>));<br>            &#125;<br><br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br><br>            log.error(<span class="hljs-string">&quot;websocket服务器推送消息发生错误：&quot;</span>, e);<br><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 客户端连接时候的操作</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ctx</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerAdded</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        log.info(<span class="hljs-string">&quot;一个客户端连接......&quot;</span> + ctx.channel().remoteAddress() + Thread.currentThread().getName());<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 客户端掉线时的操作</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ctx</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlerRemoved</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><br>        String key = ctx.channel().id().asLongText();<br>        <span class="hljs-comment">//移除通信过的channel</span><br>        channelMap.remove(key);<br>        <span class="hljs-comment">//移除和用户绑定的channel</span><br>        clientMap.remove(key);<br>        <span class="hljs-comment">//关闭掉线客户端的future</span><br>        Optional.ofNullable(futureMap.get(key)).ifPresent(future -&gt; &#123;<br>            future.cancel(<span class="hljs-keyword">true</span>);<br>            futureMap.remove(key);<br>        &#125;);<br>        log.info(<span class="hljs-string">&quot;一个客户端移除......&quot;</span> + ctx.channel().remoteAddress());<br>        ctx.close(); <span class="hljs-comment">//关闭连接</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发生异常时执行的操作</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ctx</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cause</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        String key = ctx.channel().id().asLongText();<br>        <span class="hljs-comment">//移除通信过的channel</span><br>        channelMap.remove(key);<br>        <span class="hljs-comment">//移除和用户绑定的channel</span><br>        clientMap.remove(key);<br>        <span class="hljs-comment">//移除定时任务</span><br>        Optional.ofNullable(futureMap.get(key)).ifPresent(future -&gt; &#123;<br>            future.cancel(<span class="hljs-keyword">true</span>);<br>            futureMap.remove(key);<br>        &#125;);<br>        <span class="hljs-comment">//关闭长连接</span><br>        ctx.close();<br>        log.info(<span class="hljs-string">&quot;异常发生 &quot;</span> + cause.getMessage());<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, Channel&gt; <span class="hljs-title">getChannelMap</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> channelMap;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, Future&gt; <span class="hljs-title">getFutureMap</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> futureMap;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, Long&gt; <span class="hljs-title">getClientMap</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> clientMap;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-7-channel中任务队列的线程任务"><a href="#4-7-channel中任务队列的线程任务" class="headerlink" title="4.7 channel中任务队列的线程任务"></a>4.7 channel中任务队列的线程任务</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/8/10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> websocket程序</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebsocketApplication</span> </span>&#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> WebsocketInitialization websocketInitialization;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            log.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;:websocket启动中......&quot;</span>);<br>            websocketInitialization.init();<br>            log.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;:websocket启动成功！！！&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;websocket发生错误：&quot;</span>,e);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-8-websocket启动程序"><a href="#4-8-websocket启动程序" class="headerlink" title="4.8 websocket启动程序"></a>4.8 websocket启动程序</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/8/10</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> websocket程序</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebsocketApplication</span> </span>&#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> WebsocketInitialization websocketInitialization;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            log.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;:websocket启动中......&quot;</span>);<br>            websocketInitialization.init();<br>            log.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;:websocket启动成功！！！&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;websocket发生错误：&quot;</span>,e);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-9-问题六解决方案"><a href="#4-9-问题六解决方案" class="headerlink" title="4.9 问题六解决方案"></a>4.9 问题六解决方案</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> WDYin</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/9/12</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span></span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@RequestMapping(&quot;index&quot;)</span><br><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebsocketController</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id 用户主键</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> idList 要把消息发送给其他用户的主键</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@RequestMapping(&quot;hello1&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">hello</span><span class="hljs-params">(Long id, List&lt;Long&gt; idList)</span></span>&#123;<br>        <span class="hljs-comment">//获取所有连接的客户端,如果是集群环境使用redis的hash数据类型存储即可</span><br>        Map&lt;String, Channel&gt; channelMap = WebSocketHandler.getChannelMap();<br>        <span class="hljs-comment">//获取与用户主键绑定的channel,如果是集群环境使用redis的hash数据类型存储即可</span><br>        Map&lt;String, Long&gt; clientMap = WebSocketHandler.getClientMap();<br>        <span class="hljs-comment">//解决问题六,websocket集群中一个客户端向其他客户端主动发送消息，如何实现？</span><br>        clientMap.forEach((k,v)-&gt;&#123;<br>            <span class="hljs-keyword">if</span> (idList.contains(v))&#123;<br>                Channel channel = channelMap.get(k);<br>                channel.eventLoop().execute(() -&gt; channel.writeAndFlush(<span class="hljs-keyword">new</span> TextWebSocketFrame(Thread.currentThread().getName()+<span class="hljs-string">&quot;服务器时间&quot;</span> + LocalDateTime.now() + <span class="hljs-string">&quot;wdy&quot;</span>)));<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-10-前端代码"><a href="#4-10-前端代码" class="headerlink" title="4.10 前端代码"></a>4.10 前端代码</h2><figure class="highlight html"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span><br><span class="javascript">    <span class="hljs-keyword">var</span> socket;</span><br><span class="javascript">    <span class="hljs-comment">//判断当前浏览器是否支持websocket</span></span><br><span class="javascript">    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.WebSocket) &#123;</span><br><span class="javascript">        socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:7000/msg&quot;</span>);</span><br><span class="javascript">        <span class="hljs-comment">//相当于channelReado, ev 收到服务器端回送的消息</span></span><br><span class="javascript">        socket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span><br><span class="javascript">            <span class="hljs-keyword">var</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span><br><span class="javascript">            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + ev.data;</span><br><span class="javascript">        &#125;</span><br><span class="javascript"></span><br><span class="javascript">        <span class="hljs-comment">//相当于连接开启(感知到连接开启)</span></span><br><span class="javascript">        socket.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span><br><span class="javascript">            <span class="hljs-keyword">var</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span><br><span class="javascript">            rt.value = <span class="hljs-string">&quot;连接开启了..&quot;</span></span><br><span class="javascript">        &#125;</span><br><span class="javascript"></span><br><span class="javascript">        <span class="hljs-comment">//相当于连接关闭(感知到连接关闭)</span></span><br><span class="javascript">        socket.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>&#123;</span><br><span class="javascript"></span><br><span class="javascript">            <span class="hljs-keyword">var</span> rt = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;responseText&quot;</span>);</span><br><span class="javascript">            rt.value = rt.value + <span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;连接关闭了..&quot;</span></span><br><span class="javascript">        &#125;</span><br><span class="javascript">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="javascript">        alert(<span class="hljs-string">&quot;当前浏览器不支持websocket&quot;</span>)</span><br><span class="javascript">    &#125;</span><br><span class="javascript"></span><br><span class="javascript">    <span class="hljs-comment">//发送消息到服务器</span></span><br><span class="javascript">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">send</span>(<span class="hljs-params">websocketMessage</span>) </span>&#123;</span><br><span class="javascript">        <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">window</span>.socket) &#123; <span class="hljs-comment">//先判断socket是否创建好</span></span><br><span class="javascript">            <span class="hljs-keyword">return</span>;</span><br><span class="javascript">        &#125;</span><br><span class="javascript">        <span class="hljs-keyword">if</span>(socket.readyState == WebSocket.OPEN) &#123;</span><br><span class="javascript">            <span class="hljs-comment">//通过socket 发送消息</span></span><br><span class="javascript">            socket.send(websocketMessage)</span><br><span class="javascript">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="javascript">            alert(<span class="hljs-string">&quot;连接没有开启&quot;</span>);</span><br><span class="javascript">        &#125;</span><br><span class="javascript">    &#125;</span><br><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">onsubmit</span>=<span class="hljs-string">&quot;return false&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;websocketMessage&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 300px; width: 300px&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;发生消息&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;send(this.form.websocketMessage.value)&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;responseText&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;height: 300px; width: 300px&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;清空内容&quot;</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">&quot;document.getElementById(&#x27;responseText&#x27;).value=&#x27;&#x27;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-11-wesocket在nginx中配置"><a href="#4-11-wesocket在nginx中配置" class="headerlink" title="4.11 wesocket在nginx中配置"></a>4.11 wesocket在nginx中配置</h2><p>nginx.conf中的配置</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-comment">#第一步：</span><br><span class="hljs-attr">upstream</span> <span class="hljs-string">websocket-router &#123;</span><br>        <span class="hljs-attr">server</span> <span class="hljs-string">192.168.1.31:7000 max_fails=10 weight=1 fail_timeout=5s;</span><br>        <span class="hljs-attr">keepalive</span> <span class="hljs-string">1000;</span><br><span class="hljs-attr">&#125;</span><br><span class="hljs-comment">#第二步：</span><br><span class="hljs-attr">server</span> <span class="hljs-string">&#123;</span><br>        <span class="hljs-attr">listen</span>      <span class="hljs-string">80; #监听80端口</span><br>        <span class="hljs-attr">server_name</span> <span class="hljs-string">websocket.wdy.com; #域名配置</span><br><br>        <span class="hljs-attr">ssl_session_cache</span>    <span class="hljs-string">shared:SSL:1m;</span><br>        <span class="hljs-attr">ssl_session_timeout</span>  <span class="hljs-string">5m;</span><br><br>        <span class="hljs-attr">ssl_ciphers</span>  <span class="hljs-string">HIGH:!aNULL:!MD5;</span><br>        <span class="hljs-attr">ssl_prefer_server_ciphers</span>  <span class="hljs-string">on;</span><br><br>        <span class="hljs-attr">location</span> <span class="hljs-string">/ &#123;</span><br>            <span class="hljs-attr">client_max_body_size</span> <span class="hljs-string">100M;</span><br>            <span class="hljs-attr">proxy_http_version</span> <span class="hljs-string">1.1;</span><br>            <span class="hljs-attr">proxy_set_header</span> <span class="hljs-string">Host $host;</span><br>            <span class="hljs-attr">proxy_set_header</span> <span class="hljs-string">Upgrade $http_upgrade; #支持wss</span><br>            <span class="hljs-attr">proxy_set_header</span> <span class="hljs-string">Connection &quot;upgrade&quot;; #支持wssi</span><br>            <span class="hljs-attr">proxy_pass</span> <span class="hljs-string">http://websocket-router; #代理路由</span><br>            <span class="hljs-attr">root</span>   <span class="hljs-string">html;</span><br>            <span class="hljs-attr">index</span>  <span class="hljs-string">index.html index.htm;</span><br>        <span class="hljs-attr">&#125;</span><br>    <span class="hljs-attr">&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-12-效果图"><a href="#4-12-效果图" class="headerlink" title="4.12 效果图"></a>4.12 效果图</h2><p>springboot启动后，用浏览器打开前端页面：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202109231852692.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>本文主要讲述了网络编程相关的IO模型以及NIO框架 netty 如何搭建websocket。</p>
+<p>本文作者：王德印，欢迎复制下方链接关注博主动态。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">链接：https:<span class="hljs-regexp">//</span>blog.csdn.net<span class="hljs-regexp">/qq_41889508/</span>article<span class="hljs-regexp">/details/</span><span class="hljs-number">105953114</span><br></code></pre></div></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Netty/">Netty</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Netty/">Netty</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/Nginx%20%E9%80%9A%E8%BF%87%20Lua%20+%20Redis%20%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E5%B0%81%E7%A6%81%20IP/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Nginx 通过 Lua + Redis 实现动态封禁 IP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/">
+                        <span class="hidden-mobile">Fluent Mybatis 牛逼！</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

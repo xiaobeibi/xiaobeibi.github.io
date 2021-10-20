@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Java 常用代码汇总  1. 字符串有整型的相互转换12String a &#x3D; String.valueOf(2); &#x2F;&#x2F;integer to numeric stringint i &#x3D; Integer.parseInt(a); &#x2F;&#x2F;numeric string to an int    2. 向文件末尾添加内容1234567891011BufferedWriter out &#x3D; null;try">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 常用代码汇总">
+<meta property="og:url" content="http://example.com/2021/10/20/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Java 常用代码汇总  1. 字符串有整型的相互转换12String a &#x3D; String.valueOf(2); &#x2F;&#x2F;integer to numeric stringint i &#x3D; Integer.parseInt(a); &#x2F;&#x2F;numeric string to an int    2. 向文件末尾添加内容1234567891011BufferedWriter out &#x3D; null;try">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-20T12:41:22.681Z">
+<meta property="article:modified_time" content="2021-10-20T12:41:06.625Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Java 常用代码汇总 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java 常用代码汇总">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-20 20:41" pubdate>
+        2021年10月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java 常用代码汇总</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Java 常用代码汇总</h2></center>
+
+<h3 id="1-字符串有整型的相互转换"><a href="#1-字符串有整型的相互转换" class="headerlink" title="1. 字符串有整型的相互转换"></a><strong>1. 字符串有整型的相互转换</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String a = String.valueOf(<span class="hljs-number">2</span>); <span class="hljs-comment">//integer to numeric string</span><br><span class="hljs-keyword">int</span> i = Integer.parseInt(a); <span class="hljs-comment">//numeric string to an int</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="2-向文件末尾添加内容"><a href="#2-向文件末尾添加内容" class="headerlink" title="2. 向文件末尾添加内容"></a><strong>2. 向文件末尾添加内容</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">BufferedWriter out = <span class="hljs-keyword">null</span>;<br><span class="hljs-keyword">try</span> &#123;<br>  out = <span class="hljs-keyword">new</span> BufferedWriter(<span class="hljs-keyword">new</span> FileWriter(”filename”, <span class="hljs-keyword">true</span>));<br>  out.write(”aString”);<br>&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>  <span class="hljs-comment">// error processing code</span><br>&#125; <span class="hljs-keyword">finally</span> &#123;<br>  <span class="hljs-keyword">if</span> (out != <span class="hljs-keyword">null</span>) &#123;<br>    out.close();<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="3-得到当前方法的名字"><a href="#3-得到当前方法的名字" class="headerlink" title="3. 得到当前方法的名字"></a><strong>3. 得到当前方法的名字</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String methodName = Thread.currentThread().getStackTrace()[<span class="hljs-number">1</span>].getMethodName();<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="4-转字符串到日期"><a href="#4-转字符串到日期" class="headerlink" title="4. 转字符串到日期"></a><strong>4. 转字符串到日期</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">java.util.Date = java.text.DateFormat.getDateInstance().parse(date String);<br>或者是：<br>SimpleDateFormat format = <span class="hljs-keyword">new</span> SimpleDateFormat( <span class="hljs-string">&quot;yyyy-MM-dd&quot;</span> );<br>Date date = format.parse( myString );<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="5-使用JDBC链接Oracle"><a href="#5-使用JDBC链接Oracle" class="headerlink" title="5. 使用JDBC链接Oracle"></a><strong>5. 使用JDBC链接Oracle</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OracleJdbcTest</span> </span><br><span class="hljs-class"></span>&#123;<br>  String driverClass = <span class="hljs-string">&quot;oracle.jdbc.driver.OracleDriver&quot;</span>;<br>  Connection con;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(FileInputStream fs)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, SQLException, FileNotFoundException, IOException</span><br><span class="hljs-function"></span>&#123;<br>    Properties props = <span class="hljs-keyword">new</span> Properties();<br>    props.load(fs);<br>    String url = props.getProperty(<span class="hljs-string">&quot;db.url&quot;</span>);<br>    String userName = props.getProperty(<span class="hljs-string">&quot;db.user&quot;</span>);<br>    String password = props.getProperty(<span class="hljs-string">&quot;db.password&quot;</span>);<br>    Class.forName(driverClass);<br>    con=DriverManager.getConnection(url, userName, password);<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fetch</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, IOException</span><br><span class="hljs-function"></span>&#123;<br>    PreparedStatement ps = con.prepareStatement(<span class="hljs-string">&quot;select SYSDATE from dual&quot;</span>);<br>    ResultSet rs = ps.executeQuery();<br>    <span class="hljs-keyword">while</span> (rs.next())<br>    &#123;<br>      <span class="hljs-comment">// do the thing you do</span><br>    &#125;<br>    rs.close();<br>    ps.close();<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span><br><span class="hljs-function"></span>&#123;<br>    OracleJdbcTest test = <span class="hljs-keyword">new</span> OracleJdbcTest();<br>    test.init();<br>    test.fetch();<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="6-列出文件和目录"><a href="#6-列出文件和目录" class="headerlink" title="6.列出文件和目录"></a><strong>6.列出文件和目录</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">File dir = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;directoryName&quot;</span>);<br> String[] children = dir.list();<br> <span class="hljs-keyword">if</span> (children == <span class="hljs-keyword">null</span>) &#123;<br>   <span class="hljs-comment">// Either dir does not exist or is not a directory</span><br> &#125; <span class="hljs-keyword">else</span> &#123;<br>   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i &lt; children.length; i++) &#123;<br>     <span class="hljs-comment">// Get filename of file or directory</span><br>     String filename = children[i];<br>   &#125;<br> &#125;<br> <span class="hljs-comment">// It is also possible to filter the list of returned files.</span><br> <span class="hljs-comment">// This example does not return any files that start with `.&#x27;.</span><br> FilenameFilter filter = <span class="hljs-keyword">new</span> FilenameFilter() &#123;<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">accept</span><span class="hljs-params">(File dir, String name)</span> </span>&#123;<br>     <span class="hljs-keyword">return</span> !name.startsWith(<span class="hljs-string">&quot;.&quot;</span>);<br>   &#125;<br> &#125;;<br> children = dir.list(filter);<br> <span class="hljs-comment">// The list of files can also be retrieved as File objects</span><br> File[] files = dir.listFiles();<br> <span class="hljs-comment">// This filter only returns directories</span><br> FileFilter fileFilter = <span class="hljs-keyword">new</span> FileFilter() &#123;<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">accept</span><span class="hljs-params">(File file)</span> </span>&#123;<br>     <span class="hljs-keyword">return</span> file.isDirectory();<br>   &#125;<br> &#125;;<br> files = dir.listFiles(fileFilter);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="7-解析-读取XML-文件"><a href="#7-解析-读取XML-文件" class="headerlink" title="7.解析/读取XML 文件"></a><strong>7.解析/读取XML 文件</strong></h3><figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">students</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">student</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>John<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">grade</span>&gt;</span>B<span class="hljs-tag">&lt;/<span class="hljs-name">grade</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">age</span>&gt;</span>12<span class="hljs-tag">&lt;/<span class="hljs-name">age</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">student</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">student</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>Mary<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">grade</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">grade</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">age</span>&gt;</span>11<span class="hljs-tag">&lt;/<span class="hljs-name">age</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">student</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">student</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>Simon<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">grade</span>&gt;</span>A<span class="hljs-tag">&lt;/<span class="hljs-name">grade</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">age</span>&gt;</span>18<span class="hljs-tag">&lt;/<span class="hljs-name">age</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">student</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">students</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="8-java分页代码实现"><a href="#8-java分页代码实现" class="headerlink" title="8. java分页代码实现"></a><strong>8. java分页代码实现</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">1</span> <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PageBean</span> </span>&#123;  <br><span class="hljs-number">2</span>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> curPage; <span class="hljs-comment">//当前页</span><br><span class="hljs-number">3</span>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pageCount; <span class="hljs-comment">//总页数</span><br><span class="hljs-number">4</span>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> rowsCount; <span class="hljs-comment">//总行数</span><br><span class="hljs-number">5</span>     <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pageSize=<span class="hljs-number">10</span>; <span class="hljs-comment">//每页多少行</span><br><span class="hljs-number">6</span><br><span class="hljs-number">7</span><br> <span class="hljs-number">8</span>    <br><span class="hljs-number">9</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PageBean</span><span class="hljs-params">(<span class="hljs-keyword">int</span> rows)</span></span>&#123;<br><span class="hljs-number">10</span><br><span class="hljs-number">11</span>         <span class="hljs-keyword">this</span>.setRowsCount(rows);<br><span class="hljs-number">12</span>         <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.rowsCount % <span class="hljs-keyword">this</span>.pageSize == <span class="hljs-number">0</span>)&#123;<br><span class="hljs-number">13</span>             <span class="hljs-keyword">this</span>.pageCount=<span class="hljs-keyword">this</span>.rowsCount / <span class="hljs-keyword">this</span>.pageSize;<br><span class="hljs-number">14</span>         &#125;<br><span class="hljs-number">15</span>         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(rows&lt;<span class="hljs-keyword">this</span>.pageSize)&#123;<br><span class="hljs-number">16</span>             <span class="hljs-keyword">this</span>.pageCount=<span class="hljs-number">1</span>;<br><span class="hljs-number">17</span>         &#125;<br><span class="hljs-number">18</span>         <span class="hljs-keyword">else</span>&#123;<br><span class="hljs-number">19</span>             <span class="hljs-keyword">this</span>.pageCount=<span class="hljs-keyword">this</span>.rowsCount / <span class="hljs-keyword">this</span>.pageSize +<span class="hljs-number">1</span>;<br><span class="hljs-number">20</span>         &#125;<br><span class="hljs-number">21</span>     &#125;<br><span class="hljs-number">22</span><br><span class="hljs-number">23</span><br><span class="hljs-number">24</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getCurPage</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-number">25</span>         <span class="hljs-keyword">return</span> curPage;<br><span class="hljs-number">26</span>     &#125;<br><span class="hljs-number">27</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCurPage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPage)</span> </span>&#123;<br><span class="hljs-number">28</span>         <span class="hljs-keyword">this</span>.curPage = curPage;<br><span class="hljs-number">29</span>     &#125;<br><span class="hljs-number">30</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getPageCount</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-number">31</span>         <span class="hljs-keyword">return</span> pageCount;<br><span class="hljs-number">32</span>     &#125;<br><span class="hljs-number">33</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPageCount</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pageCount)</span> </span>&#123;<br><span class="hljs-number">34</span>         <span class="hljs-keyword">this</span>.pageCount = pageCount;<br><span class="hljs-number">35</span>     &#125;<br><span class="hljs-number">36</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getPageSize</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-number">37</span>         <span class="hljs-keyword">return</span> pageSize;<br><span class="hljs-number">38</span>     &#125;<br><span class="hljs-number">39</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPageSize</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pageSize)</span> </span>&#123;<br><span class="hljs-number">40</span>         <span class="hljs-keyword">this</span>.pageSize = pageSize;<br><span class="hljs-number">41</span>     &#125;<br><span class="hljs-number">42</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getRowsCount</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-number">43</span>         <span class="hljs-keyword">return</span> rowsCount;<br><span class="hljs-number">44</span>     &#125;<br><span class="hljs-number">45</span>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setRowsCount</span><span class="hljs-params">(<span class="hljs-keyword">int</span> rowsCount)</span> </span>&#123;<br><span class="hljs-number">46</span>         <span class="hljs-keyword">this</span>.rowsCount = rowsCount;<br><span class="hljs-number">47</span>     &#125;<br><span class="hljs-number">48</span> &#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="分页展示如下"><a href="#分页展示如下" class="headerlink" title="分页展示如下"></a><strong>分页展示如下</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"> <span class="hljs-number">1</span> List clist=adminbiz.queryNotFullCourse();<span class="hljs-comment">//将查询结果存放在List集合里</span><br> <span class="hljs-number">2</span> PageBean pagebean=<span class="hljs-keyword">new</span> PageBean(clist.size());<span class="hljs-comment">//初始化PageBean对象</span><br> <span class="hljs-number">3</span> <span class="hljs-comment">//设置当前页</span><br> <span class="hljs-number">4</span> pagebean.setCurPage(page); <span class="hljs-comment">//这里page是从页面上获取的一个参数，代表页数</span><br> <span class="hljs-number">5</span> <span class="hljs-comment">//获得分页大小</span><br> <span class="hljs-number">6</span> <span class="hljs-keyword">int</span> pagesize=pagebean.getPageSize();<br> <span class="hljs-number">7</span> <span class="hljs-comment">//获得分页数据在list集合中的索引</span><br> <span class="hljs-number">8</span> <span class="hljs-keyword">int</span> firstIndex=(page-<span class="hljs-number">1</span>)*pagesize;<br> <span class="hljs-number">9</span> <span class="hljs-keyword">int</span> toIndex=page*pagesize;<br><span class="hljs-number">10</span> <span class="hljs-keyword">if</span>(toIndex&gt;clist.size())&#123;<br><span class="hljs-number">11</span>     toIndex=clist.size();<br><span class="hljs-number">12</span> &#125;<br><span class="hljs-number">13</span> <span class="hljs-keyword">if</span>(firstIndex&gt;toIndex)&#123;<br><span class="hljs-number">14</span>     firstIndex=<span class="hljs-number">0</span>;<br><span class="hljs-number">15</span>     pagebean.setCurPage(<span class="hljs-number">1</span>);<br><span class="hljs-number">16</span> &#125;<br><span class="hljs-number">17</span> <span class="hljs-comment">//截取数据集合，获得分页数据</span><br><span class="hljs-number">18</span> List courseList=clist.subList(firstIndex, toIndex);<br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/20/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java 日志体系详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/DataGrip%20%E5%A4%AA%E5%90%8A%E4%BA%86/">
+                        <span class="hidden-mobile">DataGrip 太吊了</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

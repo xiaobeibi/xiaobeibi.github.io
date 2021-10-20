@@ -1,0 +1,998 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="分享总结个人的学习路程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贝比">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="分享总结个人的学习路程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分享总结个人的学习路程">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          <img src="/img/Substitute5.jfif" srcset="/img/loading.gif" lazyload alt="如何写出一手好的业务代码？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          如何写出一手好的业务代码？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          如何写出一手好的业务代码？
+
+这里举一个非常简单的例子，以案例的业务实现来分析如何写好业务代码。
+本案例只是简单的模拟，可能与真实的情况有出入，这里只是为了举例使用。
+案例：
+用户挑选商品放入购物车，然后下单结算，流程如下：
+
+挑选商品
+下单
+结算
+生成订单
+通知
+
+提交下单的业务逻辑如下：
+
+验证账号是否合法
+调用第三方接口查看商品的打折价格
+钱包金额扣除
+生成订单信息
+通知用户下单成功，等待收
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210524120852.png" srcset="/img/loading.gif" lazyload alt="后端：前端，我们分手吧">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          后端：前端，我们分手吧
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          
+          
+            
+          
+          后端：前端，我们分手吧
+
+1. 背景互联网技术的应用领域已经涉及到人们日常生活的方方面面，复杂的使用场景以及海量的访问用户促使互联网技术快速迭代和发展。系统架构的发展可以概括为三个阶段，即前后端未分离阶段、前后端半分离阶段和前后端完全分离阶段。
+一方面，前后端技术之间的边界逐渐清晰，明确了前后端开发工程师各自的工作职责，前后端开发工作更加专业化和精细化。
+另一方面，前后端分离的开发架构可以有效提高
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109121611789.webp" srcset="/img/loading.gif" lazyload alt="短信验证码登录流程思路及详细步骤">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          短信验证码登录流程思路及详细步骤
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          
+          
+            
+          
+          短信验证码登录流程思路及详细步骤
+
+Part1业务流程
+构造手机验证码：使用random对象生成要求的随机数作为验证码，例如4位验证码:1000~9999之间随机数；
+
+使用接口向短信平台发送手机号和验证码数据，然后短信平台再把验证码发送到制定手机号上，接口参数一般包括：目标手机号，随机验证码(或包含失效时间)，平台接口地址，平台口令；
+
+保存接口返回的信息（一般为json文本数据，然后需转换为j
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E4%BB%8E%20URL%20%E8%BE%93%E5%85%A5%E5%88%B0%E8%BF%94%E5%9B%9E%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210705142311.png" srcset="/img/loading.gif" lazyload alt="从 URL 输入到返回请求的过程">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E4%BB%8E%20URL%20%E8%BE%93%E5%85%A5%E5%88%B0%E8%BF%94%E5%9B%9E%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B/" target="_self">
+          从 URL 输入到返回请求的过程
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E4%BB%8E%20URL%20%E8%BE%93%E5%85%A5%E5%88%B0%E8%BF%94%E5%9B%9E%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B/" target="_self">
+          
+          
+            
+          
+          从 URL 输入到返回请求的过程
+
+最近打算总结一波面试最频繁的面试问题跟大家交流，此文章是关于浏览器的常见问题，大概面试 10 家遇到 6 家提问类似问题，主要是大厂和中厂。
+面试的部分内容已经忘了，为了串联成一个完整的故事，增加可读性，20%的内容为虚构。
+问题: 从浏览器地址栏输入 url 到请求返回发生了什么
+你一看这种烂掉牙的问题，小case，但 996 面试大佬由此延展的问题已经远远超
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E6%8A%80%E5%B7%A7/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210722115812.png" srcset="/img/loading.gif" lazyload alt="常见代码重构技巧">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E6%8A%80%E5%B7%A7/" target="_self">
+          常见代码重构技巧
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E6%8A%80%E5%B7%A7/" target="_self">
+          
+          
+            
+          
+          常见代码重构技巧
+
+为什么要重构
+项目在不断演进过程中，代码不停地在堆砌。如果没有人为代码的质量负责，代码总是会往越来越混乱的方向演进。当混乱到一定程度之后，量变引起质变，项目的维护成本已经高过重新开发一套新代码的成本，想要再去重构，已经没有人能做到了。
+造成这样的原因往往有以下几点：
+
+编码之前缺乏有效的设计
+成本上的考虑，在原功能堆砌式编程
+缺乏有效代码质量监督机制
+
+对于此类问题，业界已有有
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301522591.webp" srcset="/img/loading.gif" lazyload alt="避免消息重复消费的解决方案">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          避免消息重复消费的解决方案
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          
+          
+            
+          
+          避免消息重复消费的解决方案
+
+消息中间件是分布式系统常用的组件，无论是异步化、解耦、削峰等都有广泛的应用价值。
+我们通常会认为，消息中间件是一个可靠的组件——这里所谓的可靠是指，只要我把消息成功投递到了消息中间件，消息就不会丢。
+即消息肯定会至少保证消息能被消费者成功消费一次，这是消息中间件最基本的特性之一。
+也就是我们常说的“AT LEAST ONCE”，即消息至少会被“成功消费一遍”。
+
+一个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E4%BB%8E%200%20%E5%88%B0%201%20%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%88%B6%E4%BD%9C%E9%85%B7%E7%82%AB%E5%8F%AF%E8%A7%86%E5%8C%96%E5%A4%A7%E5%B1%8F/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210705145110.png" srcset="/img/loading.gif" lazyload alt="从 0 到 1 手把手教你制作酷炫可视化大屏">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E4%BB%8E%200%20%E5%88%B0%201%20%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%88%B6%E4%BD%9C%E9%85%B7%E7%82%AB%E5%8F%AF%E8%A7%86%E5%8C%96%E5%A4%A7%E5%B1%8F/" target="_self">
+          从 0 到 1 手把手教你制作酷炫可视化大屏
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E4%BB%8E%200%20%E5%88%B0%201%20%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%88%B6%E4%BD%9C%E9%85%B7%E7%82%AB%E5%8F%AF%E8%A7%86%E5%8C%96%E5%A4%A7%E5%B1%8F/" target="_self">
+          
+          
+            
+          
+          从 0 到 1 手把手教你制作酷炫可视化大屏
+
+从大屏可视化出现以来，一直深受各界企业的追捧，最典型的就是每年淘宝的双十一销售额大屏，最近我也刚接触了一个上位机项目，借此总结了一些可视化大屏制作经验与大家分享。
+这种大屏看着高端大气上档次，然而其开发步骤却并不像想象中那么简单，基本步骤就有五步：
+
+大屏开发工具开发可视化大屏，一般有两种方式，一是用代码开发，还有一种是用现成的可视化工具制作。
+用的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web/">Web</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Web/">Web</a>
+            
+              <a href="/tags/%E5%A4%A7%E5%B1%8F/">大屏</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/36%E5%BC%A0%E5%9B%BE%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210501200700.webp" srcset="/img/loading.gif" lazyload alt="36 张图详解网络基础知识">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/36%E5%BC%A0%E5%9B%BE%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" target="_self">
+          36 张图详解网络基础知识
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/36%E5%BC%A0%E5%9B%BE%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" target="_self">
+          
+          
+            
+          
+          36 张图详解网络基础知识
+网络协议我们用手机连接上网的时候，会用到许多网络协议。从手机连接 WiFi 开始，使用的是 802.11 （即 WLAN ）协议，通过 WLAN 接入网络；手机自动获取网络配置，使用的是 DHCP 协议，获取配置后手机才能正常通信。这时手机已经连入局域网，可以访问局域网内的设备和资源，但还不能使用互联网应用，例如：微信、抖音等。想要访问互联网，还需要在手机的上联网络设备
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web/">Web</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Web/">Web</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E4%B8%AD%E5%9B%BD%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%B2%E5%B0%B1%E6%98%AF%E4%B8%80%E9%83%A8%E6%B5%81%E6%B0%93%E5%8F%B2/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715112229.webp" srcset="/img/loading.gif" lazyload alt="中国互联网史就是一部流氓史">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E4%B8%AD%E5%9B%BD%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%B2%E5%B0%B1%E6%98%AF%E4%B8%80%E9%83%A8%E6%B5%81%E6%B0%93%E5%8F%B2/" target="_self">
+          中国互联网史就是一部流氓史
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E4%B8%AD%E5%9B%BD%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%B2%E5%B0%B1%E6%98%AF%E4%B8%80%E9%83%A8%E6%B5%81%E6%B0%93%E5%8F%B2/" target="_self">
+          
+          
+            
+          
+          中国互联网史就是一部流氓史
+
+引言原文:mini.eastday.com/a/171102080114338.html
+前段时间，李彦宏在AI大会上被泼水一事上了热搜。然鹅，却引起了全媒体的一片叫好，一个知名企业掌门人落到无人同情，纷纷落井下石的地步，个中缘由的确值得深思。
+今天我们就来聊聊互联网公司发家的流氓史！
+英雄枯骨，流氓上位
+英雄乱世，诸候相争，杀伐四起，三国鼎立。 
+从历史的维度来看，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web/">Web</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Web/">Web</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/13/%E7%BD%91%E9%A1%B5%E8%BF%9B%E5%8C%96%E5%8F%B2/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210501102303.webp" srcset="/img/loading.gif" lazyload alt="历史上第一个网页长这样">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/13/%E7%BD%91%E9%A1%B5%E8%BF%9B%E5%8C%96%E5%8F%B2/" target="_self">
+          历史上第一个网页长这样
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/13/%E7%BD%91%E9%A1%B5%E8%BF%9B%E5%8C%96%E5%8F%B2/" target="_self">
+          
+          
+            
+          
+          历史上第一个网页长这样
+
+1991 年 8 月，第一个静态页面诞生了，这是由 Tim Berners-Lee 发布的，想要告诉人们什么是万维网。从静态页面到 Ajax 技术，从 Server Side Render 到 React Server Components，历史的车轮滚滚向前，一个又一个技术诞生和沉寂。
+前言1994 年，万维网联盟（W3C，World Wide Web Consorti
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-13 22:19" pubdate>
+              2021-10-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web/">Web</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Web/">Web</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#board">5</a><a class="page-number" href="/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/#board">23</a><a class="extend next" rel="next" href="/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

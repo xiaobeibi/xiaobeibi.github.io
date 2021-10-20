@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="40 个 Spring Boot 常用注解  Spring Web MVC 与 Spring Bean 注解一、Spring Web MVC 注解@RequestMapping@RequestMapping注解的主要用途是将Web请求与请求处理类中的方法进行映射。 Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="40 个 Spring Boot 常用注解">
+<meta property="og:url" content="http://example.com/2021/10/13/40%20%E4%B8%AA%20Spring%20Boot%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="40 个 Spring Boot 常用注解  Spring Web MVC 与 Spring Bean 注解一、Spring Web MVC 注解@RequestMapping@RequestMapping注解的主要用途是将Web请求与请求处理类中的方法进行映射。 Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100629.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100642.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100730.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100739.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100749.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100756.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100809.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100817.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100832.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100841.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100851.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100922.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100932.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100940.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100948.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100956.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101006.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101019.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101031.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101041.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101051.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101100.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101113.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101444.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101456.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101506.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101516.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101647.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101701.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101810.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101826.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101858.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101906.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101915.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101926.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729101955.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729102008.png">
+<meta property="article:published_time" content="2021-10-13T14:16:55.457Z">
+<meta property="article:modified_time" content="2021-10-13T10:40:48.405Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/20210729100629.png">
+  
+  <title>40 个 Spring Boot 常用注解 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="40 个 Spring Boot 常用注解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:16" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">40 个 Spring Boot 常用注解</h1>
+            
+            <div class="markdown-body">
+              <center><h2>40 个 Spring Boot 常用注解</h2></center>
+
+<h1 id="Spring-Web-MVC-与-Spring-Bean-注解"><a href="#Spring-Web-MVC-与-Spring-Bean-注解" class="headerlink" title="Spring Web MVC 与 Spring Bean 注解"></a><strong>Spring Web MVC 与 Spring Bean 注解</strong></h1><h3 id="一、Spring-Web-MVC-注解"><a href="#一、Spring-Web-MVC-注解" class="headerlink" title="一、Spring Web MVC 注解"></a><strong>一、Spring Web MVC 注解</strong></h3><h4 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a><strong>@RequestMapping</strong></h4><p>@RequestMapping注解的主要用途是将Web请求与请求处理类中的方法进行映射。</p>
+<p>Spring MVC和Spring WebFlux都通过<strong>RquestMappingHandlerMapping</strong>和<strong>RequestMappingHndlerAdapter</strong>两个类来提供对@RequestMapping注解的支持。</p>
+<p>@RequestMapping注解对请求处理类中的请求处理方法进行标注；@RequestMapping注解拥有以下的六个配置属性：</p>
+<ul>
+<li>value:映射的请求URL或者其别名</li>
+<li>method:兼容HTTP的方法名</li>
+<li>params:根据HTTP参数的存在、缺省或值对请求进行过滤</li>
+<li>header:根据HTTP Header的存在、缺省或值对请求进行过滤</li>
+<li>consume:设定在HTTP请求正文中允许使用的媒体类型</li>
+<li>product:在HTTP响应体中允许使用的媒体类型</li>
+</ul>
+<p>提示：在使用@RequestMapping之前，请求处理类还需要使用@Controller或@RestController进行标记</p>
+<p>下面是使用@RequestMapping的两个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100629.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>@RequestMapping还可以对类进行标记，这样类中的处理方法在映射请求路径时，会自动将类上@RequestMapping设置的value拼接到方法中映射路径之前，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100642.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="RequestBody"><a href="#RequestBody" class="headerlink" title="@RequestBody"></a><strong>@RequestBody</strong></h4><p>@RequestBody在处理请求方法的参数列表中使用，它可以将请求主体中的参数绑定到一个对象中，请求主体参数是通过<strong>HttpMessageConverter</strong>传递的，根据请求主体中的参数名与对象的属性名进行匹配并绑定值。此外，还可以通过@Valid注解对请求主体中的参数进行校验。下面是一个使用@RequestBody的示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100730.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="GetMapping"><a href="#GetMapping" class="headerlink" title="@GetMapping"></a><strong>@GetMapping</strong></h4><p>@GetMapping注解用于处理HTTP GET请求，并将请求映射到具体的处理方法中。具体来说，@GetMapping是一个组合注解，它相当于是@RequestMapping(method=RequestMethod.GET)的快捷方式。下面是@GetMapping的一个使用示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100739.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="PostMapping"><a href="#PostMapping" class="headerlink" title="@PostMapping"></a><strong>@PostMapping</strong></h4><p>@PostMapping注解用于处理HTTP POST请求，并将请求映射到具体的处理方法中。@PostMapping与@GetMapping一样，也是一个组合注解，它相当于是@RequestMapping(method=HttpMethod.POST)的快捷方式。下面是使用@PostMapping的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100749.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="PutMapping"><a href="#PutMapping" class="headerlink" title="@PutMapping"></a><strong>@PutMapping</strong></h4><p>@PutMapping注解用于处理HTTP PUT请求，并将请求映射到具体的处理方法中，@PutMapping是一个组合注解，相当于是@RequestMapping(method=HttpMethod.PUT)的快捷方式。下面是使用@PutMapping的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100756.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="DeleteMapping"><a href="#DeleteMapping" class="headerlink" title="@DeleteMapping"></a><strong>@DeleteMapping</strong></h4><p>@DeleteMapping注解用于处理HTTP DELETE请求，并将请求映射到删除方法中。@DeleteMapping是一个组合注解，它相当于是@RequestMapping(method=HttpMethod.DELETE)的快捷方式。下面是使用@DeleteMapping的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100809.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="PatchMapping"><a href="#PatchMapping" class="headerlink" title="@PatchMapping"></a><strong>@PatchMapping</strong></h4><p>@PatchMapping注解用于处理HTTP PATCH请求，并将请求映射到对应的处理方法中。@PatchMapping相当于是@RequestMapping(method=HttpMethod.PATCH)的快捷方式。下面是一个简单的示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100817.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="ControllerAdvice"><a href="#ControllerAdvice" class="headerlink" title="@ControllerAdvice"></a><strong>@ControllerAdvice</strong></h4><p>@ControllerAdvice是@Component注解的一个延伸注解，Spring会自动扫描并检测被@ControllerAdvice所标注的类。@ControllerAdvice需要和@ExceptionHandler、@InitBinder以及@ModelAttribute注解搭配使用，主要是用来处理控制器所抛出的异常信息。首先，我们需要定义一个被@ControllerAdvice所标注的类，在该类中，定义一个用于处理具体异常的方法，并使用@ExceptionHandler注解进行标记。此外，在有必要的时候，可以使用@InitBinder在类中进行全局的配置，还可以使用@ModelAttribute配置与视图相关的参数。使用@ControllerAdvice注解，就可以快速的创建统一的，自定义的异常处理类。下面是一个使用@ControllerAdvice的示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100832.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a><strong>@ResponseBody</strong></h4><p>@ResponseBody会自动将控制器中方法的返回值写入到HTTP响应中。特别的，@ResponseBody注解只能用在被@Controller注解标记的类中。如果在被@RestController标记的类中，则方法不需要使用@ResponseBody注解进行标注。@RestController相当于是@Controller和@ResponseBody的组合注解。下面是使用该注解的一个示例</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100841.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="ExceptionHandler"><a href="#ExceptionHandler" class="headerlink" title="@ExceptionHandler"></a><strong>@ExceptionHandler</strong></h4><p>@ExceptionHander注解用于标注处理特定类型异常类所抛出异常的方法。当控制器中的方法抛出异常时，Spring会自动捕获异常，并将捕获的异常信息传递给被@ExceptionHandler标注的方法。下面是使用该注解的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100851.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="ResponseStatus"><a href="#ResponseStatus" class="headerlink" title="@ResponseStatus"></a><strong>@ResponseStatus</strong></h4><p>@ResponseStatus注解可以标注请求处理方法。使用此注解，可以指定响应所需要的HTTP STATUS。特别地，我们可以使用HttpStauts类对该注解的value属性进行赋值。下面是使用@ResponseStatus注解的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100922.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a><strong>@PathVariable</strong></h4><p>@PathVariable注解是将方法中的参数绑定到请求URI中的模板变量上。可以通过@RequestMapping注解来指定URI的模板变量，然后使用@PathVariable注解将方法中的参数绑定到模板变量上。特别地，@PathVariable注解允许我们使用value或name属性来给参数取一个别名。下面是使用此注解的一个示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100932.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>模板变量名需要使用“{ }”进行包裹，如果方法的参数名与URI模板变量名一致，则在@PathVariable中就可以省略别名的定义。下面是一个简写的示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100940.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>提示：如果参数是一个非必须的，可选的项，则可以在@PathVariable中设置require = false</p>
+<h4 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a><strong>@RequestParam</strong></h4><p>@RequestParam注解用于将方法的参数与Web请求的传递的参数进行绑定。使用@RequestParam可以轻松的访问HTTP请求参数的值。下面是使用该注解的代码示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100948.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>该注解的其他属性配置与@PathVariable的配置相同，特别的，如果传递的参数为空，还可以通过defaultValue设置一个默认值。示例代码如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729100956.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a><strong>@Controller</strong></h4><p>@Controller是@Component注解的一个延伸，<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=Mzg2MjEwMjI1Mg==&mid=2247488534&idx=1&sn=109a9ecbc8784fb71b5b92809d04449a&chksm=ce0da395f97a2a83513f039a1b9f47ccd12701cdffac8bb0f3b24bbab13033338b6f9898a518&scene=21#wechat_redirect">Spring</a>会自动扫描并配置被该注解标注的类。此注解用于标注Spring MVC的控制器。下面是使用此注解的示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101006.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a><strong>@RestController</strong></h4><p>@RestController是在Spring 4.0开始引入的，这是一个特定的控制器注解。此注解相当于@Controller和@ResponseBody的快捷方式。当使用此注解时，不需要再在方法上使用@ResponseBody注解。下面是使用此注解的示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101019.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="ModelAttribute"><a href="#ModelAttribute" class="headerlink" title="@ModelAttribute"></a><strong>@ModelAttribute</strong></h4><p>通过此注解，可以通过模型索引名称来访问已经存在于控制器中的model。下面是使用此注解的一个简单示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101031.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>与@PathVariable和@RequestParam注解一样，如果参数名与模型具有相同的名字，则不必指定索引名称，简写示例如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101041.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>特别地，如果使用@ModelAttribute对方法进行标注，Spring会将方法的返回值绑定到具体的Model上。示例如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101051.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在Spring调用具体的处理方法之前，被@ModelAttribute注解标注的所有方法都将被执行。</p>
+<h4 id="CrossOrigin"><a href="#CrossOrigin" class="headerlink" title="@CrossOrigin"></a><strong>@CrossOrigin</strong></h4><p>@CrossOrigin注解将为请求处理类或请求处理方法提供跨域调用支持。如果我们将此注解标注类，那么类中的所有方法都将获得支持跨域的能力。使用此注解的好处是可以微调跨域行为。使用此注解的示例如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101100.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="InitBinder"><a href="#InitBinder" class="headerlink" title="@InitBinder"></a><strong>@InitBinder</strong></h4><p>@InitBinder注解用于标注初始化<strong>WebDataBinider</strong>的方法，该方法用于对Http请求传递的表单数据进行处理，如时间格式化、字符串处理等。下面是使用此注解的示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101113.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="二、Spring-Bean-注解"><a href="#二、Spring-Bean-注解" class="headerlink" title="二、Spring Bean 注解"></a><strong>二、Spring Bean 注解</strong></h3><p>在本小节中，主要列举与Spring Bean相关的4个注解以及它们的使用方式。</p>
+<h4 id="ComponentScan"><a href="#ComponentScan" class="headerlink" title="@ComponentScan"></a><strong>@ComponentScan</strong></h4><p>@ComponentScan注解用于配置Spring需要扫描的被组件注解注释的类所在的包。可以通过配置其basePackages属性或者value属性来配置需要扫描的包路径。value属性是basePackages的别名。此注解的用法如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101444.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Component"><a href="#Component" class="headerlink" title="@Component"></a><strong>@Component</strong></h4><p>@Component注解用于标注一个普通的组件类，它没有明确的业务范围，只是通知Spring被此注解的类需要被纳入到Spring Bean容器中并进行管理。此注解的使用示例如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101456.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Service"><a href="#Service" class="headerlink" title="@Service"></a><strong>@Service</strong></h4><p>@Service注解是@Component的一个延伸（特例），它用于标注业务逻辑类。与@Component注解一样，被此注解标注的类，会自动被Spring所管理。下面是使用@Service注解的示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101506.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Repository"><a href="#Repository" class="headerlink" title="@Repository"></a><strong>@Repository</strong></h4><p>@Repository注解也是@Component注解的延伸，与@Component注解一样，被此注解标注的类会被Spring自动管理起来，@Repository注解用于标注DAO层的数据持久化类。此注解的用法如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101516.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h1 id="Spring-Dependency-Inject-与-Bean-Scops注解"><a href="#Spring-Dependency-Inject-与-Bean-Scops注解" class="headerlink" title="Spring Dependency Inject 与 Bean Scops注解"></a><strong>Spring Dependency Inject 与 Bean Scops注解</strong></h1><h3 id="三、Spring-DI注解"><a href="#三、Spring-DI注解" class="headerlink" title="三、Spring DI注解"></a><strong>三、Spring DI注解</strong></h3><h4 id="DependsOn"><a href="#DependsOn" class="headerlink" title="@DependsOn"></a><strong>@DependsOn</strong></h4><p>@DependsOn注解可以配置Spring IoC容器在初始化一个Bean之前，先初始化其他的Bean对象。下面是此注解使用示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101647.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Bean"><a href="#Bean" class="headerlink" title="@Bean"></a><strong>@Bean</strong></h4><p>@Bean注解主要的作用是告知Spring，被此注解所标注的类将需要纳入到Bean管理工厂中。@Bean注解的用法很简单，在这里，着重介绍@Bean注解中initMethod和destroyMethod的用法。示例如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101701.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="四、Scops注解"><a href="#四、Scops注解" class="headerlink" title="四、Scops注解"></a><strong>四、Scops注解</strong></h3><h4 id="Scope"><a href="#Scope" class="headerlink" title="@Scope"></a><strong>@Scope</strong></h4><p>@Scope注解可以用来定义@Component标注的类的作用范围以及@Bean所标记的类的作用范围。@Scope所限定的作用范围有：singleton、prototype、request、session、globalSession或者其他的自定义范围。这里以prototype为例子进行讲解。当一个Spring Bean被声明为prototype（原型模式）时，在每次需要使用到该类的时候，Spring IoC容器都会初始化一个新的改类的实例。在定义一个Bean时，可以设置Bean的scope属性为prototype：scope=“prototype”,也可以使用@Scope注解设置，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Scope(value=ConfigurableBeanFactory.SCOPE_PROPTOTYPE)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>下面将给出两种不同的方式来使用@Scope注解，示例代码如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101810.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Scope-单例模式"><a href="#Scope-单例模式" class="headerlink" title="@Scope 单例模式"></a><strong>@Scope 单例模式</strong></h4><p>当@Scope的作用范围设置成Singleton时，被此注解所标注的类只会被Spring IoC容器初始化一次。在默认情况下，Spring IoC容器所初始化的类实例都为singleton。同样的原理，此情形也有两种配置方式，示例代码如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101826.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="五、容器配置注解"><a href="#五、容器配置注解" class="headerlink" title="五、容器配置注解"></a><strong>五、容器配置注解</strong></h2><h3 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a><strong>@Autowired</strong></h3><p>@Autowired注解用于标记Spring将要解析和注入的依赖项。此注解可以作用在构造函数、字段和setter方法上。</p>
+<p><strong>作用于构造函数</strong></p>
+<p>下面是@Autowired注解标注构造函数的使用示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101858.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>作用于setter方法</strong></p>
+<p>下面是@Autowired注解标注setter方法的示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101906.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>作用于字段</strong></p>
+<p>@Autowired注解标注字段是最简单的，只需要在对应的字段上加入此注解即可，示例代码如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101915.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="Primary"><a href="#Primary" class="headerlink" title="@Primary"></a><strong>@Primary</strong></h3><p>当系统中需要配置多个具有相同类型的bean时，@Primary可以定义这些Bean的优先级。下面将给出一个实例代码来说明这一特性：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101926.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>输出结果：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs oxygene">this <span class="hljs-keyword">is</span> send DingDing <span class="hljs-function"><span class="hljs-keyword">method</span> <span class="hljs-title">message</span>.</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="PostConstruct与-PreDestroy"><a href="#PostConstruct与-PreDestroy" class="headerlink" title="@PostConstruct与@PreDestroy"></a><strong>@PostConstruct与@PreDestroy</strong></h3><p>值得注意的是，这两个注解不属于Spring,它们是源于JSR-250中的两个注解，位于common-annotations.jar中。@PostConstruct注解用于标注在Bean被Spring初始化之前需要执行的方法。@PreDestroy注解用于标注Bean被销毁前需要执行的方法。下面是具体的示例代码：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729101955.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="Qualifier"><a href="#Qualifier" class="headerlink" title="@Qualifier"></a><strong>@Qualifier</strong></h3><p>当系统中存在同一类型的多个Bean时，@Autowired在进行依赖注入的时候就不知道该选择哪一个实现类进行注入。此时，我们可以使用@Qualifier注解来微调，帮助@Autowired选择正确的依赖项。下面是一个关于此注解的代码示例：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/20210729102008.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="六、Spring-Boot注解"><a href="#六、Spring-Boot注解" class="headerlink" title="六、Spring Boot注解"></a><strong>六、Spring Boot注解</strong></h2><h3 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a><strong>@SpringBootApplication</strong></h3><p>@SpringBootApplication注解是一个快捷的配置注解，在被它标注的类中，可以定义一个或多个Bean，并自动触发自动配置Bean和自动扫描组件。此注解相当于@Configuration、@EnableAutoConfiguration和@ComponentScan的组合。在Spring Boot应用程序的主类中，就使用了此注解。示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplicationpublic</span> <br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application</span></span>&#123; <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String [] args)</span></span>&#123;   <br>        SpringApplication.run(Application.class,args); <br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="EnableAutoConfiguration"><a href="#EnableAutoConfiguration" class="headerlink" title="@EnableAutoConfiguration"></a><strong>@EnableAutoConfiguration</strong></h3><p>@EnableAutoConfiguration注解用于通知Spring，根据当前类路径下引入的依赖包，自动配置与这些依赖包相关的配置项。</p>
+<h3 id="ConditionalOnClass与-ConditionalOnMissingClass"><a href="#ConditionalOnClass与-ConditionalOnMissingClass" class="headerlink" title="@ConditionalOnClass与@ConditionalOnMissingClass"></a><strong>@ConditionalOnClass与@ConditionalOnMissingClass</strong></h3><p>这两个注解属于类条件注解，它们根据是否存在某个类作为判断依据来决定是否要执行某些配置。下面是一个简单的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ConditionalOnClass(DataSource.class)</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MySQLAutoConfiguration</span> </span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ConditionalOnBean与-ConditionalOnMissingBean"><a href="#ConditionalOnBean与-ConditionalOnMissingBean" class="headerlink" title="@ConditionalOnBean与@ConditionalOnMissingBean"></a><strong>@ConditionalOnBean与@ConditionalOnMissingBean</strong></h3><p>这两个注解属于对象条件注解，根据是否存在某个对象作为依据来决定是否要执行某些配置方法。示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@ConditionalOnBean(name=&quot;dataSource&quot;)</span><br><span class="hljs-function">LocalContainerEntityManagerFactoryBean <span class="hljs-title">entityManagerFactory</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@ConditionalOnMissingBean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> MyBean <span class="hljs-title">myBean</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ConditionalOnProperty"><a href="#ConditionalOnProperty" class="headerlink" title="@ConditionalOnProperty"></a><strong>@ConditionalOnProperty</strong></h3><p>@ConditionalOnProperty注解会根据Spring配置文件中的配置项是否满足配置要求，从而决定是否要执行被其标注的方法。示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@ConditionalOnProperty(name=&quot;alipay&quot;,havingValue=&quot;on&quot;)</span><br><span class="hljs-function">Alipay <span class="hljs-title">alipay</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Alipay();<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ConditionalOnResource"><a href="#ConditionalOnResource" class="headerlink" title="@ConditionalOnResource"></a><strong>@ConditionalOnResource</strong></h3><p>此注解用于检测当某个配置文件存在使，则触发被其标注的方法，下面是使用此注解的代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ConditionalOnResource(resources = &quot;classpath:website.properties&quot;)</span><br><span class="hljs-function">Properties <span class="hljs-title">addWebsiteProperties</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ConditionalOnWebApplication与-ConditionalOnNotWebApplication"><a href="#ConditionalOnWebApplication与-ConditionalOnNotWebApplication" class="headerlink" title="@ConditionalOnWebApplication与@ConditionalOnNotWebApplication"></a><strong>@ConditionalOnWebApplication与@ConditionalOnNotWebApplication</strong></h3><p>这两个注解用于判断当前的应用程序是否是Web应用程序。如果当前应用是Web应用程序，则使用Spring WebApplicationContext,并定义其会话的生命周期。下面是一个简单的示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ConditionalOnWebApplication</span><br><span class="hljs-function">HealthCheckController <span class="hljs-title">healthCheckController</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ConditionalExpression"><a href="#ConditionalExpression" class="headerlink" title="@ConditionalExpression"></a><strong>@ConditionalExpression</strong></h3><p>此注解可以让我们控制更细粒度的基于表达式的配置条件限制。当表达式满足某个条件或者表达式为真的时候，将会执行被此注解标注的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-meta">@ConditionalException(&quot;$&#123;localstore&#125; &amp;&amp; $&#123;local == &#x27;true&#x27;&#125;&quot;)</span><br><span class="hljs-function">LocalFileStore <span class="hljs-title">store</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Conditional"><a href="#Conditional" class="headerlink" title="@Conditional"></a><strong>@Conditional</strong></h3><p>@Conditional注解可以控制更为复杂的配置条件。在Spring内置的条件控制注解不满足应用需求的时候，可以使用此注解定义自定义的控制条件，以达到自定义的要求。下面是使用该注解的简单示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Conditioanl(CustomConditioanl.class)</span><br><span class="hljs-function">CustomProperties <span class="hljs-title">addCustomProperties</span><span class="hljs-params">()</span></span>&#123; <br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>总结</strong></p>
+<p>本次课程总结了Spring Boot中常见的各类型注解的使用方式，让大家能够统一的对Spring Boot常用注解有一个全面的了解。</p>
+<p>由于篇幅的原因，关于Spring Boot不常用的一些注解，将在下一次分享中进行补充和说明。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/Spring%20Boot%20+%20MyBatis%20+%20MySQL%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring Boot + MyBatis + MySQL读写分离</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%20Spring%20Boot%20%E7%9A%84%20HTTP%20%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%A1%86%E6%9E%B6/">
+                        <span class="hidden-mobile">推荐一款 Spring Boot 的 HTTP 客户端框架</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

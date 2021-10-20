@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="MySQL 8.0 新特性：直方图  查询优化器负责将SQL查询转换为尽可能高效的执行计划，但随着数据环境不断变化，查询优化器可能无法找到最佳的执行计划，导致SQL效率低下。造成这种情况的原因是优化器对查询的数据了解的不够充足，例如：每个表有多少行数据，每列中有多少不同的值，每列的数据分布情况。 因此MySQL8.0.3推出了直方图(histogram)功能，直方图是列的数据分布的近似值，其向优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 8.0 新特性：直方图">
+<meta property="og:url" content="http://example.com/2021/10/20/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="MySQL 8.0 新特性：直方图  查询优化器负责将SQL查询转换为尽可能高效的执行计划，但随着数据环境不断变化，查询优化器可能无法找到最佳的执行计划，导致SQL效率低下。造成这种情况的原因是优化器对查询的数据了解的不够充足，例如：每个表有多少行数据，每列中有多少不同的值，每列的数据分布情况。 因此MySQL8.0.3推出了直方图(histogram)功能，直方图是列的数据分布的近似值，其向优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-20T12:44:39.403Z">
+<meta property="article:modified_time" content="2021-10-20T12:44:34.623Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>MySQL 8.0 新特性：直方图 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL 8.0 新特性：直方图">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-20 20:44" pubdate>
+        2021年10月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL 8.0 新特性：直方图</h1>
+            
+            <div class="markdown-body">
+              <center><h2>MySQL 8.0 新特性：直方图</h2></center>
+
+<p>查询优化器负责将SQL查询转换为尽可能高效的执行计划，但随着数据环境不断变化，查询优化器可能无法找到最佳的执行计划，导致SQL效率低下。造成这种情况的原因是优化器对查询的数据了解的不够充足，例如：每个表有多少行数据，每列中有多少不同的值，每列的数据分布情况。</p>
+<p>因此MySQL8.0.3推出了直方图(histogram)功能，直方图是列的数据分布的近似值，其向优化器提供更多的统计信息。比如字段NULL的个数，每个不同值的百分比，最大/最小值等。MySQL的直方图分为：等宽直方图和等高直方图，MySQL会自动分配使用哪种类型的直方图，无法干预</p>
+<ul>
+<li>等宽直方图：每个bucket保存一个值以及这个值的累计频率</li>
+<li>等高直方图：每个bucket保存不同值的个数，上下限以及累计频率</li>
+</ul>
+<p>直方图同时也存在一定的限制条件：</p>
+<ul>
+<li>不支持几何类型以及json类型的列</li>
+<li>不支持加密表和临时表</li>
+<li>无法为单列唯一索引的字段生成直方图</li>
+</ul>
+<h3 id="创建和删除直方图"><a href="#创建和删除直方图" class="headerlink" title="创建和删除直方图"></a><strong>创建和删除直方图</strong></h3><p>创建语法</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">ANALYZE <span class="hljs-keyword">TABLE</span> tbl_name UPDATE HISTOGRAM <span class="hljs-keyword">ON</span> col_name [, col_name] <span class="hljs-keyword">WITH</span> N BUCKETS;<br></code></pre></div></td></tr></table></figure>
+
+<p>创建直方图时能够同时为多个列创建直方图，但必须指定bucket数量，范围在1-1024之间，默认100。对于bucket数量应该综合考虑其有多少不同值、数据的倾斜度、精度等，建议从较低的值开始，不符合再依次增加。</p>
+<p>删除语法</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">ANALYZE <span class="hljs-keyword">TABLE</span> tbl_name <span class="hljs-keyword">DROP</span> HISTOGRAM <span class="hljs-keyword">ON</span> col_name [, col_name];<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="直方图信息"><a href="#直方图信息" class="headerlink" title="直方图信息"></a><strong>直方图信息</strong></h3><p>MySQL通过字典表column_statistics来保存直方图的定义，每行记录对应一个字段的直方图，已JSON格式保存。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">root<span class="hljs-variable">@employees</span> <span class="hljs-number">13</span>:<span class="hljs-number">49</span>:  <span class="hljs-keyword">select</span> json_pretty(histogram) <span class="hljs-keyword">from</span> information_schema.column_statistics <span class="hljs-keyword">where</span> table_name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;employees&#x27;</span> <span class="hljs-keyword">and</span> column_name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;first_name&#x27;</span>;;<br>&#123;<br>  &quot;buckets&quot;: [<br>    [<br>      &quot;base64:type254:QWFtZXI=&quot;,<br>      &quot;base64:type254:QWRlbA==&quot;,<br>      <span class="hljs-number">0.010176045588684237</span>,<br>      <span class="hljs-number">13</span><br>],<br>  &quot;data-type&quot;: &quot;string&quot;,<br>  &quot;null-values&quot;: <span class="hljs-number">0.0</span>,<br>  &quot;collation-id&quot;: <span class="hljs-number">255</span>,<br>  &quot;last-updated&quot;: &quot;2020-09-09 05:47:32.548874&quot;,<br>  &quot;sampling-rate&quot;: <span class="hljs-number">0.163495700259278</span>,<br>  &quot;histogram-type&quot;: &quot;equi-height&quot;,<br>  &quot;number-of-buckets-specified&quot;: <span class="hljs-number">100</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>MySQL为employees的first_name字段分配了等高直方图，默认为100个bucket。</p>
+<p>当生成直方图时，MySQL会将所有数据都加载到内存中，并在内存中执行所有工作。如果在大表上生成直方图，可能会将几百M的数据读取到内存中的风险，因此我们可以通过参数<code>hitogram_generation_max_mem_size</code>来控制生成直方图最大允许的内存量，当指定内存满足不了所有数据集时就会采用采样的方式。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">root<span class="hljs-variable">@employees</span> <span class="hljs-number">14</span>:<span class="hljs-number">12</span>:  <span class="hljs-keyword">select</span> histogram<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span><span class="hljs-string">&#x27;$.&quot;sampling-rate&quot;&#x27;</span> <span class="hljs-keyword">from</span> information_schema.column_statistics <span class="hljs-keyword">where</span> table_name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;employees&#x27;</span> <span class="hljs-keyword">and</span> column_name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;first_name&#x27;</span>;;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------------------+</span><br><span class="hljs-operator">|</span> histogram<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span><span class="hljs-string">&#x27;$.&quot;sampling-rate&quot;&#x27;</span> <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------------------+</span><br><span class="hljs-operator">|</span> <span class="hljs-number">0.163495700259278</span>               <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------------------+</span><br></code></pre></div></td></tr></table></figure>
+
+<p>从MySQL8.0.19开始，存储引擎自身提供了存储在表中数据的采样实现，存储引擎不支持时，MySQL使用默认采样需要全表扫描，这样对于大表来说成本太高，采样实现避免了全表扫描提高采样性能。</p>
+<p>通过INNODB_METRICS计数器可以监视数据页的采样情况，这需要提前开启计数器</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">root<span class="hljs-meta">@employees</span> <span class="hljs-number">14</span>:<span class="hljs-number">26</span>:  SELECT NAME, COUNT FROM INFORMATION_SCHEMA.INNODB_METRICS WHERE NAME LIKE <span class="hljs-string">&#x27;sampled%&#x27;</span>\G<br>*************************** <span class="hljs-number">1.</span> row ***************************<br> NAME: sampled_pages_read<br>COUNT: <span class="hljs-number">430</span><br>*************************** <span class="hljs-number">2.</span> row ***************************<br> NAME: sampled_pages_skipped<br>COUNT: <span class="hljs-number">456</span><br><span class="hljs-number">2</span> <span class="hljs-function">rows in <span class="hljs-title">set</span> <span class="hljs-params">(<span class="hljs-number">0.04</span> sec)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<p>采样率的计算公式为：<code>sampled_page_read/(sampled_pages_read + sampled_pages_skipped)</code></p>
+<h3 id="优化案例"><a href="#优化案例" class="headerlink" title="优化案例"></a><strong>优化案例</strong></h3><p>复制一张表出来，源表不添加直方图，新表添加直方图</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">root<span class="hljs-meta">@employees</span> <span class="hljs-number">14</span>:<span class="hljs-number">32</span>:  create table employees_like like employees;<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-function">rows <span class="hljs-title">affected</span> <span class="hljs-params">(<span class="hljs-number">0.03</span> sec)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function">root@employees 14:33:  insert into employees_like select * from employees</span>;<br>Query OK, <span class="hljs-number">300024</span> <span class="hljs-function">rows <span class="hljs-title">affected</span> <span class="hljs-params">(<span class="hljs-number">3.59</span> sec)</span></span><br><span class="hljs-function">Records: 300024  Duplicates: 0  Warnings: 0</span><br><span class="hljs-function"></span><br><span class="hljs-function">root@employees 14:33:  ANALYZE TABLE employees_like update HISTOGRAM on birth_date,first_name</span>;<br>+--------------------------+-----------+----------+-------------------------------------------------------+<br>| Table                    | Op        | Msg_type | Msg_text                                              |<br>+--------------------------+-----------+----------+-------------------------------------------------------+<br>| employees.employees_like | histogram | status   | Histogram statistics created <span class="hljs-keyword">for</span> column <span class="hljs-string">&#x27;birth_date&#x27;</span>. |<br>| employees.employees_like | histogram | status   | Histogram statistics created <span class="hljs-keyword">for</span> column <span class="hljs-string">&#x27;first_name&#x27;</span>. |<br>+--------------------------+-----------+----------+-------------------------------------------------------+<br></code></pre></div></td></tr></table></figure>
+
+<p>分别在两张表上查看SQL的执行计划</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">root<span class="hljs-meta">@employees</span> <span class="hljs-number">14</span>:<span class="hljs-number">43</span>:  explain format=<span class="hljs-function">json select <span class="hljs-title">count</span><span class="hljs-params">(*)</span> from employees <span class="hljs-title">where</span> <span class="hljs-params">(birth_date between <span class="hljs-string">&#x27;1953-05-01&#x27;</span> and <span class="hljs-string">&#x27;1954-05-01&#x27;</span>)</span> and first_name like &#x27;A%&#x27;</span>;<br>&#123;<br>  <span class="hljs-string">&quot;query_block&quot;</span>: &#123;<br>    <span class="hljs-string">&quot;select_id&quot;</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-string">&quot;cost_info&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;query_cost&quot;</span>: <span class="hljs-string">&quot;30214.45&quot;</span><br>    &#125;,<br>    <span class="hljs-string">&quot;table&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;table_name&quot;</span>: <span class="hljs-string">&quot;employees&quot;</span>,<br>      <span class="hljs-string">&quot;access_type&quot;</span>: <span class="hljs-string">&quot;ALL&quot;</span>,<br>      <span class="hljs-string">&quot;rows_examined_per_scan&quot;</span>: <span class="hljs-number">299822</span>,<br>      <span class="hljs-string">&quot;rows_produced_per_join&quot;</span>: <span class="hljs-number">3700</span>,<br>      <span class="hljs-string">&quot;filtered&quot;</span>: <span class="hljs-string">&quot;1.23&quot;</span>,<br>      <span class="hljs-string">&quot;cost_info&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;read_cost&quot;</span>: <span class="hljs-string">&quot;29844.37&quot;</span>,<br>        <span class="hljs-string">&quot;eval_cost&quot;</span>: <span class="hljs-string">&quot;370.08&quot;</span>,<br>        <span class="hljs-string">&quot;prefix_cost&quot;</span>: <span class="hljs-string">&quot;30214.45&quot;</span>,<br>        <span class="hljs-string">&quot;data_read_per_join&quot;</span>: <span class="hljs-string">&quot;520K&quot;</span><br>      &#125;,<br>      <span class="hljs-string">&quot;used_columns&quot;</span>: [<br>        <span class="hljs-string">&quot;birth_date&quot;</span>,<br>        <span class="hljs-string">&quot;first_name&quot;</span><br>      ],<br>      <span class="hljs-string">&quot;attached_condition&quot;</span>: <span class="hljs-string">&quot;((`employees`.`employees`.`birth_date` between &#x27;1953-05-01&#x27; and &#x27;1954-05-01&#x27;) and (`employees`.`employees`.`first_name` like &#x27;A%&#x27;))&quot;</span><br>    &#125;<br>  &#125;<br>&#125;<br><br>root<span class="hljs-meta">@employees</span> <span class="hljs-number">14</span>:<span class="hljs-number">45</span>:  explain format=<span class="hljs-function">json select <span class="hljs-title">count</span><span class="hljs-params">(*)</span> from employees <span class="hljs-title">where</span> <span class="hljs-params">(birth_date between <span class="hljs-string">&#x27;1953-05-01&#x27;</span> and <span class="hljs-string">&#x27;1954-05-01&#x27;</span>)</span> and first_name like &#x27;A%&#x27;</span>;<br>&#123;<br>  <span class="hljs-string">&quot;query_block&quot;</span>: &#123;<br>    <span class="hljs-string">&quot;select_id&quot;</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-string">&quot;cost_info&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;query_cost&quot;</span>: <span class="hljs-string">&quot;18744.56&quot;</span><br>    &#125;,<br>    <span class="hljs-string">&quot;table&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;table_name&quot;</span>: <span class="hljs-string">&quot;employees&quot;</span>,<br>      <span class="hljs-string">&quot;access_type&quot;</span>: <span class="hljs-string">&quot;range&quot;</span>,<br>      <span class="hljs-string">&quot;possible_keys&quot;</span>: [<br>        <span class="hljs-string">&quot;idx_birth&quot;</span>,<br>        <span class="hljs-string">&quot;idx_first&quot;</span><br>      ],<br>      <span class="hljs-string">&quot;key&quot;</span>: <span class="hljs-string">&quot;idx_first&quot;</span>,<br>      <span class="hljs-string">&quot;used_key_parts&quot;</span>: [<br>        <span class="hljs-string">&quot;first_name&quot;</span><br>      ],<br>      <span class="hljs-string">&quot;key_length&quot;</span>: <span class="hljs-string">&quot;58&quot;</span>,<br>      <span class="hljs-string">&quot;rows_examined_per_scan&quot;</span>: <span class="hljs-number">41654</span>,<br>      <span class="hljs-string">&quot;rows_produced_per_join&quot;</span>: <span class="hljs-number">6221</span>,<br>      <span class="hljs-string">&quot;filtered&quot;</span>: <span class="hljs-string">&quot;14.94&quot;</span>,<br>      <span class="hljs-string">&quot;index_condition&quot;</span>: <span class="hljs-string">&quot;(`employees`.`employees`.`first_name` like &#x27;A%&#x27;)&quot;</span>,<br>      <span class="hljs-string">&quot;cost_info&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;read_cost&quot;</span>: <span class="hljs-string">&quot;18122.38&quot;</span>,<br>        <span class="hljs-string">&quot;eval_cost&quot;</span>: <span class="hljs-string">&quot;622.18&quot;</span>,<br>        <span class="hljs-string">&quot;prefix_cost&quot;</span>: <span class="hljs-string">&quot;18744.56&quot;</span>,<br>        <span class="hljs-string">&quot;data_read_per_join&quot;</span>: <span class="hljs-string">&quot;874K&quot;</span><br>      &#125;,<br>      <span class="hljs-string">&quot;used_columns&quot;</span>: [<br>        <span class="hljs-string">&quot;birth_date&quot;</span>,<br>        <span class="hljs-string">&quot;first_name&quot;</span><br>      ],<br>      <span class="hljs-string">&quot;attached_condition&quot;</span>: <span class="hljs-string">&quot;(`employees`.`employees`.`birth_date` between &#x27;1953-05-01&#x27; and &#x27;1954-05-01&#x27;)&quot;</span><br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看出Cost值从30214.45降到了18744.56，扫描行数从299822降到了41654，性能有所提升</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/20/%E5%B0%91%E4%BE%A0%EF%BC%81%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E6%89%8B%E5%A5%BD%20SQL%20%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">少侠！如何写一手好 SQL ？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/">
+                        <span class="hidden-mobile">Java 日志体系详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

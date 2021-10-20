@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="推荐 15 款常用开发工具  从人工到自动化，从重复到创新，技术演进的历程中，伴随着开发者工具类产品的发展。 阿里巴巴将自身在各类业务场景下的技术积淀，通过开源、云上实现或工具等形式对外开放，本文将精选了一些阿里巴巴的开发者工具，希望能帮助开发者们提高开发效率、更优雅的写代码。 由于开发者涉及的技术领域众多，笔者仅从自己熟悉的领域，以后端开发者的视角盘点平时可能用得到的工具。每个工具按照以下几点进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐 15 款常用开发工具">
+<meta property="og:url" content="http://example.com/2021/10/20/%E6%8E%A8%E8%8D%90%2015%20%E6%AC%BE%E5%B8%B8%E7%94%A8%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="推荐 15 款常用开发工具  从人工到自动化，从重复到创新，技术演进的历程中，伴随着开发者工具类产品的发展。 阿里巴巴将自身在各类业务场景下的技术积淀，通过开源、云上实现或工具等形式对外开放，本文将精选了一些阿里巴巴的开发者工具，希望能帮助开发者们提高开发效率、更优雅的写代码。 由于开发者涉及的技术领域众多，笔者仅从自己熟悉的领域，以后端开发者的视角盘点平时可能用得到的工具。每个工具按照以下几点进">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-20T13:12:24.387Z">
+<meta property="article:modified_time" content="2021-10-20T13:11:53.144Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Demo">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>推荐 15 款常用开发工具 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="推荐 15 款常用开发工具">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-20 21:12" pubdate>
+        2021年10月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">推荐 15 款常用开发工具</h1>
+            
+            <div class="markdown-body">
+              <center><h2>推荐 15 款常用开发工具</h2></center>
+
+<p>从人工到自动化，从重复到创新，技术演进的历程中，伴随着开发者工具类产品的发展。</p>
+<p>阿里巴巴将自身在各类业务场景下的技术积淀，通过开源、云上实现或工具等形式对外开放，本文将精选了一些阿里巴巴的开发者工具，希望能帮助开发者们提高开发效率、更优雅的写代码。</p>
+<p>由于开发者涉及的技术领域众多，笔者仅从自己熟悉的领域，以后端开发者的视角盘点平时可能用得到的工具。每个工具按照以下几点进行介绍：</p>
+<p>1、工具名称和简介 2、使用场景 3、使用教程 4、获取方式</p>
+<h2 id="一、Java-线上诊断工具-Arthas"><a href="#一、Java-线上诊断工具-Arthas" class="headerlink" title="一、Java 线上诊断工具 Arthas"></a>一、Java 线上诊断工具 Arthas</h2><p><strong>Arthas</strong> 阿里巴巴2018年9月开源的一款Java线上诊断工具。</p>
+<p><strong>工具的使用场景：</strong></p>
+<p>1、这个类从哪个 jar 包加载的？为什么会报各种类相关的 Exception？</p>
+<p>2、我改的代码为什么没有执行到？难道是我没 commit？分支搞错了？</p>
+<p>3、遇到问题无法在线上 debug，难道只能通过加日志再重新发布吗？</p>
+<p>4、线上遇到某个用户的数据处理有问题，但线上同样无法 debug，线下无法重现！</p>
+<p>5、是否有一个全局视角来查看系统的运行状况？</p>
+<p>6、有什么办法可以监控到JVM的实时运行状态？</p>
+<p>Arthas支持JDK 6+，支持Linux/Mac/Windows，采用命令行交互模式，同时提供丰富的 Tab 自动补全功能，进一步方便进行问题的定位和诊断。</p>
+<p><strong>使用教程：</strong> 基础教程：</p>
+<p><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-basics">https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-basics</a></p>
+<p>进阶教程：</p>
+<p><a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-advanced">https://alibaba.github.io/arthas/arthas-tutorials?language=cn&amp;id=arthas-advanced</a></p>
+<p><strong>获取方式：</strong> （免费）开源地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/arthas">https://github.com/alibaba/arthas</a></p>
+<h2 id="二、IDE-插件-Cloud-Toolkit"><a href="#二、IDE-插件-Cloud-Toolkit" class="headerlink" title="二、IDE 插件 Cloud Toolkit"></a>二、IDE 插件 Cloud Toolkit</h2><p><strong>Cloud Toolkit</strong> 是一款 IDE 插件，可以帮助开发者更高效地开发、测试、诊断并部署应用。通过 Cloud Toolkit，开发者能够方便地将本地应用一键部署到任意机器（本地或云端），并内置 Arthas 诊断、高效执行终端命令和 SQL 等，提供 IntelliJ IDEA 版，Eclipse 版，PyCharm 版和 Maven 版。另外关注公号“Java后端”，回复关键词“666”，送你一份阿里内部面试资料！</p>
+<p><strong>工具的使用场景：</strong></p>
+<p>1、每次修改完代码后，是否正在经历反复地打包？</p>
+<p>2、在 Maven 、Git 以及其他运维脚本和工具的之间频繁切换？</p>
+<p>3、采用 SCP 工具上传？使用XShell或SecureCRT登录服务器？替换部署包？重启？</p>
+<p>4、文件上传到服务器指定目录，在各种 FTP、SCP 工具之间频繁切换 ？</p>
+<p><strong>使用教程：</strong></p>
+<p>IntelliJ IDEA版：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/98762.html">https://help.aliyun.com/document_detail/98762.html</a></p>
+<p>Eclipse 版：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/29970.html">https://help.aliyun.com/document_detail/29970.html</a></p>
+<p>PyCharm 版：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/112740.html">https://help.aliyun.com/document_detail/112740.html</a></p>
+<p>Maven 版：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/108682.html">https://help.aliyun.com/document_detail/108682.html</a></p>
+<p><strong>获取方式：</strong> （免费）工具地址：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/cloudtoolkit">https://www.aliyun.com/product/cloudtoolkit</a></p>
+<h2 id="三、混沌实验注入工具-ChaosBlade"><a href="#三、混沌实验注入工具-ChaosBlade" class="headerlink" title="三、混沌实验注入工具 ChaosBlade"></a>三、混沌实验注入工具 ChaosBlade</h2><p><strong>ChaosBlade</strong> 是一款遵循混沌工程实验原理，提供丰富故障场景实现，帮助分布式系统提升容错性和可恢复性的混沌工程工具，可实现底层故障的注入，提供了延迟、异常、返回特定值、修改参数值、重复调用和try-catch 块异常等异常场景。</p>
+<p><strong>工具的使用场景：</strong></p>
+<p>1、微服务的容错能力不易衡量？</p>
+<p>2、容器编排配置是否合理无法验证？</p>
+<p>3、PaaS 层健壮性的测试工作无从入手？</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chaosblade-io/chaosblade/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97">https://github.com/chaosblade-io/chaosblade/wiki/新手指南</a></p>
+<p><strong>获取方式：</strong> （免费）开源地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chaosblade-io/chaosblade/wiki/%E6%96%B0%E6%89%8B%E6%8C%87%E5%8D%97">https://github.com/chaosblade-io/chaosblade/wiki/新手指南</a></p>
+<h2 id="四、Java-代码规约扫描插件"><a href="#四、Java-代码规约扫描插件" class="headerlink" title="四、Java 代码规约扫描插件"></a>四、Java 代码规约扫描插件</h2><p>该插件用于检测 Java 代码中存在的不规范的位置，并给予提示。规约插件是采用 Kotlin 语言开发。</p>
+<p><strong>使用教程：</strong></p>
+<p>IDEA插件使用文档：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/p3c/wiki/IDEA%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">https://github.com/alibaba/p3c/wiki/IDEA插件使用文档</a></p>
+<p>Eclipse插件使用文档：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/p3c/wiki/Eclipse%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">https://github.com/alibaba/p3c/wiki/Eclipse插件使用文档</a></p>
+<p><strong>获取方式：</strong> （免费）开源地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/p3c">https://github.com/alibaba/p3c</a></p>
+<h2 id="五、应用实时监控工具-ARMS"><a href="#五、应用实时监控工具-ARMS" class="headerlink" title="五、应用实时监控工具 ARMS"></a>五、应用实时监控工具 ARMS</h2><p><strong>ARMS</strong> 是一款 APM 类的监控工具，提供前端、应用、自定义监控 3 类监控选项，可快速构建实时的应用性能和业务监控能力。工具的使用场景：</p>
+<p>1、晚上10点收到37条报警信息，你却无从下手？</p>
+<p>2、当我们发现问题的时候，客户/业务方已经发起投诉？</p>
+<p>3、每个月花几十万买服务器，却无法保障用户体验？</p>
+<p><strong>使用教程：</strong></p>
+<p>前端监控接入：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/documentdetail/106086.html">https://help.aliyun.com/documentdetail/106086.html</a></p>
+<p>应用监控接入：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/documentdetail/63796.html">https://help.aliyun.com/documentdetail/63796.html</a></p>
+<p>自定义监控：</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/47474.html">https://help.aliyun.com/document_detail/47474.html</a></p>
+<p><strong>获取方式：</strong> （收费）工具地址：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/arms">https://www.aliyun.com/product/arms</a></p>
+<h2 id="六、静态开源站点搭建工具-Docsite"><a href="#六、静态开源站点搭建工具-Docsite" class="headerlink" title="六、静态开源站点搭建工具 Docsite"></a>六、静态开源站点搭建工具 Docsite</h2><p><strong>Docsite</strong> 一款集官网、文档、博客和社区为一体的静态开源站点的解决方案，具有简单易上手、上手不撒手的特质，同时支持 react 和静态渲染、PC端和移动端、支持中英文国际化、SEO、markdown文档、全局站点搜索、站点风格自定义、页面自定义等功能。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://docsite.js.org/zh-cn/docs/installation.html">https://docsite.js.org/zh-cn/docs/installation.html</a></p>
+<p><strong>获取方式：</strong> （免费）项目地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/txd-team/docsite">https://github.com/txd-team/docsite</a></p>
+<h2 id="七、Android-平台上的秒级编译方案-Freeline"><a href="#七、Android-平台上的秒级编译方案-Freeline" class="headerlink" title="七、Android 平台上的秒级编译方案 Freeline"></a>七、Android 平台上的秒级编译方案 Freeline</h2><p><strong>Freeline</strong> 可以充分利用缓存文件，在几秒钟内迅速地对代码的改动进行编译并部署到设备上，有效地减少了日常开发中的大量重新编译与安装的耗时。Freeline 最快捷的使用方法就是直接安装 Android Studio 插件。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/freeline/blob/master/README-zh.md">https://github.com/alibaba/freeline/blob/master/README-zh.md</a></p>
+<p><strong>获取方式：</strong> （免费）项目地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/freeline">https://github.com/alibaba/freeline</a></p>
+<h2 id="八、性能测试工具-PTS"><a href="#八、性能测试工具-PTS" class="headerlink" title="八、性能测试工具 PTS"></a>八、性能测试工具 PTS</h2><p><strong>PTS</strong> 可以模拟大量用户访问业务的场景，任务随时发起，免去搭建和维护成本，支持 JMeter 脚本转化为 PTS 压测，同样支持原生 JMeter 引擎进行压测。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/70290.html">https://help.aliyun.com/document_detail/70290.html</a></p>
+<p><strong>获取方式：</strong> （收费）工具地址：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/pts">https://www.aliyun.com/product/pts</a></p>
+<h2 id="九、云效开发者工具KT"><a href="#九、云效开发者工具KT" class="headerlink" title="九、云效开发者工具KT"></a>九、云效开发者工具KT</h2><p><strong>KT</strong> 可以简化在 Kubernetes 下进行联调测试的复杂度，提高基于Kubernetes的研发效率。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/690519">https://yq.aliyun.com/articles/690519</a></p>
+<p><strong>获取方式：</strong> （免费）工具地址：</p>
+<p><a target="_blank" rel="noopener" href="https://yq.aliyun.com/download/3393">https://yq.aliyun.com/download/3393</a></p>
+<h2 id="十、架构可视化工具-AHAS"><a href="#十、架构可视化工具-AHAS" class="headerlink" title="十、架构可视化工具 AHAS"></a>十、架构可视化工具 AHAS</h2><p><strong>AHAS</strong> 为 K8s 等容器环境提供了架构可视化的功能，同时，具有故障注入式高可用能力评测和一键流控降级等功能，可以快速低成本的提升应用可用性。</p>
+<p><strong>工具的使用场景：</strong></p>
+<p>1、服务化改造过程中，想精确的了解资源实例的构成和交互情况，实现架构的可视化？</p>
+<p>2、想引入真实的故障场景和演练模型？</p>
+<p>3、低门槛获得流控、降级功能？</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/90323.html">https://help.aliyun.com/document_detail/90323.html</a></p>
+<p><strong>获取方式：</strong> （免费）工具地址：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/ahas">https://www.aliyun.com/product/ahas</a></p>
+<h2 id="十一、数据处理工具-EasyExcel"><a href="#十一、数据处理工具-EasyExcel" class="headerlink" title="十一、数据处理工具 EasyExcel"></a>十一、数据处理工具 EasyExcel</h2><p><strong>EasyExcel</strong> 是一个用来对 Java 进行解析、生成Excel 的框架，它重写了 poi 对07版 Excel 的解析，原本一个3M的 Excel 用POI sax需要100M左右内存，EasyExcel可降低到 KB 级别，并且再大的excel也不会出现内存溢出的情况。03版依赖 POI 的 sax 模式。在上层做了模型转换的封装，让使用者更加简单方便。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/easyexcel/blob/master/quickstart.md">https://github.com/alibaba/easyexcel/blob/master/quickstart.md</a></p>
+<p><strong>获取方式：</strong> （开源）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/easyexcel">https://github.com/alibaba/easyexcel</a></p>
+<h2 id="十二、iOS-类工具-HandyJSON"><a href="#十二、iOS-类工具-HandyJSON" class="headerlink" title="十二、iOS 类工具 HandyJSON"></a>十二、iOS 类工具 HandyJSON</h2><p><strong>HandyJSON</strong> 是一个用于 Swift 语言中的JSON序列化/反序列化库。</p>
+<p>与其他流行的Swift JSON库相比，HandyJSON 的特点是，它支持纯 Swift 类，使用也简单。它反序列化时(把 JSON 转换为Model)不要求 Model从 NSObject 继承(因为它不是基于 KVC 机制)，也不要求你为 Model 定义一个 Mapping 函数。只要你定义好 Model 类，声明它服从 HandyJSON 协议，HandyJSON 就能自行以各个属性的属性名为Key，从JSON串中解析值。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/HandyJSON/blob/master/README_cn.md">https://github.com/alibaba/HandyJSON/blob/master/README_cn.md</a></p>
+<p><strong>获取方式：</strong> （开源）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/HandyJSON">https://github.com/alibaba/HandyJSON</a></p>
+<h2 id="十三、云上资源和应用部署工具-EDAS-Serverless"><a href="#十三、云上资源和应用部署工具-EDAS-Serverless" class="headerlink" title="十三、云上资源和应用部署工具 EDAS Serverless"></a>十三、云上资源和应用部署工具 EDAS Serverless</h2><p><strong>EDAS Serverless</strong> 一款基于 Kubernetes，面向应用和微服务的 Serverless 平台。用户无需管理和维护集群与服务器，即可通过镜像、WAR 包和JAR 包，快速创建原生支持 Kubernetes 的容器应用，同时支持 Spring Cloud 和 Dubbo 等主流微服务框架。</p>
+<p><strong>使用教程：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/102048.html">https://help.aliyun.com/document_detail/102048.html</a></p>
+<p><strong>获取方式：</strong> （公测期间免费）</p>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/97792.html">https://help.aliyun.com/document_detail/97792.html</a></p>
+<h2 id="十四、数据库连接池-Druid"><a href="#十四、数据库连接池-Druid" class="headerlink" title="十四、数据库连接池 Druid"></a>十四、数据库连接池 Druid</h2><p><strong>Druid</strong> 是 Java 语言下的数据库连接池，它能够提供强大的监控和扩展功能。</p>
+<p><strong>使用教程：</strong><a target="_blank" rel="noopener" href="https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98</a></p>
+<p><strong>获取方式：</strong> （开源）</p>
+<p><a target="_blank" rel="noopener" href="http://central.maven.org/maven2/com/alibaba/druid/">http://central.maven.org/maven2/com/alibaba/druid/</a></p>
+<h2 id="十五、Java-工具集-Dragonwell"><a href="#十五、Java-工具集-Dragonwell" class="headerlink" title="十五、Java 工具集 Dragonwell"></a>十五、Java 工具集 Dragonwell</h2><p><strong>Alibaba Dragonwell</strong> 是阿里巴巴内部OpenJDK定制版AJDK的开源版本， AJDK为在线电商，金融，物流做了结合业务场景的优化，运行在超大规模的，100,000+ 服务器的阿里巴巴数据中心。Alibaba Dragonwell与Java SE标准兼容，目前仅支持 Linux/x86_64平台。</p>
+<p>使用教程：<a target="_blank" rel="noopener" href="https://github.com/alibaba/dragonwell8/wiki/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Dragonwell8%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97">https://github.com/alibaba/dragonwell8/wiki/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Dragonwell8%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97</a></p>
+<p><strong>获取方式：</strong> （开源）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/dragonwell8">https://github.com/alibaba/dragonwell8</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Demo/">Demo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Demo/">Demo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/20/%E7%94%A8%20Java%20%E7%88%AC%E5%B0%8F%E5%A7%90%E5%A7%90%E5%9B%BE%E7%89%87/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">用 Java 爬小姐姐图片</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/%E7%A0%B4%E8%A7%A3%E7%9F%A5%E4%B9%8E%E4%BA%86%EF%BC%81/">
+                        <span class="hidden-mobile">破解知乎了！</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

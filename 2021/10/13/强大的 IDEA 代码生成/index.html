@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="强大的 IDEA 代码生成  Java 开发过程经常需要编写有固定格式的代码，例如说声明一个私有变量，logger或者bean等等。对于这种小范围的代码生成，我们可以利用 IDEA 提供的 Live Templates功能。刚开始觉得它只是一个简单的Code Snippet，后来发现它支持变量函数配置，可以支持很复杂的代码生成。 下面我来介绍一下Live Templates的用法。 基本使用IDE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强大的 IDEA 代码生成">
+<meta property="og:url" content="http://example.com/2021/10/13/%E5%BC%BA%E5%A4%A7%E7%9A%84%20IDEA%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="强大的 IDEA 代码生成  Java 开发过程经常需要编写有固定格式的代码，例如说声明一个私有变量，logger或者bean等等。对于这种小范围的代码生成，我们可以利用 IDEA 提供的 Live Templates功能。刚开始觉得它只是一个简单的Code Snippet，后来发现它支持变量函数配置，可以支持很复杂的代码生成。 下面我来介绍一下Live Templates的用法。 基本使用IDE">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301414980.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301414210.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301414225.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301415568.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301415106.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301416815.gif">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301418233.gif">
+<meta property="article:published_time" content="2021-10-13T14:15:20.354Z">
+<meta property="article:modified_time" content="2021-10-13T08:25:55.870Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="IDEA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108301414980.gif">
+  
+  <title>强大的 IDEA 代码生成 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="强大的 IDEA 代码生成">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:15" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">强大的 IDEA 代码生成</h1>
+            
+            <div class="markdown-body">
+              <center><h2>强大的 IDEA 代码生成</h2></center>
+
+<p>Java 开发过程经常需要编写有固定格式的代码，例如说声明一个私有变量，logger或者bean等等。对于这种小范围的代码生成，我们可以利用 IDEA 提供的 Live Templates功能。刚开始觉得它只是一个简单的Code Snippet，后来发现它支持变量函数配置，可以支持很复杂的代码生成。</p>
+<p>下面我来介绍一下Live Templates的用法。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a><strong>基本使用</strong></h2><p>IDEA 自带很多常用的动态模板，在 Java 代码中输入fori，回车就会出现</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ; i++) &#123;<br>    <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301414980.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>按Tab可以在各个空白处跳转，手动填值。</p>
+<h2 id="自定义-Template"><a href="#自定义-Template" class="headerlink" title="自定义 Template"></a><strong>自定义 Template</strong></h2><p>官方自带模板毕竟不能满足我们个人编码风格的需要，Live Templates提供了变量函数的方式供我们自定义。</p>
+<h3 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a><strong>简单用法</strong></h3><p>新增自定义模板，首先需要填写触发单词（即 Abbreviation），描述是可选的，然后定义模板的上下文，点击define选择Java，这样在编辑 Java 的时候就会触发当前模板，定义完上下文之后，就可以填写模板了。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301414210.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>下面列举几个我常用的简单模板</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">==========<br>&lt;out&gt;<br>----------<br>System.out.println($END$)<br>==========<br>&lt;pfs&gt;<br>----------<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String $varName$ = <span class="hljs-string">&quot;$var$&quot;</span>;`<br>==========<br>&lt;privateField&gt;<br>----------<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * $COMMENT$</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-keyword">private</span> $TYPE$ $NAME$;<br>==========<br>&lt;main&gt;<br>----------<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>     $END$<br>&#125;<br>==========<br></code></pre></div></td></tr></table></figure>
+
+<p>模板支持变量的定义，使用<code>$$</code>包围的字符表示一个变量。<code>$END$</code>是一个特殊的预定义变量，表示光标最后跳转的位置。每个变量的位置都可以跳转过去。</p>
+<h3 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a><strong>高级用法</strong></h3><p>如果你用过 vim 的Code Sinppet插件，你会发现模板里面是可以执行函数的，强大的 Live Templates当然也支持，而且 IDEA 能够感知代码的语义，例如说当前编辑的函数的参数。但这一点就能够让我们玩出花来。我们从易到难来研究模板函数的功能。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301414225.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>前面我们提到的变量可以绑定函数，配置方式如上图所示。</p>
+<p><strong>快速声明变量</strong></p>
+<p>声明变量是一个常用的操作，特别是需要声明变量需要加注解，注释的时候，这些代码写起来就很枯燥。下面是我定义的模板：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&lt;osgiRef&gt;<br>----------<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * $END$</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@OsgiReference</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-keyword">private</span> $TYPE$ $NAME$;<br></code></pre></div></td></tr></table></figure>
+
+<p>乍一看这个模板跟我上面定义的privateField差不多，唯一的不同在于我给这些变量绑定了函数。</p>
+<ul>
+<li>clipboard()：返回当前粘贴板的字符串</li>
+<li>decapitalize()：将输入的字符串首字母变为小写</li>
+</ul>
+<p>下面我们演示一下，我们先拷贝当前类名，然后输入osgiRef</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301415568.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>快速声明 logger</strong></p>
+<p>声明 logger 也是一个常用的操作，上面我们是利用了粘贴函数来快速声明变量，现在我们来利用另一个函数className()，顾名思义，它的作用就是返回当前类名。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&lt;logger&gt;<br>----------<br><span class="hljs-comment">/** logger */</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger($CLASS$.class);<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301415106.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="最强大的-groovyScript"><a href="#最强大的-groovyScript" class="headerlink" title="最强大的 groovyScript()"></a><strong>最强大的 groovyScript()</strong></h3><p>如果说上面用到的函数提供的能力有限，不够灵活，那么groovyScript()提供了一切你想要的能力，它支持执行 Groovy 脚本处理输入，然后输出处理后的字符串。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">groovyScript(<span class="hljs-string">&quot;code&quot;</span>, ...)<br><br>| code |   一段Groovy代码或者Groovy脚本代码绝对路径 |<br>|  ... | 可选入参，这些参数会绑定到`_1, _2, _3, ..._n`, 在 Groovy 代码中使用。|<br></code></pre></div></td></tr></table></figure>
+
+<p>下面我们来看一下它的实际应用。</p>
+<p><strong>快速 bean 配置</strong></p>
+<p>新增一个服务都要在 Spring 中注册一个 bean，一般这个配置无非就是将指明id和class，由于我们是在 xml 中配置，所以不能利用className()函数，但是我们可以利用clipboard()函数获取到类的全引用，在 IDEA 中我们直接右键类名，点击Copy Reference就行。然后执行 groovy 脚本获取类名。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&lt;bean&gt;<br>----------<br>&lt;bean id=<span class="hljs-string">&quot;$id$&quot;</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;$REF$&quot;</span> /&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>id绑定 decapitalize(groovyScript(“_1.tokenize(‘.’)[-1]”, clipboard()))，首先取<code>clipboard()</code>的值得到类的全引用，然后执行 groovy 代码_1.tokenize(‘.’)[-1]（按.分割为字符串数组，然后取最后一个即可得到类名，然后用<code>decapitalize()</code>将首字母小写即可得到id。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301416815.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>快速打印当前上下文信息</strong></p>
+<p>打印错误日志的时候需要打印当前上下文信息的，例如说入参，有时候入参很多的时候，写起来很痛苦，好在有模板函数methodParameters()，返回当前函数参数的列表，当然这个列表我们不能直接使用，需要结合groovyScript对它进行转化。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">&lt;printContext&gt;<br>---------------<br>LogUtil.$TYPE$(LOGGER, <span class="hljs-string">&quot;$MSG$ &quot;</span> + $params$);<br></code></pre></div></td></tr></table></figure>
+
+<p>将params绑定到 groovyScript(“‘&quot;‘ + _1.collect { it + ‘ = [&quot; + ‘ + it + ‘ + &quot;]’}.join(‘, ‘) + ‘&quot;‘“, methodParameters())，就能够自动将当前函数的参数格式化后输出。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301418233.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>上面我们简单介绍了常用的模板函数，其实 IDEA 还有很多其它模板函数，具体参考Creating and Editing Template Variables。</p>
+<p><em><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/2016.3/creating-and-editing-template-variables.html">https://www.jetbrains.com/help/idea/2016.3/creating-and-editing-template-variables.html</a></em></p>
+<p>IDEA 是一个很强大的工具，善用工具能够极大的提高工作效率，将精力投入到关键的事情上，而不是将时间浪费在编写重复代码上面。一些更高级的用法还有待大家去发掘。最后推广一波我写的代码生成插件CodeMaker，好好利用也能节省很多重复编写代码的时间。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/IDEA/">IDEA</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/IDEA/">IDEA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/IDEA%20+%20Vim%20=%20%E5%BE%97%E5%8A%B2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IDEA + Vim = 得劲</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/IDEA%20%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%8A%80%E5%B7%A7/">
+                        <span class="hidden-mobile">IDEA 自动补全技巧</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

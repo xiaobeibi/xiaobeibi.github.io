@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Linux 内核第一宏：container_of  4.1 typeof 关键字ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。 通过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 内核第一宏：container_of">
+<meta property="og:url" content="http://example.com/2021/10/04/GNU_C04/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Linux 内核第一宏：container_of  4.1 typeof 关键字ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。 通过">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-04T02:39:00.481Z">
+<meta property="article:modified_time" content="2021-10-04T02:44:41.351Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Linux 内核第一宏：container_of - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux 内核第一宏：container_of">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-04 10:39" pubdate>
+        2021年10月4日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux 内核第一宏：container_of</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Linux 内核第一宏：container_of</h2></center>
+
+<h2 id="4-1-typeof-关键字"><a href="#4-1-typeof-关键字" class="headerlink" title="4.1 typeof 关键字"></a>4.1 typeof 关键字</h2><p>ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。</p>
+<p>通过使用 typeof，我们可以获取一个变量或表达式的类型。所以 typeof 的参数有两种形式：表达式或类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">int</span> i;<br>typeof(i) j = <span class="hljs-number">20</span>;<br>typeof(<span class="hljs-keyword">int</span> *) a;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>typeof(f()) k;<br></code></pre></div></td></tr></table></figure>
+
+<p>在上面的代码中，因为变量 i 的类型为 int，所以 typeof(i) 就等于 int，typeof(i) j =20 就相当于 int j = 20，typeof(int *) a; 相当于 int * a;，函数也是有类型的，函数的类型即其返回值类型，所以 typeof(f()) k; 就相当于 int k;。</p>
+<h2 id="4-2-typeof-使用示例"><a href="#4-2-typeof-使用示例" class="headerlink" title="4.2 typeof 使用示例"></a>4.2 typeof 使用示例</h2><p>根据上面 typeof 的用法，我们编写一个程序，来学习一下 typeof 的使用。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;    <br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;    <br>    typeof(i) k = <span class="hljs-number">6</span>;    <br>    <span class="hljs-keyword">int</span> *p = &amp;k;    <br>    typeof(p) q = &amp;i;    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;k = %d\n&quot;</span>,k);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*p= %d\n&quot;</span>,*p);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i = %d\n&quot;</span>,i);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*q= %d\n&quot;</span>,*q);    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果为：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">k  = <span class="hljs-number">6</span><br>*p = <span class="hljs-number">6</span><br>i  = <span class="hljs-number">2</span><br>*q = <span class="hljs-number">2</span><br></code></pre></div></td></tr></table></figure>
+
+<p>通过运行结果可知，通过 typeof 获取一个变量的类型 int 后，可以使用该类型再定义一个变量。这跟我们直接使用 int 定义一个变量，效果是一样的。</p>
+<h2 id="4-3-typeof-的其它使用方法"><a href="#4-3-typeof-的其它使用方法" class="headerlink" title="4.3 typeof 的其它使用方法"></a>4.3 typeof 的其它使用方法</h2><p>除了使用 typeof 获取基本数据类型，还有其它一些高级的用法：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">typeof (<span class="hljs-keyword">int</span> *) y;   <span class="hljs-comment">// 把 y 定义为指向 int 类型的指针，相当于int *y</span><br>typeof (<span class="hljs-keyword">int</span>)  *y;   <span class="hljs-comment">//定义一个执行 int 类型的指针变量 y</span><br>typeof (*x) y;      <span class="hljs-comment">//定义一个指针 x 所指向类型 的指针变量y</span><br>typeof (<span class="hljs-keyword">int</span>) y[<span class="hljs-number">4</span>];  <span class="hljs-comment">//相当于定义一个：int y[4]</span><br>typeof (*x) y[<span class="hljs-number">4</span>];   <span class="hljs-comment">//把 y 定义为指针 x 指向的数据类型的数组</span><br>typeof (typeof (<span class="hljs-keyword">char</span> *)[<span class="hljs-number">4</span>]) y;<span class="hljs-comment">//相当于定义字符指针数组：char *y[4]</span><br>typeof(<span class="hljs-keyword">int</span> x[<span class="hljs-number">4</span>]) y;  <span class="hljs-comment">//相当于定义：int y[4]</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-4-继续完善-MAX-a-b-宏"><a href="#4-4-继续完善-MAX-a-b-宏" class="headerlink" title="4.4 继续完善 MAX(a,b) 宏"></a>4.4 继续完善 MAX(a,b) 宏</h2><p>在上一节中，我们定义了一个宏 MAX(x,y)，用来求出两个数中较大的那个，而且可以支持不同类型数据：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(type,x,y)(&#123;   \    </span><br>	type _x = x;         \    <br> 	type _y = y;         \    <br>	_x &gt; _y ? _x : _y;   \<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>这个宏虽然可以支持任意数据类型，但是仍有瑕疵：我们必须把数据的类型作为一个单独的参数传递给宏。接下来，我们继续优化这个宏：不需要再单独传递这个参数，而是使用 typeof 关键字来直接获取参数的数据类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAX(x,y)(&#123;       \    </span><br>	typeof(x) _x = x;    \    <br>	typeof(x) _y = y;    \    <br>	_x &gt; _y ? _x : _y;   \<br>&#125;)<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;   <br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;    <br>    <span class="hljs-keyword">int</span> j = <span class="hljs-number">6</span>;    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max: %d\n&quot;</span>, MAX(i, j));    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;max: %f\n&quot;</span>, MAX(<span class="hljs-number">3.14</span>, <span class="hljs-number">3.15</span>));    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>通过 typeof 直接获取宏的参数类型，这样我们就不必再单独将参数的类型传给宏了。改进后的宏同样也支持任意类型的数据比较大小。在 main 函数中，我们分别使用这个宏去比较 int 型数据和 float 型数据，发现都可以正常工作！是不是很酷？等你面试时把这个宏写给面试官看，你觉得面试官还会舍得让你回去等消息么？</p>
+<p>有了这个思路，我们同样也可以将以前定义的一些宏通过这种方式改写，这样 SWAP 宏也可以支持多种类型的数据了。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> swap(a, b) 			\</span><br><span class="hljs-meta">do	&#123;               	    \    </span><br>	typeof(a) __tmp = (a);  \    <br>    (a) = (b);         		\    <br>    (b) = __tmp; 			\<br>&#125; <span class="hljs-keyword">while</span> (<span class="hljs-number">0</span>)<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="4-5-typeof-在内核中的应用"><a href="#4-5-typeof-在内核中的应用" class="headerlink" title="4.5 typeof 在内核中的应用"></a>4.5 typeof 在内核中的应用</h2><p>关键字 typeof 在 Linux 内核中被广泛使用，主要用在宏定义中，用来获取宏参数类型。比如内核中，min/max 宏的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> min(x, y) (&#123;                \    </span><br>	typeof(x) _min1 = (x);          \    <br>	typeof(y) _min2 = (y);          \    <br>	(<span class="hljs-keyword">void</span>) (&amp;_min1 == &amp;_min2);      \    <br>	_min1 &lt; _min2 ? _min1 : _min2; <br>&#125;)<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> max(x, y) (&#123;                \    </span><br>    typeof(x) _max1 = (x);          \    <br>    typeof(y) _max2 = (y);          \    <br>    (<span class="hljs-keyword">void</span>) (&amp;_max1 == &amp;_max2);      \    <br>    _max1 &gt; _max2 ? _max1 : _max2; <br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>在 min\max 宏定义中，使用 typeof 直接获取参数类型，就不必再给宏单独传递参数 type 了。内核中定义的宏跟我们上面举的例子有点不一样，多了一行代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">(<span class="hljs-keyword">void</span>) (&amp;_max1 == &amp;_max2);<br></code></pre></div></td></tr></table></figure>
+
+<p>这一句很有意思：看起来是一句废话，其实用得很巧妙！它主要是用来检测宏的两个参数 x 和 y 的数据类型是否相同。如果不相同，编译器会给一个警告信息，提醒程序开发人员。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">warning：comparison of distinct pointer types lacks a cast<br></code></pre></div></td></tr></table></figure>
+
+<p>让我们分析一下，它是怎么实现的：语句 &amp;_max1 == &amp;_max2 用来判断两个变量 _max1 和 _max2的地址是否相等，即比较两个指针是否相等。&amp;_max1 和 &amp;_max2分别表示两个不同变量的地址，怎么可能相等呢！既然大家都知道，内存中两个不同的变量地址肯定不相等，那为什么还要在此多此一举呢？妙就妙在，当两个变量类型不相同时，对应的地址，即指针类型也不相同。比如一个 int 型变量，一个 char 变量，对应的指针类型，分别为 char * 和 int *，而两个指针比较，它们必须是同种类型的指针，否则编译器会有警告信息。所以，通过这种“曲线救国”的方式，这行程序语句就实现了这样一个功能：当宏的两个参数类型不相同时，编译器会及时给我们一个警告信息，提醒开发者。</p>
+<p>看完这个宏的实现，不得不感叹内核的博大精深！每一个细节，每一个不经意的语句，细细品来，都能学到很多知识，让你的 C 语言功底更加深厚。不要走，我们接着分析 Linux 内核中另一个更有意思的宏。</p>
+<h2 id="4-6-Linux-内核中的-container-of-宏"><a href="#4-6-Linux-内核中的-container-of-宏" class="headerlink" title="4.6 Linux 内核中的 container_of 宏"></a>4.6 Linux 内核中的 container_of 宏</h2><h3 id="container-of-宏介绍"><a href="#container-of-宏介绍" class="headerlink" title="container_of 宏介绍"></a>container_of 宏介绍</h3><p>有了上面语句表达式和 typeof 的基础知识，接下来我们就可以分析 Linux 内核第一宏：container_of。这个宏在 Linux 内核中应用甚广。会不会用这个宏，看不看得懂这个宏，也逐渐成为考察一个内核驱动开发者 C 语言功底的不成文标准。废话少说，我们还是先一睹芳容吧。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span>  container_of(ptr, type, member) (&#123;    \     </span><br>	<span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-title">typeof</span><span class="hljs-params">( ((type *)<span class="hljs-number">0</span>)-&gt;member )</span> *__mptr </span>= (ptr); \     <br>	(type *)( (<span class="hljs-keyword">char</span> *)__mptr - offsetof(type,member) );<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>作为内核第一宏，绝对不是盖的：看看这身段，这曲线，高端大气上档次，低调奢华有内涵，不出去再做个头发，简直就是暴殄天物。GNU C 高端扩展特性的综合运用，宏中有宏，不得不佩服内核开发者这天才般地设计。那这个宏到底是干什么的呢？它的主要作用就是：根据结构体某一成员的地址，获取这个结构体的首地址。根据宏定义，我们可以看到，这个宏有三个参数，它们分别是：</p>
+<ul>
+<li><p>type：结构体类型</p>
+</li>
+<li><p>member：结构体内的成员</p>
+</li>
+<li><p>ptr：结构体内成员member的地址</p>
+</li>
+</ul>
+<p>也就是说，我们知道了一个结构体的类型，结构体内某一成员的地址，就可以直接获得到这个结构体的首地址。container_of 宏返回的就是这个结构体的首地址。</p>
+<h3 id="container-of-宏使用示例"><a href="#container-of-宏使用示例" class="headerlink" title="container_of 宏使用示例"></a>container_of 宏使用示例</h3><p>比如现在，我们定义一个结构体类型 student：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span>&#123;</span>    <br>    <span class="hljs-keyword">int</span> age;    <br>    <span class="hljs-keyword">int</span> num;    <br>    <span class="hljs-keyword">int</span> math;<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;    <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stu</span>;</span>    <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> *<span class="hljs-title">p</span>;</span>    <br>    p = container_of( &amp;stu.num, struct student, num);    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这个程序中，我们定义一个结构体类型 student，然后定义一个结构体变量 stu，我们现在已经知道了结构体成员变量 stu.num 的地址，那我们就可以通过 container_of 宏来获取结构体变量 stu 的首地址。</p>
+<p>这个宏在内核中非常重要。我们知道，Linux 内核驱动中，为了抽象，对数据结构体进行了多次封装，往往一个结构体里面嵌套多层结构体。也就是说，内核驱动中不同层次的子系统或模块，使用的是不同封装程度的结构体，这也是 C 语言的面向对象思想。分层、抽象、封装，可以让我们的程序兼容性更好，适配更多的设备，但同时也增加了代码的复杂度。</p>
+<p>我们在内核中，经常会遇到这种情况：我们传给某个函数的参数是某个结构体的成员变量，然后在这个函数中，可能还会用到此结构体的其它成员变量，那这个时候怎么办呢？container_of 就是干这个的，通过它，我们可以首先找到结构体的首地址，然后再通过结构体的成员访问就可以访问其它成员变量了。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span>&#123;</span>    <br>    <span class="hljs-keyword">int</span> age;    <br>    <span class="hljs-keyword">int</span> num;    <br>    <span class="hljs-keyword">int</span> math;<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;    <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stu</span> =</span> &#123; <span class="hljs-number">20</span>, <span class="hljs-number">1001</span>, <span class="hljs-number">99</span>&#125;;    <br>    <span class="hljs-keyword">int</span> *p = &amp;stu.math;    <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> *<span class="hljs-title">stup</span> =</span> <span class="hljs-literal">NULL</span>;    <br>    stup = container_of( p, struct student, math);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,stup);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;age: %d\n&quot;</span>,stup-&gt;age);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;num: %d\n&quot;</span>,stup-&gt;num);    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;     <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这个程序中，我们定义一个结构体变量 stu，知道了它的成员变量 math 的地址 &amp;stu.math，我们就可以通过 container_of 宏直接获得 stu 结构体变量的首地址，然后就可以直接访问 stu 结构体的其它成员 stup-&gt;age 和 stup-&gt;num。</p>
+<h2 id="4-7-container-of-宏实现分析"><a href="#4-7-container-of-宏实现分析" class="headerlink" title="4.7 container_of 宏实现分析"></a>4.7 container_of 宏实现分析</h2><p>知道了 container_of 宏的用法之后，我们接着去分析这个宏的实现。作为一名 Linux 内核驱动开发者，除了要面对各种手册、底层寄存器，有时候还要应付底层造轮子的事情，为了系统的稳定和性能，有时候我们不得不深入底层，死磕某个模块，进行分析和优化。底层的工作虽然很有挑战性，但有时候也是很枯燥的，不像应用开发那样有意思。所以，为了提高对工作的兴趣，大家表面上虽然不说自己牛 X，但内心深处，一定要建立起自己的职位优越感。人不可有傲气，但一定要有傲骨：我们可不像应用开发，知道 API 接口、读读文档、完成功能就 OK 了。作为一名底层开发者，要时刻记住，要和寄存器、内存、硬件电路等各族底层群众打成一片。从群众中来，到群众中去，急群众所急，想群众所想，这样才能构建一个稳定和谐的嵌入式系统：稳定高效、上下通畅、运行365个日出也不崩溃。</p>
+<p>container_of 宏的实现主要用到了我们上两节所学的知识：语句表达式和 typeof，再加上结构体存储的基础知识。为了帮助大家更好地理解这个宏，我们先复习下结构体存储的基础知识。</p>
+<h3 id="结构体在内存中的存储"><a href="#结构体在内存中的存储" class="headerlink" title="结构体在内存中的存储"></a>结构体在内存中的存储</h3><p>我们知道，结构体作为一个复合类型数据，它里面可以有多个成员。当我们定义一个结构体变量时，编译器要给这个变量在内存中分配存储空间。除了考虑数据类型、字节对齐因素之外，编译器会按照结构体中各个成员的顺序，在内存中分配一片连续的空间来存储它们。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span>&#123;</span>    <br>    <span class="hljs-keyword">int</span> age;    <br>    <span class="hljs-keyword">int</span> num;    <br>    <span class="hljs-keyword">int</span> math;<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;    <br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stu</span> =</span> &#123; <span class="hljs-number">20</span>, <span class="hljs-number">1001</span>, <span class="hljs-number">99</span>&#125;;    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;stu = %p\n&quot;</span>, &amp;stu);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;stu.age =%p\n&quot;</span>, &amp;stu.age);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;stu.num =%p\n&quot;</span>, &amp;stu.num);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;stu.math =%p\n&quot;</span>, &amp;stu.math);   <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这个程序中，我们定义一个结构体，里面有三个 int 型数据成员，我们定义一个变量，然后分别打印结构体的地址、各个成员变量的地址，运行结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">&amp;stu      = <span class="hljs-number">0028F</span>F30<br>&amp;stu.age  = <span class="hljs-number">0028F</span>F30<br>&amp;stu.num  = <span class="hljs-number">0028F</span>F34<br>&amp;stu.math = <span class="hljs-number">0028F</span>F38<br></code></pre></div></td></tr></table></figure>
+
+<p>从运行结果我们可以看到，结构体中的每个成员变量，从结构体首地址开始，依次存放。每个成员变量相对于结构体首地址，都有一个固定偏移。比如 num 相对于结构体首地址偏移了4个字节。math 的存储地址，相对于结构体首地址偏移了8个字节。</p>
+<h3 id="计算成员变量在结构体内的偏移"><a href="#计算成员变量在结构体内的偏移" class="headerlink" title="计算成员变量在结构体内的偏移"></a>计算成员变量在结构体内的偏移</h3><p>一个结构体数据类型，在同一个编译环境下，各个成员相对于结构体首地址的偏移是固定的。我们可以修改一下上面的程序，当结构体的首地址为0时，结构体中的各成员地址在数值上等于结构体各成员相对于结构体首地址的偏移。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span>&#123;</span>    <br>    <span class="hljs-keyword">int</span> age;    <br>    <span class="hljs-keyword">int</span> num;   <br>    <span class="hljs-keyword">int</span> math;<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;age = %p\n&quot;</span>,&amp;((struct student*)<span class="hljs-number">0</span>)-&gt;age);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;num = %p\n&quot;</span>,&amp;((struct student*)<span class="hljs-number">0</span>)-&gt;num);    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;math= %p\n&quot;</span>,&amp;((struct student*)<span class="hljs-number">0</span>)-&gt;math);    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在上面的程序中，我们没有直接定义结构体变量，而是将数字0，通过强制类型转换，转换为一个指向结构体类型为 student 的常量指针，然后分别打印这个常量指针指向的结构体的各成员地址。运行结果如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">&amp;age = <span class="hljs-number">00000000</span><br>&amp;num = <span class="hljs-number">00000004</span><br>&amp;math= <span class="hljs-number">00000008</span><br></code></pre></div></td></tr></table></figure>
+
+<p>因为常量指针为0，即可以看做结构体首地址为0，所以结构体中每个成员变量的地址即为该成员相对于结构体首地址的偏移。container_of 宏的实现就是使用这个技巧来实现的。</p>
+<h3 id="container-of-宏的实现"><a href="#container-of-宏的实现" class="headerlink" title="container_of 宏的实现"></a>container_of 宏的实现</h3><p>有了上面的基础，我们再去分析 container_of 宏的实现就比较简单了。知道了结构体成员的地址，如何去获取结构体的首地址？很简单，直接拿结构体成员的地址，减去该成员在结构体内的偏移，就可以得到该结构体的首地址了。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span>  container_of(ptr, type, member) (&#123;    \      	</span><br>	<span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-title">typeof</span><span class="hljs-params">( ((type *)<span class="hljs-number">0</span>)-&gt;member )</span> *__mptr </span>= (ptr); \         <br>	(type *)( (<span class="hljs-keyword">char</span> *)__mptr - offsetof(type,member) );<br>&#125;)<br></code></pre></div></td></tr></table></figure>
+
+<p>从语法角度，我们可以看到，container_of 宏的实现由一个语句表达式构成。语句表达式的值即为最后一个表达式的值：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">(type *)( (<span class="hljs-keyword">char</span> *)__mptr - offsetof(type,member) );<br></code></pre></div></td></tr></table></figure>
+
+<p>最后一句的意义就是，拿结构体某个成员 member 的地址，减去这个成员在结构体 type 中的偏移，结果就是结构体 type 的首地址。因为语句表达式的值等于最后一个表达式的值，所以这个结果也是整个语句表达式的值，container_of 最后就会返回这个地址值给宏的调用者。</p>
+<p>那如何计算结构体某个成员在结构体内的偏移呢？内核中定义了 offset 宏来实现这个功能，我们且看它的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>这个宏有两个参数，一个是结构体类型 TYPE，一个是结构体的成员 MEMBER，它使用的技巧跟我们上面计算0地址常量指针的偏移是一样的：将0强制转换为一个指向 TYPE 的结构体常量指针，然后通过这个常量指针访问成员，获取成员 MEMBER 的地址，其大小在数值上就等于 MEMBER 在结构体 TYPE 中的偏移。</p>
+<p>因为结构体的成员数据类型可以是任意数据类型，所以为了让这个宏兼容各种数据类型。我们定义了一个临时指针变量 __mptr，该变量用来存储结构体成员 MEMBER 的地址，即存储 ptr 的值。那如何获取 ptr 指针类型呢，通过下面的方式：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">typeof( ((type *)<span class="hljs-number">0</span>)-&gt;member ) *__mptr = (ptr);<br></code></pre></div></td></tr></table></figure>
+
+<p>我们知道，宏的参数 ptr 代表的是一个结构体成员变量 MEMBER 的地址，所以 ptr 的类型是一个指向 MEMBER 数据类型的指针，当我们使用临时指针变量 __mptr 来存储 ptr 的值时，必须确保 __mptr 的指针类型是一个指向 MEMBER 类型的指针变量。typeof( ((type *)0)-&gt;member )表达式使用 typeof 关键字，用来获取结构体成员 member 的数据类型，然后使用该类型，使用 typeof( ((type *)0)-&gt;member ) *__mptr 这行程序语句，就可以定义一个指向该类型的指针变量了。</p>
+<p>还有一个需要注意的细节就是：在语句表达式的最后，因为返回的是结构体的首地址，所以数据类型还必须强制转换一下，转换为 TYPE* ，即返回一个指向 TYPE 结构体类型的指针，所以你会在最后一个表达之中看到一个强制类型转换(TYPE *)。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>好了，到这里，我们对 container_of 宏的分析也就接近尾声了。任何一个复杂的东西，我们都可以把它分解，运用所学的基础知识一点一点剖析：先去降维分析，然后再进行综合。比如 container_of 宏的定义，就运用了结构体的存储、语句表达式、typeof 等知识点。掌握了这些基础知识，有了分析方法，以后在内核中再遇到这样类似的宏，就不用再百度、Google了，万一搜不到怎么办？在这样一个考察工程师技术能力的关键时刻，我们可以自信从容地去自己分析了。这就是你的核心竞争力，也是你超越其他工程师、脱颖而出的机会。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/04/%E7%BA%A2%E9%BB%91%E6%A0%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">红黑树</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/04/GNU_C03/">
+                        <span class="hidden-mobile">宏构造利器：语句表达式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="SSH 真的 yyds  今天为大家分享一篇关于SSH 的介绍和使用方法的文章。本文从SSH是什么出发，讲述了SSH的基本用法，之后在远程登录、端口转发等多种场景下进行独立的讲述，希望能对大家有所帮助。 什么是SSH？SSH是一种网络协议，用于计算机之间的加密登录。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH 真的 yyds">
+<meta property="og:url" content="http://example.com/2021/10/13/SSH%20%E7%9C%9F%E7%9A%84%20yyds/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="SSH 真的 yyds  今天为大家分享一篇关于SSH 的介绍和使用方法的文章。本文从SSH是什么出发，讲述了SSH的基本用法，之后在远程登录、端口转发等多种场景下进行独立的讲述，希望能对大家有所帮助。 什么是SSH？SSH是一种网络协议，用于计算机之间的加密登录。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102133960.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135058.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135414.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135945.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135289.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135928.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102135076.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102136283.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102136089.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137823.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137923.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137076.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137819.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137760.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102137090.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102138583.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102138002.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102138617.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102139982.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102139663.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102139285.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102139373.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102140184.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102140069.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102140733.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102140570.webp">
+<meta property="article:published_time" content="2021-10-13T14:19:03.293Z">
+<meta property="article:modified_time" content="2021-10-13T13:14:58.157Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202108102133960.png">
+  
+  <title>SSH 真的 yyds - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SSH 真的 yyds">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-13 22:19" pubdate>
+        2021年10月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SSH 真的 yyds</h1>
+            
+            <div class="markdown-body">
+              <center><h2>SSH 真的 yyds</h2></center>
+
+<p>今天为大家分享一篇关于SSH 的介绍和使用方法的文章。本文从SSH是什么出发，讲述了SSH的基本用法，之后在远程登录、端口转发等多种场景下进行独立的讲述，希望能对大家有所帮助。</p>
+<h3 id="什么是SSH？"><a href="#什么是SSH？" class="headerlink" title="什么是SSH？"></a><strong>什么是SSH？</strong></h3><p>SSH是一种网络协议，用于计算机之间的加密登录。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。</p>
+<h4 id="SSH登录原理"><a href="#SSH登录原理" class="headerlink" title="SSH登录原理"></a><strong>SSH登录原理</strong></h4><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102133960.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="SSH基本用法"><a href="#SSH基本用法" class="headerlink" title="SSH基本用法"></a><strong>SSH基本用法</strong></h4><p>语法:</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -p 22 user@host<br></code></pre></div></td></tr></table></figure>
+
+<p>参数:</p>
+<ul>
+<li><em>-p：指定端口号。</em></li>
+<li><em>user：登录的用户名。</em></li>
+<li><em>host：登录的主机。</em></li>
+</ul>
+<p>默认的端口号为22，当端口号为22的时候，可以省略，直接使用如下方式:</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh user@host<br></code></pre></div></td></tr></table></figure>
+
+<p>此外，如果本地正在使用的用户名与远程登录的用户名一致，登录用户名也是可以省略的，即如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh host<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="SSH远程登录实例"><a href="#SSH远程登录实例" class="headerlink" title="SSH远程登录实例"></a><strong>SSH远程登录实例</strong></h3><p>现在我有两台linux虚拟机，上面安装都是centOS6.5，ip分别为192.168.13.135和192.168.13.138，如下图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135058.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135414.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>现在，我需要操作的是通过SSH在192.168.13.138上面，登录到192.168.13.135上面。</p>
+<p><strong>首先，我们可以使用如下命令，查看两台机器是否启用了ssh。</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">netstat -ntlp |grep ssh<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135945.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>使用如下命令进行连接。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -p 22 root@192.168.13.135<br></code></pre></div></td></tr></table></figure>
+
+<p>若在本机上是首次登录该远程主机，则会出现如下界面。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135289.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>大致意思就是，无法确认host主机的真实性，只知道它的公钥指纹，问你还想继续连接吗？输入yes即可。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135928.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>然后输入密码，即可连接ok了。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102135076.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>要想退出，直接输入exit即可。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102136283.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="SSH端口转发"><a href="#SSH端口转发" class="headerlink" title="SSH端口转发"></a><strong>SSH端口转发</strong></h3><p>SSH 不仅仅能够自动加密和解密 SSH 客户端与服务端之间的网络数据，同时，SSH 还能够提供了一个非常有用的功能，那就是端口转发，即将TCP 端口的网络数据，转发到指定的主机某个端口上，在转发的同时会对数据进行相应的加密及解密。如果工作环境中的防火墙限制了一些网络端口的使用，但是允许 SSH 的连接，那么也是能够通过使用SSH转发后的端口进行通信。转发，主要分为本地转发与远程转发两种类型。</p>
+<h4 id="1-转发的参数"><a href="#1-转发的参数" class="headerlink" title="1.转发的参数"></a><strong>1.转发的参数</strong></h4><figure class="highlight diff"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs diff"><span class="hljs-deletion">-C：压缩数据</span><br><span class="hljs-deletion">-f ：后台认证用户/密码，通常和-N连用，不用登录到远程主机。</span><br><span class="hljs-deletion">-N ：不执行脚本或命令，通常与-f连用。</span><br><span class="hljs-deletion">-g ：在-L/-R/-D参数中，允许远程主机连接到建立的转发的端口，如果不加这个参数，只允许本地主机建立连接。</span><br><span class="hljs-deletion">-L : 本地端口:目标IP:目标端口</span><br><span class="hljs-deletion">-D : 动态端口转发</span><br><span class="hljs-deletion">-R : 远程端口转发</span><br><span class="hljs-deletion">-T ：不分配 TTY 只做代理用</span><br><span class="hljs-deletion">-q ：安静模式，不输出 错误/警告 信息</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-本地转发"><a href="#2-本地转发" class="headerlink" title="2.本地转发"></a><strong>2.本地转发</strong></h4><p>有本地网络服务器的某个端口，转发到远程服务器某个端口。说白了就是，将发送到本地端口的请求，转发到目标端口。格式如下：</p>
+<p>ssh -L 本地网卡地址:本地端口:目标地址:目标端口 用户@目标地址。</p>
+<p>现在我们利用本地转发来解决一个问题，比如我们有两台机器，如下：</p>
+<p>centos A（192.168.13.139）</p>
+<p>centos B（192.168.13.142）</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102136089.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>现在，centos B（192.168.13.142）机器上面安装了mysql，并设置了运行任何主机连接，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137823.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>此时，在centos A（192.168.13.139）上面是可以连上centos B（192.168.13.142）的mysql，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137923.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>那么，现在我开始centos B（192.168.13.142）限制不允许外部ip连接，仅仅让127.0.0.1连接，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137076.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>此时，centos A（192.168.13.139）上面怎么连接上centos B（192.168.13.142）的mysql呢？</p>
+<p>此时，我们还是使用上面的mysql连接方式，肯定会报错，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137819.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>当然在centos B（192.168.13.142）mysql还是可访问的。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137760.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这个时候，我们就可以使用本地端口转发了，将本地的某个端口，映射到centos B（192.168.13.142）机器上面的，如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -L 127.0.0.1:3306:127.0.0.1:3306 root@192.168.13.142<br></code></pre></div></td></tr></table></figure>
+
+<p>因为本地网卡地址是可以省略的，上面的转发，可以简写为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -L 3306:127.0.0.1:3306 root@192.168.13.142<br></code></pre></div></td></tr></table></figure>
+
+<p>当然，ssh连接的时候，若两台机器的用户名相同，也是可以省略的，即命令可以简写为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -L 3306:127.0.0.1:3306 192.168.13.14<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的代码就是将本地的3306端口，转发到192.168.13.142的3306端口。因为centos B（192.168.13.142）上面的mysql使用的3606端口。当然，我们首先得看看本地的3306端口是否被占用，如被占用，可以使用其他的端口。</p>
+<p>数据流向如图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102137090.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>首先，centos A（192.168.13.139）上的应用将数据发送到本地的127.0.0.1上面的3306端口。</p>
+<p>然后，centos A（192.168.13.139）将3306端口的数据，通过SSH转发到centos B（192.168.13.142）的3306端口。</p>
+<p>接着，centos B（192.168.13.142）将处理后的数据，原路返回给centos A（192.168.13.139）。</p>
+<p>如果是首次通过ssh连接cetosB该机器，则会提示确认公钥，并让你选择是否确定连接。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102138583.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>此时，我们在centos A上面连接centos B上面的mysql，就可以这么写了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">bin/mysql -h127.0.0.1 -uroot -p<br></code></pre></div></td></tr></table></figure>
+
+<p>如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102138002.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们可以通过下面命令，在centosA查看ssh转发监听的进程。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102138617.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="3-远程转发"><a href="#3-远程转发" class="headerlink" title="3.远程转发"></a><strong>3.远程转发</strong></h4><p>由远程服务器的某个端口，转发到本地网络的服务器某个端口。说白了，就是将发送到远程端口的请求，转发到目标端口。格式如下：</p>
+<p>ssh -R 远程网卡地址:远程端口:目标地址:目标端口</p>
+<p>下面三台机器为例，如下：</p>
+<p><em>centos A（192.168.13.139）</em></p>
+<p><em>centos B（192.168.13.142）</em></p>
+<p><em>win7（10.18.78.135）</em></p>
+<p>假设，win7（10.18.78.135）与centos B（192.168.13.142）不能直接连接，但是win7（10.18.78.135）与centos A（192.168.13.139）可以连接centos B（192.168.13.142）也可以centos A（192.168.13.139）连接，那么，我们就可以在centos A（192.168.13.139）上面使用远程端口转发了，让win7（10.18.78.135）与centos B（192.168.13.142）进行通信。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -R 127.0.0.1:80:10.18.78.135:80 root@192.168.13.142<br></code></pre></div></td></tr></table></figure>
+
+<p>即centos B（192.168.13.142）监听自己的80端口，然后将所有数据，由centos A（192.168.13.139）发给win7（10.18.78.135）。</p>
+<h3 id="SSH的远程操作"><a href="#SSH的远程操作" class="headerlink" title="SSH的远程操作"></a><strong>SSH的远程操作</strong></h3><p>ssh远程操作，主要用于在远程的机器上面执行某个操作，格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh user@host <span class="hljs-string">&#x27;command&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>案例1、在机器A（192.168.13.148）中查看机器B（192.168.13.149）的操作系统类型。</p>
+<p>在A机器上面执行如下代码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh  dequan@192.168.13.149  <span class="hljs-string">&#x27;uname -a&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>案例2、将机器A（192.168.13.148）中test文件夹复制到B机器（192.168.13.149）。</p>
+<p>在A机器上面，执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">tar -cz <span class="hljs-built_in">test</span> | ssh dequan@192.168.13.149 <span class="hljs-string">&#x27;tar -xz&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>当然，我们也可以使用scp命令或rz命令，传输文件。</p>
+<p>案例3、在机器A（192.168.13.148）处查看B机器（192.168.13.149）是否监听了1080端口。</p>
+<p>在A机器上面，执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh dequan@192.168.13.149 <span class="hljs-string">&#x27;netstat -tln |grep 1080&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102139982.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="SSH的本地转发"><a href="#SSH的本地转发" class="headerlink" title="SSH的本地转发"></a><strong>SSH的本地转发</strong></h3><p>本地转发，说白了，就是把发到本地的某个端口请求，转发到远程的某台机器上面。格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -L [本地地址:]本地端口:远程地址:远程端口 远程用户@远程地址<br></code></pre></div></td></tr></table></figure>
+
+<p>案例1、在机器B（192.168.13.149）上面访问机器A（192.168.13.148）的服务。</p>
+<p>现在，我们在A机器上面，启动了Nginx服务，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102139663.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们希望B机器也能够这样使用A机器上面的服务。需要把B机器上面80端口请求，转发到A机器上面。目前在B机器这样执行，是报错的，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102139285.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>需要在B机器上面，执行如下代码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -f -N -L 127.0.01:80:192.168.13.148:80 dequan@192.168.13.148<br></code></pre></div></td></tr></table></figure>
+
+<p>然后，在B机器上面，访问A机器的服务，就想访问自身的服务一样。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102139373.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="SSH的远程转发"><a href="#SSH的远程转发" class="headerlink" title="SSH的远程转发"></a><strong>SSH的远程转发</strong></h3><p>远程转发，即把发给远程机器的某个端口请求，转发到本地的机器上面。格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -R [远程地址:]远程端口:本地地址:本地端口 远程用户@远程地址<br></code></pre></div></td></tr></table></figure>
+
+<p>在上面的案例中，我们也可以通过远程转发来实现。即在A机器上面执行如下代码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo ssh -f -N -R 8081:127.0.0.1:80 dequan@192.168.13.149<br></code></pre></div></td></tr></table></figure>
+
+<p>我们监听了B机器的8081端口，把该端口的请求，转发到A机器上面。</p>
+<p>可以在B机器上面看到，我们的监听，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102140184.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>此时，执行如下命令，就会被转发到A机器的127.0.0.1的80端口，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102140069.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="1、利用远程转发，实现代理功能"><a href="#1、利用远程转发，实现代理功能" class="headerlink" title="1、利用远程转发，实现代理功能"></a><strong>1、利用远程转发，实现代理功能</strong></h4><p>目前B机器，只能在自己127.0.0.1的80端口监听并转发，如何让B机器作为代理，转发其他机器的请求到A机器上面呢？比如，现在有一台机器C（192.168.13.143），C不能访问A，但是能够访问B。如何让C利用B来访问A呢？</p>
+<p>此时，需要将B的监听，由127.0.0.1:8081，改为0:0.0.0:8081，修改sshd的配置/etc/ssh/sshd_config。</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">vim /etc/ssh/sshd_config<br><span class="hljs-meta">#</span><span class="bash">如果有</span><br>GatewayPorts no<br><span class="hljs-meta">#</span><span class="bash">改为</span><br>GatewayPorts yes<br><span class="hljs-meta">#</span><span class="bash">没有，添加即可</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">然后重启sshd</span><br>sudo service sshd restart<br></code></pre></div></td></tr></table></figure>
+
+<p>然后重新，设置动态转发，如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -f -g  -N -R 8081:127.0.0.1:80 dequan@192.168.13.149<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到，此时B机器，已经监听了0:0.0.0:8081</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102140733.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在C机器上面，我们通过curl模拟请求，利用B机器做代理，如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">curl -x 192.168.13.149:8081 127.0.0.1<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102140570.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>当然，如果还有其他机器，也可以使用类似的方式，来请求A机器。</p>
+<h3 id="SSH的动态转发"><a href="#SSH的动态转发" class="headerlink" title="SSH的动态转发"></a><strong>SSH的动态转发</strong></h3><p>对于SSH的本地转发和远程转发，都需要将本地端口和远程端口一一绑定，格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -D [本地地址:]本地端口号 远程用户@远程地址<br></code></pre></div></td></tr></table></figure>
+
+<p>比如，把发到B机器上面的请求，都转发到A机器上面，让A机器去执行请求。</p>
+<h3 id="SSH存在的问题"><a href="#SSH存在的问题" class="headerlink" title="SSH存在的问题"></a><strong>SSH存在的问题</strong></h3><p>如果有人截获了登录请求，然后冒充远程主机，将伪造的公钥发给用户，那么用户很难辨别真伪。因为不像https协议，SSH协议的公钥是没有证书中心（CA）公证的，也就是说，都是自己签发的。</p>
+<p>可以设想，如果攻击者插在用户与远程主机之间（比如在公共的wifi区域），用伪造的公钥，获取用户的登录密码。再用这个密码登录远程主机，那么SSH的安全机制就荡然无存了。这种风险就是著名的”中间人攻击”（Man-in-the-middle attack）。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>本篇文章主要介绍了SSH的基本概念和实践中常用的一些方法，并没有涉及深层原理和优化的知识，在底层实现和协议具体内容还能继续深入研究。如果有什么疑问或建议，可以在下方留言。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/13/Web%E7%99%BB%E5%BD%95%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%9F%E5%BC%80%E7%8E%A9%E7%AC%91%EF%BC%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Web登录很简单？开玩笑！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/13/PCB-Ruler/">
+                        <span class="hidden-mobile">PCB-Ruler</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
