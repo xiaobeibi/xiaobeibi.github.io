@@ -1,0 +1,1003 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="分享总结个人的学习路程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小贝比">
+<meta property="og:url" content="http://example.com/page/26/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="分享总结个人的学习路程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分享总结个人的学习路程">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
+          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108201333428.webp" srcset="/img/loading.gif" lazyload alt="红黑树">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
+          红黑树
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
+          
+          
+            
+          
+          红黑树
+
+当在10亿数据中只需要进行10几次比较就能查找到目标时，不禁感叹编程之魅力！人类之伟大呀！—— 学红黑树有感。
+终于，在学习了几天的红黑树相关的知识后，我想把我所学所想和所感分享给大家。红黑树是一种比较难的数据结构，要完全搞懂非常耗时耗力，红黑树怎么自平衡？什么时候需要左旋或右旋？插入和删除破坏了树的平衡后怎么处理？等等一连串的问题在学习前困扰着我。如果你在学习过程中也会存在我的疑问，那
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 22:09" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/%E6%A0%91/">树</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C04/" target="_self">
+          <img src="/img/Substitute3.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核第一宏：container_of">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C04/" target="_self">
+          Linux 内核第一宏：container_of
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C04/" target="_self">
+          
+          
+            
+          
+          Linux 内核第一宏：container_of
+
+4.1 typeof 关键字ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。
+通过
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C03/" target="_self">
+          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="宏构造利器：语句表达式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C03/" target="_self">
+          宏构造利器：语句表达式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C03/" target="_self">
+          
+          
+            
+          
+          宏构造利器：语句表达式
+
+3.1 基础复习：表达式、语句和代码块表达式表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：
+
+2 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C02/" target="_self">
+          <img src="/img/Substitute1.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核驱动中的指定初始化">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C02/" target="_self">
+          Linux 内核驱动中的指定初始化
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C02/" target="_self">
+          
+          
+            
+          
+          Linux 内核驱动中的指定初始化
+
+2.1 什么是指定初始化在标准 C 中，当我们定义并初始化一个数组时，常用方法如下：
+1int a[10] = &#123;0,1,2,3,4,5,6,7,8&#125;;
+
+按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C13/" target="_self">
+          <img src="/img/Substitute12.jpg" srcset="/img/loading.gif" lazyload alt="GNU_C总结">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C13/" target="_self">
+          GNU_C总结
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C13/" target="_self">
+          
+          
+            
+          
+          总结
+
+13.1 总结前面12节的课程，主要针对 Linux 内核中 GNU C 扩展的一些常用 C 语言语法进行了分析。GNU C 的这些扩展语法，主要用来完善 C 语言标准和编译优化。而通过 C 标准的发展过程我们又发现，对于一些编译器扩展的一些特性，或者其它编程语言（如：C++）中的好的特性和语法，C 标准也会适时地吸收进来，作为新的 C 语言标准。
+在 GNU C 的这些扩展语法中，_at
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C12/" target="_self">
+          <img src="/img/Substitute11.jpg" srcset="/img/loading.gif" lazyload alt="有一种宏，叫可变参数宏">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C12/" target="_self">
+          有一种宏，叫可变参数宏
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C12/" target="_self">
+          
+          
+            
+          
+          有一种宏，叫可变参数宏
+
+12.1 什么是可变参数宏在上面的教程中，我们学会了变参函数的定义和使用，基本套路就是使用 va_list、va_start、va_end 等宏，去解析那些可变参数列表我们找到这些参数的存储地址后，就可以对这些参数进行处理了：要么自己动手，自己处理；要么继续调用其它函来处理。
+1234567891011121314151617void print_num(int coun
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C11/" target="_self">
+          <img src="/img/Substitute10.jpg" srcset="/img/loading.gif" lazyload alt="有一种函数，叫内建函数">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C11/" target="_self">
+          有一种函数，叫内建函数
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C11/" target="_self">
+          
+          
+            
+          
+          有一种函数，叫内建函数
+
+11.1 什么是内建函数内建函数，顾名思义，就是编译器内部实现的函数。这些函数跟关键字一样，可以直接使用，无须像标准库函数那样，要 #include 对应的头文件才能使用。
+内建函数的函数命名，通常以 __builtin 开头。这些函数主要在编译器内部使用，主要是为编译器服务的。内建函数的主要用途如下。
+
+用来处理变长参数列表；
+用来处理程序运行异常；
+程序的编译优化、性
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C10/" target="_self">
+          <img src="/img/Substitute9.jpg" srcset="/img/loading.gif" lazyload alt="内联函数探究">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C10/" target="_self">
+          内联函数探究
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C10/" target="_self">
+          
+          
+            
+          
+          内联函数探究
+
+10.1 属性声明：noinline &amp; always_inline这一节，接着讲 attribute 属性声明，attribute可以说是 GNU C 最大的特色。我们接下来继续讲一下跟内联函数相关的两个属性：noinline 和 always_inline。这两个属性的用途是告诉编译器：编译时，对我们指定的函数内联展开或不展开。它们的使用方法如下。
+12static  
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C09/" target="_self">
+          <img src="/img/Substitute8.jfif" srcset="/img/loading.gif" lazyload alt="链接过程中的强符号和弱符号">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C09/" target="_self">
+          链接过程中的强符号和弱符号
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C09/" target="_self">
+          
+          
+            
+          
+          链接过程中的强符号和弱符号
+
+9.1 属性声明：weakGNU C 通过 attribute 声明weak属性，可以将一个强符号转换为弱符号。
+使用方法如下。
+12void  __attribute__((weak))  func(void);int  num  __attribte__((weak);
+
+
+编译器在编译源程序时，无论你是变量名、函数名，在它眼里，都是一个符号而已，用来表征一个地址
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/10/04/GNU_C08/" target="_self">
+          <img src="/img/Substitute7.jfif" srcset="/img/loading.gif" lazyload alt="变参函数的格式检查">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/04/GNU_C08/" target="_self">
+          变参函数的格式检查
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/GNU_C08/" target="_self">
+          
+          
+            
+          
+          变参函数的格式检查
+
+8.1 属性声明：formatGNU 通过 attribute 扩展的 format 属性，用来指定变参函数的参数格式检查。
+它的使用方法如下：
+12__attribute__(( format (archetype, string-index, first-to-check)))void LOG(const char *fmt, ...)  __attribute__((f
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 10:39" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/25/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#board">27</a><a class="extend next" rel="next" href="/page/27/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

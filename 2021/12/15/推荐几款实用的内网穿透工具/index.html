@@ -1,0 +1,757 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="推荐几款实用的内网穿透工具  本文以渗透的视角，总结几种个人常用的内网穿透，内网代理工具，介绍其简单原理和使用方法。 NPS1.1 简介 nps是一款轻量级、高性能、功能强大的内网穿透代理服务器。目前支持tcp、udp流量转发，可支持任何tcp、udp上层协议（访问内网网站、本地支付接口调试、ssh访问、远程桌面，内网dns解析等等……），此外还支持内网http代理、内网socks5代理、p2p等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐几款实用的内网穿透工具">
+<meta property="og:url" content="http://example.com/2021/12/15/%E6%8E%A8%E8%8D%90%E5%87%A0%E6%AC%BE%E5%AE%9E%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="推荐几款实用的内网穿透工具  本文以渗透的视角，总结几种个人常用的内网穿透，内网代理工具，介绍其简单原理和使用方法。 NPS1.1 简介 nps是一款轻量级、高性能、功能强大的内网穿透代理服务器。目前支持tcp、udp流量转发，可支持任何tcp、udp上层协议（访问内网网站、本地支付接口调试、ssh访问、远程桌面，内网dns解析等等……），此外还支持内网http代理、内网socks5代理、p2p等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131837504.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131838611.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131839138.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131839054.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131839583.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131846529.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131849045.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131849313.webp">
+<meta property="article:published_time" content="2021-12-15T13:20:04.046Z">
+<meta property="article:modified_time" content="2021-12-13T11:15:28.864Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131837504.webp">
+  
+  <title>推荐几款实用的内网穿透工具 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="推荐几款实用的内网穿透工具">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">推荐几款实用的内网穿透工具</h1>
+            
+            <div class="markdown-body">
+              <center><h2>推荐几款实用的内网穿透工具</h2></center>
+
+<p>本文以渗透的视角，总结几种个人常用的内网穿透，内网代理工具，介绍其简单原理和使用方法。</p>
+<h2 id="NPS"><a href="#NPS" class="headerlink" title="NPS"></a>NPS</h2><h3 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a><strong>1.1 简介</strong></h3><blockquote>
+<p>nps是一款轻量级、高性能、功能强大的内网穿透代理服务器。目前支持tcp、udp流量转发，可支持任何tcp、udp上层协议（访问内网网站、本地支付接口调试、ssh访问、远程桌面，内网dns解析等等……），此外还支持内网http代理、内网socks5代理、p2p等，并带有功能强大的web管理端。</p>
+</blockquote>
+<ul>
+<li>一台有公网IP的服务器（VPS）运行服务端（NPS）</li>
+<li>一个或多个运行在内网的服务器或者PC运行客户端（NPC）</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131837504.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="1-2-特点"><a href="#1-2-特点" class="headerlink" title="1.2 特点"></a><strong>1.2 特点</strong></h3><ol>
+<li>Go语言编写</li>
+<li>支持跨平台</li>
+<li>支持多种协议的代理</li>
+<li>web管理端</li>
+</ol>
+<h3 id="1-3-使用方法"><a href="#1-3-使用方法" class="headerlink" title="1.3 使用方法"></a><strong>1.3 使用方法</strong></h3><p><a target="_blank" rel="noopener" href="https://github.com/ehang-io/nps/releases">https://github.com/ehang-io/nps/releases</a></p>
+<h3 id="NPS-1"><a href="#NPS-1" class="headerlink" title="NPS"></a>NPS</h3><p>安装配置</p>
+<p>找到自己服务器相应版本的server：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> ~<br>wget https://github.com/cnlh/nps/releases/download/v0.23.2/linux_amd64_server.tar.gz<br>tar xzvf linux_amd64_server.tar.gz<br><span class="hljs-built_in">cd</span> ~/nps<br></code></pre></div></td></tr></table></figure>
+
+<p>在nps目录下面会有一个nps可执行文件、conf配置目录和web网页目录，我们只需要修改<code>conf/nps.conf</code>即可：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">vim conf/nps.conf<br></code></pre></div></td></tr></table></figure>
+
+<p>需要改一下<code>#web</code>下面的几个参数，</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">web_host= 服务器IP或者域名<br>web_username= admin（登录用户名）<br>web_password= 你的密码<br>web_port=8080（web管理端口）<br></code></pre></div></td></tr></table></figure>
+
+<p>修改<code>#bridge</code> 可以更改 NPC的连接端口。比如我们拿到一台权限受限的服务器，有防火墙，可能只有部分端口（80，443）可以出网，就需要修改成出网端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-comment">##bridge</span><br>bridge_type=tcp<br>bridge_port=443  <span class="hljs-comment"># 修改连接端口</span><br>bridge_ip=0.0.0.0<br></code></pre></div></td></tr></table></figure>
+
+<p>启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-comment">#Mac/Linux</span><br>./nps <span class="hljs-built_in">test</span>|start|stop|restart|status 测试配置文件|启动|停止|重启|状态<br>  <br><span class="hljs-comment">#Windows</span><br>nps.exe <span class="hljs-built_in">test</span>|start|stop|restart|status 测试配置文件|启动|停止|重启|状态<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="NPC"><a href="#NPC" class="headerlink" title="NPC"></a>NPC</h3><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./npc -server=你的IP:8024 -vkey=唯一验证密码 -<span class="hljs-built_in">type</span>=tcp<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131838611.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>新建好客户端后，也可以在<code>+</code>中看到，详细的客户端连接命令：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131839138.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="web管理端"><a href="#web管理端" class="headerlink" title="web管理端"></a>web管理端</h3><p>在客户端界面可以通过<code>新增</code>的方式添加客户端连接，每一个连接的vkey都是唯一区分的。</p>
+<p>每一个客户端，在建立连接后，都可以建立多个不同协议的隧道，这一个个隧道就是不同的代理了。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131839054.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>通过不同的协议和端口就可以连接代理的内网机器。</p>
+<h2 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h2><h3 id="2-1-简介"><a href="#2-1-简介" class="headerlink" title="2.1 简介"></a><strong>2.1 简介</strong></h3><blockquote>
+<p>frp 是一个专注于内网穿透的高性能的反向代理应用，支持 TCP、UDP、HTTP、HTTPS 等多种协议。可以将内网服务以安全、便捷的方式通过具有公网 IP 节点的中转暴露到公网。</p>
+</blockquote>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131839583.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="2-2-特点"><a href="#2-2-特点" class="headerlink" title="2.2 特点"></a><strong>2.2 特点</strong></h3><ul>
+<li>客户端服务端通信支持 TCP、KCP 以及 Websocket 等多种协议。</li>
+<li>端口复用，多个服务通过同一个服务端端口暴露。</li>
+<li>跨平台，但是支持的比nps少一点</li>
+<li>多种插件，提供很多功能</li>
+</ul>
+<h3 id="2-3-使用方法"><a href="#2-3-使用方法" class="headerlink" title="2.3 使用方法"></a><strong>2.3 使用方法</strong></h3><p>下载：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
+<blockquote>
+<p>以下内容摘自：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021876836">https://segmentfault.com/a/1190000021876836</a></p>
+</blockquote>
+<h4 id="1-通过-rdp-访问家里的机器"><a href="#1-通过-rdp-访问家里的机器" class="headerlink" title="1. 通过 rdp 访问家里的机器"></a>1. 通过 rdp 访问家里的机器</h4><ol>
+<li>修改 frps.ini 文件，为了安全起见，这里最好配置一下身份验证，服务端和客户端的 common 配置中的 <code>token</code> 参数一致则身份验证通过：</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frps.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 frps：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./frps -c ./frps.ini<br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>修改 frpc.ini 文件，假设 frps 所在服务器的公网 IP 为 x.x.x.x：</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = x.x.x.x<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br><br><span class="hljs-section">[rdp]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><br><span class="hljs-attr">local_port</span> = <span class="hljs-number">3389</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="4">
+<li>启动 frpc：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./frpc -c ./frpc.ini<br></code></pre></div></td></tr></table></figure>
+
+<ol start="5">
+<li>通过 rdp 访问远程的机器，地址为：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">x.x.x.x:6000<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>开机自启</strong></p>
+<p>针对 Windows 系统，为了便于使用，可以配置一下开机的时候静默启动。</p>
+<ol>
+<li>在 frpc.exe 的同级目录创建一个 start_frpc.vbs：</li>
+</ol>
+<figure class="highlight vbscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vbscript"><span class="hljs-comment">&#x27;start_frpc.vbs</span><br><span class="hljs-comment">&#x27;请根据实际情况修改路径</span><br><span class="hljs-built_in">CreateObject</span>(<span class="hljs-string">&quot;WScript.Shell&quot;</span>).Run <span class="hljs-string">&quot;&quot;&quot;D:\Program Files\frp_windows_amd64\frpc.exe&quot;&quot;&quot;</span> &amp; <span class="hljs-string">&quot;-c&quot;</span> &amp; <span class="hljs-string">&quot;&quot;&quot;D:\Program Files\frp_windows_amd64\frpc.ini&quot;&quot;&quot;</span>,<span class="hljs-number">0</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>复制 start_frpc.vbs 文件，打开以下目录，注意将</li>
+</ol>
+<figure class="highlight vbscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vbscript">&lt;USER_NAME&gt;<br></code></pre></div></td></tr></table></figure>
+
+<p>改为你的用户名：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">C:\Users\&lt;USER_NAME&gt;\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup<br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>鼠标右击，粘贴为快捷方式即可。</li>
+</ol>
+<h4 id="2-通过-SSH-访问公司内网机器"><a href="#2-通过-SSH-访问公司内网机器" class="headerlink" title="2. 通过 SSH 访问公司内网机器"></a>2. 通过 SSH 访问公司内网机器</h4><p>frps 的部署步骤同上。</p>
+<ol>
+<li>启动 frpc，配置如下：</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = x.x.x.x<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br><br><span class="hljs-section">[ssh]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><br><span class="hljs-attr">local_port</span> = <span class="hljs-number">22</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>通过 SSH 访问内网机器，假设用户名为 test：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ssh -oPort=6000 <span class="hljs-built_in">test</span>@x.x.x.x<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="3-通过自定义域名访问部署于内网的-Web-服务"><a href="#3-通过自定义域名访问部署于内网的-Web-服务" class="headerlink" title="3. 通过自定义域名访问部署于内网的 Web 服务"></a>3. 通过自定义域名访问部署于内网的 Web 服务</h4><p>有时想要让其他人通过域名访问或者测试我们在本地搭建的 Web 服务，但是由于本地机器没有公网 IP，无法将域名解析到本地的机器，通过 frp 就可以实现这一功能，以下示例为 http 服务，https 服务配置方法相同， vhost_http_port 替换为 vhost_https_port， type 设置为 https 即可。</p>
+<ol>
+<li>修改 frps.ini 文件，设置 http 访问端口为 8080：</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frps.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">bind_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-attr">vhost_http_port</span> = <span class="hljs-number">8080</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 frps：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./frps -c ./frps.ini<br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>修改 frpc.ini 文件，假设 frps 所在的服务器的 IP 为 x.x.x.x，local_port 为本地机器上 Web 服务对应的端口， 绑定自定义域名 <code>www.yourdomain.com</code>:</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = x.x.x.x<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br><br><span class="hljs-section">[web]</span><br><span class="hljs-attr">type</span> = http<br><span class="hljs-attr">local_port</span> = <span class="hljs-number">80</span><br><span class="hljs-attr">custom_domains</span> = www.yourdomain.com<br></code></pre></div></td></tr></table></figure>
+
+<ol start="4">
+<li>启动 frpc：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./frpc -c ./frpc.ini<br></code></pre></div></td></tr></table></figure>
+
+<ol start="5">
+<li><p>将 <code>www.yourdomain.com</code> 的域名 A 记录解析到 IP <code>x.x.x.x</code>，如果服务器已经有对应的域名，也可以将 CNAME 记录解析到服务器原先的域名。</p>
+</li>
+<li><p>通过浏览器访问 <code>http://www.yourdomain.com:8080</code> 即可访问到处于内网机器上的 Web 服务。</p>
+</li>
+</ol>
+<h4 id="4-对外提供简单的文件访问服务"><a href="#4-对外提供简单的文件访问服务" class="headerlink" title="4. 对外提供简单的文件访问服务"></a>4. 对外提供简单的文件访问服务</h4><p>通过 <code>static_file</code> 插件可以对外提供一个简单的基于 HTTP 的文件访问服务。</p>
+<p>frps 的部署步骤同上。</p>
+<ol>
+<li>启动 frpc，启用 <code>static_file</code> 插件，配置如下：</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[common]</span><br><span class="hljs-attr">server_addr</span> = x.x.x.x<br><span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span><br><span class="hljs-comment"># 用于身份验证，请自行修改，要保证服务端与客户端一致</span><br><span class="hljs-attr">token</span> = abcdefgh<br><br><span class="hljs-section">[test_static_file]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span><br><span class="hljs-attr">plugin</span> = static_file<br><span class="hljs-comment"># 要对外暴露的文件目录</span><br><span class="hljs-attr">plugin_local_path</span> = /tmp/file<br><span class="hljs-comment"># 访问 url 中会被去除的前缀，保留的内容即为要访问的文件路径</span><br><span class="hljs-attr">plugin_strip_prefix</span> = static<br><span class="hljs-attr">plugin_http_user</span> = abc<br><span class="hljs-attr">plugin_http_passwd</span> = abc<br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>通过浏览器访问 <code>http://x.x.x.x:6000/static/</code> 来查看位于 <code>/tmp/file</code> 目录下的文件，会要求输入已设置好的用户名和密码。</li>
+</ol>
+<h4 id="常用功能"><a href="#常用功能" class="headerlink" title="常用功能"></a><strong>常用功能</strong></h4><h5 id="统计面板（Dashboard）"><a href="#统计面板（Dashboard）" class="headerlink" title="统计面板（Dashboard）"></a><strong>统计面板（Dashboard）</strong></h5><p>通过浏览器查看 frp 的状态以及代理统计信息展示。</p>
+<p>注：Dashboard 尚未针对大量的 proxy 数据展示做优化，如果出现 Dashboard 访问较慢的情况，请不要启用此功能。</p>
+<p>需要在 frps.ini 中指定 dashboard 服务使用的端口，即可开启此功能：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-attr">[common]</span><br><span class="hljs-attr">dashboard_port</span> = <span class="hljs-string">7500</span><br><span class="hljs-comment"># dashboard 用户名密码，默认都为 admin</span><br><span class="hljs-attr">dashboard_user</span> = <span class="hljs-string">admin</span><br><span class="hljs-attr">dashboard_pwd</span> = <span class="hljs-string">admin</span><br></code></pre></div></td></tr></table></figure>
+
+<p>打开浏览器通过 <code>http://[server_addr]:7500</code> 访问 dashboard 界面，用户名密码默认为 <code>admin</code>。</p>
+<h5 id="加密与压缩"><a href="#加密与压缩" class="headerlink" title="加密与压缩"></a><strong>加密与压缩</strong></h5><p>这两个功能默认是不开启的，需要在 frpc.ini 中通过配置来为指定的代理启用加密与压缩的功能，压缩算法使用 snappy：</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[ssh]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">local_port</span> = <span class="hljs-number">22</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span><br><span class="hljs-attr">use_encryption</span> = <span class="hljs-literal">true</span><br><span class="hljs-attr">use_compression</span> = <span class="hljs-literal">true</span><br></code></pre></div></td></tr></table></figure>
+
+<p>如果公司内网防火墙对外网访问进行了流量识别与屏蔽，例如禁止了 SSH 协议等，通过设置 <code>use_encryption = true</code>，将 frpc 与 frps 之间的通信内容加密传输，将会有效防止流量被拦截。</p>
+<p>如果传输的报文长度较长，通过设置 <code>use_compression = true</code> 对传输内容进行压缩，可以有效减小 frpc 与 frps 之间的网络流量，加快流量转发速度，但是会额外消耗一些 CPU 资源。</p>
+<h5 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a><strong>TLS</strong></h5><p>从 v0.25.0 版本开始 frpc 和 frps 之间支持通过 TLS 协议加密传输。通过在 <code>frpc.ini</code> 的 <code>common</code> 中配置 <code>tls_enable = true</code> 来启用此功能，安全性更高。</p>
+<p>为了端口复用，frp 建立 TLS 连接的第一个字节为 0x17。</p>
+<p>注意：启用此功能后除 xtcp 外，不需要再设置 use_encryption。</p>
+<h5 id="代理限速"><a href="#代理限速" class="headerlink" title="代理限速"></a><strong>代理限速</strong></h5><p>目前支持在客户端的代理配置中设置代理级别的限速，限制单个 proxy 可以占用的带宽。</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[ssh]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">local_port</span> = <span class="hljs-number">22</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span><br><span class="hljs-attr">bandwidth_limit</span> = <span class="hljs-number">1</span>MB<br></code></pre></div></td></tr></table></figure>
+
+<p>在代理配置中增加 <code>bandwidth_limit</code> 字段启用此功能，目前仅支持 <code>MB</code> 和 <code>KB</code> 单位。</p>
+<h5 id="范围端口映射"><a href="#范围端口映射" class="headerlink" title="范围端口映射"></a>范围端口映射</h5><p>在 frpc 的配置文件中可以指定映射多个端口，目前只支持 tcp 和 udp 的类型。</p>
+<p>这一功能通过 <code>range:</code> 段落标记来实现，客户端会解析这个标记中的配置，将其拆分成多个 proxy，每一个 proxy 以数字为后缀命名。</p>
+<p>例如要映射本地 6000-6005, 6007 这 6 个端口，主要配置如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-comment"># frpc.ini</span><br><span class="hljs-section">[range:test_tcp]</span><br><span class="hljs-attr">type</span> = tcp<br><span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><br><span class="hljs-attr">local_port</span> = <span class="hljs-number">6000</span>-<span class="hljs-number">6006</span>,<span class="hljs-number">6007</span><br><span class="hljs-attr">remote_port</span> = <span class="hljs-number">6000</span>-<span class="hljs-number">6006</span>,<span class="hljs-number">6007</span><br></code></pre></div></td></tr></table></figure>
+
+<p>实际连接成功后会创建 8 个 proxy，命名为 <code>test_tcp_0, test_tcp_1 ... test_tcp_7</code>。</p>
+<h2 id="ew"><a href="#ew" class="headerlink" title="ew"></a>ew</h2><h3 id="3-1-简介"><a href="#3-1-简介" class="headerlink" title="3.1 简介"></a><strong>3.1 简介</strong></h3><blockquote>
+<p>EW 是一套便携式的网络穿透工具，具有 SOCKS v5服务架设和端口转发两大核心功能，可在复杂网络环境下完成网络穿透。但是，现在工具已经不更新了。。。</p>
+</blockquote>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131846529.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="3-2-特点"><a href="#3-2-特点" class="headerlink" title="3.2 特点"></a><strong>3.2 特点</strong></h3><ol>
+<li><p>轻量级，C语言编写</p>
+</li>
+<li><p>可以设置多级代理</p>
+</li>
+<li><p>跨平台</p>
+</li>
+<li><p>但是只支持Socks5代理</p>
+</li>
+</ol>
+<h3 id="3-3-使用方法"><a href="#3-3-使用方法" class="headerlink" title="3.3 使用方法"></a><strong>3.3 使用方法</strong></h3><blockquote>
+<p>以下使用方法均摘自：<a target="_blank" rel="noopener" href="http://rootkiter.com/EarthWorm/">http://rootkiter.com/EarthWorm/</a></p>
+</blockquote>
+<p>以下所有样例，如无特殊说明代理端口均为1080，服务均为SOCKSv5代理服务.</p>
+<p>该工具共有 6 种命令格式（ssocksd、rcsocks、rssocks、lcx_slave、lcx_listen、lcx_tran）。</p>
+<ol>
+<li>正向 SOCKS v5 服务器</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s ssocksd -l 1080<br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>反弹 SOCKS v5 服务器</li>
+</ol>
+<p>这个操作具体分两步：</p>
+<p>a) 先在一台具有公网 ip 的主机A上运行以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s rcsocks -l 1080 -e 8888<br></code></pre></div></td></tr></table></figure>
+
+<p>b) 在目标主机B上启动 SOCKS v5 服务 并反弹到公网主机的 8888端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s rssocks -d 1.1.1.1 -e 8888<br></code></pre></div></td></tr></table></figure>
+
+<p>成功。</p>
+<ol start="3">
+<li>多级级联</li>
+</ol>
+<p>工具中自带的三条端口转发指令， 它们的参数格式分别为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s lcx_listen -l 1080 -e 8888<br>$ ./ew -s lcx_tran -l 1080 -f 2.2.2.3 -g 9999<br>$ ./ew -s lcx_slave -d 1.1.1.1 -e 8888 -f 2.2.2.3 -g 9999<br></code></pre></div></td></tr></table></figure>
+
+<p>通过这些端口转发指令可以将处于网络深层的基于TCP的服务转发至根前,比如 SOCKS v5。首先提供两个“二级级联”本地SOCKS测试样例：</p>
+<p>a) <code>lcx_tran</code> 的用法</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s ssocksd -l 9999<br>$ ./ew -s lcx_tran -l 1080 -f 127.0.0.1 -g 9999<br></code></pre></div></td></tr></table></figure>
+
+<p>b) <code>lcx_listen</code>、<code>lcx_slave</code> 的用法</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s lcx_listen -l 1080 -e 8888<br>$ ./ew -s ssocksd -l 9999<br>$ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999<br></code></pre></div></td></tr></table></figure>
+
+<p>再提供一个“三级级联”的本地SOCKS测试用例以供参考</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ./ew -s rcsocks -l 1080 -e 8888<br>$ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999<br>$ ./ew -s lcx_listen -l 9999 -e 7777<br>$ ./ew -s rssocks -d 127.0.0.1 -e 7777<br></code></pre></div></td></tr></table></figure>
+
+<p>数据流向: <code>SOCKS v5 -&gt; 1080 -&gt; 8888 -&gt; 9999 -&gt; 7777 -&gt; rssocks</code></p>
+<h2 id="ngrok"><a href="#ngrok" class="headerlink" title="ngrok"></a>ngrok</h2><h3 id="4-1-简介"><a href="#4-1-简介" class="headerlink" title="4.1 简介"></a><strong>4.1 简介</strong></h3><blockquote>
+<p>ngrok 是一个反向代理，通过在公共端点和本地运行的 Web 服务器之间建立一个安全的通道，实现内网主机的服务可以暴露给外网。ngrok 可捕获和分析所有通道上的流量，便于后期分析和重放，所以ngrok可以很方便地协助服务端程序测试。</p>
+</blockquote>
+<h3 id="4-2-特点"><a href="#4-2-特点" class="headerlink" title="4.2 特点"></a><strong>4.2 特点</strong></h3><ol>
+<li>官方维护，一般较为稳定</li>
+<li>跨平台，闭源</li>
+<li>有流量记录和重发功能</li>
+</ol>
+<h3 id="4-3-使用方法"><a href="#4-3-使用方法" class="headerlink" title="4.3 使用方法"></a><strong>4.3 使用方法</strong></h3><ol>
+<li>进入ngrok官网（<a target="_blank" rel="noopener" href="https://ngrok.com/%EF%BC%89%EF%BC%8C%E6%B3%A8%E5%86%8Cngrok%E8%B4%A6%E5%8F%B7%E5%B9%B6%E4%B8%8B%E8%BD%BDngrok%EF%BC%9B">https://ngrok.com/），注册ngrok账号并下载ngrok；</a></li>
+<li>根据官网给定的授权码，运行如下授权命令；</li>
+<li><code>./ngrok authtoken 1hAotxhmORtzCYvUc3BsxDBPh1H_******************</code></li>
+<li><code>./ngrok http 80</code>即可将机器的80端口http服务暴露到公网，并且会提供一个公网域名。</li>
+</ol>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131849045.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以通过官网的UI界面查看数据包和流量等等（但是要付费==:）</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131849313.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>还可以通过一些命令将内网的文件和其他TCP服务 暴露到公网中。</p>
+<p>有授权的设置文件共享</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ngrok http -auth=<span class="hljs-string">&quot;user:password&quot;</span> file:///Users/alan/share<br></code></pre></div></td></tr></table></figure>
+
+<p>无授权的设置文件共享</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ngrok http <span class="hljs-string">&quot;file:///C:\\Users\\alan\\Public Folder&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>将主机的3389的TCP端口暴露到公网</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ngrok tcp 3389<br></code></pre></div></td></tr></table></figure>
+
+<p>更多使用方法参考：<a target="_blank" rel="noopener" href="https://ngrok.com/docs">https://ngrok.com/docs</a></p>
+<p>参考链接</p>
+<ol>
+<li>内网渗透之内网穿透</li>
+<li>开源内网穿透工具 frp 简单使用教程</li>
+<li><a target="_blank" rel="noopener" href="http://rootkiter.com/EarthWorm/">http://rootkiter.com/EarthWorm/</a></li>
+</ol>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Demo/">Demo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Demo/">Demo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%E5%9F%BA%E4%BA%8E%20Spring%20Boot%20%E7%9A%84%E6%8E%A5%E5%8F%A3%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91%E7%A5%9E%E5%99%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">推荐一款基于 Spring Boot 的接口快速开发神器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E5%9B%BE%E8%A7%A3%2023%20%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">图解 23 种设计模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

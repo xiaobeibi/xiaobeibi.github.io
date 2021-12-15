@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="代码结构中 Dao，Service，Controller，Util，Model 是什么意思  内容大纲： 1.为什么需要一个好的代码结构 2.什么样才是一个好的结构 3.每一个分类代表什么含义 4.是否适用于WEB，Android和IOS？ 5.进一步的学习的话，是要学习系统架构么？ 一 为什么需要一个好的代码结构 好的代码结构并不仅仅是为了看上去清晰，它更像是我们对一个系统的拆解和组装。  好的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码结构中 Dao，Service，Controller，Util，Model 是什么意思">
+<meta property="og:url" content="http://example.com/2021/12/15/%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E4%B8%AD%20Dao%EF%BC%8CService%EF%BC%8CController%EF%BC%8CUtil%EF%BC%8CModel%20%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="代码结构中 Dao，Service，Controller，Util，Model 是什么意思  内容大纲： 1.为什么需要一个好的代码结构 2.什么样才是一个好的结构 3.每一个分类代表什么含义 4.是否适用于WEB，Android和IOS？ 5.进一步的学习的话，是要学习系统架构么？ 一 为什么需要一个好的代码结构 好的代码结构并不仅仅是为了看上去清晰，它更像是我们对一个系统的拆解和组装。  好的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151347053.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151349086.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151351343.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151352846.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151352821.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151352730.webp">
+<meta property="article:published_time" content="2021-12-15T13:20:03.929Z">
+<meta property="article:modified_time" content="2021-12-15T05:55:34.131Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112151347053.webp">
+  
+  <title>代码结构中 Dao，Service，Controller，Util，Model 是什么意思 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="代码结构中 Dao，Service，Controller，Util，Model 是什么意思">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">代码结构中 Dao，Service，Controller，Util，Model 是什么意思</h1>
+            
+            <div class="markdown-body">
+              <center><h2>代码结构中 Dao，Service，Controller，Util，Model 是什么意思</h2></center>
+
+<p><strong>内容大纲：</strong></p>
+<p>1.为什么需要一个好的代码结构</p>
+<p>2.什么样才是一个好的结构</p>
+<p>3.每一个分类代表什么含义</p>
+<p>4.是否适用于WEB，Android和IOS？</p>
+<p>5.进一步的学习的话，是要学习系统架构么？</p>
+<h2 id="一-为什么需要一个好的代码结构"><a href="#一-为什么需要一个好的代码结构" class="headerlink" title="一 为什么需要一个好的代码结构"></a><strong>一 为什么需要一个好的代码结构</strong></h2><ol>
+<li><p>好的代码结构并不仅仅是为了看上去清晰，它更像是我们对一个系统的拆解和组装。</p>
+</li>
+<li><p>好的代码结构可以让你在遇到代码交接这种天理不容的情况时，减少提刀砍人的可能性。</p>
+</li>
+<li><p>好的代码结构可以让多人协作开发更容易，而不会缠缠绵绵到天涯，再相爱相杀。</p>
+</li>
+</ol>
+<p>我们经常形容一个坏的代码结构，像屎一样。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151347053.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们称它为一坨，说真的，接手过烂代码之后，真的找不到比屎更能描述自己感受的词了。</p>
+<p>“屎”代表着混乱，一坨，各种杂质。接手一堆烂代码的难度就像是用一坨屎来做沙画。</p>
+<p>有时候我们还会用一团毛线来形容代码，大概是这样的。</p>
+<p>对的，这种感受是绝对不会错的。而我们要做的就是把这团毛线，变成像瑞士军刀一样的清晰。</p>
+<p>你们觉得哪个更有成就感？</p>
+<h2 id="二-什么样才是一个好的结构"><a href="#二-什么样才是一个好的结构" class="headerlink" title="二 什么样才是一个好的结构"></a><strong>二 什么样才是一个好的结构</strong></h2><ol>
+<li>好的结构应该保持单一职责。</li>
+<li>好的结构应该是通用的。</li>
+<li>好的结构应该是有明确定义的。</li>
+</ol>
+<p>这其实就是所谓的脚手架提供的最大的价值，一般而言，Java，Android，IOS都有一套明确的框架体系，JS本来没有，后来有了，然后。。他们就打起来了。</p>
+<h2 id="三-每一个分类代表什么含义"><a href="#三-每一个分类代表什么含义" class="headerlink" title="三 每一个分类代表什么含义"></a><strong>三 每一个分类代表什么含义</strong></h2><h3 id="1-Model"><a href="#1-Model" class="headerlink" title="1.Model"></a><strong>1.Model</strong></h3><p>Model是模型，一般而言，会有人分的更细，VO，DTO等等。我并不推荐分的更细，这个Model常常和持久化的数据一一对应，如Mysql和MongoDB。</p>
+<p>Model承载的作用就是数据的抽象，描述了一个数据的定义，Model的实例就是一组组的数据。整个系统都可以看成是数据的 流动，既然要流动，就一定是有流动的载体。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151349086.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这个红圈标的就是Model。它就应该是一个纯数据的集合，就是被各种东西传来传去，被各种加工处理的数据团。</p>
+<p>通常会有很多Model，一条业务流就是对应一条或者多条数据流，拿知乎为例子。</p>
+<p>文章是一个Model，一般叫Article，包括Title，Summary，Author，Content等等。</p>
+<p>评论也是一个Model，一般叫Comment，包括Content，userID等等。</p>
+<p>对于初学者而言，第一个要学会，就是建模，把业务逻辑映射成数据模型。</p>
+<h3 id="2-Util"><a href="#2-Util" class="headerlink" title="2.Util"></a><strong>2.Util</strong></h3><p>Util是工具的意思，一般来说，常常用来描述和业务逻辑没有关系的数据处理。</p>
+<p>Util一般要和私有方法对比：私有方法一般来说是只是在特地场景下使用的，私有方法越多，代码结构越乱。常见的重构策略就是首先从一个越长行数的代码里抽象出若干个私有方法，然后再抽出公用的Util。</p>
+<p>如果有可能，尽可能的少用私有方法，而是把他换成一个公用的Util，代表他和业务逻辑是不相关的。通常命名也是ArticleUtil，CommentUtil之类的。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151351343.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>像这种打包，不管是充气娃娃还是别的什么东西，都打包。你可以理解为图中的黑衣人就是一个Util。</p>
+<p>某中程度上也会跟Service有点接近。但是Service一般而言，都是包含有业务逻辑的，很少能做单元测试。</p>
+<p>Util一般来说，就是一个明确的输入和一个明确的输出结果。单元测试中，多数也是来测试Util。</p>
+<p>积累好自己的Util是一件很重要的事儿。</p>
+<h3 id="3-Service"><a href="#3-Service" class="headerlink" title="3 Service"></a><strong>3 Service</strong></h3><p>Service比Util的概念大很多，它的重点是在于提供一个服务。这个服务可能包括一系列的数据处理，也有可能会调用多个Util，或者是调用别的服务。总归一句话，就是，有什么事情，你来找我。</p>
+<p>就像你的妹妹一样，她就是一个Service，她能提供什么样的服务？这个是必须定义好的。如果是洗脚，她要帮你脱鞋，要端盆子烫你的脚。这里面，你的脚就是一个Model，盆子里的水相当于Util，不管里面放进去啥都能烫一烫。</p>
+<p>帮你脱鞋可以是一个Service，也可以是一个私有函数，也可以是一个Util。看你的是让这个小妹妹帮你脱，还是别的小妹妹脱，还是自动脱鞋机。</p>
+<p>如果是你自动脱。。。说明你在Model里面加上了功能，你的脚就不是一个纯粹的数据模型了，而是一个包含业务功能在里面的充血模型。</p>
+<p>这样不好。老老实实让小妹妹帮你拖鞋不好么。</p>
+<h3 id="4-Dao"><a href="#4-Dao" class="headerlink" title="4.Dao"></a><strong>4.Dao</strong></h3><p>Dao一般而言，都是用来和底层数据库通信，负责对数据库的增删改查。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151352846.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>是的。他就是一个Dao。他从来不关心这些货物要去哪里，他只关心。入库，出库，查询和更换。</p>
+<p>所谓的CRUD就是创建，读取，更新，删除。</p>
+<p>Dao最好都是要独立出来。</p>
+<p>到现在为止，最佳实践就是一个Service只对应一个Dao。Service会做一些额外的检查，如货物是否损坏，入库单是否完整，等等等等。</p>
+<p>我并不推荐在Service里调用多个Dao，也推荐在Service里调用多个Service，大多数情况下我都不推荐这么干。</p>
+<p>具体原因以后再说，这也是一个开放性的话题。</p>
+<p>现在我们分清楚了Model，Util，Service和Dao，可是谁来做总的调度呢？</p>
+<h3 id="5-Controller"><a href="#5-Controller" class="headerlink" title="5.Controller"></a><strong>5.Controller</strong></h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151352821.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>控制中心，所有的指令，调度都从这里发出去。</p>
+<p>哪一个Service做什么事儿，谁的数据提供给谁，一般而言，都是在Controller里实现的。</p>
+<p>Controller也是最常见的容易产生脏代码地方，通常他们会把一些不该放到Controller里东西也放进来。</p>
+<p>大概的感觉就是这样的。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112151352730.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>干嘛的都有。想想如果打小针，抽血，查尿也混杂到门诊大厅的感觉？</p>
+<p>可是大部分人写代码就是这样的。</p>
+<h2 id="四-是否适用于WEB，Android和IOS？"><a href="#四-是否适用于WEB，Android和IOS？" class="headerlink" title="四.是否适用于WEB，Android和IOS？"></a><strong>四.是否适用于WEB，Android和IOS？</strong></h2><p>Java后台是有很清楚的结构的，毕竟在JSP里写Sql语句的蛮荒时代已经过去了。</p>
+<p>Android本身就是一个良好的框架体系，基本上问题也不大，最多就是MVP和MVC的差别之类。</p>
+<p>IOS虽然没有官方提供这种框架体系，特别是很多人喜欢直接在Dict里用key取数据，这本身就破坏了代码的层次性。</p>
+<p>但是毕竟是有李明杰提供的Json解析Util,只是各家要求的力度而已。</p>
+<p>最难以理解的是WEB，也就是JS。</p>
+<p>我不是在黑JS，我是在黑JS程序员。分层结构一直都不是JS社区里最注重的，在JQuery时代更是如此，不管是Html还是JS还是CSS混在一起是正常的。</p>
+<p>那个时候叫插件，现在改名了，叫组件。</p>
+<p>你很难在JQuery里找到一套清晰的分层结构，就跟十几年前所有的人都在Jsp里写逻辑语句的道理差不多。</p>
+<p>直到google的大神偶尔遛达过来一看，咦？你们怎么还在刀耕火种？我来给你们加点现代感的东西吧。</p>
+<p>于是Angular横穿出世，一次性的构建了一个清晰的框架结构。每次看到Angular的时候都忍不住 惊叹，原来前端代码也可以这样！</p>
+<p>现在基本上可以分成两大阵营，一个是React和Vue，一个是Angular。</p>
+<p>React和Vue本身更偏得于插件化，哦，不，组件化。所以他们需要便宜桶，来拼接整个前端的架构体系。</p>
+<p>Angular却是有典型的Java架构风格，妥妥的硬汉子。</p>
+<p>所以，实际上说，这套体系也是可以应用在WEB上的，就像Android和IOS一样的，但是你喜欢，或者不喜欢，自己选啦。</p>
+<h2 id="五-进一步的学习的话，是要学习系统架构么？"><a href="#五-进一步的学习的话，是要学习系统架构么？" class="headerlink" title="五 进一步的学习的话，是要学习系统架构么？"></a><strong>五 进一步的学习的话，是要学习系统架构么？</strong></h2><p>是的。进一步要学习，并不仅仅是学习系统架构。</p>
+<p>这里还没有讲到Service的设计，互相之间的调用，解耦，服务之间的通信和管理。</p>
+<p>消息队列这个神器还没有登场，MongoDB这种战略要塞也没出场。</p>
+<p>所以以上内容，仅适用于2年以内的各种工程师。</p>
+<p><em>来源：zhihu.com/question/58410621/answer/156868800</em></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E5%90%8E%E7%AB%AF%E5%BC%80%E6%8C%82%EF%BC%9A3%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%86%99%E5%87%BA%208%20%E4%B8%AA%E6%8E%A5%E5%8F%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">后端开挂：3 行代码写出 8 个接口</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E7%BC%96%E5%86%99%20Spring%20MVC%20%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%2014%20%E4%B8%AA%E6%8A%80%E5%B7%A7/">
+                        <span class="hidden-mobile">编写 Spring MVC 控制器的 14 个技巧</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

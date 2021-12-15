@@ -1,0 +1,548 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Boot + GraphQL 应用  在浅尝GraphQL一文描述了GraphQL及基本使用，本文提供一个基本示例，描述如何基于spring boot的web项目快速应用。 graphql-java的官方文档：Getting started with GraphQL Java and Spring Boot，提供了相关依赖用以快速配置，但是个人真心不建议使用这个库及相关配置方式来搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot + GraphQL 应用">
+<meta property="og:url" content="http://example.com/2021/12/15/Spring%20Boot%20+%20GraphQL%20%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Boot + GraphQL 应用  在浅尝GraphQL一文描述了GraphQL及基本使用，本文提供一个基本示例，描述如何基于spring boot的web项目快速应用。 graphql-java的官方文档：Getting started with GraphQL Java and Spring Boot，提供了相关依赖用以快速配置，但是个人真心不建议使用这个库及相关配置方式来搭建">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131941447.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131941481.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131941814.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131945880.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131945016.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131945345.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131946171.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131946737.webp">
+<meta property="article:published_time" content="2021-12-15T13:20:03.865Z">
+<meta property="article:modified_time" content="2021-12-13T11:47:38.203Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112131941447.webp">
+  
+  <title>Spring Boot + GraphQL 应用 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Boot + GraphQL 应用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Boot + GraphQL 应用</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Boot + GraphQL 应用</h2></center>
+
+<p>在浅尝GraphQL一文描述了GraphQL及基本使用，本文提供一个基本示例，描述如何基于spring boot的web项目快速应用。</p>
+<p>graphql-java的官方文档：Getting started with GraphQL Java and Spring Boot，提供了相关依赖用以快速配置，但是个人真心不建议使用这个库及相关配置方式来搭建脚手架，在实际开发中，业务比较复杂的时候，会导致需要配置的业务代码比较多也比较繁琐，相对下面这种方式，代码复杂性比较高。</p>
+<p>本文提供一种更灵活快捷的方式，在spring boot项目中快速应用开发。使用的依赖也和上面官方提供的都不一样，请注意区分。</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a><strong>快速开始</strong></h2><h3 id="创建-Spring-boot-工程"><a href="#创建-Spring-boot-工程" class="headerlink" title="创建 Spring boot 工程"></a>创建 Spring boot 工程</h3><p>通过Spring Initializr快速搭建，我选的jdk版本及spring boot版本，如下所示，其它版本未做兼容性测试。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131941447.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>点击下方的Generate按钮：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131941481.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>打开工程结构如下，我将application.properties删除了替换成applicaiton.yml，因为我个人比较喜欢yaml的配置方式：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131941814.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="引入相关依赖"><a href="#引入相关依赖" class="headerlink" title="引入相关依赖"></a>引入相关依赖</h3><p>pom.xml配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag"> <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.4.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">relativePath</span>/&gt;</span> <span class="hljs-comment">&lt;!-- lookup parent from repository --&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.xuxd<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>graphql.demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>graphql.demo<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>GraphQL Demo project for Spring Boot<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">lombok.version</span>&gt;</span>1.18.20<span class="hljs-tag">&lt;/<span class="hljs-name">lombok.version</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">graphql-java-tools.version</span>&gt;</span>11.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">graphql-java-tools.version</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">gson.version</span>&gt;</span>2.8.7<span class="hljs-tag">&lt;/<span class="hljs-name">gson.version</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;lombok.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.graphql-java-kickstart<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>graphql-java-tools<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;graphql-java-tools.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.google.code.gson<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gson<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;gson.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><br> <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="初始化GraphQL实例"><a href="#初始化GraphQL实例" class="headerlink" title="初始化GraphQL实例"></a><strong>初始化GraphQL实例</strong></h3><p>我们将创建一个GraphQL实例并将其注册到spring容器中，代码如下:</p>
+<p>创建一个GraphQLProvider类：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLProvider</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> GraphQL graphQL;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> IItemService itemService;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> GraphQL <span class="hljs-title">graphQL</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> graphQL;<br>    &#125;<br><br>    <span class="hljs-meta">@PostConstruct</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        GraphQLSchema graphQLSchema = SchemaParser.newParser()<br>            .file(<span class="hljs-string">&quot;graphql/base.graphqls&quot;</span>)<br>            .resolvers(<span class="hljs-keyword">new</span> Query(), <span class="hljs-keyword">new</span> Mutation())<br>            .file(<span class="hljs-string">&quot;graphql/item.graphqls&quot;</span>)<br>            .resolvers(<span class="hljs-keyword">new</span> ItemResolver(itemService))<br><span class="hljs-comment">// .file(&quot;book.graphqls&quot;)</span><br><span class="hljs-comment">// .resolvers(new BookResolver()) //其它定义照上面的示例，继续增加</span><br>            .build().makeExecutableSchema();<br><br>        <span class="hljs-keyword">this</span>.graphQL = graphQL.newGraphQL(graphQLSchema).build();<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>关于<code>*.graphqls</code>或者对应的Resolver如ItemResolver，可以参看浅尝GraphQL相关描述，这里只是作了微调整，相关代码如下：</p>
+<p><strong>base.grqphqls</strong></p>
+<figure class="highlight dts"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs dts"><span class="hljs-class">schema </span>&#123;<br>    <span class="hljs-meta"># 查询</span><br><span class="hljs-symbol">    query:</span> Query<br>    <span class="hljs-meta"># 更新</span><br><span class="hljs-symbol">    mutation:</span> Mutation<br>&#125;<br><br>type <span class="hljs-class">Query </span>&#123;<br><span class="hljs-symbol">    version:</span> String<br>&#125;<br><br>type <span class="hljs-class">Mutation </span>&#123;<br><span class="hljs-symbol">    version:</span> String<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>item.graphqls</strong></p>
+<figure class="highlight haskell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs haskell"><span class="hljs-meta"># 定义一个查询类型</span><br><span class="hljs-title">extend</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Query</span> &#123;</span><br><span class="hljs-class">    <span class="hljs-title">queryItemList</span>: <span class="hljs-type">ItemList</span> # 定义查询项目列表</span><br><span class="hljs-class">    <span class="hljs-title">queryById</span>(<span class="hljs-title">id</span>: <span class="hljs-type">ID</span>): <span class="hljs-type">Item</span></span><br><span class="hljs-class">&#125;</span><br><br><span class="hljs-title">extend</span> <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Mutation</span> &#123;</span><br><span class="hljs-class">    <span class="hljs-title">updateName</span>(<span class="hljs-title">param</span>: <span class="hljs-type">Param</span>): <span class="hljs-type">Item</span></span><br><span class="hljs-class">&#125;</span><br><br><span class="hljs-meta"># 定义项目字段</span><br><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">Item</span> &#123;</span><br><span class="hljs-class">    <span class="hljs-title">id</span>: <span class="hljs-type">ID</span>!</span><br><span class="hljs-class">    <span class="hljs-title">code</span>: <span class="hljs-type">String</span>!</span><br><span class="hljs-class">    <span class="hljs-title">name</span>: <span class="hljs-type">String</span>!</span><br><span class="hljs-class">&#125;</span><br><br><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-type">ItemList</span> &#123;</span><br><span class="hljs-class">    <span class="hljs-title">itemList</span>: [<span class="hljs-type">Item</span>!]! #获取项目列表</span><br><span class="hljs-class">    <span class="hljs-title">total</span>: <span class="hljs-type">Int</span>! # 获取项目总数</span><br><span class="hljs-class">&#125;</span><br><br><span class="hljs-title">input</span> <span class="hljs-type">Param</span> &#123;<br>    id: <span class="hljs-type">ID</span>!<br>    name: <span class="hljs-type">String</span>!<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>ItemResolver</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ItemResolver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">GraphQLQueryResolver</span>, <span class="hljs-title">GraphQLMutationResolver</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> IItemService itemService;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ItemResolver</span><span class="hljs-params">(IItemService itemService)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.itemService = itemService;<br>    &#125;<br><br>    <span class="hljs-comment">// 对应item.graphqls里的queryItemList</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ItemList <span class="hljs-title">queryItemList</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> itemService.queryItemList();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Item <span class="hljs-title">queryById</span><span class="hljs-params">(Long id)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> itemService.queryById(id);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Item <span class="hljs-title">updateName</span><span class="hljs-params">(Param param)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> itemService.updateName(param);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>相关业务代码比较多，就不一一贴了。</p>
+<h3 id="提供API"><a href="#提供API" class="headerlink" title="提供API"></a>提供API</h3><p>我们需要暴露一个接口来接收请求，并作相关处理，也只需提供一个接口即可。因此我们创建一个Controller：GraphqlController.</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(&quot;/graphql&quot;)</span><br><span class="hljs-meta">@Log</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphqlController</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> GraphQL graphQL;<br><br>    <span class="hljs-meta">@PostMapping</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">execute</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> GraphqlRequest request)</span> </span>&#123;<br>        ExecutionInput executionInput = ExecutionInput.newExecutionInput()<br>            .query(request.getQuery())<br>            .variables(request.getVariables())<br>            .build();<br>        Map&lt;String, Object&gt; result = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br><br>        ExecutionResult executionResult = graphQL.execute(executionInput);<br>        List&lt;GraphQLError&gt; errors = executionResult.getErrors();<br><br>        <span class="hljs-keyword">if</span> (errors != <span class="hljs-keyword">null</span> &amp;&amp; !errors.isEmpty()) &#123;<br>            result.put(<span class="hljs-string">&quot;errors&quot;</span>, errors);<br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br>        <span class="hljs-keyword">return</span> executionResult.getData();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>到这一步，其实基本功能都已配置完成，可以启动项目进行相关测试了。</p>
+<p>整个项目的代码结构如下，我尽量用了一个比较常规的web项目结构（controller,service,dao等）：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131945880.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>示例中总共提供了3个接口，两个查询一个更新，分别进行测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function">ItemList <span class="hljs-title">queryItemList</span><span class="hljs-params">()</span></span>;<br><br><span class="hljs-function">Item <span class="hljs-title">queryById</span><span class="hljs-params">(Long id)</span></span>;<br><br><span class="hljs-function">Item <span class="hljs-title">updateName</span><span class="hljs-params">(Param param)</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>查询所有项目列表（只获取每个项目的编码和名称，以及列表总数）：</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131945016.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>根据ID查询，获取项目的id和名称</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131945345.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>更新指定ID的项目名称</strong></p>
+<p>我们项目Id为1编码为test的项目修改为“java项目”</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131946171.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>再查询一下，可以看到结果更新了：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112131946737.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>这样整个项目的GraphQL相关的基本配置已经完成，可以进行业务开发了。</p>
+<p>地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/x763795151/article/details/117604505">https://blog.csdn.net/x763795151/article/details/117604505</a></p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/Spring%20Boot%20+%20Redis%20%E6%93%8D%E4%BD%9C%E5%A4%9A%E7%A7%8D%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring Boot + Redis 操作多种实现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/Spring%20AOP%E3%80%81AspectJ%E3%80%81CGLIB%20%E9%83%BD%E6%98%AF%E4%BB%80%E4%B9%88%E9%AC%BC%EF%BC%9F/">
+                        <span class="hidden-mobile">Spring AOP、AspectJ、CGLIB 都是什么鬼？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

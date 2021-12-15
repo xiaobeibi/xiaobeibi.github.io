@@ -1,0 +1,566 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="你的登录接口真的安全吗  大家学写程序时，第一行代码都是**hello world。但是当你开始学习WEB后台技术时，很多人的第一个功能就是写的登录**。 但是我在和很多工作经验较短的同学面试或沟通的时候，发现很多同学虽然都有在简历上写：负责项目的登录&#x2F;注册功能模块的开发和设计工作，但是都只是简单的实现了功能逻辑，在安全方面并没有考虑太多。 这篇文章主要是和大家聊一聊，在设计一个登录接口时，不仅仅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你的登录接口真的安全吗">
+<meta property="og:url" content="http://example.com/2021/12/15/%E4%BD%A0%E7%9A%84%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3%E7%9C%9F%E7%9A%84%E5%AE%89%E5%85%A8%E5%90%97/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="你的登录接口真的安全吗  大家学写程序时，第一行代码都是**hello world。但是当你开始学习WEB后台技术时，很多人的第一个功能就是写的登录**。 但是我在和很多工作经验较短的同学面试或沟通的时候，发现很多同学虽然都有在简历上写：负责项目的登录&#x2F;注册功能模块的开发和设计工作，但是都只是简单的实现了功能逻辑，在安全方面并没有考虑太多。 这篇文章主要是和大家聊一聊，在设计一个登录接口时，不仅仅">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-15T13:20:03.999Z">
+<meta property="article:modified_time" content="2021-12-13T08:35:56.380Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>你的登录接口真的安全吗 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="你的登录接口真的安全吗">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">你的登录接口真的安全吗</h1>
+            
+            <div class="markdown-body">
+              <center><h2>你的登录接口真的安全吗</h2></center>
+
+<p>大家学写程序时，第一行代码都是**<code>hello world</code><strong>。但是当你开始学习WEB后台技术时，很多人的第一个功能就是写的</strong>登录**。</p>
+<p>但是我在和很多工作经验较短的同学面试或沟通的时候，发现很多同学虽然都有在简历上写：<code>负责项目的登录/注册功能模块的开发和设计工作</code>，但是都只是简单的实现了功能逻辑，在安全方面并没有考虑太多。</p>
+<p>这篇文章主要是和大家聊一聊，在设计一个登录接口时，不仅仅是功能上的实现，在安全方面，我们还需要考虑哪些地方。</p>
+<h2 id="安全风险"><a href="#安全风险" class="headerlink" title="安全风险"></a><strong>安全风险</strong></h2><h3 id="暴力破解！"><a href="#暴力破解！" class="headerlink" title="暴力破解！"></a><strong>暴力破解！</strong></h3><p>只要网站是暴露在公网的，那么很大概率上会被人盯上，尝试爆破这种简单且有效的方式：</p>
+<p><strong>通过各种方式获得了网站的用户名之后，通过编写程序来遍历所有可能的密码，直至找到正确的密码为止</strong></p>
+<p><em>伪代码如下：</em></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 密码字典</span><br>password_dict = []<br><span class="hljs-comment"># 登录接口</span><br>login_url = <span class="hljs-string">&#x27;&#x27;</span>  <br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">attack</span>(<span class="hljs-params">username</span>):</span>  <br> <span class="hljs-keyword">for</span> password <span class="hljs-keyword">in</span> password_dict:<br>     data = &#123;<span class="hljs-string">&#x27;username&#x27;</span>: username, <span class="hljs-string">&#x27;password&#x27;</span>: password&#125;<br>       content = requests.post(login_url, data).content.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>       <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;login success&#x27;</span> <span class="hljs-keyword">in</span> content:<br>           <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;got it! password is : %s&#x27;</span> % password)<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>那么这种情况，我们要怎么防范呢？</p>
+<h3 id="验证码"><a href="#验证码" class="headerlink" title="验证码"></a><strong>验证码</strong></h3><p>有聪明的同学就想到了，我可以在它密码错误达到一定次数时，增加验证码校验！比如我们设置，当用户密码错误达到3次之后，则需要用户输入图片验证码才可以继续登录操作：</p>
+<p><em>伪代码如下：</em></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">fail_count = get_from_redis(fail_username)<br><span class="hljs-keyword">if</span> fail_count &gt;= <span class="hljs-number">3</span>:<br> <span class="hljs-keyword">if</span> captcha <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>  <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;需要验证码&#x27;</span>)<br>    check_captcha(captcha)<br>success = do_login(username, password)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> success:<br> set_redis(fail_username, fail_count + <span class="hljs-number">1</span>)<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>伪代码未考虑并发，实际开发可以考虑加锁。</p>
+</blockquote>
+<p>这样确实可以过滤掉一些非法的攻击，但是以目前的OCR技术来说的话，普通的图片验证码真的很难做到有效的防止机器人（<em>我们就在这个上面吃过大亏</em>）。</p>
+<p>当然，我们也可以花钱购买类似于三方公司提供的滑动验证等验证方案，但是也并不是100%的安全，一样可以被破解（<em>惨痛教训</em>）。</p>
+<h3 id="登录限制"><a href="#登录限制" class="headerlink" title="登录限制"></a>登录限制</h3><p>那这时候又有同学说了，那我可以直接限制非正常用户的登录操作，当它密码错误达到一定次数时，直接拒绝用户的登录，隔一段时间再恢复。比如我们设置某个账号在登录时错误次数达到10次时，则5分钟内拒绝该账号的所有登录操作。</p>
+<p><em>伪代码如下：</em></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">fail_count = get_from_redis(fail_username)<br>locked = get_from_redis(lock_username)<br>  <br><span class="hljs-keyword">if</span> locked:<br> <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;拒绝登录&#x27;</span>)<br><span class="hljs-keyword">if</span> fail_count &gt;= <span class="hljs-number">3</span>:<br> <span class="hljs-keyword">if</span> captcha <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>  <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;需要验证码&#x27;</span>)<br>    check_captcha(captcha)<br>success = do_login(username, password)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> success:<br> set_redis(fail_username, fail_count + <span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">if</span> fail_count + <span class="hljs-number">1</span> &gt;= <span class="hljs-number">10</span>:<br>     <span class="hljs-comment"># 失败超过10次，设置锁定标记</span><br>     set_redis(lock_username, true, 300s)<br></code></pre></div></td></tr></table></figure>
+
+<p>umm，这样确实可以解决用户密码被爆破的问题。但是，这样会带来另一个风险：攻击者虽然不能获取到网站的用户信息，但是它可以让我们网站所有的用户都无法登录！</p>
+<p>攻击者只需要无限循环遍历所有的用户名（<em>即使没有，随机也行</em>）进行登录，那么这些用户会永远处于锁定状态，导致正常的用户无法登录网站！</p>
+<h3 id="IP限制"><a href="#IP限制" class="headerlink" title="IP限制"></a>IP限制</h3><p>那既然直接针对用户名不行的话，我们可以针对IP来处理，直接把攻击者的IP封了不就万事大吉了嘛。我们可以设定某个IP下调用登录接口错误次数达到一定时，则禁止该IP进行登录操作。</p>
+<p><em>伪代码如下：</em></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">ip = request[<span class="hljs-string">&#x27;IP&#x27;</span>]<br>fail_count = get_from_redis(fail_ip)<br><span class="hljs-keyword">if</span> fail_count &gt; <span class="hljs-number">10</span>:<br> <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;拒绝登录&#x27;</span>)<br><span class="hljs-comment"># 其它逻辑</span><br><span class="hljs-comment"># do something()</span><br>success = do_login(username, password)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> success:<br> set_redis(fail_ip, true, 300s)<br></code></pre></div></td></tr></table></figure>
+
+<p>这样也可以一定程度上解决问题，事实上有很多的限流操作都是针对IP进行的，比如niginx的限流模块就可以限制一个IP在单位时间内的访问次数。</p>
+<p>但是这里还是存在问题：</p>
+<ul>
+<li>比如现在很多学校、公司都是使用同一个出口IP，如果直接按IP限制，可能会误杀其它正常的用户</li>
+<li>现在这么多VPN，攻击者完全可以在IP被封后切换VPN来攻击</li>
+</ul>
+<h3 id="手机验证"><a href="#手机验证" class="headerlink" title="手机验证"></a>手机验证</h3><p>那难道就没有一个比较好的方式来防范吗？当然有。我们可以看到近些年来，几乎所有的应用都会让用户绑定手机，一个是国家的实名制政策要求，第二个是手机基本上和身份证一样，基本上可以代表一个人的身份标识了。所以很多安全操作都是基于手机验证来进行的，登录也可以。</p>
+<ol>
+<li>当用户输入密码次数大于3次时，要求用户输入验证码（<em>最好使用滑动验证</em>）</li>
+<li>当用户输入密码次数大于10次时，弹出手机验证，需要用户使用手机验证码和密码双重认证进行登录</li>
+</ol>
+<blockquote>
+<p>手机验证码防刷就是另一个问题了，这里不展开，以后再有时间再聊聊我们在验证码防刷方面做了哪些工作。</p>
+</blockquote>
+<p><em>伪代码如下：</em></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">fail_count = get_from_redis(fail_username)<br>  <br><span class="hljs-keyword">if</span> fail_count &gt; <span class="hljs-number">3</span>:<br> <span class="hljs-keyword">if</span> captcha <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>  <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;需要验证码&#x27;</span>)<br>    check_captcha(captcha)<br>      <br><span class="hljs-keyword">if</span> fail_count &gt; <span class="hljs-number">10</span>:<br> <span class="hljs-comment"># 大于10次，使用验证码和密码登录</span><br> <span class="hljs-keyword">if</span> dynamic_code <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>     <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;请输入手机验证码&#x27;</span>)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> validate_dynamic_code(username, dynamic_code):<br>     delete_dynamic_code(username)<br>     <span class="hljs-keyword">return</span> error(<span class="hljs-string">&#x27;手机验证码错误&#x27;</span>)<br>  <br> success = do_login(username, password, dynamic_code)<br>      <br> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> success:<br>     set_redis(fail_username, fail_count + <span class="hljs-number">1</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>我们结合了上面说的几种方式的同时，加上了手机验证码的验证模式，基本上可以阻止相当多的一部分恶意攻击者。但是没有系统是绝对安全的，我们只能够尽可能的增加攻击者的攻击成本。大家可以根据自己网站的实际情况来选择合适的策略。</p>
+<h3 id="中间人攻击？"><a href="#中间人攻击？" class="headerlink" title="中间人攻击？"></a>中间人攻击？</h3><p><strong>什么是中间人攻击</strong></p>
+<p>**中间人攻击(man-in-the-middle attack, abbreviated to MITM)**，简单一点来说就是，A和B在通讯过程中，攻击者通过嗅探、拦截等方式获取或修改A和B的通讯内容。</p>
+<p>举个栗子：<code>小白</code>给<code>小黄</code>发快递，途中要经过快递点A，<code>小黑</code>就躲在快递点A，或者干脆自己开一个快递点B来冒充快递点A。然后偷偷的拆了<code>小白</code>给<code>小黄</code>的快递，看看里面有啥东西。甚至可以把<code>小白</code>的快递给留下来，自己再打包一个一毛一样的箱子发给<code>小黄</code>。</p>
+<p>那在登录过程中，如果攻击者在嗅探到了从客户端发往服务端的登录请求，就可以很轻易的获取到用户的用户名和密码。</p>
+<p><strong>HTTPS</strong></p>
+<p>防范中间人攻击最简单也是最有效的一个操作，更换HTTPS，把网站中所有的HTTP请求修改为强制使用HTTPS。</p>
+<p><strong>为什么HTTPS可以防范中间人攻击？</strong></p>
+<p>HTTPS实际上就是在HTTP和TCP协议中间加入了SSL/TLS协议，用于保障数据的安全传输。相比于HTTP，HTTPS主要有以下几个特点：</p>
+<ul>
+<li>内容加密</li>
+<li>数据完整性</li>
+<li>身份验证</li>
+</ul>
+<blockquote>
+<p>具体的HTTPS原理这里就不再扩展了，大家可以自行Google</p>
+</blockquote>
+<h3 id="加密传输"><a href="#加密传输" class="headerlink" title="加密传输"></a>加密传输</h3><p>在HTTPS之外，我们还可以手动对敏感数据进行加密传输：</p>
+<ul>
+<li>用户名可以在客户端使用非对称加密，在服务端解密</li>
+<li>密码可以在客户端进行MD5之后传输，防止暴露密码明文</li>
+</ul>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>除了上面我们聊的这些以外，其实还有很多其它的工作可以考虑，比如：</p>
+<ul>
+<li><strong>操作日志</strong>，用户的每次登录和敏感操作都需要记录日志（包括IP、设备等）</li>
+<li><strong>异常操作或登录提醒</strong>，有了上面的操作日志，那我们就可以基于日志做风险提醒，比如用户在进行非常登录地登录、修改密码、登录异常时，可以短信提醒用户</li>
+<li><strong>拒绝弱密码</strong>注册或修改密码时，不允许用户设置弱密码</li>
+<li><strong>防止用户名被遍历</strong>有些网站在注册时，在输入完用户名之后，会提示用户名是否存在。这样会存在网站的所有用户名被泄露的风险（<em>遍历该接口即可</em>），需要在交互或逻辑上做限制</li>
+</ul>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E5%AE%B9%E5%99%A8%E5%B9%B6%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%B8%80%E5%88%87%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">容器并不能解决一切问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%9A%84%E7%A5%9E%E5%99%A8/">
+                        <span class="hidden-mobile">快速生成接口文档的神器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

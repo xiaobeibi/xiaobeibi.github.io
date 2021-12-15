@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="MyBatis 三种批量插入方式的比较  数据库使用的是SQLServer，JDK版本1.8，运行在SpringBoot环境下 对比3种可用的方式  反复执行单条插入语句 xml拼接sql 批处理执行  先说结论：少量插入请使用反复插入单条数据，方便。数量较多请使用批处理方式。（可以考虑以有需求的插入数据量20条左右为界吧，在我的测试和数据库环境下耗时都是百毫秒级的，方便最重要）无论何时都不用xm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis 三种批量插入方式的比较">
+<meta property="og:url" content="http://example.com/2021/12/15/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="MyBatis 三种批量插入方式的比较  数据库使用的是SQLServer，JDK版本1.8，运行在SpringBoot环境下 对比3种可用的方式  反复执行单条插入语句 xml拼接sql 批处理执行  先说结论：少量插入请使用反复插入单条数据，方便。数量较多请使用批处理方式。（可以考虑以有需求的插入数据量20条左右为界吧，在我的测试和数据库环境下耗时都是百毫秒级的，方便最重要）无论何时都不用xm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142142726.webp">
+<meta property="article:published_time" content="2021-12-15T13:20:03.726Z">
+<meta property="article:modified_time" content="2021-12-14T13:44:06.997Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Mybatis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142142726.webp">
+  
+  <title>MyBatis 三种批量插入方式的比较 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MyBatis 三种批量插入方式的比较">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MyBatis 三种批量插入方式的比较</h1>
+            
+            <div class="markdown-body">
+              <center><h2>MyBatis 三种批量插入方式的比较</h2></center>
+
+<p>数据库使用的是SQLServer，JDK版本1.8，运行在SpringBoot环境下 对比3种可用的方式</p>
+<ul>
+<li>反复执行单条插入语句</li>
+<li>xml拼接sql</li>
+<li>批处理执行</li>
+</ul>
+<p>先说结论：少量插入请使用反复插入单条数据，方便。数量较多请使用批处理方式。（可以考虑以有需求的插入数据量20条左右为界吧，在我的测试和数据库环境下耗时都是百毫秒级的，方便最重要）<strong>无论何时都不用xml拼接sql的方式。</strong></p>
+<h3 id="拼接-SQL-的-xml"><a href="#拼接-SQL-的-xml" class="headerlink" title="拼接 SQL 的 xml"></a><strong>拼接 SQL 的 xml</strong></h3><p>newId() 是 sqlserver 生成 UUID 的函数，与本文内容无关</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">insert</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;insertByBatch&quot;</span> <span class="hljs-attr">parameterType</span>=<span class="hljs-string">&quot;java.util.List&quot;</span>&gt;</span><br>    INSERT INTO tb_item VALUES<br>    <span class="hljs-tag">&lt;<span class="hljs-name">foreach</span> <span class="hljs-attr">collection</span>=<span class="hljs-string">&quot;list&quot;</span> <span class="hljs-attr">item</span>=<span class="hljs-string">&quot;item&quot;</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;index&quot;</span> <span class="hljs-attr">separator</span>=<span class="hljs-string">&quot;,&quot;</span>&gt;</span><br>        (newId(),#&#123;item.uniqueCode&#125;,#&#123;item.projectId&#125;,#&#123;item.name&#125;,#&#123;item.type&#125;,#&#123;item.packageUnique&#125;,<br>        #&#123;item.isPackage&#125;,#&#123;item.factoryId&#125;,#&#123;item.projectName&#125;,#&#123;item.spec&#125;,#&#123;item.length&#125;,#&#123;item.weight&#125;,<br>        #&#123;item.material&#125;,#&#123;item.setupPosition&#125;,#&#123;item.areaPosition&#125;,#&#123;item.bottomHeight&#125;,#&#123;item.topHeight&#125;,<br>        #&#123;item.serialNumber&#125;,#&#123;item.createTime&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">foreach</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">insert</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>Mapper 接口 Mapper 是 mybatis 插件 tk.Mapper 的接口，与本文内容关系不大</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ItemMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mapper</span>&lt;<span class="hljs-title">Item</span>&gt; </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">insertByBatch</span><span class="hljs-params">(List&lt;Item&gt; itemList)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Service-类"><a href="#Service-类" class="headerlink" title="Service 类"></a><strong>Service 类</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ItemService</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> ItemMapper itemMapper;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> SqlSessionFactory sqlSessionFactory;<br>    <span class="hljs-comment">//批处理</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(List&lt;Item&gt; itemList)</span> </span>&#123;<br>        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH,<span class="hljs-keyword">false</span>);<br>        ItemMapper mapper = session.getMapper(ItemMapper.class);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; itemList.size(); i++) &#123;<br>            mapper.insertSelective(itemList.get(i));<br>            <span class="hljs-keyword">if</span>(i%<span class="hljs-number">1000</span>==<span class="hljs-number">999</span>)&#123;<span class="hljs-comment">//每1000条提交一次防止内存溢出</span><br>                session.commit();<br>                session.clearCache();<br>            &#125;<br>        &#125;<br>        session.commit();<br>        session.clearCache();<br>    &#125;<br>    <span class="hljs-comment">//拼接sql</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add1</span><span class="hljs-params">(List&lt;Item&gt; itemList)</span> </span>&#123;<br>        itemList.insertByBatch(itemMapper::insertSelective);<br>    &#125;<br>    <span class="hljs-comment">//循环插入</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add2</span><span class="hljs-params">(List&lt;Item&gt; itemList)</span> </span>&#123;<br>        itemList.forEach(itemMapper::insertSelective);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a><strong>测试类</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RunWith(SpringRunner.class)</span><br><span class="hljs-meta">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ApplicationBoot.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ItemServiceTest</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    ItemService itemService;<br><br>    <span class="hljs-keyword">private</span> List&lt;Item&gt; itemList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    <span class="hljs-comment">//生成测试List</span><br>    <span class="hljs-meta">@Before</span> <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createList</span><span class="hljs-params">()</span></span>&#123;<br>        String json =<span class="hljs-string">&quot;&#123;\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;areaPosition\&quot;: \&quot;TEST\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;bottomHeight\&quot;: 5,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;factoryId\&quot;: \&quot;0\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;length\&quot;: 233.233,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;material\&quot;: \&quot;Q345B\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;name\&quot;: \&quot;TEST\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;package\&quot;: false,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;packageUnique\&quot;: \&quot;45f8a0ba0bf048839df85f32ebe5bb81\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;projectId\&quot;: \&quot;094b5eb5e0384bb1aaa822880a428b6d\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;projectName\&quot;: \&quot;项目_TEST1\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;serialNumber\&quot;: \&quot;1/2\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;setupPosition\&quot;: \&quot;1B柱\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;spec\&quot;: \&quot;200X200X200\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;topHeight\&quot;: 10,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;type\&quot;: \&quot;Steel\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;uniqueCode\&quot;: \&quot;12344312\&quot;,\n&quot;</span> +<br>                <span class="hljs-string">&quot; \&quot;weight\&quot;: 100\n&quot;</span> +<br>                <span class="hljs-string">&quot; &#125;&quot;</span>;<br>        Item test1 = JSON.parseObject(json,Item.class);<br>        test1.setCreateTime(<span class="hljs-keyword">new</span> Date());<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000</span>; i++) &#123;<span class="hljs-comment">//测试会修改此数量</span><br>            itemList.add(test1);<br>        &#125;<br>    &#125;<br>     <span class="hljs-comment">//批处理</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">tesInsert</span><span class="hljs-params">()</span> </span>&#123;<br>        itemService.add(itemList);<br>    &#125;<br>    <span class="hljs-comment">//拼接字符串</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testInsert1</span><span class="hljs-params">()</span></span>&#123;<br>        itemService.add1(itemList);<br>    &#125;<br>    <span class="hljs-comment">//循环插入</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@Transactional</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testInsert2</span><span class="hljs-params">()</span></span>&#123;<br>        itemService.add2(itemList);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a><strong>测试结果</strong></h3><p>10条 25条数据插入经多次测试，波动性较大，但基本都在百毫秒级别</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142142726.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其中 拼接sql方式在插入500条和1000条时报错（似乎是因为sql语句过长，此条跟数据库类型有关，未做其他数据库的测试）：<code>com.microsoft.sqlserver.jdbc.SQLServerException</code>: 传入的表格格式数据流(TDS)远程过程调用(RPC)协议流不正确,此RPC请求中提供了过多的参数,最多应为2100</p>
+<p><strong>可以发现</strong></p>
+<ul>
+<li>循环插入的时间复杂度是 O(n),并且常数C很大</li>
+<li>拼接SQL插入的时间复杂度（应该）是 O(logn),但是成功完成次数不多，不确定</li>
+<li>批处理的效率的时间复杂度是 O(logn)，并且常数C也比较小</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><p><strong>循环插入单条数据</strong>虽然效率极低，但是代码量极少，在使用tk.Mapper的插件情况下，仅需代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Transactional</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add1</span><span class="hljs-params">(List&lt;Item&gt; itemList)</span> </span>&#123;<br>    itemList.forEach(itemMapper::insertSelective);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>因此，在需求插入数据数量不多的情况下肯定用它了。</p>
+<p><strong>xml拼接sql</strong>是最不推荐的方式，使用时有大段的xml和sql语句要写，很容易出错，工作效率很低。更关键点是，虽然效率尚可，但是真正需要效率的时候你挂了，要你何用？</p>
+<p><strong>批处理执行</strong>是有大数据量插入时推荐的做法，使用起来也比较方便。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Mybatis/">Mybatis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Mybatis/">Mybatis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/Mybatis-Plus%20%E5%AE%98%E6%96%B9%E7%A5%9E%E5%99%A8%E5%8F%91%E5%B8%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Mybatis-Plus 官方神器发布</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/">
+                        <span class="hidden-mobile">MyBatis 批量插入几千条数据，请慎用foreach</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

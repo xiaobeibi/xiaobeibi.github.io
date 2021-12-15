@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="责任链模式在王者荣耀中的应用  在王者荣耀商城中，玩家可以参与夺宝抽奖。夺宝抽奖分两种，一种是积分抽奖，另一种是钻石抽奖；在平常，两种夺宝抽奖方式均可以通过60钻石&#x2F;积分抽奖一次，或者通过270钻石&#x2F;积分连续抽奖5次；其中，当钻石夺宝幸运值达到201时，可以获得稀有王者水晶，当积分夺宝幸运值达到361时，可以获得稀有荣耀水晶；玩家可以使用王者水晶或荣耀水晶换取特定的英雄、皮肤、装备等。 在很多情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="责任链模式在王者荣耀中的应用">
+<meta property="og:url" content="http://example.com/2021/12/15/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F%E5%9C%A8%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="责任链模式在王者荣耀中的应用  在王者荣耀商城中，玩家可以参与夺宝抽奖。夺宝抽奖分两种，一种是积分抽奖，另一种是钻石抽奖；在平常，两种夺宝抽奖方式均可以通过60钻石&#x2F;积分抽奖一次，或者通过270钻石&#x2F;积分连续抽奖5次；其中，当钻石夺宝幸运值达到201时，可以获得稀有王者水晶，当积分夺宝幸运值达到361时，可以获得稀有荣耀水晶；玩家可以使用王者水晶或荣耀水晶换取特定的英雄、皮肤、装备等。 在很多情况">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142022769.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142022437.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142023359.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142029575.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142030026.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142030385.png">
+<meta property="article:published_time" content="2021-12-15T13:20:04.109Z">
+<meta property="article:modified_time" content="2021-12-14T12:31:17.357Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="设计架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202112142022769.webp">
+  
+  <title>责任链模式在王者荣耀中的应用 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="责任链模式在王者荣耀中的应用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-15 21:20" pubdate>
+        2021年12月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">责任链模式在王者荣耀中的应用</h1>
+            
+            <div class="markdown-body">
+              <center><h2>责任链模式在王者荣耀中的应用</h2></center>
+
+<p>在王者荣耀商城中，玩家可以参与夺宝抽奖。夺宝抽奖分两种，一种是积分抽奖，另一种是钻石抽奖；在平常，两种夺宝抽奖方式均可以通过60钻石/积分抽奖一次，或者通过270钻石/积分连续抽奖5次；其中，当钻石夺宝幸运值达到201时，可以获得稀有王者水晶，当积分夺宝幸运值达到361时，可以获得稀有荣耀水晶；玩家可以使用王者水晶或荣耀水晶换取特定的英雄、皮肤、装备等。</p>
+<p>在很多情况下，可以处理某个请求的对象不止一个。很多对象都可以处理申请，而且它们构成一条链，请求沿着这条链传递，这条链就称为职责链。</p>
+<p>针对以上描述，王者荣耀中的夺宝就是责任链模式在王者荣耀中应用的例子。在这个问题中，玩家通过点击60钻石/积分抽一次或者270钻石/积分抽五次实现抽奖结果。</p>
+<blockquote>
+<p>具体而言，我们首先通过一个接口实现接收用户提交的请求，再通过三个类的实例实现具体的处理请求操作；其中，通过类“60钻石/积分抽一次”实现在14种奖品中随机得到一个奖品、类“270钻石/积分抽五次”实现在14种奖品中随机得到五个奖品、类“幸运值达到一定数值之后”实现获得稀有水晶的奖励。</p>
+</blockquote>
+<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a><strong>责任链模式</strong></h3><p><strong>责任链模式理解</strong>：高度概括：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系，将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止 。</p>
+<p>在设计Java模式时，可能需要设计很多对象来满足用户的请求。</p>
+<p>责任链模式是使用多个对象处理用户请求的成熟模式，责任链模式的关键是将用户的请求分派给许多对象，这些对象被组织成责任链，即每个对象含有后继对象的引用，并要求责任链上的每个对象，如果能处理用户的请求，就做出处理，不再将用户的请求传递给责任链上的下一个对象，如果不能处理用户的请求，就必须将用户的请求传递给责任链上的下一个对象。</p>
+<p><strong>责任链模式结构中的两种角色</strong>：</p>
+<p>❶ <strong>处理者</strong>：是一个接口，负责规定具体处理者处理用户请求的方法以及具体处理者设置后继对象的方法</p>
+<p>❷<strong>具体处理者</strong>：具体处理者是实现处理者接口的类的实例。具体处理者通过调用处理者接口规定的方法，处理用户的请求，即在接到用户的请求后，处理者将调用接口规定的方法，在执行该方法的过程中，如果发现能处理用户的请求，就处理有关数据；否则就反馈无法处理的信息给用户，然后将用户的请求传递给自己的后继对象。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142022769.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="责任链模式的优缺点："><a href="#责任链模式的优缺点：" class="headerlink" title="责任链模式的优缺点："></a><strong>责任链模式的优缺点</strong>：</h3><p><strong>优点</strong>：</p>
+<p>①责任链中的对象只和自己的后继是低耦合关系和其他对象毫无关联；</p>
+<p>②当在处理者中分配职责时，责任链给应用程序更多的灵活性；</p>
+<p>③应用程序可以动态的增加，删除处理者或重新指派处理者的职责；</p>
+<p>④应用程序可以动态的改变处理者之间的先后顺序；</p>
+<p>⑤使用责任链的用户不必知道处理者的信息，用户不会知道到底是哪个对象处理了他的请求；</p>
+<p><strong>缺点</strong>：</p>
+<p>①不能保证请求一定被接收：没有明确接收者，不能确保一定被处理；</p>
+<p>②对于太长的职责链，影响系统性能。建链不当可能出现死循环。</p>
+<h3 id="责任链模式的适用情景："><a href="#责任链模式的适用情景：" class="headerlink" title="责任链模式的适用情景："></a><strong>责任链模式的适用情景</strong>：</h3><p>①有许多对象可以处理用户的请求，希望程序在运行期间自动确定处理用户的那个对象；</p>
+<p>②希望用户不必明确指定接收者的情况下，向多个接收者的一个提交请求；</p>
+<p>③程序希望动态制定可处理用户请求的对象集合。</p>
+<h3 id="三、王者荣耀角度下实现责任链模式结构图及代码"><a href="#三、王者荣耀角度下实现责任链模式结构图及代码" class="headerlink" title="三、王者荣耀角度下实现责任链模式结构图及代码"></a><strong>三、王者荣耀角度下实现责任链模式结构图及代码</strong></h3><p>实现此责任链模式的UML类图</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142022437.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>eclipse结构图</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142023359.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>主函数【应用（Application)】</p>
+<p><strong>Application.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> angle_responsibility;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 测试应用类</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">import</span> angle_responsibility.Application;<br><span class="hljs-keyword">import</span> angle_responsibility.Diamond60DrawAPrize;<br><span class="hljs-keyword">import</span> angle_responsibility.Handler;<br><span class="hljs-keyword">import</span> angle_responsibility.Diamond270DrawFivePrizes;<br><span class="hljs-keyword">import</span> angle_responsibility.RareCrystalOfKings;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application</span> </span>&#123;<br>	<span class="hljs-keyword">private</span> Handler diamond60,diamond270,rareDiamond; <span class="hljs-comment">//责任链上的对象</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createChain</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">//建立责任链</span><br>        diamond60=<span class="hljs-keyword">new</span> Diamond60DrawAPrize();<br>        diamond270=<span class="hljs-keyword">new</span> Diamond270DrawFivePrizes();<br>        rareDiamond=<span class="hljs-keyword">new</span> RareCrystalOfKings();<br>        diamond60.setNextHandler(diamond270);<br>        diamond270.setNextHandler(rareDiamond);<br>    &#125;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">reponseClient</span><span class="hljs-params">(<span class="hljs-keyword">int</span> number)</span> </span>&#123; <span class="hljs-comment">//响应用户的请求</span><br>        diamond60.handleRequest(number);<br>    &#125;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String args[])</span> </span>&#123;<br>       Application application=<span class="hljs-keyword">new</span>  Application();<br>       application.createChain();<br>       System.out.println(<span class="hljs-string">&quot;当点击“60钻石”抽一次时：&quot;</span>);<br>       System.out.print(<span class="hljs-string">&quot;[购买成功]&quot;</span>);<br>       application.reponseClient(<span class="hljs-number">60</span>);<br>       System.out.println(<span class="hljs-string">&quot;---------------------------&quot;</span>);<br>       System.out.println(<span class="hljs-string">&quot;当点击“270钻石”抽五次时：&quot;</span>);<br>       System.out.print(<span class="hljs-string">&quot;[购买成功]&quot;</span>);<br>       application.reponseClient(<span class="hljs-number">270</span>);<br>       System.out.println(<span class="hljs-string">&quot;---------------------------&quot;</span>);<br>       System.out.println(<span class="hljs-string">&quot;当钻石抽奖“幸运值达201时”：&quot;</span>);<br>       System.out.print(<span class="hljs-string">&quot;[购买成功]&quot;</span>);<br>       application.reponseClient(<span class="hljs-number">201</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>处理者（Handler）</p>
+<p><strong>Handler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> angle_responsibility;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 角色1：处理者 :是一个接口，负责规定具体处理者处理用户请求的方法以及具体处理者设置后继对象的方法</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">import</span> angle_responsibility.Handler;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Handler</span> </span>&#123;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleRequest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> number)</span></span>; <span class="hljs-comment">//具体处理用户请求60钻石抽一次还是270钻石抽五次</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNextHandler</span><span class="hljs-params">(Handler handler)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>具体处理者（ConcreteHandler）</p>
+<p><strong>Diamond60DrawAPrize .java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> angle_responsibility;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 角色2.1：具体处理者 ：具体处理者是实现处理者接口的类的实例</span><br><span class="hljs-comment">* 具体处理者通过调用处理者接口规定的方法，处理用户的请求</span><br><span class="hljs-comment">* 即在接到用户的请求后，处理者将调用接口规定的方法，在执行该方法的过程中</span><br><span class="hljs-comment">* 如果发现能处理用户的请求，就处理有关数据</span><br><span class="hljs-comment">* 否则就反馈无法处理的信息给用户，然后将用户的请求传递给自己的后继对象</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">import</span> angle_responsibility.Handler;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Diamond60DrawAPrize</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Handler</span> </span>&#123;<br>	<span class="hljs-keyword">private</span> Handler handler; <span class="hljs-comment">//存放当前处理者后继的Hander接口变量</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleRequest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> number)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(number==<span class="hljs-number">60</span>) &#123; <span class="hljs-comment">//60钻石抽一次</span><br>             String random = <span class="hljs-string">&quot;&quot;</span>;<br>             String[] doc = &#123;<span class="hljs-string">&quot;白起&quot;</span>, <span class="hljs-string">&quot;夏侯惇&quot;</span>, <span class="hljs-string">&quot;甄姬&quot;</span>, <span class="hljs-string">&quot;金币288&quot;</span>,<span class="hljs-string">&quot;小喇叭5&quot;</span>,<span class="hljs-string">&quot;铭文碎片1600&quot;</span>, <span class="hljs-string">&quot;铭文碎片400&quot;</span>,<span class="hljs-string">&quot;铭文碎片100&quot;</span>, <span class="hljs-string">&quot;铭文碎片25&quot;</span>, <span class="hljs-string">&quot;爱心气球（3日）&quot;</span>, <span class="hljs-string">&quot;亲密玫瑰&quot;</span>,<span class="hljs-string">&quot;钻石48&quot;</span>,<span class="hljs-string">&quot;龙域领主体验卡&quot;</span>&#125;;<br>            <span class="hljs-keyword">int</span> index = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length); <span class="hljs-comment">//随机选取其一输出</span><br>             random = doc[index];<br>             System.out.println(random);<br>        &#125; <span class="hljs-keyword">else</span><br>            handler.handleRequest(number); <span class="hljs-comment">//将请求传递给下一个处理者</span><br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNextHandler</span><span class="hljs-params">(Handler handler)</span>	</span>&#123;<br>        <span class="hljs-keyword">this</span>.handler=handler;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Diamond270DrawFivePrizes.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> angle_responsibility;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 角色2.2：具体处理者 ：具体处理者是实现处理者接口的类的实例</span><br><span class="hljs-comment">* 具体处理者通过调用处理者接口规定的方法，处理用户的请求</span><br><span class="hljs-comment">* 即在接到用户的请求后，处理者将调用接口规定的方法，在执行该方法的过程中</span><br><span class="hljs-comment">* 如果发现能处理用户的请求，就处理有关数据</span><br><span class="hljs-comment">* 否则就反馈无法处理的信息给用户，然后将用户的请求传递给自己的后继对象</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Diamond270DrawFivePrizes</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Handler</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> Handler handler; <span class="hljs-comment">//存放当前处理者后继的Hander接口变量</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleRequest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> number)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(number==<span class="hljs-number">270</span>)&#123; <span class="hljs-comment">//270钻石抽五次</span><br>        String random,random1,random2,random3,random4 = <span class="hljs-string">&quot;&quot;</span>;<br>        String[] doc = &#123;<span class="hljs-string">&quot;白起&quot;</span>, <span class="hljs-string">&quot;夏侯惇&quot;</span>, <span class="hljs-string">&quot;甄姬&quot;</span>, <span class="hljs-string">&quot;金币288&quot;</span>,<span class="hljs-string">&quot;小喇叭5&quot;</span>,<span class="hljs-string">&quot;铭文碎片1600&quot;</span>, <span class="hljs-string">&quot;铭文碎片400&quot;</span>,<span class="hljs-string">&quot;铭文碎片100&quot;</span>, <span class="hljs-string">&quot;铭文碎片25&quot;</span>, <span class="hljs-string">&quot;爱心气球（3日）&quot;</span>, <span class="hljs-string">&quot;亲密玫瑰&quot;</span>,<span class="hljs-string">&quot;钻石48&quot;</span>,<span class="hljs-string">&quot;龙域领主体验卡&quot;</span>&#125;;<br>        <span class="hljs-keyword">int</span> index = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length); <span class="hljs-comment">//随机选取其五输出</span><br>        random = doc[index];<br>        System.out.print(random+<span class="hljs-string">&quot;、&quot;</span>);<br>        <span class="hljs-keyword">int</span> index1 = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length);<br>        random1 = doc[index1];<br>        System.out.print(random1+<span class="hljs-string">&quot;、&quot;</span>);<br>        <span class="hljs-keyword">int</span> index2 = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length);<br>        random2 = doc[index2];<br>        System.out.print(random2+<span class="hljs-string">&quot;、&quot;</span>);<br>        <span class="hljs-keyword">int</span> index3 = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length);<br>        random3 = doc[index3];<br>        System.out.print(random3+<span class="hljs-string">&quot;、&quot;</span>);<br>        <span class="hljs-keyword">int</span> index4 = (<span class="hljs-keyword">int</span>) (Math.random() * doc.length);<br>        random4 = doc[index4];<br>        System.out.println(random4);<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>            handler.handleRequest(number); <span class="hljs-comment">//将请求传递给下一个处理者</span><br>    &#125;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNextHandler</span><span class="hljs-params">(Handler handler)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.handler=handler;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>RareCrystalOfKings.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> angle_responsibility;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* 角色2.3：具体处理者 ：具体处理者是实现处理者接口的类的实例</span><br><span class="hljs-comment">* 具体处理者通过调用处理者接口规定的方法，处理用户的请求</span><br><span class="hljs-comment">* 即在接到用户的请求后，处理者将调用接口规定的方法，在执行该方法的过程中</span><br><span class="hljs-comment">* 如果发现能处理用户的请求，就处理有关数据</span><br><span class="hljs-comment">* 否则就反馈无法处理的信息给用户，然后将用户的请求传递给自己的后继对象</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RareCrystalOfKings</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Handler</span> </span>&#123;<br>	<span class="hljs-keyword">private</span> Handler handler; <span class="hljs-comment">//存放当前处理者后继的Hander接口变量</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleRequest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> number)</span> </span>&#123;<br>		<span class="hljs-keyword">if</span>(number==<span class="hljs-number">201</span>) &#123; <span class="hljs-comment">//当幸运值满201时，出稀有水晶</span><br>           	System.out.println(<span class="hljs-string">&quot;【稀有】王者水晶&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span><br>            handler.handleRequest(number); <span class="hljs-comment">//将请求传递给下一个处理者</span><br>    &#125;<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNextHandler</span><span class="hljs-params">(Handler handler)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.handler=handler;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果截图</p>
+<p>因为出奖品是随机的，所以多取几张图作为测试</p>
+<p>第一次抽：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142029575.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>第二次抽：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142030026.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>第N次抽：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202112142030385.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>来源：blog.csdn.net/IT_charge/article/details/105011204/</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/15/20%20%E4%B8%AA%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%20Git%20%E5%91%BD%E4%BB%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">20 个最常用的 Git 命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/15/%E4%B8%80%E4%BA%9B%E9%98%B2%E6%AD%A2%20Java%20%E4%BB%A3%E7%A0%81%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91%E7%9A%84%E6%96%B9%E6%B3%95/">
+                        <span class="hidden-mobile">一些防止 Java 代码被反编译的方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
