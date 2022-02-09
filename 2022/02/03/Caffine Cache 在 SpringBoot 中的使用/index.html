@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Caffine Cache 在 SpringBoot 中的使用  本篇博文主要介绍Caffine Cache 的使用方式，以及Caffine Cache在SpringBoot中的使用。 | Caffine Cache 在算法上的优点-W-TinyLFU说到优化，Caffine Cache到底优化了什么呢？我们刚提到过LRU，常见的缓存淘汰算法还有FIFO，LFU：  FIFO：先进先出，在这种淘汰">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caffine Cache 在 SpringBoot 中的使用">
+<meta property="og:url" content="http://example.com/2022/02/03/Caffine%20Cache%20%E5%9C%A8%20SpringBoot%20%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Caffine Cache 在 SpringBoot 中的使用  本篇博文主要介绍Caffine Cache 的使用方式，以及Caffine Cache在SpringBoot中的使用。 | Caffine Cache 在算法上的优点-W-TinyLFU说到优化，Caffine Cache到底优化了什么呢？我们刚提到过LRU，常见的缓存淘汰算法还有FIFO，LFU：  FIFO：先进先出，在这种淘汰">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201222301524.webp">
+<meta property="article:published_time" content="2022-02-03T06:21:25.409Z">
+<meta property="article:modified_time" content="2022-01-22T15:11:04.293Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201222301524.webp">
+  
+  <title>Caffine Cache 在 SpringBoot 中的使用 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Caffine Cache 在 SpringBoot 中的使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-03 14:21" pubdate>
+        2022年2月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      51 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Caffine Cache 在 SpringBoot 中的使用</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Caffine Cache 在 SpringBoot 中的使用</h2></center>
+
+<p>本篇博文主要介绍Caffine Cache 的使用方式，以及Caffine Cache在SpringBoot中的使用。</p>
+<h2 id="Caffine-Cache-在算法上的优点-W-TinyLFU"><a href="#Caffine-Cache-在算法上的优点-W-TinyLFU" class="headerlink" title="| Caffine Cache 在算法上的优点-W-TinyLFU"></a>| Caffine Cache 在算法上的优点-W-TinyLFU</h2><p>说到优化，Caffine Cache到底优化了什么呢？我们刚提到过LRU，常见的缓存淘汰算法还有FIFO，LFU：</p>
+<ol>
+<li>FIFO：先进先出，在这种淘汰算法中，先进入缓存的会先被淘汰，会导致命中率很低。</li>
+<li>LRU：最近最少使用算法，每次访问数据都会将其放在我们的队首，如果需要淘汰数据，就只需要淘汰队尾即可。仍然有个问题，如果有个数据在 1 分钟访问了 1000次，再后 1 分钟没有访问这个数据，但是有其他的数据访问，就导致了我们这个热点数据被淘汰。</li>
+<li>LFU：最近最少频率使用，利用额外的空间记录每个数据的使用频率，然后选出频率最低进行淘汰。这样就避免了 LRU 不能处理时间段的问题。</li>
+</ol>
+<p>上面三种策略各有利弊，实现的成本也是一个比一个高，同时命中率也是一个比一个好。Guava Cache虽然有这么多的功能，但是本质上还是对LRU的封装，如果有更优良的算法，并且也能提供这么多功能，相比之下就相形见绌了。</p>
+<p><strong>LFU的局限性</strong> ：在 LFU 中只要数据访问模式的概率分布随时间保持不变时，其命中率就能变得非常高。比如有部新剧出来了，我们使用 LFU 给他缓存下来，这部新剧在这几天大概访问了几亿次，这个访问频率也在我们的 LFU 中记录了几亿次。但是新剧总会过气的，比如一个月之后这个新剧的前几集其实已经过气了，但是他的访问量的确是太高了，其他的电视剧根本无法淘汰这个新剧，所以在这种模式下是有局限性。</p>
+<p><strong>LRU的优点和局限性</strong> ：LRU可以很好的应对突发流量的情况，因为他不需要累计数据频率。但LRU通过历史数据来预测未来是局限的，它会认为最后到来的数据是最可能被再次访问的，从而给与它最高的优先级。</p>
+<p>在现有算法的局限性下，会导致缓存数据的命中率或多或少的受损，而命中略又是缓存的重要指标。HighScalability网站刊登了一篇文章，由前Google工程师发明的W-TinyLFU——一种现代的缓存 。Caffine Cache就是基于此算法而研发。Caffeine 因使用 <strong>Window TinyLfu</strong> 回收策略，提供了一个<strong>近乎最佳的命中率</strong> 。</p>
+<blockquote>
+<p>当数据的访问模式不随时间变化的时候，LFU的策略能够带来最佳的缓存命中率。然而LFU有两个缺点：</p>
+<p>首先，它需要给每个记录项维护频率信息，每次访问都需要更新，这是个巨大的开销；</p>
+<p>其次，如果数据访问模式随时间有变，LFU的频率信息无法随之变化，因此早先频繁访问的记录可能会占据缓存，而后期访问较多的记录则无法被命中。</p>
+<p>因此，大多数的缓存设计都是基于LRU或者其变种来进行的。相比之下，LRU并不需要维护昂贵的缓存记录元信息，同时也能够反应随时间变化的数据访问模式。然而，在许多负载之下，LRU依然需要更多的空间才能做到跟LFU一致的缓存命中率。因此，一个“现代”的缓存，应当能够综合两者的长处。</p>
+</blockquote>
+<p>TinyLFU维护了近期访问记录的频率信息，作为一个过滤器，当新记录来时，只有满足TinyLFU要求的记录才可以被插入缓存。如前所述，作为现代的缓存，它需要解决两个挑战：</p>
+<p>一个是如何避免维护频率信息的高开销；</p>
+<p>另一个是如何反应随时间变化的访问模式。</p>
+<p>首先来看前者，TinyLFU借助了数据流Sketching技术，Count-Min Sketch显然是解决这个问题的有效手段，它可以用小得多的空间存放频率信息，而保证很低的False Positive Rate。但考虑到第二个问题，就要复杂许多了，因为我们知道，任何Sketching数据结构如果要反应时间变化都是一件困难的事情，在Bloom Filter方面，我们可以有Timing Bloom Filter，但对于CMSketch来说，如何做到Timing CMSketch就不那么容易了。TinyLFU采用了一种基于滑动窗口的时间衰减设计机制，借助于一种简易的reset操作：每次添加一条记录到Sketch的时候，都会给一个计数器上加1，当计数器达到一个尺寸W的时候，把所有记录的Sketch数值都除以2，该reset操作可以起到衰减的作用 。</p>
+<p>W-TinyLFU主要用来解决一些稀疏的突发访问元素。在一些数目很少但突发访问量很大的场景下，TinyLFU将无法保存这类元素，因为它们无法在给定时间内积累到足够高的频率。因此W-TinyLFU就是结合LFU和LRU，前者用来应对大多数场景，而LRU用来处理突发流量。</p>
+<p>在处理频率记录的方案中，你可能会想到用hashMap去存储，每一个key对应一个频率值。那如果数据量特别大的时候，是不是这个hashMap也会特别大呢。由此可以联想到 Bloom Filter，对于每个key，用n个byte每个存储一个标志用来判断key是否在集合中。原理就是使用k个hash函数来将key散列成一个整数。</p>
+<p>在W-TinyLFU中使用Count-Min Sketch记录我们的访问频率，而这个也是布隆过滤器的一种变种。如下图所示:</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201222301524.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果需要记录一个值，那我们需要通过多种Hash算法对其进行处理hash，然后在对应的hash算法的记录中+1，为什么需要多种hash算法呢？由于这是一个压缩算法必定会出现冲突，比如我们建立一个byte的数组，通过计算出每个数据的hash的位置。比如张三和李四，他们两有可能hash值都是相同，比如都是1那byte[1]这个位置就会增加相应的频率，张三访问1万次，李四访问1次那byte[1]这个位置就是1万零1，如果取李四的访问评率的时候就会取出是1万零1，但是李四命名只访问了1次啊，为了解决这个问题，所以用了多个hash算法可以理解为long[][]二维数组的一个概念，比如在第一个算法张三和李四冲突了，但是在第二个，第三个中很大的概率不冲突，比如一个算法大概有1%的概率冲突，那四个算法一起冲突的概率是1%的四次方。通过这个模式我们取李四的访问率的时候取所有算法中，李四访问最低频率的次数。所以他的名字叫Count-Min Sketch。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="| 使用"></a><strong>| 使用</strong></h2><p>Caffeine Cache 的github地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ben-manes/caffeine">https://github.com/ben-manes/caffeine</a></p>
+<p>目前的最新版本是：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.github.ben-manes.caffeine<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>caffeine<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="缓存填充策略"><a href="#缓存填充策略" class="headerlink" title="缓存填充策略"></a><strong>缓存填充策略</strong></h3><p><strong>Caffeine Cache提供了三种缓存填充策略：手动、同步加载和异步加载。</strong></p>
+<h4 id="手动加载"><a href="#手动加载" class="headerlink" title="手动加载"></a><strong>手动加载</strong></h4><p>在每次get key的时候指定一个同步的函数，如果key不存在就调用这个函数生成一个值。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 手动加载</span><br><span class="hljs-comment">* <span class="hljs-doctag">@param</span> key</span><br><span class="hljs-comment">* <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">manulOperator</span><span class="hljs-params">(String key)</span> </span>&#123;<br>    Cache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>        .expireAfterWrite(<span class="hljs-number">1</span>, TimeUnit.SECONDS)<br>        .expireAfterAccess(<span class="hljs-number">1</span>, TimeUnit.SECONDS)<br>        .maximumSize(<span class="hljs-number">10</span>)<br>        .build();<br>    <span class="hljs-comment">//如果一个key不存在，那么会进入指定的函数生成value</span><br>    Object value = cache.get(key, t -&gt; setValue(key).apply(key));<br>    cache.put(<span class="hljs-string">&quot;hello&quot;</span>,value);<br><br>    <span class="hljs-comment">//判断是否存在如果不存返回null</span><br>    Object ifPresent = cache.getIfPresent(key);<br>    <span class="hljs-comment">//移除一个key</span><br>    cache.invalidate(key);<br>    <span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Function&lt;String, Object&gt; <span class="hljs-title">setValue</span><span class="hljs-params">(String key)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> t -&gt; key + <span class="hljs-string">&quot;value&quot;</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="同步加载"><a href="#同步加载" class="headerlink" title="同步加载"></a><strong>同步加载</strong></h4><p>构造Cache时候，build方法传入一个CacheLoader实现类。实现load方法，通过key加载value。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 同步加载</span><br><span class="hljs-comment">* <span class="hljs-doctag">@param</span> key</span><br><span class="hljs-comment">* <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">syncOperator</span><span class="hljs-params">(String key)</span></span>&#123;<br>    LoadingCache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>        .maximumSize(<span class="hljs-number">100</span>)<br>        .expireAfterWrite(<span class="hljs-number">1</span>, TimeUnit.MINUTES)<br>        .build(k -&gt; setValue(key).apply(key));<br>    <span class="hljs-keyword">return</span> cache.get(key);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Function&lt;String, Object&gt; <span class="hljs-title">setValue</span><span class="hljs-params">(String key)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> t -&gt; key + <span class="hljs-string">&quot;value&quot;</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="异步加载"><a href="#异步加载" class="headerlink" title="异步加载"></a><strong>异步加载</strong></h4><p>AsyncLoadingCache是继承自LoadingCache类的，异步加载使用Executor去调用方法并返回一个CompletableFuture。异步加载缓存使用了响应式编程模型。</p>
+<p>如果要以同步方式调用时，应提供CacheLoader。要以异步表示时，应该提供一个AsyncCacheLoader，并返回一个CompletableFuture。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"> <span class="hljs-comment">/**</span><br><span class="hljs-comment">* 异步加载</span><br><span class="hljs-comment">*</span><br><span class="hljs-comment">* <span class="hljs-doctag">@param</span> key</span><br><span class="hljs-comment">* <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">asyncOperator</span><span class="hljs-params">(String key)</span></span>&#123;<br>    AsyncLoadingCache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>        .maximumSize(<span class="hljs-number">100</span>)<br>        .expireAfterWrite(<span class="hljs-number">1</span>, TimeUnit.MINUTES)<br>        .buildAsync(k -&gt; setAsyncValue(key).get());<br><br>    <span class="hljs-keyword">return</span> cache.get(key);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;Object&gt; <span class="hljs-title">setAsyncValue</span><span class="hljs-params">(String key)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> CompletableFuture.supplyAsync(() -&gt; &#123;<br>        <span class="hljs-keyword">return</span> key + <span class="hljs-string">&quot;value&quot;</span>;<br>    &#125;);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="回收策略"><a href="#回收策略" class="headerlink" title="回收策略"></a><strong>回收策略</strong></h3><p>Caffeine提供了3种回收策略：基于大小回收，基于时间回收，基于引用回收。</p>
+<h4 id="基于大小的过期方式"><a href="#基于大小的过期方式" class="headerlink" title="基于大小的过期方式"></a>基于大小的过期方式</h4><p>基于大小的回收策略有两种方式：一种是基于缓存大小，一种是基于权重。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 根据缓存的计数进行驱逐</span><br>LoadingCache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>    .maximumSize(<span class="hljs-number">10000</span>)<br>    .build(key -&gt; function(key));<br><br><br><span class="hljs-comment">// 根据缓存的权重来进行驱逐（权重只是用于确定缓存大小，不会用于决定该缓存是否被驱逐）</span><br>LoadingCache&lt;String, Object&gt; cache1 = Caffeine.newBuilder()<br>    .maximumWeight(<span class="hljs-number">10000</span>)<br>    .weigher(key -&gt; function1(key))<br>    .build(key -&gt; function(key));<br></code></pre></div></td></tr></table></figure>
+
+<p>maximumWeight与maximumSize不可以同时使用。</p>
+<h4 id="基于时间的过期方式"><a href="#基于时间的过期方式" class="headerlink" title="基于时间的过期方式"></a>基于时间的过期方式</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 基于固定的到期策略进行退出</span><br>LoadingCache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>    .expireAfterAccess(<span class="hljs-number">5</span>, TimeUnit.MINUTES)<br>    .build(key -&gt; function(key));<br>LoadingCache&lt;String, Object&gt; cache1 = Caffeine.newBuilder()<br>    .expireAfterWrite(<span class="hljs-number">10</span>, TimeUnit.MINUTES)<br>    .build(key -&gt; function(key));<br><br><span class="hljs-comment">// 基于不同的到期策略进行退出</span><br>LoadingCache&lt;String, Object&gt; cache2 = Caffeine.newBuilder()<br>    .expireAfter(<span class="hljs-keyword">new</span> Expiry&lt;String, Object&gt;() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">expireAfterCreate</span><span class="hljs-params">(String key, Object value, <span class="hljs-keyword">long</span> currentTime)</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> TimeUnit.SECONDS.toNanos(seconds);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">expireAfterUpdate</span><span class="hljs-params">(<span class="hljs-meta">@Nonnull</span> String s, <span class="hljs-meta">@Nonnull</span> Object o, <span class="hljs-keyword">long</span> l, <span class="hljs-keyword">long</span> l1)</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">expireAfterRead</span><span class="hljs-params">(<span class="hljs-meta">@Nonnull</span> String s, <span class="hljs-meta">@Nonnull</span> Object o, <span class="hljs-keyword">long</span> l, <span class="hljs-keyword">long</span> l1)</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;).build(key -&gt; function(key));<br></code></pre></div></td></tr></table></figure>
+
+<p>Caffeine提供了三种定时驱逐策略：</p>
+<p>expireAfterAccess(long, TimeUnit):在最后一次访问或者写入后开始计时，在指定的时间后过期。假如一直有请求访问该key，那么这个缓存将一直不会过期。expireAfterWrite(long, TimeUnit): 在最后一次写入缓存后开始计时，在指定的时间后过期。expireAfter(Expiry): 自定义策略，过期时间由Expiry实现独自计算。缓存的删除策略使用的是惰性删除和定时删除。这两个删除策略的时间复杂度都是O(1)。</p>
+<h4 id="基于引用的过期方式"><a href="#基于引用的过期方式" class="headerlink" title="基于引用的过期方式"></a>基于引用的过期方式</h4><p>Java中四种引用类型</p>
+<table>
+<thead>
+<tr>
+<th>引用类型</th>
+<th>被垃圾回收时间</th>
+<th>用途</th>
+<th>生存时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强引用 Strong Reference</td>
+<td>从来不会</td>
+<td>对象的一般状态</td>
+<td>JVM停止运行时终止</td>
+</tr>
+<tr>
+<td>软引用 Soft Reference</td>
+<td>在内存不足时</td>
+<td>对象缓存</td>
+<td>内存不足时终止</td>
+</tr>
+<tr>
+<td>弱引用 Weak Reference</td>
+<td>在垃圾回收时</td>
+<td>对象缓存</td>
+<td>gc运行后终止</td>
+</tr>
+<tr>
+<td>虚引用 Phantom Reference</td>
+<td>从来不会</td>
+<td>可以用虚引用来跟踪对象被垃圾回收器回收的活动，当一个虚引用关联的对象被垃圾收集器回收之前会收到一条系统通知</td>
+<td>JVM停止运行时终止</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 当key和value都没有引用时驱逐缓存</span><br>LoadingCache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>    .weakKeys()<br>    .weakValues()<br>    .build(key -&gt; function(key));<br><br><span class="hljs-comment">// 当垃圾收集器需要释放内存时驱逐</span><br>LoadingCache&lt;String, Object&gt; cache1 = Caffeine.newBuilder()<br>    .softValues()<br>    .build(key -&gt; function(key));<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>注意：AsyncLoadingCache不支持弱引用和软引用。</strong></p>
+<p>Caffeine.weakKeys()：使用弱引用存储key。如果没有其他地方对该key有强引用，那么该缓存就会被垃圾回收器回收。由于垃圾回收器只依赖于身份(identity)相等，因此这会导致整个缓存使用身份 (==) 相等来比较 key，而不是使用 equals()。</p>
+<p>Caffeine.weakValues() ：使用弱引用存储value。如果没有其他地方对该value有强引用，那么该缓存就会被垃圾回收器回收。由于垃圾回收器只依赖于身份(identity)相等，因此这会导致整个缓存使用身份 (==) 相等来比较 key，而不是使用 equals()。</p>
+<p>Caffeine.softValues() ：使用软引用存储value。当内存满了过后，软引用的对象以将使用最近最少使用(least-recently-used ) 的方式进行垃圾回收。由于使用软引用是需要等到内存满了才进行回收，所以我们通常建议给缓存配置一个使用内存的最大值。softValues() 将使用身份相等(identity) (==) 而不是equals() 来比较值。</p>
+<p><strong>Caffeine.weakValues()和Caffeine.softValues()不可以一起使用。</strong></p>
+<p><strong>移除事件监听</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Cache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>    .removalListener((String key, Object value, RemovalCause cause) -&gt;<br>                     System.out.printf(<span class="hljs-string">&quot;Key %s was removed (%s)%n&quot;</span>, key, cause))<br>    .build();<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="写入外部存储"><a href="#写入外部存储" class="headerlink" title="写入外部存储"></a><strong>写入外部存储</strong></h3><p>CacheWriter 方法可以将缓存中所有的数据写入到第三方。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">LoadingCache&lt;String, Object&gt; cache2 = Caffeine.newBuilder()<br>    .writer(<span class="hljs-keyword">new</span> CacheWriter&lt;String, Object&gt;() &#123;<br>        <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">(String key, Object value)</span> </span>&#123;<br>            <span class="hljs-comment">// 写入到外部存储</span><br>        &#125;<br>        <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(String key, Object value, RemovalCause cause)</span> </span>&#123;<br>            <span class="hljs-comment">// 删除外部存储</span><br>        &#125;<br>    &#125;)<br>    .build(key -&gt; function(key));<br></code></pre></div></td></tr></table></figure>
+
+<p>如果你有多级缓存的情况下，这个方法还是很实用。</p>
+<p><strong>注意：CacheWriter不能与弱键或AsyncLoadingCache一起使用。</strong></p>
+<h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a><strong>统计</strong></h3><p>与Guava Cache的统计一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Cache&lt;String, Object&gt; cache = Caffeine.newBuilder()<br>    .maximumSize(<span class="hljs-number">10_000</span>)<br>    .recordStats()<br>    .build();<br></code></pre></div></td></tr></table></figure>
+
+<p>通过使用Caffeine.recordStats(), 可以转化成一个统计的集合. 通过 Cache.stats() 返回一个CacheStats。CacheStats提供以下统计方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">hitRate(): 返回缓存命中率<br><br>evictionCount(): 缓存回收数量<br><br>averageLoadPenalty(): 加载新值的平均时间<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="SpringBoot-中默认Cache-Caffine-Cache"><a href="#SpringBoot-中默认Cache-Caffine-Cache" class="headerlink" title="| SpringBoot 中默认Cache-Caffine Cache"></a>| SpringBoot 中默认Cache-Caffine Cache</h2><p>SpringBoot 1.x版本中的默认本地cache是Guava Cache。在2.x（<strong>Spring Boot 2.0(spring 5)</strong> ）版本中已经用Caffine Cache取代了Guava Cache。毕竟有了更优的缓存淘汰策略。</p>
+<p>下面我们来说在SpringBoot2.x版本中如何使用cache。</p>
+<p><strong>引入依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-cache<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.github.ben-manes.caffeine<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>caffeine<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="添加注解开启缓存支持"><a href="#添加注解开启缓存支持" class="headerlink" title="添加注解开启缓存支持"></a><strong>添加注解开启缓存支持</strong></h3><p>添加@EnableCaching注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableCaching</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingleDatabaseApplication</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(SingleDatabaseApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="配置文件的方式注入相关参数"><a href="#配置文件的方式注入相关参数" class="headerlink" title="配置文件的方式注入相关参数"></a><strong>配置文件的方式注入相关参数</strong></h3><p>properties文件</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.cache.cache-names</span>=<span class="hljs-string">cache1</span><br><span class="hljs-meta">spring.cache.caffeine.spec</span>=<span class="hljs-string">initialCapacity=50,maximumSize=500,expireAfterWrite=10s</span><br></code></pre></div></td></tr></table></figure>
+
+<p>或Yaml文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cache:</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">caffeine</span><br>    <span class="hljs-attr">cache-names:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">userCache</span><br>    <span class="hljs-attr">caffeine:</span><br>      <span class="hljs-attr">spec:</span> <span class="hljs-string">maximumSize=1024,refreshAfterWrite=60s</span><br></code></pre></div></td></tr></table></figure>
+
+<p>如果使用refreshAfterWrite配置,必须指定一个CacheLoader.不用该配置则无需这个bean,如上所述,该CacheLoader将关联被该缓存管理器管理的所有缓存，所以必须定义为CacheLoader&lt;Object, Object&gt;，自动配置将忽略所有泛型类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.github.benmanes.caffeine.cache.CacheLoader;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: rickiyang</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span>: 2019/6/15</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@description</span>:</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheConfig</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 相当于在构建LoadingCache对象的时候 build()方法中指定过期之后的加载策略方法</span><br><span class="hljs-comment">     * 必须要指定这个Bean，refreshAfterWrite=60s属性才生效</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> CacheLoader&lt;String, Object&gt; <span class="hljs-title">cacheLoader</span><span class="hljs-params">()</span> </span>&#123;<br>        CacheLoader&lt;String, Object&gt; cacheLoader = <span class="hljs-keyword">new</span> CacheLoader&lt;String, Object&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">load</span><span class="hljs-params">(String key)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>            &#125;<br>            <span class="hljs-comment">// 重写这个方法将oldValue值返回回去，进而刷新缓存</span><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">reload</span><span class="hljs-params">(String key, Object oldValue)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                <span class="hljs-keyword">return</span> oldValue;<br>            &#125;<br>        &#125;;<br>        <span class="hljs-keyword">return</span> cacheLoader;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="Caffeine常用配置说明："><a href="#Caffeine常用配置说明：" class="headerlink" title="Caffeine常用配置说明："></a><strong>Caffeine常用配置说明：</strong></h3><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">initialCapacity=[<span class="hljs-built_in">integer</span>]: 初始的缓存空间大小<br><br>maximumSize=[long]: 缓存的最大条数<br><br>maximumWeight=[long]: 缓存的最大权重<br><br>expireAfterAccess=[duration]: 最后一次写入或访问后经过固定时间过期<br><br>expireAfterWrite=[duration]: 最后一次写入后经过固定时间过期<br><br>refreshAfterWrite=[duration]: 创建缓存或者最近一次更新缓存后经过固定的时间间隔，刷新缓存<br><br>weakKeys: 打开key的弱引用<br><br>weakValues：打开value的弱引用<br><br>softValues：打开value的软引用<br><br>recordStats：开发统计功能<br><br>注意：<br><br>expireAfterWrite和expireAfterAccess同时存在时，以expireAfterWrite为准。<br><br>maximumSize和maximumWeight不可以同时使用<br><br>weakValues和softValues不可以同时使用<br></code></pre></div></td></tr></table></figure>
+
+<p>需要说明的是，使用配置文件的方式来进行缓存项配置，一般情况能满足使用需求，但是灵活性不是很高，如果我们有很多缓存项的情况下写起来会导致配置文件很长。所以一般情况下你也可以选择使用bean的方式来初始化Cache实例。</p>
+<p>下面的演示使用bean的方式来注入：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.rickiyang.learn.cache;<br><br><span class="hljs-keyword">import</span> com.github.benmanes.caffeine.cache.CacheLoader;<br><span class="hljs-keyword">import</span> com.github.benmanes.caffeine.cache.Caffeine;<br><span class="hljs-keyword">import</span> org.apache.commons.compress.utils.Lists;<br><span class="hljs-keyword">import</span> org.springframework.cache.CacheManager;<br><span class="hljs-keyword">import</span> org.springframework.cache.caffeine.CaffeineCache;<br><span class="hljs-keyword">import</span> org.springframework.cache.support.SimpleCacheManager;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Primary;<br><br><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: rickiyang</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span>: 2019/6/15</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@description</span>:</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheConfig</span> </span>&#123;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建基于Caffeine的Cache Manager</span><br><span class="hljs-comment">     * 初始化一些key存入</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@Primary</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> CacheManager <span class="hljs-title">caffeineCacheManager</span><span class="hljs-params">()</span> </span>&#123;<br>        SimpleCacheManager cacheManager = <span class="hljs-keyword">new</span> SimpleCacheManager();<br>        ArrayList&lt;CaffeineCache&gt; caches = Lists.newArrayList();<br>        List&lt;CacheBean&gt; list = setCacheBean();<br>        <span class="hljs-keyword">for</span>(CacheBean cacheBean : list)&#123;<br>            caches.add(<span class="hljs-keyword">new</span> CaffeineCache(cacheBean.getKey(),<br>                    Caffeine.newBuilder().recordStats()<br>                            .expireAfterWrite(cacheBean.getTtl(), TimeUnit.SECONDS)<br>                            .maximumSize(cacheBean.getMaximumSize())<br>                            .build()));<br>        &#125;<br>        cacheManager.setCaches(caches);<br>        <span class="hljs-keyword">return</span> cacheManager;<br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 初始化一些缓存的 key</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;CacheBean&gt; <span class="hljs-title">setCacheBean</span><span class="hljs-params">()</span></span>&#123;<br>        List&lt;CacheBean&gt; list = Lists.newArrayList();<br>        CacheBean userCache = <span class="hljs-keyword">new</span> CacheBean();<br>        userCache.setKey(<span class="hljs-string">&quot;userCache&quot;</span>);<br>        userCache.setTtl(<span class="hljs-number">60</span>);<br>        userCache.setMaximumSize(<span class="hljs-number">10000</span>);<br><br>        CacheBean deptCache = <span class="hljs-keyword">new</span> CacheBean();<br>        deptCache.setKey(<span class="hljs-string">&quot;userCache&quot;</span>);<br>        deptCache.setTtl(<span class="hljs-number">60</span>);<br>        deptCache.setMaximumSize(<span class="hljs-number">10000</span>);<br><br>        list.add(userCache);<br>        list.add(deptCache);<br><br>        <span class="hljs-keyword">return</span> list;<br>    &#125;<br><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheBean</span> </span>&#123;<br>        <span class="hljs-keyword">private</span> String key;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> ttl;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> maximumSize;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getKey</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> key;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setKey</span><span class="hljs-params">(String key)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.key = key;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getTtl</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> ttl;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTtl</span><span class="hljs-params">(<span class="hljs-keyword">long</span> ttl)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.ttl = ttl;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getMaximumSize</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> maximumSize;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMaximumSize</span><span class="hljs-params">(<span class="hljs-keyword">long</span> maximumSize)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.maximumSize = maximumSize;<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>创建了一个<code>SimpleCacheManager</code>作为Cache的管理对象，然后初始化了两个Cache对象，分别存储user，dept类型的缓存。当然构建Cache的参数设置我写的比较简单，你在使用的时候酌情根据需要配置参数。</p>
+<h3 id="使用注解来对-cache-增删改查"><a href="#使用注解来对-cache-增删改查" class="headerlink" title="使用注解来对 cache 增删改查"></a><strong>使用注解来对 cache 增删改查</strong></h3><p>我们可以使用spring提供的 <code>@Cacheable</code>、<code>@CachePut</code>、<code>@CacheEvict</code>等注解来方便的使用caffeine缓存。</p>
+<p>如果使用了多个cahce，比如redis、caffeine等，必须指定某一个CacheManage为@primary，在@Cacheable注解中没指定 cacheManager 则使用标记为primary的那个。</p>
+<p>cache方面的注解主要有以下5个：</p>
+<ul>
+<li>@Cacheable 触发缓存入口（这里一般放在创建和获取的方法上，<code>@Cacheable</code>注解会先查询是否已经有缓存，有会使用缓存，没有则会执行方法并缓存）</li>
+<li>@CacheEvict 触发缓存的eviction（用于删除的方法上）</li>
+<li>@CachePut 更新缓存且不影响方法执行（用于修改的方法上，该注解下的方法始终会被执行）</li>
+<li>@Caching 将多个缓存组合在一个方法上（该注解可以允许一个方法同时设置多个注解）</li>
+<li>@CacheConfig 在类级别设置一些缓存相关的共同配置（与其它缓存配合使用）</li>
+</ul>
+<p>说一下<code>@Cacheable</code> 和 <code>@CachePut</code>的区别：</p>
+<p>@Cacheable：它的注解的方法是否被执行取决于Cacheable中的条件，方法很多时候都可能不被执行。</p>
+<p>@CachePut：这个注解不会影响方法的执行，也就是说无论它配置的条件是什么，方法都会被执行，更多的时候是被用到修改上。</p>
+<p>简要说一下Cacheable类中各个方法的使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Cacheable &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 要使用的cache的名字</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@AliasFor(&quot;cacheNames&quot;)</span><br>    String[] value() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 同value()，决定要使用那个/些缓存</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@AliasFor(&quot;value&quot;)</span><br>    String[] cacheNames() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用SpEL表达式来设定缓存的key，如果不设置默认方法上所有参数都会作为key的一部分</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">key</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用来生成key，与key()不可以共用</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">keyGenerator</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设定要使用的cacheManager，必须先设置好cacheManager的bean，这是使用该bean的名字</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">cacheManager</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用cacheResolver来设定使用的缓存，用法同cacheManager，但是与cacheManager不可以同时使用</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">cacheResolver</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用SpEL表达式设定出发缓存的条件，在方法执行前生效</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">condition</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用SpEL设置出发缓存的条件，这里是方法执行完生效，所以条件中可以有方法执行后的value</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">unless</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用于同步的，在缓存失效（过期不存在等各种原因）的时候，如果多个线程同时访问被标注的方法</span><br><span class="hljs-comment">     * 则只允许一个线程通过去执行方法</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">sync</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">false</span></span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>基于注解的使用方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.rickiyang.learn.cache;<br><br><span class="hljs-keyword">import</span> com.rickiyang.learn.entity.User;<br><span class="hljs-keyword">import</span> org.springframework.cache.annotation.CacheEvict;<br><span class="hljs-keyword">import</span> org.springframework.cache.annotation.CachePut;<br><span class="hljs-keyword">import</span> org.springframework.cache.annotation.Cacheable;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span>: rickiyang</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span>: 2019/6/15</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@description</span>: 本地cache</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserCacheService</span> </span>&#123;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 查找</span><br><span class="hljs-comment">     * 先查缓存，如果查不到，会查数据库并存入缓存</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Cacheable(value = &quot;userCache&quot;, key = &quot;#id&quot;, sync = true)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getUser</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span></span>&#123;<br>        <span class="hljs-comment">//查找数据库</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 更新/保存</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@CachePut(value = &quot;userCache&quot;, key = &quot;#user.id&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveUser</span><span class="hljs-params">(User user)</span></span>&#123;<br>        <span class="hljs-comment">//todo 保存数据库</span><br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@CacheEvict(value = &quot;userCache&quot;,key = &quot;#user.id&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delUser</span><span class="hljs-params">(User user)</span></span>&#123;<br>        <span class="hljs-comment">//todo 保存数据库</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>如果你不想使用注解的方式去操作缓存，也可以直接使用SimpleCacheManager获取缓存的key进而进行操作。</p>
+<p>注意到上面的key使用了spEL 表达式。Spring Cache提供了一些供我们使用的SpEL上下文数据，下表直接摘自Spring官方文档：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>位置</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>methodName</td>
+<td>root对象</td>
+<td>当前被调用的方法名</td>
+<td><code>#root.methodname</code></td>
+</tr>
+<tr>
+<td>method</td>
+<td>root对象</td>
+<td>当前被调用的方法</td>
+<td><code>#root.method.name</code></td>
+</tr>
+<tr>
+<td>target</td>
+<td>root对象</td>
+<td>当前被调用的目标对象实例</td>
+<td><code>#root.target</code></td>
+</tr>
+<tr>
+<td>targetClass</td>
+<td>root对象</td>
+<td>当前被调用的目标对象的类</td>
+<td><code>#root.targetClass</code></td>
+</tr>
+<tr>
+<td>args</td>
+<td>root对象</td>
+<td>当前被调用的方法的参数列表</td>
+<td><code>#root.args[0]</code></td>
+</tr>
+<tr>
+<td>caches</td>
+<td>root对象</td>
+<td>当前方法调用使用的缓存列表</td>
+<td><code>#root.caches[0].name</code></td>
+</tr>
+<tr>
+<td>Argument Name</td>
+<td>执行上下文</td>
+<td>当前被调用的方法的参数，如findArtisan(Artisan artisan),可以通过#artsian.id获得参数</td>
+<td><code>#artsian.id</code></td>
+</tr>
+<tr>
+<td>result</td>
+<td>执行上下文</td>
+<td>方法执行后的返回值（仅当方法执行后的判断有效，如 unless cacheEvict的beforeInvocation=false）</td>
+<td><code>#result</code></td>
+</tr>
+</tbody></table>
+<p><strong>注意：</strong></p>
+<p>1.当我们要使用root对象的属性作为key时我们也可以将“#root”省略，因为Spring默认使用的就是root对象的属性。如</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Cacheable(key = &quot;targetClass + methodName +#p0&quot;)</span><br></code></pre></div></td></tr></table></figure>
+
+<p>2.使用方法参数时我们可以直接使用“#参数名”或者“#p参数index”。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Cacheable(value=&quot;userCache&quot;, key=&quot;#id&quot;)</span><br><span class="hljs-meta">@Cacheable(value=&quot;userCache&quot;, key=&quot;#p0&quot;)</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="SpEL提供了多种运算符"><a href="#SpEL提供了多种运算符" class="headerlink" title="SpEL提供了多种运算符"></a><strong>SpEL提供了多种运算符</strong></h3><table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>运算符</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>关系</td>
+<td>&lt;，&gt;，&lt;=，&gt;=，==，!=，lt，gt，le，ge，eq，ne</td>
+</tr>
+<tr>
+<td>算术</td>
+<td>+，- ，* ，/，%，^</td>
+</tr>
+<tr>
+<td>逻辑</td>
+<td>&amp;&amp;，||，!，and，or，not，between，instanceof</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>?: (ternary)，?: (elvis)</td>
+</tr>
+<tr>
+<td>正则表达式</td>
+<td>matches</td>
+</tr>
+<tr>
+<td>其他类型</td>
+<td>?.，?[…]，![…]，^[…]，$[…]</td>
+</tr>
+</tbody></table>
+<p>来源：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/rickiyang/p/11074158.html">https://www.cnblogs.com/rickiyang/p/11074158.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Demo/">Demo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Demo/">Demo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/03/IntelliJ%20IDEA%20%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%20Spring%20Cloud%20%E6%A1%86%E6%9E%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IntelliJ IDEA 搭建微服务 Spring Cloud 框架</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/03/4%20%E7%A7%8D%E6%96%B9%E6%A1%88%E5%B8%AE%E4%BD%A0%E8%A7%A3%E5%86%B3%20Maven%20%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE%E8%BF%87%E6%85%A2%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">4 种方案帮你解决 Maven 创建项目过慢问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

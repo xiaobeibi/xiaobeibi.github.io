@@ -1,0 +1,573 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="基于 Spring Boot 的 flowable 工作流实战  使用 flowable 自带的 flowable-ui 制作流程图，使用Spring Boot 开发流程使用的接口完成流程的业务功能 一、flowable-ui 部署运行flowable-6.6.0 运行 官方demo 1参考文档：https:&#x2F;&#x2F;flowable.com&#x2F;open-source&#x2F;docs&#x2F;bpmn&#x2F;ch14-App">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Spring Boot 的 flowable 工作流实战">
+<meta property="og:url" content="http://example.com/2022/02/03/%E5%9F%BA%E4%BA%8E%20Spring%20Boot%20%E7%9A%84%20flowable%20%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="基于 Spring Boot 的 flowable 工作流实战  使用 flowable 自带的 flowable-ui 制作流程图，使用Spring Boot 开发流程使用的接口完成流程的业务功能 一、flowable-ui 部署运行flowable-6.6.0 运行 官方demo 1参考文档：https:&#x2F;&#x2F;flowable.com&#x2F;open-source&#x2F;docs&#x2F;bpmn&#x2F;ch14-App">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232216602.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217047.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217738.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217323.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217688.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217852.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232217982.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232220954.webp">
+<meta property="article:published_time" content="2022-02-03T06:21:25.304Z">
+<meta property="article:modified_time" content="2022-01-23T14:21:32.137Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232216602.webp">
+  
+  <title>基于 Spring Boot 的 flowable 工作流实战 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="基于 Spring Boot 的 flowable 工作流实战">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-03 14:21" pubdate>
+        2022年2月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      13k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      39 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于 Spring Boot 的 flowable 工作流实战</h1>
+            
+            <div class="markdown-body">
+              <center><h2>基于 Spring Boot 的 flowable 工作流实战</h2></center>
+
+<p>使用 flowable 自带的 flowable-ui 制作流程图，使用Spring Boot 开发流程使用的接口完成流程的业务功能</p>
+<h2 id="一、flowable-ui-部署运行"><a href="#一、flowable-ui-部署运行" class="headerlink" title="一、flowable-ui 部署运行"></a><strong>一、flowable-ui 部署运行</strong></h2><p>flowable-6.6.0 运行 官方demo</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">参考文档：https:<span class="hljs-regexp">//</span>flowable.com<span class="hljs-regexp">/open-source/</span>docs<span class="hljs-regexp">/bpmn/</span>ch14-Applications/<br></code></pre></div></td></tr></table></figure>
+
+<ol>
+<li>从官网下载flowable-6.6.0 :</li>
+</ol>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/flowable/</span>flowable-engine<span class="hljs-regexp">/releases/</span>download<span class="hljs-regexp">/flowable-6.6.0/</span>flowable-<span class="hljs-number">6.6</span>.<span class="hljs-number">0</span>.zip<br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>将压缩包中的 flowable-6.6.0\wars\flowable-ui.war 丢到 Tomcat 中跑起来</li>
+<li>打开 <a target="_blank" rel="noopener" href="http://localhost:8080/flowable-ui">http://localhost:8080/flowable-ui</a> 用账户：admin/test 登录</li>
+</ol>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232216602.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol start="4">
+<li>进入APP.MODELER创建流程，之后可以导出流程到项目中使用，或者配置</li>
+</ol>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">apache-tomcat-9.0.37<span class="hljs-symbol">\w</span>ebapps<span class="hljs-symbol">\f</span>lowable-ui<span class="hljs-symbol">\W</span>EB-INF<span class="hljs-symbol">\c</span>lasses<span class="hljs-symbol">\f</span>lowable-default.properties<br></code></pre></div></td></tr></table></figure>
+
+<p>连接本地数据库</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217047.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>注意：需要将java驱动jar（mysql-connector-java-5.1.45.jar）复制到 apache-tomcat-9.0.37\webapps\flowable-rest\WEB-INF\lib，这样创建的流程后端程序就能直接使用</p>
+<h2 id="二、绘制流程图"><a href="#二、绘制流程图" class="headerlink" title="二、绘制流程图"></a><strong>二、绘制流程图</strong></h2><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217738.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>根据业务需要在 flowable-ui&gt;APP.MODELER 里面绘制流程图，示例如上图。先解释一些概念。</p>
+<p><strong>事件</strong>（event）通常用于为流程生命周期中发生的事情建模，图里是【开始、结束】两个圈。</p>
+<p><strong>顺序流</strong>（sequence flow）是流程中两个元素间的连接器。图里是【箭头线段】。</p>
+<p><strong>网关</strong>（gateway）用于控制执行的流向。图里是【菱形（中间有X）】</p>
+<p><strong>用户任务</strong>（user task）用于对需要人工执行的任务进行建模。图里是【矩形】。</p>
+<p><strong>简单的工作流大概就这些元素(还有很多这里就不扩展了)。下面描述一下工作流是如何流动的。</strong></p>
+<p>首先启动了工作流后，由【开始】节点自动流向【学生】节点，等待该任务执行。任务被分配的学生用户执行后流向 【老师】节点，再次等待该任务执行。</p>
+<p>被分配的老师用户执行后流向 【网关】，网关以此检查每个出口，流向符合条件的任务，比如这里老师执行任务时是同意，就流向【校长】节点，等待该任务执行。执行后跟老师类似，同意后就流向【结束】节点，整个流程到此结束。</p>
+<p><strong>绘图细节：</strong></p>
+<p><strong>1、保留流程模型</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217323.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>2、顺序流可以设置流条件来限制流动，比如上面的网关出口就设置了条件</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217688.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>3、任务需要分配任务的执行用户，可以分配到候选组，也可以直接分配到候选人</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217852.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>最后导出工作流文件</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232217982.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>文件内容</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">definitions</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-insmtece&quot;</span> <span class="hljs-attr">xmlns:xsd</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema&quot;</span> <span class="hljs-attr">xmlns:flowable</span>=<span class="hljs-string">&quot;http://flowable.org/bpmn&quot;</span> <span class="hljs-attr">xmlns:bpmndi</span>=<span class="hljs-string">&quot;http://www.omg.org/spec/BPMN/20100524/DI&quot;</span> <span class="hljs-attr">xmlns:omgdc</span>=<span class="hljs-string">&quot;http://www.omg.org/spec/DD/20100524/DC&quot;</span> <span class="hljs-attr">xmlns:omgdi</span>=<span class="hljs-string">&quot;http://www.omg.org/spec/DD/20100524/DI&quot;</span> <span class="hljs-attr">typeLanguage</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema&quot;</span> <span class="hljs-attr">expressionLanguage</span>=<span class="hljs-string">&quot;http://www.w3.org/1999/XPath&quot;</span> <span class="hljs-attr">targetNamespace</span>=<span class="hljs-string">&quot;http://www.flowable.org/processdef&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">process</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;leave_approval&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;请假审批&quot;</span> <span class="hljs-attr">isExecutable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">startEvent</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;start&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;开始&quot;</span> <span class="hljs-attr">flowable:initiator</span>=<span class="hljs-string">&quot;startuser&quot;</span> <span class="hljs-attr">flowable:formFieldValidation</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">startEvent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;stu_task&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;学生&quot;</span> <span class="hljs-attr">flowable:candidateGroups</span>=<span class="hljs-string">&quot;stu_group&quot;</span> <span class="hljs-attr">flowable:formFieldValidation</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow1&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;start&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;stu_task&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;te_task&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;老师&quot;</span> <span class="hljs-attr">flowable:candidateGroups</span>=<span class="hljs-string">&quot;te_group&quot;</span> <span class="hljs-attr">flowable:formFieldValidation</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusiveGateway</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;getway1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;网关1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">exclusiveGateway</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">userTask</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mte_task&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;校长&quot;</span> <span class="hljs-attr">flowable:candidateGroups</span>=<span class="hljs-string">&quot;mte_group&quot;</span> <span class="hljs-attr">flowable:formFieldValidation</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">userTask</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">exclusiveGateway</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;getway2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;网关2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">exclusiveGateway</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">endEvent</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;end&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;结束&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">endEvent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;请假&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;stu_task&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;te_task&quot;</span> <span class="hljs-attr">skipExpression</span>=<span class="hljs-string">&quot;$&#123;command==&#x27;agree&#x27;&#125;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow3_1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;同意&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;getway1&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;mte_task&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">conditionExpression</span> <span class="hljs-attr">xsi:type</span>=<span class="hljs-string">&quot;tFormalExpression&quot;</span>&gt;</span>&lt;![CDATA[$&#123;command==&#x27;agree&#x27;&#125;]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">conditionExpression</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;审批&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;te_task&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;getway1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow3_2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;拒绝&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;getway1&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;stu_task&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">conditionExpression</span> <span class="hljs-attr">xsi:type</span>=<span class="hljs-string">&quot;tFormalExpression&quot;</span>&gt;</span>&lt;![CDATA[$&#123;command==&#x27;refuse&#x27;&#125;]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">conditionExpression</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow4&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;审批&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;mte_task&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;getway2&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow4_1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;同意&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;getway2&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;end&quot;</span> <span class="hljs-attr">skipExpression</span>=<span class="hljs-string">&quot;$&#123;command==&#x27;free&#x27;&#125;&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">conditionExpression</span> <span class="hljs-attr">xsi:type</span>=<span class="hljs-string">&quot;tFormalExpression&quot;</span>&gt;</span>&lt;![CDATA[$&#123;command==&#x27;agree&#x27;&#125;]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">conditionExpression</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sequenceFlow</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;flow4_2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;拒绝&quot;</span> <span class="hljs-attr">sourceRef</span>=<span class="hljs-string">&quot;getway2&quot;</span> <span class="hljs-attr">targetRef</span>=<span class="hljs-string">&quot;stu_task&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">conditionExpression</span> <span class="hljs-attr">xsi:type</span>=<span class="hljs-string">&quot;tFormalExpression&quot;</span>&gt;</span>&lt;![CDATA[$&#123;command==&#x27;refuse&#x27;&#125;]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">conditionExpression</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">sequenceFlow</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">process</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">bpmndi:BPMNDiagram</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;BPMNDiagram_leave_approval&quot;</span>&gt;</span><br>    这里先省略<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">bpmndi:BPMNDiagram</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">definitions</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="三、后台项目搭建"><a href="#三、后台项目搭建" class="headerlink" title="三、后台项目搭建"></a><strong>三、后台项目搭建</strong></h2><p>后台项目基于 JDK8，使用 Spring Boot 框架</p>
+<p>spring 版本</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.3.0.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">relativePath</span>/&gt;</span> <br><span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>项目依赖 pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.flowable<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>flowable-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.6.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.1.45<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>项目配置 application.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">datasource:</span><br>    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/flowable?useSSL=false&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT%2B8</span><br>    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span><br>    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span><br>    <span class="hljs-attr">password:</span> <span class="hljs-number">123456</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="四、数据库"><a href="#四、数据库" class="headerlink" title="四、数据库"></a><strong>四、数据库</strong></h2><p>1、Flowable的所有数据库表都以ACT_开头。第二部分是说明表用途的两字符标示符。服务API的命名也大略符合这个规则。<br>2、ACT_RE_*: ‘RE’代表repository。带有这个前缀的表包含“静态”信息，例如流程定义与流程资源（图片、规则等）。<br>3、ACT_RU_*: ‘RU’代表runtime。这些表存储运行时信息，例如流程实例（process instance）、用户任务（user task）、变量（variable）、作业（job）等。Flowable只在流程实例运行中保存运行时数据，并在流程实例结束时删除记录。这样保证运行时表小和快。<br>4、ACT_HI_*: ‘HI’代表history。这些表存储历史数据，例如已完成的流程实例、变量、任务等。<br>5、ACT_GE_*: 通用数据。在多处使用。</p>
+<p>通用表明细 参考 华格瑞沙</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>）通用数据表（<span class="hljs-number">2</span>个）<br><span class="hljs-attribute">act_ge_bytearray</span>：二进制数据表，如流程定义、流程模板、流程图的字节流文件；<br><span class="hljs-attribute">act_ge_property</span>：属性数据表（不常用）；<br><span class="hljs-attribute">2</span>）历史表（<span class="hljs-number">8</span>个，HistoryService接口操作的表）<br><span class="hljs-attribute">act_hi_actinst</span>：历史节点表，存放流程实例运转的各个节点信息（包含开始、结束等非任务节点）；<br><span class="hljs-attribute">act_hi_attachment</span>：历史附件表，存放历史节点上传的附件信息（不常用）；<br><span class="hljs-attribute">act_hi_comment</span>：历史意见表；<br><span class="hljs-attribute">act_hi_detail</span>：历史详情表，存储节点运转的一些信息（不常用）；<br><span class="hljs-attribute">act_hi_identitylink</span>：历史流程人员表，存储流程各节点候选、办理人员信息，常用于查询某人或部门的已办任务；<br><span class="hljs-attribute">act_hi_procinst</span>：历史流程实例表，存储流程实例历史数据（包含正在运行的流程实例）；<br><span class="hljs-attribute">act_hi_taskinst</span>：历史流程任务表，存储历史任务节点；<br><span class="hljs-attribute">act_hi_varinst</span>：流程历史变量表，存储流程历史节点的变量信息；<br><span class="hljs-attribute">3</span>）用户相关表（<span class="hljs-number">4</span>个，IdentityService接口操作的表）<br><span class="hljs-attribute">act_id_group</span>：用户组信息表，对应节点选定候选组信息；<br><span class="hljs-attribute">act_id_info</span>：用户扩展信息表，存储用户扩展信息；<br><span class="hljs-attribute">act_id_membership</span>：用户与用户组关系表；<br><span class="hljs-attribute">act_id_user</span>：用户信息表，对应节点选定办理人或候选人信息；<br><span class="hljs-attribute">4</span>）流程定义、流程模板相关表（<span class="hljs-number">3</span>个，RepositoryService接口操作的表）<br><span class="hljs-attribute">act_re_deployment</span>：部属信息表，存储流程定义、模板部署信息；<br><span class="hljs-attribute">act_re_procdef</span>：流程定义信息表，存储流程定义相关描述信息，但其真正内容存储在act_ge_bytearray表中，以字节形式存储；<br><span class="hljs-attribute">act_re_model</span>：流程模板信息表，存储流程模板相关描述信息，但其真正内容存储在act_ge_bytearray表中，以字节形式存储；<br><span class="hljs-attribute">5</span>）流程运行时表（<span class="hljs-number">6</span>个，RuntimeService接口操作的表）<br><span class="hljs-attribute">act_ru_task</span>：运行时流程任务节点表，存储运行中流程的任务节点信息，重要，常用于查询人员或部门的待办任务时使用；<br><span class="hljs-attribute">act_ru_event_subscr</span>：监听信息表，不常用；<br><span class="hljs-attribute">act_ru_execution</span>：运行时流程执行实例表，记录运行中流程运行的各个分支信息（当没有子流程时，其数据与act_ru_task表数据是一一对应的）；<br><span class="hljs-attribute">act_ru_identitylink</span>：运行时流程人员表，重要，常用于查询人员或部门的待办任务时使用；<br><span class="hljs-attribute">act_ru_job</span>：运行时定时任务数据表，存储流程的定时任务信息；<br><span class="hljs-attribute">act_ru_variable</span>：运行时流程变量数据表，存储运行中的流程各节点的变量信息；<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="五、流程引擎API与服务"><a href="#五、流程引擎API与服务" class="headerlink" title="五、流程引擎API与服务"></a><strong>五、流程引擎API与服务</strong></h2><p>引擎API是与Flowable交互的最常用手段。总入口点是ProcessEngine。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232220954.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>1、RepositoryService很可能是使用Flowable引擎要用的第一个服务。这个服务提供了管理与控制部署(deployments)与流程定义(process<br>definitions)的操作。管理静态信息，</p>
+<p>2、RuntimeService用于启动流程定义的新流程实例。</p>
+<p>3、IdentityService很简单。它用于管理（创建，更新，删除，查询……）组与用户。</p>
+<p>4、FormService是可选服务。也就是说Flowable没有它也能很好地运行，而不必牺牲任何功能。</p>
+<p>5、HistoryService暴露Flowable引擎收集的所有历史数据。要提供查询历史数据的能力。</p>
+<p>6、ManagementService通常在用Flowable编写用户应用时不需要使用。它可以读取数据库表与表原始数据的信息，也提供了对作业(job)的查询与管理操作。</p>
+<p>7、DynamicBpmnService可用于修改流程定义中的部分内容，而不需要重新部署它。例如可以修改流程定义中一个用户任务的办理人设置，或者修改一个服务任务中的类名。</p>
+</blockquote>
+<p>接下来使用之前的请假流程图，上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * TestFlowable</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span>: 2021/10/17 23:35</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestFlowable</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RepositoryService repositoryService;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RuntimeService runtimeService;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> HistoryService historyService;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> org.flowable.engine.TaskService taskService;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> org.flowable.engine.IdentityService identityService;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createDeploymentZip</span><span class="hljs-params">()</span> </span>&#123;<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:38</span><br><span class="hljs-comment">         * Step 1: 部署xml（压缩到zip形式，直接xml需要配置相对路径，麻烦，暂不用）</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            File zipTemp = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&quot;f:/leave_approval.bpmn20.zip&quot;</span>);<br>            ZipInputStream zipInputStream = <span class="hljs-keyword">new</span> ZipInputStream(<span class="hljs-keyword">new</span> FileInputStream(zipTemp));<br>            Deployment deployment = repositoryService<br>                    .createDeployment()<br>                    .addZipInputStream(zipInputStream)<br>                    .deploy();<br>            log.info(<span class="hljs-string">&quot;部署成功:&#123;&#125;&quot;</span>, deployment.getId());<br>        &#125; <span class="hljs-keyword">catch</span> (FileNotFoundException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:40</span><br><span class="hljs-comment">         * Step 2: 查询部署的流程定义</span><br><span class="hljs-comment">         */</span><br>        List&lt;ProcessDefinition&gt; list = repositoryService.createProcessDefinitionQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).list();<br>        List&lt;ProcessDefinition&gt; pages = repositoryService.createProcessDefinitionQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).listPage(<span class="hljs-number">1</span>, <span class="hljs-number">30</span>);<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:40</span><br><span class="hljs-comment">         * Step 3: 启动流程，创建实例</span><br><span class="hljs-comment">         */</span><br>        String processDefinitionKey = <span class="hljs-string">&quot;leave_approval&quot;</span>;<span class="hljs-comment">//流程定义的key,对应请假的流程图</span><br>        String businessKey = <span class="hljs-string">&quot;schoolleave&quot;</span>;<span class="hljs-comment">//业务代码，根据自己的业务用</span><br>        Map&lt;String, Object&gt; variablesDefinition = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<span class="hljs-comment">//流程变量，可以自定义扩充</span><br>        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey, variablesDefinition);<br>        log.info(<span class="hljs-string">&quot;启动成功:&#123;&#125;&quot;</span>, processInstance.getId());<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:40</span><br><span class="hljs-comment">         * Step 4: 查询指定流程所有启动的实例列表</span><br><span class="hljs-comment">         * 列表，或 分页 删除</span><br><span class="hljs-comment">         */</span><br>        List&lt;Execution&gt; executions = runtimeService.createExecutionQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).list();<br>        List&lt;Execution&gt; executionPages = runtimeService.createExecutionQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).listPage(<span class="hljs-number">1</span>, <span class="hljs-number">30</span>);<br><span class="hljs-comment">// runtimeService.deleteProcessInstance(processInstanceId, deleteReason); //删除实例</span><br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:40</span><br><span class="hljs-comment">         * Step 5: 学生查询可以操作的任务,并完成任务</span><br><span class="hljs-comment">         */</span><br>        String candidateGroup = <span class="hljs-string">&quot;stu_group&quot;</span>; <span class="hljs-comment">//候选组 xml文件里面的 flowable:candidateGroups=&quot;stu_group&quot;</span><br>        List&lt;Task&gt; taskList = taskService.createTaskQuery().taskCandidateGroup(candidateGroup).orderByTaskCreateTime().desc().list();<br>        <span class="hljs-keyword">for</span> (Task task : taskList) &#123;<br>            <span class="hljs-comment">// 申领任务</span><br>            taskService.claim(task.getId(), <span class="hljs-string">&quot;my&quot;</span>);<br>            <span class="hljs-comment">// 完成</span><br>            taskService.complete(task.getId());<br>        &#125;<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/17 23:40</span><br><span class="hljs-comment">         * Step 6: 老师查询可以操作的任务,并完成任务</span><br><span class="hljs-comment">         */</span><br>        String candidateGroupTe = <span class="hljs-string">&quot;te_group&quot;</span>; <span class="hljs-comment">//候选组 xml文件里面的 flowable:candidateGroups=&quot;te_group&quot;</span><br>        List&lt;Task&gt; taskListTe = taskService.createTaskQuery().taskCandidateGroup(candidateGroupTe).orderByTaskCreateTime().desc().list();<br>        <span class="hljs-keyword">for</span> (Task task : taskListTe) &#123;<br>            <span class="hljs-comment">// 申领任务</span><br>            taskService.claim(task.getId(), <span class="hljs-string">&quot;myte&quot;</span>);<br>            <span class="hljs-comment">// 完成</span><br>            Map&lt;String, Object&gt; variables = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>            variables.put(<span class="hljs-string">&quot;command&quot;</span>,<span class="hljs-string">&quot;agree&quot;</span>); <span class="hljs-comment">//携带变量，用于网关流程的条件判定，这里的条件是同意</span><br>            taskService.complete(task.getId(), variables);<br>        &#125;<br><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * @Date: 2021/10/18 0:17</span><br><span class="hljs-comment">         * Step 7: 历史查询，因为一旦流程执行完毕，活动的数据都会被清空，上面查询的接口都查不到数据，但是提供历史查询接口</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-comment">// 历史流程实例</span><br>        List&lt;HistoricProcessInstance&gt; historicProcessList = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).list();<br>        <span class="hljs-comment">// 历史任务</span><br>        List&lt;HistoricTaskInstance&gt; historicTaskList = historyService.createHistoricTaskInstanceQuery().processDefinitionKey(<span class="hljs-string">&quot;leave_approval&quot;</span>).list();<br>        <span class="hljs-comment">// 实例历史变量 , 任务历史变量</span><br>        <span class="hljs-comment">// historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId);</span><br>        <span class="hljs-comment">// historyService.createHistoricVariableInstanceQuery().taskId(taskId);</span><br><br>        <span class="hljs-comment">// *****************************************************分隔符********************************************************************</span><br>        <span class="hljs-comment">// *****************************************************分隔符********************************************************************</span><br>        <span class="hljs-comment">// 可能还需要的API</span><br>        <span class="hljs-comment">// 移动任务，人为跳转任务</span><br>        <span class="hljs-comment">// runtimeService.createChangeActivityStateBuilder().processInstanceId(processInstanceId)</span><br>        <span class="hljs-comment">// .moveActivityIdTo(currentActivityTaskId, newActivityTaskId).changeState();</span><br><br>        <span class="hljs-comment">// 如果在数据库配置了分组和用户，还会用到</span><br>        List&lt;User&gt; users = identityService.createUserQuery().list(); <span class="hljs-comment">//用户查询，用户id对应xml 里面配置的用户</span><br>        List&lt;Group&gt; groups = identityService.createGroupQuery().list(); <span class="hljs-comment">//分组查询，分组id对应xml 里面配置的分组 如 stu_group，te_group 在表里是id的值</span><br><br>        <span class="hljs-comment">// 另外，每个查询后面都可以拼条件，内置恁多查询，包括模糊查询，大小比较都有</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>五、参考资料</strong></p>
+<p>【1】分享牛Flowable文档汉化：<a target="_blank" rel="noopener" href="https://github.com/qiudaoke/flowable-userguide">https://github.com/qiudaoke/flowable-userguide</a><br>【2】猫七姑娘 flowable-6.6.0 运行官方 demo<br>【3】华格瑞沙 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/yangjiming/p/10938515.html">https://www.cnblogs.com/yangjiming/p/10938515.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/03/%E9%9D%A2%E8%AF%95%E8%A2%AB%E9%97%AE%20Linux%20%E5%91%BD%E4%BB%A4%20su%20%E5%92%8C%20sudo%20%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">面试被问 Linux 命令 su 和 sudo 的区别？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/03/%E5%A4%8D%E7%8E%B0%20Log4j2%20%E6%BC%8F%E6%B4%9E/">
+                        <span class="hidden-mobile">复现 Log4j2 漏洞</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

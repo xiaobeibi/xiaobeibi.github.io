@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="SpringCloudAlibaba：Nacos实现原理详解  Nacos 架构 Provider APP：服务提供者 Consumer APP：服务消费者 Name Server：通过VIP（Virtual IP）或DNS的方式实现Nacos高可用集群的服务路由 Nacos Server：Nacos服务提供者，里面包含的Open API是功能访问入口，Conig Service、Naming S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloudAlibaba：Nacos实现原理详解">
+<meta property="og:url" content="http://example.com/2022/02/03/SpringCloudAlibaba%EF%BC%9ANacos%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="SpringCloudAlibaba：Nacos实现原理详解  Nacos 架构 Provider APP：服务提供者 Consumer APP：服务消费者 Name Server：通过VIP（Virtual IP）或DNS的方式实现Nacos高可用集群的服务路由 Nacos Server：Nacos服务提供者，里面包含的Open API是功能访问入口，Conig Service、Naming S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232039712.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232040137.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232040570.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232042921.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232042018.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232043197.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232045109.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232045944.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232045403.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232045477.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232045153.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046942.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046018.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046669.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046219.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046062.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046856.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232046744.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047891.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047683.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047008.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047183.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047364.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047799.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047045.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047497.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232047446.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232048917.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232048240.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232048521.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232048607.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232048155.webp">
+<meta property="article:published_time" content="2022-02-03T06:21:25.241Z">
+<meta property="article:modified_time" content="2022-01-23T12:50:00.077Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringCloud">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201232039712.webp">
+  
+  <title>SpringCloudAlibaba：Nacos实现原理详解 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SpringCloudAlibaba：Nacos实现原理详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-03 14:21" pubdate>
+        2022年2月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SpringCloudAlibaba：Nacos实现原理详解</h1>
+            
+            <div class="markdown-body">
+              <center><h2>SpringCloudAlibaba：Nacos实现原理详解</h2></center>
+
+<h3 id="Nacos-架构"><a href="#Nacos-架构" class="headerlink" title="Nacos 架构"></a>Nacos 架构</h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232039712.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Provider APP：服务提供者</p>
+<p>Consumer APP：服务消费者</p>
+<p>Name Server：通过VIP（Virtual IP）或DNS的方式实现Nacos高可用集群的服务路由</p>
+<p>Nacos Server：Nacos服务提供者，里面包含的Open API是功能访问入口，Conig Service、Naming Service 是Nacos提供的配置服务、命名服务模块。</p>
+<p>Consitency Protocol是一致性协议，用来实现Nacos集群节点的数据同步，这里使用的是Raft算法（Etcd、Redis哨兵选举）</p>
+<p>Nacos Console：控制台</p>
+<h4 id="注册中心的原理"><a href="#注册中心的原理" class="headerlink" title="注册中心的原理"></a>注册中心的原理</h4><ul>
+<li>服务实例在启动时注册到服务注册表，并在关闭时注销</li>
+<li>服务消费者查询服务注册表，获得可用实例</li>
+<li>服务注册中心需要调用服务实例的健康检查API来验证它是否能够处理请求</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232040137.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Spring-Cloud-完成注册的时机"><a href="#Spring-Cloud-完成注册的时机" class="headerlink" title="Spring Cloud 完成注册的时机"></a>Spring Cloud 完成注册的时机</h4><p>在Spring-Cloud-Common包中有一个类<code>org.springframework.cloud. client.serviceregistry .ServiceRegistry</code> ,它是Spring Cloud提供的服务注册的标准。集成到Spring Cloud中实现服务注册的组件,都会实现该接口。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232040570.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>该接口有一个实现类是<code>NacoServiceRegistry</code>。</p>
+<p> Spring Cloud集成Nacos的实现过程：</p>
+<p>在spring-clou-commons包的META-INF/spring.factories中包含自动装配的配置信息如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232042921.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其中AutoServiceRegistrationAutoConfiguration就是服务注册相关的配置类：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232042018.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在AutoServiceRegistrationAutoConfiguration配置类中,可以看到注入了一个AutoServiceRegistration实例,该类的关系图如下所示。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232043197.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看出, AbstractAutoServiceRegistration抽象类实现了该接口,并且最重要的是NacosAutoServiceRegistration继承了AbstractAutoServiceRegistration。</p>
+<p>看到EventListener我们就应该知道，Nacos是通过Spring的事件机制继承到SpringCloud中去的。</p>
+<p>AbstractAutoServiceRegistration实现了onApplicationEvent抽象方法,并且监听WebServerInitializedEvent事件(当Webserver初始化完成之后) , 调用this.bind ( event )方法。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232045109.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>最终会调用NacosServiceREgistry.register()方法进行服务注册。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232045944.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232045403.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>NacosServiceRegistry的实现</strong></p>
+<p>在NacosServiceRegistry.registry方法中,调用了Nacos Client SDK中的namingService.registerInstance完成服务的注册。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232045477.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>跟踪 NacosNamingService的registerInstance()方法：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232045153.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>通过<code>beatReactor.addBeatInfo()</code>创建心跳信息实现健康检测, Nacos Server必须要确保注册的服务实例是健康的,而心跳检测就是服务健康检测的手段。</p>
+<p><code>serverProxy.registerService()</code>实现服务注册</p>
+<p>心跳机制：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046942.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从上述代码看,所谓心跳机制就是客户端通过schedule定时向服务端发送一个数据包 ,然后启动-个线程不断检测服务端的回应,如果在设定时间内没有收到服务端的回应,则认为服务器出现了故障。Nacos服务端会根据客户端的心跳包不断更新服务的状态。</p>
+<p>注册原理：</p>
+<p>Nacos提供了SDK和Open API两种形式来实现服务注册。</p>
+<p>Open API：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046018.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SDK：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046669.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这两种形式本质都一样，底层都是基于HTTP协议完成请求的。所以注册服务就是发送一个HTTP请求：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046219.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>对于nacos服务端，对外提供的服务接口请求地址为<code>nacos/v1/ns/instance</code>，实现代码咋nacos-naming模块下的InstanceController类中：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046062.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>从请求参数汇总获得serviceName（服务名）和namespaceId（命名空间Id）</li>
+<li>调用registerInstance注册实例</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046856.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>创建一个控服务（在Nacos控制台“服务列表”中展示的服务信息），实际上是初始化一个serviceMap，它是一个ConcurrentHashMap集合</li>
+<li>getService，从serviceMap中根据namespaceId和serviceName得到一个服务对象</li>
+<li>调用addInstance添加服务实例</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232046744.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047891.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>根据namespaceId、serviceName从缓存中获取Service实例</li>
+<li>如果Service实例为空，则创建并保存到缓存中</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047683.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>通过putService()方法将服务缓存到内存</li>
+<li>service.init()建立心跳机制</li>
+<li>consistencyService.listen实现数据一致性监听</li>
+</ul>
+<p>service.init ( ) 方法的如下图所示，它主要通过定时任务不断检测当前服务下所有实例最后发送心跳包的时间。如果超时,则设置healthy为false表示服务不健康,并且发送服务变更事件。在这里请大家思考一一个问题,服务实例的最后心跳包更新时间是谁来触发的?实际上前面有讲到, Nacos客户端注册服务的同时也建立了心跳机制。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047008.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>putService方法，它的功能是将Service保存到serviceMap中：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047183.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>继续调用addInstance方法把当前注册的服务实例保存到Service中：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047364.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>总结：Nacos客户端通过Open API的形式发送服务注册请求,Nacos服务端收到请求后，做以下三件事：</p>
+<ol>
+<li><p>构建一个Service对象保存到ConcurrentHashMap集合中</p>
+</li>
+<li><p>使用定时任务对当前服务下的所有实例建立心跳检测机制</p>
+</li>
+<li><p>基于数据一致性协议服务数据进行同步</p>
+</li>
+</ol>
+<h4 id="服务提供者地址查询"><a href="#服务提供者地址查询" class="headerlink" title="服务提供者地址查询"></a>服务提供者地址查询</h4><p>Open API：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047799.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SDK：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047045.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>InstanceController中的list方法：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047497.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>解析请求参数</li>
+<li>通过doSrvIPXT返回服务列表数据</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232047446.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232048917.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>根据namespaceId、serviceName获得Service实例</li>
+<li>从Service实例中基于srvIPs得到所有服务提供者实例</li>
+<li>遍历组装JSON字符串并返回</li>
+</ul>
+<h4 id="Nacos服务地址动态感知原理"><a href="#Nacos服务地址动态感知原理" class="headerlink" title="Nacos服务地址动态感知原理"></a>Nacos服务地址动态感知原理</h4><p>可以通过subscribe方法来实现监听，其中serviceName表示服务名、EventListener表示监听到的事件：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232048240.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>具体调用方式如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232048521.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>或者调用selectInstance方法，如果将subscribe属性设置为true，会自动注册监听：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232048607.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201232048155.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Nacos客户端中有一个HostReactor类，它的功能是实现服务的动态更新，基本原理是：</p>
+<p>客户端发起时间订阅后，在HostReactor中有一个UpdateTask线程，每10s发送一次Pull请求，获得服务端最新的地址列表</p>
+<p>对于服务端，它和服务提供者的实例之间维持了心跳检测，一旦服务提供者出现异常，则会发送一个Push消息给Nacos客户端，也就是服务端消费者</p>
+<p>服务消费者收到请求之后，使用HostReactor中提供的processServiceJSON解析消息，并更新本地服务地址列表。</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">地址：https:<span class="hljs-regexp">//</span>blog.csdn.net<span class="hljs-regexp">/cold___play/</span>article<span class="hljs-regexp">/details/</span><span class="hljs-number">108032204</span><br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringCloud/">SpringCloud</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringCloud/">SpringCloud</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/03/%E4%BF%9D%E6%8A%A4%20Java%20%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8D%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">保护 Java 字节码不被反编译</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/03/Spring%20Boot%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E5%8A%A0%E5%AF%86/">
+                        <span class="hidden-mobile">Spring Boot 配置文件敏感信息加密</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

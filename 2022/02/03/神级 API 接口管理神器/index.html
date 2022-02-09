@@ -1,0 +1,540 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="神级 API 接口管理神器  API 本质是一个封装了功能并公开一个用于访问功能的接口！关于API的信息外界无从得知，所以没有好的文档，使用者就无法理解和使用。API 文档最核心的需求是简洁精准，当然要是颜值再高一点那就更好了！ 精准简洁的API文档可以推动研发数据规范化，降低协作成本，从而大幅度提高团队效率！最近总有阿里、腾讯、滴滴的开发朋友提到 ApiPost，自己体验操作后，发现它的优势的确">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神级 API 接口管理神器">
+<meta property="og:url" content="http://example.com/2022/02/03/%E7%A5%9E%E7%BA%A7%20API%20%E6%8E%A5%E5%8F%A3%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="神级 API 接口管理神器  API 本质是一个封装了功能并公开一个用于访问功能的接口！关于API的信息外界无从得知，所以没有好的文档，使用者就无法理解和使用。API 文档最核心的需求是简洁精准，当然要是颜值再高一点那就更好了！ 精准简洁的API文档可以推动研发数据规范化，降低协作成本，从而大幅度提高团队效率！最近总有阿里、腾讯、滴滴的开发朋友提到 ApiPost，自己体验操作后，发现它的优势的确">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201806564.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201806532.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201807915.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201807383.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201807979.webp">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201808618.webp">
+<meta property="article:published_time" content="2022-02-03T06:21:25.380Z">
+<meta property="article:modified_time" content="2022-01-20T10:09:51.804Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202201201806564.webp">
+  
+  <title>神级 API 接口管理神器 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="神级 API 接口管理神器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-03 14:21" pubdate>
+        2022年2月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">神级 API 接口管理神器</h1>
+            
+            <div class="markdown-body">
+              <center><h2>神级 API 接口管理神器</h2></center>
+
+<p>API 本质是一个封装了功能并公开一个用于访问功能的接口！关于API的信息外界无从得知，所以没有好的文档，使用者就无法理解和使用。API 文档最核心的需求是简洁精准，当然要是颜值再高一点那就更好了！</p>
+<p>精准简洁的API文档可以推动研发数据规范化，降低协作成本，从而大幅度提高团队效率！最近总有阿里、腾讯、滴滴的开发朋友提到 ApiPost，自己体验操作后，发现它的优势的确明显。</p>
+<p>ApiPost 官方网站下载：</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.apipost.cn/download.html?fr=jvhd<br></code></pre></div></td></tr></table></figure>
+
+<p>可以一键生成API文档，完全中文，界面简洁美观，而且免费使用！很适合国内的开发者使用。听说针对高校和培训机构还是完全免费的，无限工位，不限制任何功能。</p>
+<h2 id="怎么制作简洁精准的API文档？"><a href="#怎么制作简洁精准的API文档？" class="headerlink" title="怎么制作简洁精准的API文档？"></a><strong>怎么制作简洁精准的API文档？</strong></h2><h3 id="要有层次有结构"><a href="#要有层次有结构" class="headerlink" title="要有层次有结构"></a><strong>要有层次有结构</strong></h3><p>API文档绝不只是简单直白的列出各种参数，好的文档应该是有层次有结构的内容，可以让使用者清晰理解。</p>
+<h3 id="精准具象"><a href="#精准具象" class="headerlink" title="精准具象"></a><strong>精准具象</strong></h3><p>API本身就是抽象的，如果文档也是抽象的，对于使用者来说就是一场灾难了！可以多用实际案例，案例能显著减少理解成本。</p>
+<p>其次表达还要尽量精准，避免模糊的表达。</p>
+<h3 id="界面友好可搜索"><a href="#界面友好可搜索" class="headerlink" title="界面友好可搜索"></a><strong>界面友好可搜索</strong></h3><p>一个好的 API 文档，它的界面交互也要简单易用，尽量提供好的使用体验。以往的文档比较简单，现在的文档多是基于网页实现，可设计性很高，可以尝试多种设计方式。</p>
+<p>文档如果内容过多，在大量的代码函数中寻找目标会是一件非常费时的事。为使用者提供搜索功能，可以减少搜索相关内容的时间。</p>
+<h2 id="ApiPost-是什么？"><a href="#ApiPost-是什么？" class="headerlink" title="ApiPost 是什么？"></a><strong>ApiPost 是什么？</strong></h2><p>ApiPost是一个支持模拟POST、GET、PUT等常见HTTP请求,支持团队协作,并可直接生成并导出接口文档的API 文档、调试、Mock、测试一体化协作平台。</p>
+<p>简单说：</p>
+<p><strong>ApiPost=Postman + Swagger + Mock + JMeter</strong></p>
+<p>接口开发工作通常需要前端、后端、测试、技术经理等多个岗位协作，但因为流程长所以难管理，不同工具之间数据也缺乏统一规范，导致团队效率往往会很低下！</p>
+<p>ApiPost通过整合工具以及团队协作功能，将API研发流程中的每个环节整合打通，大幅度提高整个研发团队的效率，解决了以上问题。</p>
+<h2 id="ApiPost的亮点"><a href="#ApiPost的亮点" class="headerlink" title="ApiPost的亮点"></a><strong>ApiPost的亮点</strong></h2><p>国内外有一些很不错的开源API文档产品，比如Swagger、Rap2和Yapi等，每个产品支持的功能各有不同，可以说各有特点。但因为是开源的，对于企业用户来说会有一些问题，比如国外产品是英文，有的产品的侵入性比较强，学习成本高，支持不及时等。</p>
+<p>与这些开源产品相比，ApiPost的不同之处在于：</p>
+<p>首先，ApiPost是国内团队开发，全中文界面，对英文不好的朋友来说，使用起来会非常舒服！</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201806564.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其次文档信息丰富学习成本低，功能齐全，用户在社区的提问反馈及时！</p>
+<p>在现在这样的敏捷开发年代，API研发越来越注重整个项目的协作，比如API调试、API文档，如果能贯穿整个研发流程，与项目所有角色打通，团队效率和效果都将大大提高！ApiPost就解决了这个问题。</p>
+<h3 id="快速API调试"><a href="#快速API调试" class="headerlink" title="快速API调试"></a><strong>快速API调试</strong></h3><p>调试API的过程中有很多重复性的工作占据了大量的时间，比如一些参数（校验登陆的token）可能每个接口都会用到。没必要每个接口都设置一个这样的参数，最好的方式是放到全局参数里。</p>
+<p>ApiPost的全局参数、全局脚本、cookie管理、环境切换等功能可以减少大量重复性工作，让API调试效率大大提升！</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201806532.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="快速生成接口文档"><a href="#快速生成接口文档" class="headerlink" title="快速生成接口文档"></a><strong>快速生成接口文档</strong></h3><p>国内对接口文档是非常重视的，有文档先行的理念，而国外对接口文档就没那么重视了。ApiPost的生成文档体验非常好，具体我们可以对比一下两个产品的生成接口文档的过程。</p>
+<p>Postman的生成接口文档要点击publish，然后生成设置页面，设置后才生成接口文档。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201807915.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>ApiPost不仅可以在接口页面直接生成接口文档链接，还可以显示响应事例，具体页面如图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201807383.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="多人实时协作"><a href="#多人实时协作" class="headerlink" title="多人实时协作"></a><strong>多人实时协作</strong></h3><p>传统开发场景是分离的，协作效率很低，而在ApiPost前后端开发协作场景中，通过一份接口文档，就可以实现前后端并行开发：后台开发者把API托管在API网关上，使用ApiPost的mock功能模拟数据，利用API文档功能把API信息提供给前端同学，来实现前后端分离。</p>
+<p>ApiPost有更本地化的协作功能，可以团队实时协作，团队成员新建接口同步在所有团队成员项目里。</p>
+<p>比如锁定接口，除锁定者和管理员外，其他人均无法对其进行编辑、修改操作。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201807979.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>还有很多协作方面的小功能，比如协作日志，归档管理、一键导入参数……</p>
+<h3 id="丰富的细节设计"><a href="#丰富的细节设计" class="headerlink" title="丰富的细节设计"></a><strong>丰富的细节设计</strong></h3><p>ApiPost独创的参数描述库功能，解决了大量重复填写参数描述的问题！通常一个接口要调用多次，每次都要手动录入完全一致的描述，效率太低了！</p>
+<p>ApiPost还可以自定义参数描述库，将项目用到的大量参数进行预注释，下次调用直接点选。如果你没有自定义描述库，第一次输入描述后也会自动加入描述库。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202201201808618.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>类似的细节还有很多，这些细节设计据说都是产品在用户的反馈中总结而来，可以说正是这些细节让apipost成为最懂用户，最重视用户的产品！</p>
+<p>最后，建议开发人员，包括后端、前端、测试朋友们都试试ApiPost，尤其是对后端开发朋友来说，这款工具实在太香了！</p>
+<p>除此之外ApiPost还有更多更好的功能，可以登陆官方网站下载体验：</p>
+<p><a target="_blank" rel="noopener" href="https://www.apipost.cn/download.html?fr=jvhd">https://www.apipost.cn/download.html?fr=jvhd</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Demo/">Demo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Demo/">Demo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/03/%E6%8E%A8%E8%8D%90%E4%B8%80%E4%B8%AA%20Java%20%E6%8E%A5%E5%8F%A3%E5%BF%AB%E9%80%9F%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">推荐一个 Java 接口快速开发框架</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/03/%E5%A6%82%E4%BD%95%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%20Spring%20AOP/">
+                        <span class="hidden-mobile">如何自己实现 Spring AOP?</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
