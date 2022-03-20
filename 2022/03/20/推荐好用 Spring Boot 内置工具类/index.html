@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="推荐好用 Spring Boot 内置工具类  断言 断言是一个逻辑判断，用于检查不应该发生的情况  Assert 关键字在 JDK1.4 中引入，可通过 JVM 参数-enableassertions开启  SpringBoot 中提供了 Assert 断言工具类，通常用于数据合法性检查   123456789101112131415161718&#x2F;&#x2F; 要求参数 object 必须为非空（Not">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐好用 Spring Boot 内置工具类">
+<meta property="og:url" content="http://example.com/2022/03/20/%E6%8E%A8%E8%8D%90%E5%A5%BD%E7%94%A8%20Spring%20Boot%20%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="推荐好用 Spring Boot 内置工具类  断言 断言是一个逻辑判断，用于检查不应该发生的情况  Assert 关键字在 JDK1.4 中引入，可通过 JVM 参数-enableassertions开启  SpringBoot 中提供了 Assert 断言工具类，通常用于数据合法性检查   123456789101112131415161718&#x2F;&#x2F; 要求参数 object 必须为非空（Not">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-20T11:24:17.419Z">
+<meta property="article:modified_time" content="2022-03-16T11:15:31.487Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>推荐好用 Spring Boot 内置工具类 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="推荐好用 Spring Boot 内置工具类">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-20 19:24" pubdate>
+        2022年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">推荐好用 Spring Boot 内置工具类</h1>
+            
+            <div class="markdown-body">
+              <center><h2>推荐好用 Spring Boot 内置工具类</h2></center>
+
+<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><ol>
+<li><p>断言是一个逻辑判断，用于检查不应该发生的情况</p>
+</li>
+<li><p>Assert 关键字在 JDK1.4 中引入，可通过 JVM 参数<code>-enableassertions</code>开启</p>
+</li>
+<li><p>SpringBoot 中提供了 Assert 断言工具类，通常用于数据合法性检查</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 要求参数 object 必须为非空（Not Null），否则抛出异常，不予放行</span><br><span class="hljs-comment">// 参数 message 参数用于定制异常信息。</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">notNull</span><span class="hljs-params">(Object object, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数必须空（Null），否则抛出异常，不予『放行』。</span></span><br><span class="hljs-function"><span class="hljs-comment">// 和 notNull() 方法断言规则相反</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">isNull</span><span class="hljs-params">(Object object, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数必须为真（True），否则抛出异常，不予『放行』。</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">isTrue</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> expression, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数（List/Set）必须非空（Not Empty），否则抛出异常，不予放行</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">notEmpty</span><span class="hljs-params">(Collection collection, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数（String）必须有长度（即，Not Empty），否则抛出异常，不予放行</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">hasLength</span><span class="hljs-params">(String text, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数（String）必须有内容（即，Not Blank），否则抛出异常，不予放行</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">hasText</span><span class="hljs-params">(String text, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数是指定类型的实例，否则抛出异常，不予放行</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">isInstanceOf</span><span class="hljs-params">(Class type, Object obj, String message)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 要求参数 `subType` 必须是参数 superType 的子类或实现类，否则抛出异常，不予放行</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">isAssignable</span><span class="hljs-params">(Class superType, Class subType, String message)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="对象、数组、集合"><a href="#对象、数组、集合" class="headerlink" title="对象、数组、集合"></a>对象、数组、集合</h2><h3 id="ObjectUtils"><a href="#ObjectUtils" class="headerlink" title="ObjectUtils"></a>ObjectUtils</h3><ol>
+<li>获取对象的基本信息</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 获取对象的类名。参数为 null 时，返回字符串：&quot;null&quot;</span><br><span class="hljs-function">String <span class="hljs-title">nullSafeClassName</span><span class="hljs-params">(Object obj)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 参数为 null 时，返回 0</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">nullSafeHashCode</span><span class="hljs-params">(Object object)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 参数为 null 时，返回字符串：&quot;null&quot;</span></span><br><span class="hljs-function">String <span class="hljs-title">nullSafeToString</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span>[] array)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获取对象 HashCode（十六进制形式字符串）。参数为 null 时，返回 0</span></span><br><span class="hljs-function">String <span class="hljs-title">getIdentityHexString</span><span class="hljs-params">(Object obj)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获取对象的类名和 HashCode。 参数为 null 时，返回字符串：&quot;&quot;</span></span><br><span class="hljs-function">String <span class="hljs-title">identityToString</span><span class="hljs-params">(Object obj)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 相当于 toString()方法，但参数为 null 时，返回字符串：&quot;&quot;</span></span><br><span class="hljs-function">String <span class="hljs-title">getDisplayString</span><span class="hljs-params">(Object obj)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>判断工具</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断数组是否为空</span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Object[] array)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断参数对象是否是数组</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isArray</span><span class="hljs-params">(Object obj)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断数组中是否包含指定元素</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">containsElement</span><span class="hljs-params">(Object[] array, Object element)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 相等，或同为 null时，返回 true</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">nullSafeEquals</span><span class="hljs-params">(Object o1, Object o2)</span></span><br><span class="hljs-function"><span class="hljs-comment">/*</span></span><br><span class="hljs-comment"><span class="hljs-function">判断参数对象是否为空，判断标准为：</span></span><br><span class="hljs-comment"><span class="hljs-function">    Optional: Optional.empty()</span></span><br><span class="hljs-comment"><span class="hljs-function">       Array: length == 0</span></span><br><span class="hljs-comment"><span class="hljs-function">CharSequence: length == 0</span></span><br><span class="hljs-comment"><span class="hljs-function">  Collection: Collection.isEmpty()</span></span><br><span class="hljs-comment"><span class="hljs-function">         Map: Map.isEmpty()</span></span><br><span class="hljs-comment"><span class="hljs-function"> */</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Object obj)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>其他工具方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 向参数数组的末尾追加新元素，并返回一个新数组</span><br>&lt;A, O extends A&gt; A[] addObjectToArray(A[] array, O obj)<br><span class="hljs-comment">// 原生基础类型数组 --&gt; 包装类数组</span><br>Object[] toObjectArray(Object source)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="StringUtils"><a href="#StringUtils" class="headerlink" title="StringUtils"></a>StringUtils</h3><ol>
+<li>字符串判断工具</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断字符串是否为 null，或 &quot;&quot;。注意，包含空白符的字符串为非空</span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Object str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断字符串是否是以指定内容结束。忽略大小写</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">endsWithIgnoreCase</span><span class="hljs-params">(String str, String suffix)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断字符串是否已指定内容开头。忽略大小写</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">startsWithIgnoreCase</span><span class="hljs-params">(String str, String prefix)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否包含空白符</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">containsWhitespace</span><span class="hljs-params">(String str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断字符串非空且长度不为 0，即，Not Empty</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">hasLength</span><span class="hljs-params">(CharSequence str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断字符串是否包含实际内容，即非仅包含空白符，也就是 Not Blank</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">hasText</span><span class="hljs-params">(CharSequence str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断字符串指定索引处是否包含一个子串。</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">substringMatch</span><span class="hljs-params">(CharSequence str, <span class="hljs-keyword">int</span> index, CharSequence substring)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 计算一个字符串中指定子串的出现次数</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">countOccurrencesOf</span><span class="hljs-params">(String str, String sub)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>字符串操作工具</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 查找并替换指定子串</span><br><span class="hljs-function">String <span class="hljs-title">replace</span><span class="hljs-params">(String inString, String oldPattern, String newPattern)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 去除尾部的特定字符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimTrailingCharacter</span><span class="hljs-params">(String str, <span class="hljs-keyword">char</span> trailingCharacter)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 去除头部的特定字符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimLeadingCharacter</span><span class="hljs-params">(String str, <span class="hljs-keyword">char</span> leadingCharacter)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 去除头部的空白符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimLeadingWhitespace</span><span class="hljs-params">(String str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 去除头部的空白符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimTrailingWhitespace</span><span class="hljs-params">(String str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 去除头部和尾部的空白符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimWhitespace</span><span class="hljs-params">(String str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 删除开头、结尾和中间的空白符</span></span><br><span class="hljs-function">String <span class="hljs-title">trimAllWhitespace</span><span class="hljs-params">(String str)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 删除指定子串</span></span><br><span class="hljs-function">String <span class="hljs-title">delete</span><span class="hljs-params">(String inString, String pattern)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 删除指定字符（可以是多个）</span></span><br><span class="hljs-function">String <span class="hljs-title">deleteAny</span><span class="hljs-params">(String inString, String charsToDelete)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 对数组的每一项执行 trim() 方法</span></span><br><span class="hljs-function">String[] <span class="hljs-title">trimArrayElements</span><span class="hljs-params">(String[] array)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 将 URL 字符串进行解码</span></span><br><span class="hljs-function">String <span class="hljs-title">uriDecode</span><span class="hljs-params">(String source, Charset charset)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>路径相关工具方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 解析路径字符串，优化其中的 “..”</span><br><span class="hljs-function">String <span class="hljs-title">cleanPath</span><span class="hljs-params">(String path)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 解析路径字符串，解析出文件名部分</span></span><br><span class="hljs-function">String <span class="hljs-title">getFilename</span><span class="hljs-params">(String path)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 解析路径字符串，解析出文件后缀名</span></span><br><span class="hljs-function">String <span class="hljs-title">getFilenameExtension</span><span class="hljs-params">(String path)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 比较两个两个字符串，判断是否是同一个路径。会自动处理路径中的 “..”</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">pathEquals</span><span class="hljs-params">(String path1, String path2)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 删除文件路径名中的后缀部分</span></span><br><span class="hljs-function">String <span class="hljs-title">stripFilenameExtension</span><span class="hljs-params">(String path)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 以 “. 作为分隔符，获取其最后一部分</span></span><br><span class="hljs-function">String <span class="hljs-title">unqualify</span><span class="hljs-params">(String qualifiedName)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 以指定字符作为分隔符，获取其最后一部分</span></span><br><span class="hljs-function">String <span class="hljs-title">unqualify</span><span class="hljs-params">(String qualifiedName, <span class="hljs-keyword">char</span> separator)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="CollectionUtils"><a href="#CollectionUtils" class="headerlink" title="CollectionUtils"></a>CollectionUtils</h3><ol>
+<li>集合判断工具</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断 List/Set 是否为空</span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Collection&lt;?&gt; collection)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断 Map 是否为空</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Map&lt;?,?&gt; map)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断 List/Set 中是否包含某个对象</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">containsInstance</span><span class="hljs-params">(Collection&lt;?&gt; collection, Object element)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 以迭代器的方式，判断 List/Set 中是否包含某个对象</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">contains</span><span class="hljs-params">(Iterator&lt;?&gt; iterator, Object element)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断 List/Set 是否包含某些对象中的任意一个</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">containsAny</span><span class="hljs-params">(Collection&lt;?&gt; source, Collection&lt;?&gt; candidates)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断 List/Set 中的每个元素是否唯一。即 List/Set 中不存在重复元素</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">hasUniqueObject</span><span class="hljs-params">(Collection&lt;?&gt; collection)</span></span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>集合操作工具</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 将 Array 中的元素都添加到 List/Set 中</span><br>&lt;E&gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mergeArrayIntoCollection</span><span class="hljs-params">(Object array, Collection&lt;E&gt; collection)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 将 Properties 中的键值对都添加到 Map 中</span></span><br><span class="hljs-function">&lt;K,V&gt; <span class="hljs-keyword">void</span> <span class="hljs-title">mergePropertiesIntoMap</span><span class="hljs-params">(Properties props, Map&lt;K,V&gt; map)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回 List 中最后一个元素</span></span><br><span class="hljs-function">&lt;T&gt; T <span class="hljs-title">lastElement</span><span class="hljs-params">(List&lt;T&gt; list)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回 Set 中最后一个元素</span></span><br><span class="hljs-function">&lt;T&gt; T <span class="hljs-title">lastElement</span><span class="hljs-params">(Set&lt;T&gt; set)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回参数 candidates 中第一个存在于参数 source 中的元素</span></span><br><span class="hljs-function">&lt;E&gt; E <span class="hljs-title">findFirstMatch</span><span class="hljs-params">(Collection&lt;?&gt; source, Collection&lt;E&gt; candidates)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回 List/Set 中指定类型的元素。</span></span><br><span class="hljs-function">&lt;T&gt; T <span class="hljs-title">findValueOfType</span><span class="hljs-params">(Collection&lt;?&gt; collection, Class&lt;T&gt; type)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回 List/Set 中指定类型的元素。如果第一种类型未找到，则查找第二种类型，以此类推</span></span><br><span class="hljs-function">Object <span class="hljs-title">findValueOfType</span><span class="hljs-params">(Collection&lt;?&gt; collection, Class&lt;?&gt;[] types)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 返回 List/Set 中元素的类型</span></span><br><span class="hljs-function">Class&lt;?&gt; <span class="hljs-title">findCommonElementType</span><span class="hljs-params">(Collection&lt;?&gt; collection)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="文件、资源、IO-流"><a href="#文件、资源、IO-流" class="headerlink" title="文件、资源、IO 流"></a>文件、资源、IO 流</h2><h3 id="FileCopyUtils"><a href="#FileCopyUtils" class="headerlink" title="FileCopyUtils"></a>FileCopyUtils</h3><ol>
+<li>输入</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 从文件中读入到字节数组中</span><br><span class="hljs-keyword">byte</span>[] copyToByteArray(File in)<br><span class="hljs-comment">// 从输入流中读入到字节数组中</span><br><span class="hljs-keyword">byte</span>[] copyToByteArray(InputStream in)<br><span class="hljs-comment">// 从输入流中读入到字符串中</span><br><span class="hljs-function">String <span class="hljs-title">copyToString</span><span class="hljs-params">(Reader in)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>输出</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 从字节数组到文件</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] in, File out)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从文件到文件</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">copy</span><span class="hljs-params">(File in, File out)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从字节数组到输出流</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] in, OutputStream out)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从输入流到输出流</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">copy</span><span class="hljs-params">(InputStream in, OutputStream out)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从输入流到输出流</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">copy</span><span class="hljs-params">(Reader in, Writer out)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从字符串到输出流</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(String in, Writer out)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="ResourceUtils"><a href="#ResourceUtils" class="headerlink" title="ResourceUtils"></a>ResourceUtils</h3><ol>
+<li>从资源路径获取文件</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断字符串是否是一个合法的 URL 字符串。</span><br><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isUrl</span><span class="hljs-params">(String resourceLocation)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获取 URL</span></span><br><span class="hljs-function"><span class="hljs-keyword">static</span> URL <span class="hljs-title">getURL</span><span class="hljs-params">(String resourceLocation)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获取文件（在 JAR 包内无法正常使用，需要是一个独立的文件）</span></span><br><span class="hljs-function"><span class="hljs-keyword">static</span> File <span class="hljs-title">getFile</span><span class="hljs-params">(String resourceLocation)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>Resource</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 文件系统资源 D:\...</span><br>FileSystemResource<br><span class="hljs-comment">// URL 资源，如 file://... http://...</span><br>UrlResource<br><span class="hljs-comment">// 类路径下的资源，classpth:...</span><br>ClassPathResource<br><span class="hljs-comment">// Web 容器上下文中的资源（jar 包、war 包）</span><br>ServletContextResource<br><span class="hljs-comment">// 判断资源是否存在</span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">exists</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从资源中获得 File 对象</span></span><br><span class="hljs-function">File <span class="hljs-title">getFile</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从资源中获得 URI 对象</span></span><br><span class="hljs-function">URI <span class="hljs-title">getURI</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 从资源中获得 URI 对象</span></span><br><span class="hljs-function">URL <span class="hljs-title">getURL</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获得资源的 InputStream</span></span><br><span class="hljs-function">InputStream <span class="hljs-title">getInputStream</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获得资源的描述信息</span></span><br><span class="hljs-function">String <span class="hljs-title">getDescription</span><span class="hljs-params">()</span></span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>StreamUtils</strong></p>
+<ol>
+<li>输入</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] in, OutputStream out)</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">copy</span><span class="hljs-params">(InputStream in, OutputStream out)</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(String in, Charset charset, OutputStream out)</span></span><br><span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">copyRange</span><span class="hljs-params">(InputStream in, OutputStream out, <span class="hljs-keyword">long</span> start, <span class="hljs-keyword">long</span> end)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>输出</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">byte</span>[] copyToByteArray(InputStream in)<br><span class="hljs-function">String <span class="hljs-title">copyToString</span><span class="hljs-params">(InputStream in, Charset charset)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 舍弃输入流中的内容</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">drain</span><span class="hljs-params">(InputStream in)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="反射、AOP"><a href="#反射、AOP" class="headerlink" title="反射、AOP"></a>反射、AOP</h2><h3 id="ReflectionUtils"><a href="#ReflectionUtils" class="headerlink" title="ReflectionUtils"></a>ReflectionUtils</h3><ol>
+<li>获取方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 在类中查找指定方法</span><br><span class="hljs-function">Method <span class="hljs-title">findMethod</span><span class="hljs-params">(Class&lt;?&gt; clazz, String name)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同上，额外提供方法参数类型作查找条件</span></span><br><span class="hljs-function">Method <span class="hljs-title">findMethod</span><span class="hljs-params">(Class&lt;?&gt; clazz, String name, Class&lt;?&gt;... paramTypes)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 获得类中所有方法，包括继承而来的</span></span><br><span class="hljs-function">Method[] <span class="hljs-title">getAllDeclaredMethods</span><span class="hljs-params">(Class&lt;?&gt; leafClass)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 在类中查找指定构造方法</span></span><br><span class="hljs-function">Constructor&lt;T&gt; <span class="hljs-title">accessibleConstructor</span><span class="hljs-params">(Class&lt;T&gt; clazz, Class&lt;?&gt;... parameterTypes)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否是 equals() 方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEqualsMethod</span><span class="hljs-params">(Method method)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否是 hashCode() 方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isHashCodeMethod</span><span class="hljs-params">(Method method)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否是 toString() 方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isToStringMethod</span><span class="hljs-params">(Method method)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否是从 Object 类继承而来的方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isObjectMethod</span><span class="hljs-params">(Method method)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 检查一个方法是否声明抛出指定异常</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">declaresException</span><span class="hljs-params">(Method method, Class&lt;?&gt; exceptionType)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>执行方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 执行方法</span><br><span class="hljs-function">Object <span class="hljs-title">invokeMethod</span><span class="hljs-params">(Method method, Object target)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同上，提供方法参数</span></span><br><span class="hljs-function">Object <span class="hljs-title">invokeMethod</span><span class="hljs-params">(Method method, Object target, Object... args)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 取消 Java 权限检查。以便后续执行该私有方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">makeAccessible</span><span class="hljs-params">(Method method)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 取消 Java 权限检查。以便后续执行私有构造方法</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">makeAccessible</span><span class="hljs-params">(Constructor&lt;?&gt; ctor)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>获取字段</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 在类中查找指定属性</span><br><span class="hljs-function">Field <span class="hljs-title">findField</span><span class="hljs-params">(Class&lt;?&gt; clazz, String name)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同上，多提供了属性的类型</span></span><br><span class="hljs-function">Field <span class="hljs-title">findField</span><span class="hljs-params">(Class&lt;?&gt; clazz, String name, Class&lt;?&gt; type)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 是否为一个 &quot;public static final&quot; 属性</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isPublicStaticFinal</span><span class="hljs-params">(Field field)</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="4">
+<li>设置字段</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 获取 target 对象的 field 属性值</span><br><span class="hljs-function">Object <span class="hljs-title">getField</span><span class="hljs-params">(Field field, Object target)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 设置 target 对象的 field 属性值，值为 value</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setField</span><span class="hljs-params">(Field field, Object target, Object value)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同类对象属性对等赋值</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">shallowCopyFieldState</span><span class="hljs-params">(Object src, Object dest)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 取消 Java 的权限控制检查。以便后续读写该私有属性</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">makeAccessible</span><span class="hljs-params">(Field field)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 对类的每个属性执行 callback</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">doWithFields</span><span class="hljs-params">(Class&lt;?&gt; clazz, ReflectionUtils.FieldCallback fc)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同上，多了个属性过滤功能。</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">doWithFields</span><span class="hljs-params">(Class&lt;?&gt; clazz, ReflectionUtils.FieldCallback fc, ReflectionUtils.FieldFilter ff)</span></span><br><span class="hljs-function"><span class="hljs-comment">// 同上，但不包括继承而来的属性</span></span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">doWithLocalFields</span><span class="hljs-params">(Class&lt;?&gt; clazz, ReflectionUtils.FieldCallback fc)</span></span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><strong>AopUtils</strong></p>
+<ol>
+<li>判断代理类型</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 判断是不是 Spring 代理对象</span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isAopProxy</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断是不是 jdk 动态代理对象</span></span><br><span class="hljs-function"><span class="hljs-title">isJdkDynamicProxy</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-comment">// 判断是不是 CGLIB 代理对象</span></span><br><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isCglibProxy</span><span class="hljs-params">()</span></span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>获取被代理对象的 class</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 获取被代理的目标 class</span><br>Class&lt;?&gt; getTargetClass()<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="AopContext"><a href="#AopContext" class="headerlink" title="AopContext"></a>AopContext</h3><ol>
+<li>获取当前对象的代理对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function">Object <span class="hljs-title">currentProxy</span><span class="hljs-params">()</span></span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>转载自来源：CadeCode | juejin.cn/post/7043403364020781064</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E4%B8%80%E4%B8%AA%20Mybatis%20%E5%BC%80%E5%8F%91%E7%A5%9E%E5%99%A8%EF%BC%9AFast%20MyBatis/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一个 Mybatis 开发神器：Fast MyBatis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E4%B9%A6%E5%86%99%E9%AB%98%E8%B4%A8%E9%87%8FSQL%E7%9A%8430%E6%9D%A1%E5%BB%BA%E8%AE%AE/">
+                        <span class="hidden-mobile">书写高质量SQL的30条建议</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

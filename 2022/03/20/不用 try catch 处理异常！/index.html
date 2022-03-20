@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="不用 try catch 处理异常！  软件开发过程中，不可避免的是需要处理各种异常，就我自己来说，至少有一半以上的时间都是在处理各种异常情况，所以代码中就会出现大量的try &amp;#123;...&amp;#125; catch &amp;#123;...&amp;#125; finally &amp;#123;...&amp;#125; 代码块，不仅有大量的冗余代码，而且还影响代码的可读性。 比较下面两张图，看看您现在编写的代码属于哪一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不用 try catch 处理异常！">
+<meta property="og:url" content="http://example.com/2022/03/20/%E4%B8%8D%E7%94%A8%20try%20catch%20%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8%EF%BC%81/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="不用 try catch 处理异常！  软件开发过程中，不可避免的是需要处理各种异常，就我自己来说，至少有一半以上的时间都是在处理各种异常情况，所以代码中就会出现大量的try &amp;#123;...&amp;#125; catch &amp;#123;...&amp;#125; finally &amp;#123;...&amp;#125; 代码块，不仅有大量的冗余代码，而且还影响代码的可读性。 比较下面两张图，看看您现在编写的代码属于哪一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201849028.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201852127.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201852327.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201855404.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201855021.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201857452.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201857716.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858845.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858991.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858788.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858022.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858063.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858112.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201858205.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859524.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859055.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859421.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859254.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859527.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859674.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859025.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859462.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201859876.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201900071.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201900878.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201900396.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201900433.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201900644.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201901113.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201901589.png">
+<meta property="article:published_time" content="2022-03-20T11:24:17.370Z">
+<meta property="article:modified_time" content="2022-03-20T11:02:43.841Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201849028.png">
+  
+  <title>不用 try catch 处理异常！ - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="不用 try catch 处理异常！">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-20 19:24" pubdate>
+        2022年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      20k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      62 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">不用 try catch 处理异常！</h1>
+            
+            <div class="markdown-body">
+              <center><h2>不用 try catch 处理异常！</h2></center>
+
+<p>软件开发过程中，不可避免的是需要处理各种异常，就我自己来说，至少有一半以上的时间都是在处理各种异常情况，所以代码中就会出现大量的<code>try &#123;...&#125; catch &#123;...&#125; finally &#123;...&#125;</code> 代码块，不仅有大量的冗余代码，而且还影响代码的可读性。</p>
+<p>比较下面两张图，看看您现在编写的代码属于哪一种风格？然后哪种编码风格您更喜欢？</p>
+<p><strong>丑陋的 try catch 代码块</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201849028.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>优雅的Controller</strong></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201852127.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上面的示例，还只是在<code>Controller</code>层，如果是在<code>Service</code>层，可能会有更多的<code>try catch</code>代码块。这将会严重影响代码的可读性、“美观性”。</p>
+<p>所以如果是我的话，我肯定偏向于第二种，我可以把更多的精力放在业务代码的开发，同时代码也会变得更加简洁。</p>
+<p>既然业务代码不显式地对异常进行捕获、处理，而异常肯定还是处理的，不然系统岂不是动不动就崩溃了，所以必须得有其他地方捕获并处理这些异常。</p>
+<p>那么问题来了，如何优雅的处理各种异常？</p>
+<h2 id="什么是统一异常处理"><a href="#什么是统一异常处理" class="headerlink" title="什么是统一异常处理"></a>什么是统一异常处理</h2><p><code>Spring</code>在3.2版本增加了一个注解<code>@ControllerAdvice</code>，可以与<code>@ExceptionHandler</code>、<code>@InitBinder</code>、<code>@ModelAttribute</code> 等注解注解配套使用。</p>
+<p>对于这几个注解的作用，这里不做过多赘述，若有不了解的，可以参考Spring3.2新注解@ControllerAdvice，先大概有个了解。</p>
+<p>不过跟异常处理相关的只有注解<code>@ExceptionHandler</code>，从字面上看，就是 <strong>异常处理器</strong> 的意思，其实际作用也是：若在某个<code>Controller</code>类定义一个异常处理方法，并在方法上添加该注解，那么当出现指定的异常时，会执行该处理异常的方法，其可以使用springmvc提供的数据绑定，比如注入HttpServletRequest等，还可以接受一个当前抛出的Throwable对象。</p>
+<p>但是，这样一来，就必须在每一个<code>Controller</code>类都定义一套这样的异常处理方法，因为异常可以是各种各样。这样一来，就会造成大量的冗余代码，而且若需要新增一种异常的处理逻辑，就必须修改所有<code>Controller</code>类了，很不优雅。</p>
+<p>当然你可能会说，那就定义个类似<code>BaseController</code>的基类，这样总行了吧。</p>
+<p>这种做法虽然没错，但仍不尽善尽美，因为这样的代码有一定的侵入性和耦合性。简简单单的<code>Controller</code>，我为啥非得继承这样一个类呢，万一已经继承其他基类了呢。大家都知道<code>Java</code>只能继承一个类。</p>
+<p>那有没有一种方案，既不需要跟<code>Controller</code>耦合，也可以将定义的 <strong>异常处理器</strong> 应用到所有控制器呢？所以注解<code>@ControllerAdvice</code>出现了，简单的说，该注解可以把异常处理器应用到所有控制器，而不是单个控制器。</p>
+<p>借助该注解，我们可以实现：在独立的某个地方，比如单独一个类，定义一套对各种异常的处理机制，然后在类的签名加上注解<code>@ControllerAdvice</code>，统一对 <code>不同阶段的</code>、<code>不同异常</code> 进行处理。这就是统一异常处理的原理。</p>
+<p>注意到上面对异常按阶段进行分类，大体可以分成：进入<code>Controller</code>前的异常 和 <code>Service</code> 层异常，具体可以参考下图：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201852327.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>消灭95%以上的 <code>try catch</code> 代码块，以优雅的 <code>Assert</code>(断言) 方式来校验业务的异常情况，只关注业务逻辑，而不用花费大量精力写冗余的 <code>try catch</code> 代码块。</p>
+<h2 id="统一异常处理实战"><a href="#统一异常处理实战" class="headerlink" title="统一异常处理实战"></a>统一异常处理实战</h2><p>在定义统一异常处理类之前，先来介绍一下如何优雅的判定异常情况并抛异常。</p>
+<h3 id="用-Assert-断言-替换-throw-exception"><a href="#用-Assert-断言-替换-throw-exception" class="headerlink" title="用 Assert(断言) 替换 throw exception"></a><strong>用 Assert(断言) 替换 throw exception</strong></h3><p>想必 <code>Assert(断言)</code> 大家都很熟悉，比如 <code>Spring</code> 家族的 <code>org.springframework.util.Assert</code>，在我们写测试用例的时候经常会用到，使用断言能让我们编码的时候有一种非一般丝滑的感觉，比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;<br>        ...<br>        User user = userDao.selectById(userId);<br>        Assert.notNull(user, <span class="hljs-string">&quot;用户不存在.&quot;</span>);<br>        ...<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">// 另一种写法</span><br>        User user = userDao.selectById(userId);<br>        <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;用户不存在.&quot;</span>);<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>有没有感觉第一种判定非空的写法很优雅，第二种写法则是相对丑陋的 <code>if &#123;...&#125;</code> 代码块。那么神奇的 <code>Assert.notNull()</code> 背后到底做了什么呢？下面是 <code>Assert</code> 的部分源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Assert</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Assert</span><span class="hljs-params">()</span> </span>&#123;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">notNull</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Object object, String message)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (object == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(message);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到，<code>Assert</code> 其实就是帮我们把 <code>if &#123;...&#125;</code> 封装了一下，是不是很神奇。虽然很简单，但不可否认的是编码体验至少提升了一个档次。那么我们能不能模仿<code>org.springframework.util.Assert</code>，也写一个断言类，不过断言失败后抛出的异常不是<code>IllegalArgumentException</code> 这些内置异常，而是我们自己定义的异常。下面让我们来尝试一下。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Assert<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Assert</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">BaseException <span class="hljs-title">newException</span><span class="hljs-params">(Object... args)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> t</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">BaseException <span class="hljs-title">newException</span><span class="hljs-params">(Throwable t, Object... args)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * &lt;p&gt;断言对象&lt;code&gt;obj&lt;/code&gt;非空。如果对象&lt;code&gt;obj&lt;/code&gt;为空，则抛出异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> obj 待判断对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">assertNotNull</span><span class="hljs-params">(Object obj)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (obj == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> newException(obj);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * &lt;p&gt;断言对象&lt;code&gt;obj&lt;/code&gt;非空。如果对象&lt;code&gt;obj&lt;/code&gt;为空，则抛出异常</span><br><span class="hljs-comment">     * &lt;p&gt;异常信息&lt;code&gt;message&lt;/code&gt;支持传递参数方式，避免在判断之前进行字符串拼接操作</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> obj 待判断对象</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args message占位符对应的参数列表</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">assertNotNull</span><span class="hljs-params">(Object obj, Object... args)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (obj == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> newException(args);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的<code>Assert</code>断言方法是使用接口的默认方法定义的，然后有没有发现当断言失败后，抛出的异常不是具体的某个异常，而是交由2个<code>newException</code>接口方法提供。</p>
+<p>因为业务逻辑中出现的异常基本都是对应特定的场景，比如根据用户id获取用户信息，查询结果为<code>null</code>，此时抛出的异常可能为<code>UserNotFoundException</code>，并且有特定的异常码（比如7001）和异常信息“用户不存在”。所以具体抛出什么异常，有<code>Assert</code>的实现类决定。</p>
+<p>看到这里，您可能会有这样的疑问，按照上面的说法，那岂不是有多少异常情况，就得有定义等量的断言类和异常类，这显然是反人类的，这也没想象中高明嘛。别急，且听我细细道来。</p>
+<h3 id="善解人意的Enum"><a href="#善解人意的Enum" class="headerlink" title="善解人意的Enum"></a>善解人意的Enum</h3><p>自定义异常<code>BaseException</code>有2个属性，即<code>code</code>、<code>message</code>，这样一对属性，有没有想到什么类一般也会定义这2个属性？没错，就是枚举类。且看我如何将 <code>Enum</code> 和 <code>Assert</code> 结合起来，相信我一定会让你眼前一亮。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IResponseEnum</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getCode</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function">String <span class="hljs-title">getMessage</span><span class="hljs-params">()</span></span>;<br>&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * &lt;p&gt;业务异常&lt;/p&gt;</span><br><span class="hljs-comment"> * &lt;p&gt;业务处理时，出现异常，可以抛出该异常&lt;/p&gt;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BusinessException</span> <span class="hljs-keyword">extends</span>  <span class="hljs-title">BaseException</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BusinessException</span><span class="hljs-params">(IResponseEnum responseEnum, Object[] args, String message)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>(responseEnum, args, message);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BusinessException</span><span class="hljs-params">(IResponseEnum responseEnum, Object[] args, String message, Throwable cause)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>(responseEnum, args, message, cause);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BusinessExceptionAssert</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">IResponseEnum</span>, <span class="hljs-title">Assert</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> BaseException <span class="hljs-title">newException</span><span class="hljs-params">(Object... args)</span> </span>&#123;<br>        String msg = MessageFormat.format(<span class="hljs-keyword">this</span>.getMessage(), args);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BusinessException(<span class="hljs-keyword">this</span>, args, msg);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> BaseException <span class="hljs-title">newException</span><span class="hljs-params">(Throwable t, Object... args)</span> </span>&#123;<br>        String msg = MessageFormat.format(<span class="hljs-keyword">this</span>.getMessage(), args);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BusinessException(<span class="hljs-keyword">this</span>, args, msg, t);<br>    &#125;<br><br>&#125;<br><span class="hljs-meta">@Getter</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">ResponseEnum</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BusinessExceptionAssert</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Bad licence type</span><br><span class="hljs-comment">     */</span><br>    BAD_LICENCE_TYPE(<span class="hljs-number">7001</span>, <span class="hljs-string">&quot;Bad licence type.&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Licence not found</span><br><span class="hljs-comment">     */</span><br>    LICENCE_NOT_FOUND(<span class="hljs-number">7002</span>, <span class="hljs-string">&quot;Licence not found.&quot;</span>)<br>    ;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 返回码</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> code;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 返回消息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String message;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>看到这里，有没有眼前一亮的感觉，代码示例中定义了两个枚举实例：<code>BAD_LICENCE_TYPE</code>、<code>LICENCE_NOT_FOUND</code>，分别对应了<code>BadLicenceTypeException</code>、<code>LicenceNotFoundException</code>两种异常。</p>
+<p>以后每增加一种异常情况，只需增加一个枚举实例即可，再也不用每一种异常都定义一个异常类了。然后再来看下如何使用，假设<code>LicenceService</code>有校验<code>Licence</code>是否存在的方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 校验&#123;<span class="hljs-doctag">@link</span> Licence&#125;存在</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> licence</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkNotNull</span><span class="hljs-params">(Licence licence)</span> </span>&#123;<br>       ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(licence);<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>若不使用断言，代码可能如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkNotNull</span><span class="hljs-params">(Licence licence)</span> </span>&#123;<br>       <span class="hljs-keyword">if</span> (licence == <span class="hljs-keyword">null</span>) &#123;<br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> LicenceNotFoundException();<br>           <span class="hljs-comment">// 或者这样</span><br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BusinessException(<span class="hljs-number">7001</span>, <span class="hljs-string">&quot;Bad licence type.&quot;</span>);<br>       &#125;<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>使用枚举类结合(继承)<code>Assert</code>，只需根据特定的异常情况定义不同的枚举实例，如上面的<code>BAD_LICENCE_TYPE</code>、<code>LICENCE_NOT_FOUND</code>，就能够针对不同情况抛出特定的异常（这里指携带特定的异常码和异常消息），这样既不用定义大量的异常类，同时还具备了断言的良好可读性，当然这种方案的好处远不止这些，请继续阅读后文，慢慢体会。</p>
+<p>注：上面举的例子是针对特定的业务，而有部分异常情况是通用的，比如：服务器繁忙、网络异常、服务器异常、参数校验异常、404等，所以有<code>CommonResponseEnum</code>、<code>ArgumentResponseEnum</code>、<code>ServletResponseEnum</code>，其中 <code>ServletResponseEnum</code> 会在后文详细说明。</p>
+<h3 id="定义统一异常处理器类"><a href="#定义统一异常处理器类" class="headerlink" title="定义统一异常处理器类"></a>定义统一异常处理器类</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@ControllerAdvice</span><br><span class="hljs-meta">@ConditionalOnWebApplication</span><br><span class="hljs-meta">@ConditionalOnMissingBean(UnifiedExceptionHandler.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnifiedExceptionHandler</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 生产环境</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String ENV_PROD = <span class="hljs-string">&quot;prod&quot;</span>;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UnifiedMessageSource unifiedMessageSource;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当前环境</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Value(&quot;$&#123;spring.profiles.active&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String profile;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取国际化消息</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getMessage</span><span class="hljs-params">(BaseException e)</span> </span>&#123;<br>        String code = <span class="hljs-string">&quot;response.&quot;</span> + e.getResponseEnum().toString();<br>        String message = unifiedMessageSource.getMessage(code, e.getArgs());<br><br>        <span class="hljs-keyword">if</span> (message == <span class="hljs-keyword">null</span> || message.isEmpty()) &#123;<br>            <span class="hljs-keyword">return</span> e.getMessage();<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> message;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 业务异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(value = BusinessException.class)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleBusinessException</span><span class="hljs-params">(BaseException e)</span> </span>&#123;<br>        log.error(e.getMessage(), e);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 自定义异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(value = BaseException.class)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleBaseException</span><span class="hljs-params">(BaseException e)</span> </span>&#123;<br>        log.error(e.getMessage(), e);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Controller上一层相关异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(&#123;</span><br><span class="hljs-meta">            NoHandlerFoundException.class,</span><br><span class="hljs-meta">            HttpRequestMethodNotSupportedException.class,</span><br><span class="hljs-meta">            HttpMediaTypeNotSupportedException.class,</span><br><span class="hljs-meta">            MissingPathVariableException.class,</span><br><span class="hljs-meta">            MissingServletRequestParameterException.class,</span><br><span class="hljs-meta">            TypeMismatchException.class,</span><br><span class="hljs-meta">            HttpMessageNotReadableException.class,</span><br><span class="hljs-meta">            HttpMessageNotWritableException.class,</span><br><span class="hljs-meta">            // BindException.class,</span><br><span class="hljs-meta">            // MethodArgumentNotValidException.class</span><br><span class="hljs-meta">            HttpMediaTypeNotAcceptableException.class,</span><br><span class="hljs-meta">            ServletRequestBindingException.class,</span><br><span class="hljs-meta">            ConversionNotSupportedException.class,</span><br><span class="hljs-meta">            MissingServletRequestPartException.class,</span><br><span class="hljs-meta">            AsyncRequestTimeoutException.class</span><br><span class="hljs-meta">    &#125;)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleServletException</span><span class="hljs-params">(Exception e)</span> </span>&#123;<br>        log.error(e.getMessage(), e);<br>        <span class="hljs-keyword">int</span> code = CommonResponseEnum.SERVER_ERROR.getCode();<br>        <span class="hljs-keyword">try</span> &#123;<br>            ServletResponseEnum servletExceptionEnum = ServletResponseEnum.valueOf(e.getClass().getSimpleName());<br>            code = servletExceptionEnum.getCode();<br>        &#125; <span class="hljs-keyword">catch</span> (IllegalArgumentException e1) &#123;<br>            log.error(<span class="hljs-string">&quot;class [&#123;&#125;] not defined in enum &#123;&#125;&quot;</span>, e.getClass().getName(), ServletResponseEnum.class.getName());<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (ENV_PROD.equals(profile)) &#123;<br>            <span class="hljs-comment">// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如404.</span><br>            code = CommonResponseEnum.SERVER_ERROR.getCode();<br>            BaseException baseException = <span class="hljs-keyword">new</span> BaseException(CommonResponseEnum.SERVER_ERROR);<br>            String message = getMessage(baseException);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(code, message);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(code, e.getMessage());<br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 参数绑定异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(value = BindException.class)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleBindException</span><span class="hljs-params">(BindException e)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;参数绑定校验异常&quot;</span>, e);<br><br>        <span class="hljs-keyword">return</span> wrapperBindingResult(e.getBindingResult());<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 参数校验异常，将校验失败的所有异常组合成一条错误信息</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(value = MethodArgumentNotValidException.class)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleValidException</span><span class="hljs-params">(MethodArgumentNotValidException e)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;参数绑定校验异常&quot;</span>, e);<br><br>        <span class="hljs-keyword">return</span> wrapperBindingResult(e.getBindingResult());<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 包装绑定异常结果</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> bindingResult 绑定结果</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> ErrorResponse <span class="hljs-title">wrapperBindingResult</span><span class="hljs-params">(BindingResult bindingResult)</span> </span>&#123;<br>        StringBuilder msg = <span class="hljs-keyword">new</span> StringBuilder();<br><br>        <span class="hljs-keyword">for</span> (ObjectError error : bindingResult.getAllErrors()) &#123;<br>            msg.append(<span class="hljs-string">&quot;, &quot;</span>);<br>            <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> FieldError) &#123;<br>                msg.append(((FieldError) error).getField()).append(<span class="hljs-string">&quot;: &quot;</span>);<br>            &#125;<br>            msg.append(error.getDefaultMessage() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">&quot;&quot;</span> : error.getDefaultMessage());<br><br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(ArgumentResponseEnum.VALID_ERROR.getCode(), msg.substring(<span class="hljs-number">2</span>));<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 未定义异常</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 异常结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(value = Exception.class)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ErrorResponse <span class="hljs-title">handleException</span><span class="hljs-params">(Exception e)</span> </span>&#123;<br>        log.error(e.getMessage(), e);<br><br>        <span class="hljs-keyword">if</span> (ENV_PROD.equals(profile)) &#123;<br>            <span class="hljs-comment">// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.</span><br>            <span class="hljs-keyword">int</span> code = CommonResponseEnum.SERVER_ERROR.getCode();<br>            BaseException baseException = <span class="hljs-keyword">new</span> BaseException(CommonResponseEnum.SERVER_ERROR);<br>            String message = getMessage(baseException);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(code, message);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorResponse(CommonResponseEnum.SERVER_ERROR.getCode(), e.getMessage());<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到，上面将异常分成几类，实际上只有两大类，一类是<code>ServletException</code>、<code>ServiceException</code>，还记得上文提到的 <strong>按阶段分类</strong> 吗，即对应 进入<code>Controller</code>前的异常 和 <code>Service</code> 层异常；然后 <code>ServiceException</code> 再分成自定义异常、未知异常。对应关系如下：</p>
+<ul>
+<li>进入<code>Controller</code>前的异常: handleServletException、handleBindException、handleValidException</li>
+<li>自定义异常: handleBusinessException、handleBaseException</li>
+<li>未知异常: handleException</li>
+</ul>
+<p>接下来分别对这几种异常处理器做详细说明。</p>
+<h3 id="异常处理器说明"><a href="#异常处理器说明" class="headerlink" title="异常处理器说明"></a>异常处理器说明</h3><h4 id="handleServletException"><a href="#handleServletException" class="headerlink" title="handleServletException"></a>handleServletException</h4><p>一个<code>http</code>请求，在到达<code>Controller</code>前，会对该请求的请求信息与目标控制器信息做一系列校验。这里简单说一下：</p>
+<ul>
+<li><p><code>NoHandlerFoundException</code></p>
+<p>首先根据请求<code>Url</code>查找有没有对应的控制器，若没有则会抛该异常，也就是大家非常熟悉的<code>404</code>异常；</p>
+</li>
+<li><p><code>HttpRequestMethodNotSupportedException</code></p>
+<p>若匹配到了（匹配结果是一个列表，不同的是<code>http</code>方法不同，如：Get、Post等），则尝试将请求的<code>http</code>方法与列表的控制器做匹配，若没有对应<code>http</code>方法的控制器，则抛该异常；</p>
+</li>
+<li><p><code>HttpMediaTypeNotSupportedException</code></p>
+<p>然后再对请求头与控制器支持的做比较，比如<code>content-type</code>请求头，若控制器的参数签名包含注解<code>@RequestBody</code>，但是请求的<code>content-type</code>请求头的值没有包含<code>application/json</code>，那么会抛该异常（当然，不止这种情况会抛这个异常）；</p>
+</li>
+<li><p><code>MissingPathVariableException</code></p>
+<p>未检测到路径参数。比如url为：<code>/licence/&#123;licenceId&#125;</code>，参数签名包含<code>@PathVariable(&quot;licenceId&quot;)</code>，当请求的url为<code>/licence</code>，在没有明确定义url为<code>/licence</code>的情况下，会被判定为：缺少路径参数；</p>
+</li>
+<li><p><code>MissingServletRequestParameterException</code></p>
+<p>缺少请求参数。比如定义了参数@RequestParam(“licenceId”) String licenceId，但发起请求时，未携带该参数，则会抛该异常；</p>
+</li>
+<li><p><code>TypeMismatchException</code></p>
+<p>参数类型匹配失败。比如：接收参数为Long型，但传入的值确是一个字符串，那么将会出现类型转换失败的情况，这时会抛该异常；</p>
+</li>
+<li><p><code>HttpMessageNotReadableException</code></p>
+<p>与上面的<code>HttpMediaTypeNotSupportedException</code>举的例子完全相反，即请求头携带了<code>&quot;content-type: application/json;charset=UTF-8&quot;</code>，但接收参数却没有添加注解<code>@RequestBody</code>，或者请求体携带的 json 串反序列化成 pojo 的过程中失败了，也会抛该异常；</p>
+</li>
+<li><p><code>HttpMessageNotWritableException</code></p>
+<p>返回的 pojo 在序列化成 json 过程失败了，那么抛该异常；</p>
+</li>
+</ul>
+<h4 id="handleBindException"><a href="#handleBindException" class="headerlink" title="handleBindException"></a>handleBindException</h4><p>参数校验异常，后文详细说明。</p>
+<h4 id="handleValidException"><a href="#handleValidException" class="headerlink" title="handleValidException"></a>handleValidException</h4><p>参数校验异常，后文详细说明。</p>
+<h4 id="handleBusinessException、handleBaseException"><a href="#handleBusinessException、handleBaseException" class="headerlink" title="handleBusinessException、handleBaseException"></a>handleBusinessException、handleBaseException</h4><p>处理自定义的业务异常，只是<code>handleBaseException</code>处理的是除了 <code>BusinessException</code> 意外的所有业务异常。就目前来看，这2个是可以合并成一个的。</p>
+<h4 id="handleException"><a href="#handleException" class="headerlink" title="handleException"></a>handleException</h4><p>处理所有未知的异常，比如操作数据库失败的异常。</p>
+<p>注：上面的<code>handleServletException</code>、<code>handleException</code> 这两个处理器，返回的异常信息，不同环境返回的可能不一样，以为这些异常信息都是框架自带的异常信息，一般都是英文的，不太好直接展示给用户看，所以统一返回<code>SERVER_ERROR</code>代表的异常信息。</p>
+<h3 id="异于常人的404"><a href="#异于常人的404" class="headerlink" title="异于常人的404"></a>异于常人的404</h3><p>上文提到，当请求没有匹配到控制器的情况下，会抛出<code>NoHandlerFoundException</code>异常，但其实默认情况下不是这样，默认情况下会出现类似如下页面：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201855404.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Whitelabel-Error-Page"><a href="#Whitelabel-Error-Page" class="headerlink" title="Whitelabel Error Page"></a><strong>Whitelabel Error Page</strong></h4><p>这个页面是如何出现的呢？实际上，当出现404的时候，默认是不抛异常的，而是 <code>forward</code>跳转到<code>/error</code>控制器，<code>spring</code>也提供了默认的<code>error</code>控制器，如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201855021.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>那么，如何让404也抛出异常呢，只需在<code>properties</code>文件中加入如下配置即可：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.mvc.throw-exception-if-no-handler-found</span>=<span class="hljs-string">true</span><br><span class="hljs-meta">spring.resources.add-mappings</span>=<span class="hljs-string">false</span><br></code></pre></div></td></tr></table></figure>
+
+<p>如此，就可以异常处理器中捕获它了，然后前端只要捕获到特定的状态码，立即跳转到404页面即可</p>
+<h4 id="捕获404对应的异常"><a href="#捕获404对应的异常" class="headerlink" title="捕获404对应的异常"></a><strong>捕获404对应的异常</strong></h4><h3 id="统一返回结果"><a href="#统一返回结果" class="headerlink" title="统一返回结果"></a>统一返回结果</h3><p>在验证统一异常处理器之前，顺便说一下统一返回结果。说白了，其实是统一一下返回结果的数据结构。<code>code</code>、<code>message</code> 是所有返回结果中必有的字段，而当需要返回数据时，则需要另一个字段 <code>data</code> 来表示。</p>
+<p>所以首先定义一个 <code>BaseResponse</code> 来作为所有返回结果的基类；</p>
+<p>然后定义一个通用返回结果类<code>CommonResponse</code>，继承 <code>BaseResponse</code>，而且多了字段 <code>data</code>；</p>
+<p>为了区分成功和失败返回结果，于是再定义一个 <code>ErrorResponse</code></p>
+<p>最后还有一种常见的返回结果，即返回的数据带有分页信息，因为这种接口比较常见，所以有必要单独定义一个返回结果类 <code>QueryDataResponse</code>，该类继承自 <code>CommonResponse</code>，只是把 <code>data</code> 字段的类型限制为 <code>QueryDdata</code>，<code>QueryDdata</code>中定义了分页信息相应的字段，即<code>totalCount</code>、<code>pageNo</code>、 <code>pageSize</code>、<code>records</code>。</p>
+<p>其中比较常用的只有 <code>CommonResponse</code> 和 <code>QueryDataResponse</code>，但是名字又贼鬼死长，何不定义2个名字超简单的类来替代呢？于是 <code>R</code> 和 <code>QR</code> 诞生了，以后返回结果的时候只需这样写：<code>new R&lt;&gt;(data)</code>、<code>new QR&lt;&gt;(queryData)</code>。</p>
+<p>所有的返回结果类的定义这里就不贴出来了</p>
+<h2 id="验证统一异常处理"><a href="#验证统一异常处理" class="headerlink" title="验证统一异常处理"></a>验证统一异常处理</h2><p>因为这一套统一异常处理可以说是通用的，所有可以设计成一个 <code>common</code>包，以后每一个新项目/模块只需引入该包即可。所以为了验证，需要新建一个项目，并引入该 <code>common</code>包。</p>
+<h3 id="主要代码"><a href="#主要代码" class="headerlink" title="主要代码"></a>主要代码</h3><p>下面是用于验证的主要源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LicenceService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ServiceImpl</span>&lt;<span class="hljs-title">LicenceMapper</span>, <span class="hljs-title">Licence</span>&gt; </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> OrganizationClient organizationClient;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 查询&#123;<span class="hljs-doctag">@link</span> Licence&#125; 详情</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> licenceId</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> LicenceDTO <span class="hljs-title">queryDetail</span><span class="hljs-params">(Long licenceId)</span> </span>&#123;<br>        Licence licence = <span class="hljs-keyword">this</span>.getById(licenceId);<br>        checkNotNull(licence);<br><br>        OrganizationDTO org = ClientUtil.execute(() -&gt; organizationClient.getOrganization(licence.getOrganizationId()));<br>        <span class="hljs-keyword">return</span> toLicenceDTO(licence, org);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 分页获取</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> licenceParam 分页查询参数</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> QueryData&lt;SimpleLicenceDTO&gt; <span class="hljs-title">getLicences</span><span class="hljs-params">(LicenceParam licenceParam)</span> </span>&#123;<br>        String licenceType = licenceParam.getLicenceType();<br>        LicenceTypeEnum licenceTypeEnum = LicenceTypeEnum.parseOfNullable(licenceType);<br>        <span class="hljs-comment">// 断言, 非空</span><br>        ResponseEnum.BAD_LICENCE_TYPE.assertNotNull(licenceTypeEnum);<br><br>        LambdaQueryWrapper&lt;Licence&gt; wrapper = <span class="hljs-keyword">new</span> LambdaQueryWrapper&lt;&gt;();<br>        wrapper.eq(Licence::getLicenceType, licenceType);<br>        IPage&lt;Licence&gt; page = <span class="hljs-keyword">this</span>.page(<span class="hljs-keyword">new</span> QueryPage&lt;&gt;(licenceParam), wrapper);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> QueryData&lt;&gt;(page, <span class="hljs-keyword">this</span>::toSimpleLicenceDTO);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 新增&#123;<span class="hljs-doctag">@link</span> Licence&#125;</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request 请求体</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Transactional(rollbackFor = Throwable.class)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> LicenceAddRespData <span class="hljs-title">addLicence</span><span class="hljs-params">(LicenceAddRequest request)</span> </span>&#123;<br>        Licence licence = <span class="hljs-keyword">new</span> Licence();<br>        licence.setOrganizationId(request.getOrganizationId());<br>        licence.setLicenceType(request.getLicenceType());<br>        licence.setProductName(request.getProductName());<br>        licence.setLicenceMax(request.getLicenceMax());<br>        licence.setLicenceAllocated(request.getLicenceAllocated());<br>        licence.setComment(request.getComment());<br>        <span class="hljs-keyword">this</span>.save(licence);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> LicenceAddRespData(licence.getLicenceId());<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * entity -&gt; simple dto</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> licence &#123;<span class="hljs-doctag">@link</span> Licence&#125; entity</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@link</span> SimpleLicenceDTO&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> SimpleLicenceDTO <span class="hljs-title">toSimpleLicenceDTO</span><span class="hljs-params">(Licence licence)</span> </span>&#123;<br>        <span class="hljs-comment">// 省略</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * entity -&gt; dto</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> licence &#123;<span class="hljs-doctag">@link</span> Licence&#125; entity</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> org &#123;<span class="hljs-doctag">@link</span> OrganizationDTO&#125;</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@link</span> LicenceDTO&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> LicenceDTO <span class="hljs-title">toLicenceDTO</span><span class="hljs-params">(Licence licence, OrganizationDTO org)</span> </span>&#123;<br>        <span class="hljs-comment">// 省略</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 校验&#123;<span class="hljs-doctag">@link</span> Licence&#125;存在</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> licence</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkNotNull</span><span class="hljs-params">(Licence licence)</span> </span>&#123;<br>        ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(licence);<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>PS: 这里使用的DAO框架是<code>mybatis-plus</code>。启动时，自动插入的数据为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- licence</span><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> licence (licence_id, organization_id, licence_type, product_name, licence_max, licence_allocated)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;user&#x27;</span>,<span class="hljs-string">&#x27;CustomerPro&#x27;</span>, <span class="hljs-number">100</span>,<span class="hljs-number">5</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> licence (licence_id, organization_id, licence_type, product_name, licence_max, licence_allocated)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;user&#x27;</span>,<span class="hljs-string">&#x27;suitability-plus&#x27;</span>, <span class="hljs-number">200</span>,<span class="hljs-number">189</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> licence (licence_id, organization_id, licence_type, product_name, licence_max, licence_allocated)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;user&#x27;</span>,<span class="hljs-string">&#x27;HR-PowerSuite&#x27;</span>, <span class="hljs-number">100</span>,<span class="hljs-number">4</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> licence (licence_id, organization_id, licence_type, product_name, licence_max, licence_allocated)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&#x27;core-prod&#x27;</span>,<span class="hljs-string">&#x27;WildCat Application Gateway&#x27;</span>, <span class="hljs-number">16</span>,<span class="hljs-number">16</span>);<br><br><span class="hljs-comment">-- organizations</span><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> organization (id, name, contact_name, contact_email, contact_phone)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;customer-crm-co&#x27;</span>, <span class="hljs-string">&#x27;Mark Balster&#x27;</span>, <span class="hljs-string">&#x27;mark.balster@custcrmco.com&#x27;</span>, <span class="hljs-string">&#x27;823-555-1212&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> organization (id, name, contact_name, contact_email, contact_phone)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;HR-PowerSuite&#x27;</span>, <span class="hljs-string">&#x27;Doug Drewry&#x27;</span>,<span class="hljs-string">&#x27;doug.drewry@hr.com&#x27;</span>, <span class="hljs-string">&#x27;920-555-1212&#x27;</span>);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="开始验证"><a href="#开始验证" class="headerlink" title="开始验证"></a>开始验证</h3><h4 id="捕获自定义异常"><a href="#捕获自定义异常" class="headerlink" title="捕获自定义异常"></a>捕获自定义异常</h4><ol>
+<li>获取不存在的 <code>licence</code> 详情：<a target="_blank" rel="noopener" href="http://localhost:10000/licence/5%E3%80%82%E6%88%90%E5%8A%9F%E5%93%8D%E5%BA%94%E7%9A%84%E8%AF%B7%E6%B1%82%EF%BC%9AlicenceId=1">http://localhost:10000/licence/5。成功响应的请求：licenceId=1</a></li>
+</ol>
+<p>检验非空</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201857452.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获 Licence not found 异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201857716.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Licence not found</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858845.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol start="2">
+<li>根据不存在的 <code>licence type</code> 获取 <code>licence</code> 列表：<a target="_blank" rel="noopener" href="http://localhost:10000/licence/list?licenceType=ddd%E3%80%82%E5%8F%AF%E9%80%89%E7%9A%84">http://localhost:10000/licence/list?licenceType=ddd。可选的</a> <code>licence type</code> 为：user、core-prod 。</li>
+</ol>
+<p>校验非空</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858991.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获 Bad licence type 异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858788.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Bad licence type</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858022.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="捕获进入-Controller-前的异常"><a href="#捕获进入-Controller-前的异常" class="headerlink" title="捕获进入 Controller 前的异常"></a><strong>捕获进入 Controller 前的异常</strong></h4><ol>
+<li>访问不存在的接口：<a target="_blank" rel="noopener" href="http://localhost:10000/licence/list/ddd">http://localhost:10000/licence/list/ddd</a></li>
+</ol>
+<p>捕获404异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858063.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol start="2">
+<li>http 方法不支持：<a target="_blank" rel="noopener" href="http://localhost:10000/licence">http://localhost:10000/licence</a></li>
+</ol>
+<p>PostMapping</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858112.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获 Request method not supported 异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201858205.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Request method not supported</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859524.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>校验异常1：<a target="_blank" rel="noopener" href="http://localhost:10000/licence/list?licenceType=">http://localhost:10000/licence/list?licenceType=</a></li>
+</ol>
+<p>getLicences</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859055.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>LicenceParam</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859421.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获参数绑定校验异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859254.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>licence type cannot be empty</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859527.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>校验异常2：post 请求，这里使用postman模拟。</li>
+</ol>
+<p>addLicence</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859674.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>LicenceAddRequest</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859025.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>请求url即结果</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859462.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获参数绑定校验异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201859876.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>注：因为参数绑定校验异常的异常信息的获取方式与其它异常不一样，所以才把这2种情况的异常从 <strong>进入 Controller 前的异常</strong> 单独拆出来，下面是异常信息的收集逻辑：</p>
+<p>异常信息的收集</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201900071.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="捕获未知异常"><a href="#捕获未知异常" class="headerlink" title="捕获未知异常"></a>捕获未知异常</h4><p>假设我们现在随便对 <code>Licence</code> 新增一个字段 <code>test</code>，但不修改数据库表结构，然后访问：<a target="_blank" rel="noopener" href="http://localhost:10000/licence/1%E3%80%82">http://localhost:10000/licence/1。</a></p>
+<p>增加test字段</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201900878.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>捕获数据库异常</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201900396.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>Error querying database</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201900433.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>可以看到，测试的异常都能够被捕获，然后以 <code>code</code>、<code>message</code> 的形式返回。每一个项目/模块，在定义业务异常的时候，只需定义一个枚举类，然后实现接口 <code>BusinessExceptionAssert</code>，最后为每一种业务异常定义对应的枚举实例即可，而不用定义许多异常类。使用的时候也很方便，用法类似断言。</p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a><strong>扩展</strong></h3><p>在生产环境，若捕获到 <strong>未知异常</strong> 或者 <code>ServletException</code>，因为都是一长串的异常信息，若直接展示给用户看，显得不够专业，于是，我们可以这样做：当检测到当前环境是生产环境，那么直接返回 “网络异常”。</p>
+<p>生产环境返回“网络异常”</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201900644.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以通过以下方式修改当前环境：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201901113.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>修改当前环境为生产环境</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 <strong>断言</strong> 和 <strong>枚举类</strong> 相结合的方式，再配合统一异常处理，基本大部分的异常都能够被捕获。</p>
+<p>为什么说大部分异常，因为当引入 <code>spring cloud security</code> 后，还会有认证/授权异常，网关的服务降级异常、跨模块调用异常、远程调用第三方服务异常等，这些异常的捕获方式与本文介绍的不太一样，不过限于篇幅，这里不做详细说明，以后会有单独的文章介绍。</p>
+<p>另外，当需要考虑国际化的时候，捕获异常后的异常信息一般不能直接返回，需要转换成对应的语言，不过本文已考虑到了这个，获取消息的时候已经做了国际化映射，逻辑如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201901589.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>获取国际化消息</strong></p>
+<p>最后总结，全局异常属于老生长谈的话题，希望这次通过手机的项目对大家有点指导性的学习。大家根据实际情况自行修改。</p>
+<p>也可以采用以下的jsonResult对象的方式进行处理，也贴出来代码.</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@RestControllerAdvice</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GlobalExceptionHandler</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 没有登录</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> response</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(NoLoginException.class)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">noLoginExceptionHandler</span><span class="hljs-params">(HttpServletRequest request,HttpServletResponse response,Exception e)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;[GlobalExceptionHandler][noLoginExceptionHandler] exception&quot;</span>,e);<br>        JsonResult jsonResult = <span class="hljs-keyword">new</span> JsonResult();<br>        jsonResult.setCode(JsonResultCode.NO_LOGIN);<br>        jsonResult.setMessage(<span class="hljs-string">&quot;用户登录失效或者登录超时,请先登录&quot;</span>);<br>        <span class="hljs-keyword">return</span> jsonResult;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 业务异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> response</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(ServiceException.class)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">businessExceptionHandler</span><span class="hljs-params">(HttpServletRequest request,HttpServletResponse response,Exception e)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;[GlobalExceptionHandler][businessExceptionHandler] exception&quot;</span>,e);<br>        JsonResult jsonResult = <span class="hljs-keyword">new</span> JsonResult();<br>        jsonResult.setCode(JsonResultCode.FAILURE);<br>        jsonResult.setMessage(<span class="hljs-string">&quot;业务异常,请联系管理员&quot;</span>);<br>        <span class="hljs-keyword">return</span> jsonResult;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 全局异常处理</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> response</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler(Exception.class)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">exceptionHandler</span><span class="hljs-params">(HttpServletRequest request,HttpServletResponse response,Exception e)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;[GlobalExceptionHandler][exceptionHandler] exception&quot;</span>,e);<br>        JsonResult jsonResult = <span class="hljs-keyword">new</span> JsonResult();<br>        jsonResult.setCode(JsonResultCode.FAILURE);<br>        jsonResult.setMessage(<span class="hljs-string">&quot;系统错误,请联系管理员&quot;</span>);<br>        <span class="hljs-keyword">return</span> jsonResult;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>来源：cnblogs.com/jurendage/p/11255197.html</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E4%BB%8E%200%20%E5%88%B0%201%20%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%20IntelliJ%20IDEA%20%E6%8F%92%E4%BB%B6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从 0 到 1 开发一个 IntelliJ IDEA 插件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/">
+                        <span class="hidden-mobile">本机号码一键登录原理与应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

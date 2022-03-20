@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="music-website           项目说明本音乐网站的客户端和管理端使用 VUE 框架来实现，服务端使用 Spring Boot + MyBatis 来实现，数据库使用了 MySQL。 项目启动方法看文章末尾。本博主经许可已取得该开源项目部署权限，仅学习使用，详细源码请到该作者仓库下载并给予支持。 客户端demo地址：http:&#x2F;&#x2F;obgeqwh.top:8082&#x2F; 管理端demo地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="music-website">
+<meta property="og:url" content="http://example.com/2022/03/20/Java%E9%9F%B3%E4%B9%90%E5%89%8D%E5%90%8E%E7%AB%AF%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="music-website           项目说明本音乐网站的客户端和管理端使用 VUE 框架来实现，服务端使用 Spring Boot + MyBatis 来实现，数据库使用了 MySQL。 项目启动方法看文章末尾。本博主经许可已取得该开源项目部署权限，仅学习使用，详细源码请到该作者仓库下载并给予支持。 客户端demo地址：http:&#x2F;&#x2F;obgeqwh.top:8082&#x2F; 管理端demo地">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.shields.io/github/license/Yin-Hongwei/music-website?style=flat-square">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122039689.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122040687.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122040056.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122040996.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122040229.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122040275.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041644.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041162.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041913.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041391.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041907.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122041511.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042135.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042696.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042259.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042860.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042922.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122042818.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043857.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043067.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043223.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043527.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043992.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043771.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043354.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122043558.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044915.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044293.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044074.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044399.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044923.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044148.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122044689.jpeg">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203122045661.jpeg">
+<meta property="article:published_time" content="2022-03-20T07:05:19.660Z">
+<meta property="article:modified_time" content="2022-03-20T07:04:04.612Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaDemo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.shields.io/github/license/Yin-Hongwei/music-website?style=flat-square">
+  
+  <title>music-website - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="music-website">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-20 15:05" pubdate>
+        2022年3月20日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">music-website</h1>
+            
+            <div class="markdown-body">
+              <h1 align="center">music-website</h1>
+
+<hr>
+<p align="center">
+  <a href=""><img alt="license" src="https://img.shields.io/github/license/Yin-Hongwei/music-website?style=flat-square" srcset="/img/loading.gif" lazyload></a>
+</p>
+
+
+
+<h2 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h2><p>本音乐网站的客户端和管理端使用 <strong>VUE</strong> 框架来实现，服务端使用 <strong>Spring Boot + MyBatis</strong> 来实现，数据库使用了 <strong>MySQL</strong>。</p>
+<p>项目启动方法看文章末尾。<strong>本博主经许可已取得该开源项目部署权限，仅学习使用，详细源码请到该作者仓库下载并给予支持。</strong></p>
+<p><strong>客户端demo地址：</strong><a target="_blank" rel="noopener" href="http://obgeqwh.top:8082/">http://obgeqwh.top:8082/</a></p>
+<p><strong>管理端demo地址：</strong><a target="_blank" rel="noopener" href="http://obgeqwh.top:8083/">http://obgeqwh.top:8083/</a></p>
+<hr>
+<h2 id="项目预览"><a href="#项目预览" class="headerlink" title="项目预览"></a>项目预览</h2><blockquote>
+<p>前台截图预览</p>
+</blockquote>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122039689.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122040687.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122040056.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122040996.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122040229.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122040275.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041644.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041162.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041913.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041391.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<blockquote>
+<p>后台截图预览</p>
+</blockquote>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041907.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122041511.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042135.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042696.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042259.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042860.jpeg" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="项目功能"><a href="#项目功能" class="headerlink" title="项目功能"></a>项目功能</h2><ul>
+<li>音乐播放</li>
+<li>用户登录注册</li>
+<li>用户信息编辑、头像修改</li>
+<li>歌曲、歌单搜索</li>
+<li>歌单打分</li>
+<li>歌单、歌曲评论</li>
+<li>歌单列表、歌手列表分页显示</li>
+<li>歌词同步显示</li>
+<li>音乐收藏、下载、拖动控制、音量控制</li>
+<li>后台对用户、歌曲、歌手、歌单信息的管理</li>
+</ul>
+<hr>
+<h2 id="一、技术栈"><a href="#一、技术栈" class="headerlink" title="一、技术栈"></a>一、技术栈</h2><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p><strong>SpringBoot + MyBatis</strong></p>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p><strong>Vue + Vue-Router + Vuex + Axios +  ElementUI</strong></p>
+<hr>
+<h2 id="二、下载运行"><a href="#二、下载运行" class="headerlink" title="二、下载运行"></a>二、下载运行</h2><h3 id="1-下载项目到本地"><a href="#1-下载项目到本地" class="headerlink" title="1. 下载项目到本地"></a>1. 下载项目到本地</h3><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/Yin-Hongwei/music-website.git<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-下载数据库中记录的资源"><a href="#2-下载数据库中记录的资源" class="headerlink" title="2. 下载数据库中记录的资源"></a>2. 下载数据库中记录的资源</h3><p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1Qv0ohAIPeTthPK_CDwpfWg">https://pan.baidu.com/s/1Qv0ohAIPeTthPK_CDwpfWg</a> 提取码: gwa4 </p>
+<p>下载网站依赖的歌曲及图片，将 data 夹里的文件放到 music-server 文件夹下。</p>
+<blockquote>
+<p>注意：资源整理了一下，按照下面的截图存放。</p>
+</blockquote>
+<img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042922.jpeg" srcset="/img/loading.gif" lazyload height="200px"/>
+
+<h3 id="3-修改配置文件"><a href="#3-修改配置文件" class="headerlink" title="3. 修改配置文件"></a>3. 修改配置文件</h3><ul>
+<li><p>创建数据库<br>将 <code>music-website/music-server/sql</code> 文件夹中的 <code>tp_music.sql</code> 文件导入数据库。</p>
+</li>
+<li><p>修改用户名密码<br>修改 <code>music-website/music-server/src/main/resources/application.properties</code> 文件里的 <code>spring.datasource.username</code> 和 <code>spring.datasource.password</code>；</p>
+</li>
+<li><p>修改资源路径</p>
+</li>
+</ul>
+<p>修改 <code>music-server/src/main/java/com/example/yin/constant/Constants.java</code> 文件中的 <code>RESOURCE_PATH</code>，<strong>否则资源加载不了</strong>。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122042818.jpeg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="4-启动项目"><a href="#4-启动项目" class="headerlink" title="4. 启动项目"></a>4. 启动项目</h3><ul>
+<li><strong>启动管理端</strong>：进入 music-server 文件夹，运行下面命令启动服务器</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js"><span class="hljs-comment">// 方法一</span><br>./mvnw spring-boot:run<br><br><span class="hljs-comment">// 方法二</span><br>mvn spring-boot:run <span class="hljs-comment">// 前提装了 maven</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>启动客户端</strong>：进入 music-client 目录，运行下面命令</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">npm install <span class="hljs-comment">// 安装依赖</span><br><br>npm run dev <span class="hljs-comment">// 启动前台项目</span><br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><strong>启动管理端</strong>：进入 music-manage 目录，运行下面命令</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">npm install <span class="hljs-comment">// 安装依赖</span><br><br>npm run dev <span class="hljs-comment">// 启动后台管理项目</span><br></code></pre></div></td></tr></table></figure>
+
+<hr>
+<h2 id="三、后端项目构建"><a href="#三、后端项目构建" class="headerlink" title="三、后端项目构建"></a>三、后端项目构建</h2><h3 id="1-创建数据库表"><a href="#1-创建数据库表" class="headerlink" title="1. 创建数据库表"></a>1. 创建数据库表</h3><p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043857.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="2-创建项目"><a href="#2-创建项目" class="headerlink" title="2. 创建项目"></a>2. 创建项目</h3><p>打开 idea，新建一个项目，在 new 一个新项目的时候，选择 <strong>Spring Initializr</strong>，在选择项目依赖的时候勾选<strong>web</strong>下的 Spring Web Starter 和 <strong>SQL</strong>下的 MySQL Driver 和 MyBatis Framework ，然后一直继续后会得到如下结构（总体分三层）。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043067.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="3-配置文件"><a href="#3-配置文件" class="headerlink" title="3. 配置文件"></a>3. 配置文件</h3><ul>
+<li>application.properties</li>
+</ul>
+<p>配置 <strong>application.properties</strong> 文件，用于连接数据库（代码见项目源码）。</p>
+<ul>
+<li>generatorConfig.xml</li>
+</ul>
+<p>利用 <a target="_blank" rel="noopener" href="https://mapperhelper.github.io/docs/3.usembg/">MyBatis Generator</a> 自动生成代码（实体类，Mapper接口和Mapper.xml文件），需要指定 <strong>mysql-connector-java</strong> （ <code>src/main/resources</code> 目录下）和生成文件的路径。在 <code>src/main/resources</code> 目录下创建 <strong>generatorConfig.xml</strong> 文件并配置（代码见项目源码）。</p>
+<ul>
+<li>pom.xml</li>
+</ul>
+<p><strong>pom.xml</strong> 文件负责配置项目相关的依赖和插件，包括上面的 MyBatis Generator（项目plugins 标签中注视掉的代码是对 Mybatis-generator 插件的配置），在创建项目时，idea 已经帮我们引入了一些依赖，下面我们需要在 dependencies 标签中引入项目需要的一些依赖，配置的代码可以直接看代码，这里就不往出写了，下面对主要依赖进行下描述：</p>
+<table>
+<thead>
+<tr>
+<th align="left">package</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">mybatis-spring-boot-starter</td>
+<td align="left">MyBatis核心for Spring Boot</td>
+</tr>
+<tr>
+<td align="left">mysql-connector-java</td>
+<td align="left">java 与 mysql 连接的 jar 包驱动程序</td>
+</tr>
+<tr>
+<td align="left">fastjson</td>
+<td align="left">实现 json 对象与 JavaBean 对象的转换</td>
+</tr>
+</tbody></table>
+<p>在 plugins 标签中对 Mybatis-generator 进行配置，用于自动生成代码。</p>
+<p>至此，项目的配置就弄完了，在命令行执行 <code>./mvnw mybatis-generator:generate</code> 自动生成代码，得到的项目结构如下所示。此时会看到多生成了 <strong>dao</strong>、<strong>domain</strong>、<strong>mapper</strong> 目录及下面的文件。生成项目后，需要将上面 <strong>pom.xml</strong> 文件中 Mybatis-generator 插件的配置注视调，因为这个文件就是初始时候自动生成代码用的，如果不注视每次运行都会再生成一次，即覆盖之前的代码。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043223.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="4-测试（新建一个用户为例）"><a href="#4-测试（新建一个用户为例）" class="headerlink" title="4. 测试（新建一个用户为例）"></a>4. 测试（新建一个用户为例）</h3><p>创建好项目之后先测试一下，首先在 <code>src/main/java/com/example/demo</code> 目录下创建 service 包，service 包下创建 ConsumerService 接口和 impl包，impl包下创建 ConsumerServiceImpl 类，具体创建这个干嘛下面写接口时候再介绍。</p>
+<ul>
+<li>ConsumerService 接口的代码如下</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043527.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li>ConsumerServiceImpl 类的代码如下</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043992.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li>在 <code>src/main/java/com/example/demo</code> 下的 ConsumerMapper 接口中添加如下代码。</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043771.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li>在 <code>src/main/resources/mapper</code> 下的 ConsumerMapper.xml 文件中将 insertSelective 改成 addUser</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043354.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><p>打开 SpringBoot 的启动类，加上 @MapperScan 注解，指向 dao 层接口所在的包路径。@MapperScan(“com.example.demo.dao”)</p>
+</li>
+<li><p>然后在 <code>src/test/java/com/example/demo</code> 下的测试文件中写测试代码，如下，然后点如下所示运行，没有提示错误，且数据库中成功存入数据，说明项目构建成功，接下来就可以开始写接口了。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122043558.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="5-开发接口（返回所有用户信息为例）"><a href="#5-开发接口（返回所有用户信息为例）" class="headerlink" title="5. 开发接口（返回所有用户信息为例）"></a>5. 开发接口（返回所有用户信息为例）</h3><p>在写接口之前，先对项目层次做一下介绍。项目层次我将主要根据 <strong>domain</strong>、 <strong>DAO</strong>、<strong>Service</strong>、<strong>Controller</strong> 这几层主要实现的功能和它们之间的联系进行介绍。</p>
+<ul>
+<li><strong>实体类（domain 目录下）</strong></li>
+</ul>
+<p>定义数据库表所对应的实体类。</p>
+<ul>
+<li><strong>Mapper 层 / DAO 层（dao、mapper 目录下）</strong></li>
+</ul>
+<p>数据操作层：向数据库发送 SQL 语句，完成数据库操作。</p>
+<p>分为 Mapper 接口 和 Mapper 接口映射文件。 Mapper 接口在 dao 目录下，定义操作数据库的函数（函数不能直接去进行 CURD）， Mapper 接口映射文件在 mapper 目录下，完成对数据库的访问。</p>
+<ul>
+<li><strong>Service 层（service 目录下）</strong></li>
+</ul>
+<p>服务层：完成业务逻辑处理。调用 Mapper 层操作数据库。</p>
+<p>分为 Service 接口 + Service 实现，用面向接口的编程思想，方便后续功能的解藕及扩展。</p>
+<ul>
+<li><strong>Controller 层（controller 目录下）</strong></li>
+</ul>
+<p>控制层：对请求和响应进行控制，调用 Service 层进行业务逻辑处理，最后将处理好的数据返回给前端。</p>
+<ul>
+<li><strong>实战（写一个返回所有用户信息的接口）</strong></li>
+</ul>
+<p>假如前端访问 <a target="_blank" rel="noopener" href="http://localhost:8888/allUser">http://localhost:8888/allUser</a> 就要拿到所有用户的信息，那么按照上面的层次我们可以这么写。</p>
+<p>（1）访问的接口由 Controller 层来处理，所以这里这样定义，要返回所有用户信息，把它当一个命令，交给 Service 层去做。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044915.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（2）到了 Service 层，Service 层的 ConsumerService 接口中先定义下面方法</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044293.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>然后在 ConsumerServiceImpl 类中这样去实现它。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044074.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（3）Service 层会让 dao 层的 ConsumerMapper 接口调 allUser 方法去返回数据，</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044399.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>而 ConsumerMapper 接口操作数据库又要依赖 Mapper.xml 文件。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044923.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（4）这样，一个返回所有用户信息的接口就写完了，打开 Terminal 输入如下命令跑一下项目。如下所示</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">./mvnw spring-boot:run<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044148.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>在浏览器中输入 <a target="_blank" rel="noopener" href="http://localhost:8888/allUser">http://localhost:8888/allUser</a> 查看结果。</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122044689.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>知道一个接口怎么写，其他接口也类似，需要注意的地方有两点，第一个是解决跨域问题（可以查看代码 config 文件夹下面设置），第二个问题是关于静态资源的处理（这个就是最开始跑这个项目时候修改图片、音乐路径做的事情）。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h3><p>当前端要访问数据的时候后端就提供相应接口，接口的编写是通过 Controller 层监听请求， 数据的处理交给 Service 层，而 Service 层再通过 Mapper 层操作数据库，操作完成后数据再一层层往上走，最后返回给前端。</p>
+<hr>
+<h3 id="7-最终项目结构"><a href="#7-最终项目结构" class="headerlink" title="7. 最终项目结构"></a>7. 最终项目结构</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">.<br>├── avatorImages <span class="hljs-comment">// 用户头像</span><br>├── img<br>│   ├── singerPic <span class="hljs-comment">// 歌手图片</span><br>│   ├── songListPic <span class="hljs-comment">// 歌单图片</span><br>│   └── songPic <span class="hljs-comment">// 歌曲图片</span><br>├── song <span class="hljs-comment">// 存放歌曲</span><br>├── src<br>│   ├── main<br>│   │   ├── java<br>│   │   │   └── com.example.yin<br>│   │   │       ├── config <span class="hljs-comment">// 配置（跨域）</span><br>│   │   │       ├── controller <span class="hljs-comment">// 控制层，接收请求返回响应</span><br>│   │   │       ├── dao <span class="hljs-comment">// 数据操作层</span><br>│   │   │       ├── domain <span class="hljs-comment">// 实体类</span><br>│   │   │       ├── constant<br>│   │   │       ├── service<br>│   │   │       │   └── impl <span class="hljs-comment">// Service 层的接口</span><br>│   │   │       └── HwMusicApplicationTests.java <span class="hljs-comment">// 项目入口</span><br>│   │   └── resources<br>│   │       ├── mapper <span class="hljs-comment">// mapper.xml文件，操作数据库</span><br>│   │       ├── <span class="hljs-keyword">static</span> <span class="hljs-comment">// 存放静态资源</span><br>│   │       ├── templates<br>│   │       ├── application.properties <span class="hljs-comment">// 连接数据库</span><br>│   │       └── generatorConfig.xml <span class="hljs-comment">// MyBatis Generator 自动生成代码</span><br>│   └── test<br>│       └── java<br>│           └── com.example.demo <span class="hljs-comment">// 测试用的</span><br>├── pom.xml <span class="hljs-comment">// 添加相关依赖和插件</span><br>└── target<br></code></pre></div></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="四、客户端项目构建"><a href="#四、客户端项目构建" class="headerlink" title="四、客户端项目构建"></a>四、客户端项目构建</h2><h3 id="1-创建项目"><a href="#1-创建项目" class="headerlink" title="1. 创建项目"></a>1. 创建项目</h3><p>这里项目的创建比后端要简单的多，直接用官方提供的脚手架，运行如下命令先全局安装 vue，然后进行安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">npm install -g @vue/cli<br><br><span class="hljs-comment"># 进要创建项目的地方</span><br>vue create music-client<br></code></pre></div></td></tr></table></figure>
+
+<p>vue 在帮我们创建项目的时候依赖包也会装好，装好后进入项目，执行如下命令项目就跑起来了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">npm run serve<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203122045661.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>但是假如你是新手，不建议上来就用脚手架，先看一下 <a target="_blank" rel="noopener" href="https://v3.cn.vuejs.org/guide/introduction.html">官网</a> 了解一下组件、路由等等。</p>
+<h3 id="2-开发思路"><a href="#2-开发思路" class="headerlink" title="2. 开发思路"></a>2. 开发思路</h3><p>因为代码都放在一起对后期维护和修改都不方便，所以要根据功能把他们拆分到不同目录。</p>
+<p>在 pages 目录下放一些视图，里面的每一个组件主要是对整个试图的控制，具体里面的实现可以根据具体情况自己封装组件，或者直接使用第三方组件，components 目录下放置我们封装好的组件，利用 vue-router 把试图都组织起来，加载到 App.vue 文件中，最后渲染到页面中。</p>
+<p>最开始构建页面可以写死，当基本样子搭起来之后就可以去向后端去请求数据，请求数据用到的是<code>axios</code>插件，获取到数据在控制台查看请求的数据，确保数据保存到正确的变量中去（这里如果遇到跨域的问题可以在后端用 CORS 解决）。</p>
+<p>随着组件的增多，组件之间的传值就是问题，不可能一些数据一直好几个组件里一直传，我们需要 vuex 插件来对数据进行管理（这里通过 sessionStorage 解决 vuex 刷新数据丢失问题）。</p>
+<p>不同的组件有时候会用到相同的方法，当要修改方法时就要改好多地方，所以把它们单独拿出来放到 mixins 文件夹下面，当用到这些方法的时候在对应组件中引入即可。</p>
+<p>vue 支持很多的第三方组件，能给我们项目带来很好的交互和显示效果，具体在需要的时候引入就行了，当然了，一些样式和图片也可以放到 assets 文件夹下管理。</p>
+<blockquote>
+<p>这个项目的话组件基本是自己实现的，第三方用的少，对练习组件的封装还是很有帮助的。</p>
+</blockquote>
+<h3 id="3-最终项目结构"><a href="#3-最终项目结构" class="headerlink" title="3. 最终项目结构"></a>3. 最终项目结构</h3><figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">.<br>├── build <span class="hljs-comment">// webpack相关配置文件</span><br>├── config <span class="hljs-comment">// vue基本配置文件</span><br>├── node_modules <span class="hljs-comment">// 包</span><br>├── index.html <span class="hljs-comment">// 入口页面</span><br>├── package.json <span class="hljs-comment">// 管理包的依赖</span><br>├── src <span class="hljs-comment">// 项目源码目录</span><br>│   ├── assets  <span class="hljs-comment">// icon，图片、css 等</span><br>│   ├── api  <span class="hljs-comment">// 封装请求的 api</span><br>│   ├── mixins <span class="hljs-comment">// 公共方法</span><br>│   ├── enums <span class="hljs-comment">// 枚举</span><br>│   ├── utils <span class="hljs-comment">// 工具方法</span><br>│   ├── router <span class="hljs-comment">// 路由</span><br>│   ├── store <span class="hljs-comment">// 管理数据</span><br>│   ├── components<br>│   │   ├── Comment.vue <span class="hljs-comment">// 评论</span><br>│   │   ├── PlayList.vue <span class="hljs-comment">// 展示歌单歌手区</span><br>│   │   ├── SongList.vue <span class="hljs-comment">// 展示歌单歌手包含的歌曲</span><br>│   │   └── layouts<br>│   │       ├── YinAudio.vue <span class="hljs-comment">// 接收音乐并播放的位置</span><br>│   │       ├── YinCurrentPlay.vue <span class="hljs-comment">// 播放列表</span><br>│   │       ├── YinFooter.vue <span class="hljs-comment">// 页脚</span><br>│   │       ├── YinHeader.vue <span class="hljs-comment">// 页头</span><br>│   │       ├── YinLoginLogo.vue <span class="hljs-comment">// 登录界面的logo</span><br>│   │       ├── YinPlayBar.vue <span class="hljs-comment">// 页面底部的播放控制区</span><br>│   │       └── YinScrollTop.vue <span class="hljs-comment">// 回到顶部</span><br>│   ├── views <span class="hljs-comment">// 组件</span><br>│   │   ├── error<br>│   │   │   └── <span class="hljs-number">404.</span>vue <span class="hljs-comment">// 404</span><br>│   │   ├── Home.vue <span class="hljs-comment">// 首页</span><br>│   │   ├── YinContainer.vue<br>│   │   ├── personal<br>│   │   │   ├── Personal.vue <span class="hljs-comment">// 个人中心</span><br>│   │   │   ├── PersonalData.vue <span class="hljs-comment">// 修改信息</span><br>│   │   │   └── Upload.vue <span class="hljs-comment">// 修改头像</span><br>│   │   ├── setting<br>│   │   │   └── Setting.vue <span class="hljs-comment">// 设置</span><br>│   │   ├── SignIn.vue <span class="hljs-comment">// 登录区</span><br>│   │   ├── SignUp.vue <span class="hljs-comment">// 注册区</span><br>│   │   ├── Lyric.vue <span class="hljs-comment">// 歌词显示区</span><br>│   │   ├── search<br>│   │   │   ├── Search.vue <span class="hljs-comment">// 搜索区</span><br>│   │   │   ├── SearchSong.vue <span class="hljs-comment">// 按歌手搜索</span><br>│   │   │   └── SearchSongList.vue <span class="hljs-comment">// 按歌单搜索</span><br>│   │   ├── singer<br>│   │   │   ├── Singer.vue <span class="hljs-comment">// 歌手区</span><br>│   │   │   └── SingerDetail.vue <span class="hljs-comment">// 歌手详情</span><br>│   │   └── song-sheet<br>│   │       ├── SongSheet.vue <span class="hljs-comment">// 歌单区</span><br>│   │       └── SongSheetDetail.vue <span class="hljs-comment">// 歌单详情</span><br>│   ├── main.js <span class="hljs-comment">// 入口js文件</span><br>│   └── App.vue <span class="hljs-comment">// 根组件</span><br>├── <span class="hljs-keyword">static</span> <span class="hljs-comment">// 存放静态资源 </span><br>├── test <span class="hljs-comment">// 测试文件目录</span><br>├── .babelrc <span class="hljs-comment">// bable 编译配置</span><br>└── .gitignore <span class="hljs-comment">// 提交忽略的文件配置</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="五、管理端项目构建"><a href="#五、管理端项目构建" class="headerlink" title="五、管理端项目构建"></a>五、管理端项目构建</h2><p>这里相比前台的开发要简单得多，因为是使用 Element UI 快速搭建的，实现和前台一样。</p>
+<h3 id="1-最终项目结构"><a href="#1-最终项目结构" class="headerlink" title="1. 最终项目结构"></a>1. 最终项目结构</h3><figure class="highlight js"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs js">.<br>├── build<br>├── config<br>├── node_modules<br>├── index.html<br>├── package.json<br>├── src<br>│   ├── App.vue<br>│   ├── main.js<br>│   ├── api<br>│   ├── assets<br>│   ├── mixins<br>│   ├── enums<br>│   ├── components<br>│   │   ├── dialog<br>│   │   │   └── YinDelDialog.vue<br>│   │   └── layouts<br>│   │       ├── YinAside.vue<br>│   │       ├── YinAudio.vue<br>│   │       └── YinHeader.vue<br>│   ├── views<br>│   │   ├── CollectPage.vue<br>│   │   ├── CommentPage.vue<br>│   │   ├── ConsumerPage.vue<br>│   │   ├── Home.vue<br>│   │   ├── InfoPage.vue<br>│   │   ├── ListSongPage.vue<br>│   │   ├── Login.vue<br>│   │   ├── SingerPage.vue<br>│   │   ├── SongListPage.vue<br>│   │   └── SongPage.vue<br>│   ├── router<br>│   ├── store<br>│   └── utils<br>├── <span class="hljs-keyword">static</span><br>└── test<br></code></pre></div></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaDemo/">JavaDemo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaDemo/">JavaDemo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/20/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java数据结构与算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/20/Java%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE/">
+                        <span class="hidden-mobile">Java博客项目</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

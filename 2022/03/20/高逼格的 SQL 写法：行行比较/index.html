@@ -1,0 +1,571 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="高逼格的 SQL 写法：行行比较  环境准备数据库版本：MySQL 5.7.20-log  建表 SQL1234567891011121314151617181920DROP TABLE IF EXISTS &#96;t_ware_sale_statistics&#96;;CREATE TABLE &#96;t_ware_sale_statistics&#96; (  &#96;id&#96; bigint(20) NOT NULL AUTO_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高逼格的 SQL 写法：行行比较">
+<meta property="og:url" content="http://example.com/2022/03/20/%E9%AB%98%E9%80%BC%E6%A0%BC%E7%9A%84%20SQL%20%E5%86%99%E6%B3%95%EF%BC%9A%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="高逼格的 SQL 写法：行行比较  环境准备数据库版本：MySQL 5.7.20-log  建表 SQL1234567891011121314151617181920DROP TABLE IF EXISTS &#96;t_ware_sale_statistics&#96;;CREATE TABLE &#96;t_ware_sale_statistics&#96; (  &#96;id&#96; bigint(20) NOT NULL AUTO_">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201724801.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201724842.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201725486.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201726257.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201726644.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201726850.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201726865.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201747217.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201747990.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748575.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748605.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748864.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748808.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748333.png">
+<meta property="og:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201748866.png">
+<meta property="article:published_time" content="2022-03-20T11:24:17.394Z">
+<meta property="article:modified_time" content="2022-03-20T09:51:39.047Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/tytokongjian/image/raw/master/images/202203201724801.png">
+  
+  <title>高逼格的 SQL 写法：行行比较 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="高逼格的 SQL 写法：行行比较">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-20 19:24" pubdate>
+        2022年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">高逼格的 SQL 写法：行行比较</h1>
+            
+            <div class="markdown-body">
+              <center><h2>高逼格的 SQL 写法：行行比较</h2></center>
+
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>数据库版本：<code>MySQL 5.7.20-log</code></p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201724801.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="建表-SQL"><a href="#建表-SQL" class="headerlink" title="建表 SQL"></a><strong>建表 SQL</strong></h3><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> `t_ware_sale_statistics`;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t_ware_sale_statistics` (<br>  `id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT COMMENT <span class="hljs-string">&#x27;主键id&#x27;</span>,<br>  `business_id` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;业务机构编码&#x27;</span>,<br>  `ware_inside_code` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;商品自编码&#x27;</span>,<br>  `weight_sale_cnt_day` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;平均日销量&#x27;</span>,<br>  `last_thirty_days_sales` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;最近30天销量&#x27;</span>,<br>  `last_sixty_days_sales` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;最近60天销量&#x27;</span>,<br>  `last_ninety_days_sales` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;最近90天销量&#x27;</span>,<br>  `same_period_sale_qty_thirty` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;去年同期30天销量&#x27;</span>,<br>  `same_period_sale_qty_sixty` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;去年同期60天销量&#x27;</span>,<br>  `same_period_sale_qty_ninety` <span class="hljs-keyword">double</span>(<span class="hljs-number">16</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;去年同期90天销量&#x27;</span>,<br>  `create_user` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;创建人&#x27;</span>,<br>  `create_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="hljs-string">&#x27;创建时间&#x27;</span>,<br>  `modify_user` <span class="hljs-type">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;最终修改人&#x27;</span>,<br>  `modify_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-built_in">CURRENT_TIMESTAMP</span> <span class="hljs-keyword">ON</span> UPDATE <span class="hljs-built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="hljs-string">&#x27;最终修改时间&#x27;</span>,<br>  `is_delete` tinyint(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;2&#x27;</span> COMMENT <span class="hljs-string">&#x27;是否删除，1：是，2：否&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`) <span class="hljs-keyword">USING</span> BTREE,<br>  KEY `idx_business_ware` (`business_id`,`ware_inside_code`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8mb4 ROW_FORMAT<span class="hljs-operator">=</span><span class="hljs-keyword">DYNAMIC</span> COMMENT<span class="hljs-operator">=</span><span class="hljs-string">&#x27;商品销售统计&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a><strong>初始化数据</strong></h3><p>准备了 769063 条数据</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201724842.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a><strong>需求背景</strong></h2><p>业务机构下销售商品，同个业务机构可以销售不同的商品，同个商品可以在不同的业务机构销售，也就说：业务机构与商品是多对多的关系</p>
+<p>假设现在有 n 个机构，每个机构下有几个商品，如何查询出这几个门店下各自商品的销售情况？</p>
+<p>具体点，类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201725486.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如何查出 100001 下商品 1000、1001、1003 、 100002 下商品 1003、1004 、 100003 下商品 1006、1008、1009 的销售情况</p>
+<p>相当于是双层列表（业务机构列表中套商品列表）的查询；业务机构列表和商品列表都不是固定的，而是动态的</p>
+<p>那么问题就是：如何查询多个业务机构下，某些商品的销售情况</p>
+<blockquote>
+<p>问题经我一描述，可能更模糊了，大家明白意思了就好！</p>
+</blockquote>
+<h2 id="循环查询"><a href="#循环查询" class="headerlink" title="循环查询"></a><strong>循环查询</strong></h2><p>这个很容易想到，在代码层面循环业务机构列表，每个业务机构查一次数据库，伪代码如下：</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201726257.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>具体的 SQL 类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201726644.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SQL 能走索引</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201726850.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>实现简单，也好理解，SQL 也能走索引，一切看起来似乎很完美，然而现实是：部门开发规范约束，不能循环查数据库，哦豁，这种方式只能放弃，另寻其他方式了</p>
+<h3 id="OR-拼接"><a href="#OR-拼接" class="headerlink" title="OR 拼接"></a><strong>OR 拼接</strong></h3><p>通过 MyBatis 的 动态 SQL 功能，进行 SQL 拼接，类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201726865.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>具体的 SQL 类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201747217.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SQL 也能走索引</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201747990.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>实现简单，也好理解，SQL 也能走索引，而且只查询一次数据库，貌似可行</p>
+<p>唯一可惜的是：有点费 OR，如果业务机构比较多，那 SQL 会比较长</p>
+<p>作为候选人之一吧，我们接着往下看</p>
+<h3 id="混查过滤"><a href="#混查过滤" class="headerlink" title="混查过滤"></a><strong>混查过滤</strong></h3><p>同样是利用 Mybatis 的 动态 SQL ，将 <code>business_id</code> 列表拼在一起、 <code>ware_inside_code</code> 拼在一起，类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748575.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>具体的 SQL 类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748605.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SQL 也能走索引</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748864.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>实现简单，也好理解，SQL 也能走索引，而且只查询一次数据库，似乎可行</p>
+<p>但是：查出来的结果集大于等于我们想要的结果集，你品，你细品！</p>
+<p>所以还需要对查出来的结果集进行一次过滤，过滤出我们想要的结果集</p>
+<p>姑且也作为候选人之一吧，我们继续往下看</p>
+<h3 id="行行比较"><a href="#行行比较" class="headerlink" title="行行比较"></a><strong>行行比较</strong></h3><p>SQL-92 中加入了行与行比较的功能，这样一来，比较谓词 = 、&lt; 、&gt; 和 IN 谓词的参数就不再只是标量值了，还可以是值列表了</p>
+<p>当然，还是得用到 Mybatis 的 动态 SQL ，类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748808.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>具体的 SQL 类似如下</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748333.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>SQL 同样能走索引</p>
+<p><img src="https://gitee.com/tytokongjian/image/raw/master/images/202203201748866.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>实现简单，SQL 也能走索引，而且只查询一次数据库，感觉可行</p>
+<p>只是：有点不好理解，因为我们平时这么用的少，所以这种写法看起来很陌生</p>
+<p>另外，行行比较是 SQL 规范，不是某个关系型数据库的规范，也就说关系型数据库都应该支持这种写法</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p><strong>1、最后选择了 行行比较 这种方式来实现了需求</strong></p>
+<p>别问我为什么，问就是逼格高！</p>
+<p><strong>2、某一个需求的实现往往有很多种方式，我们需要结合业务以及各种约束综合考虑，选择最合适的那个</strong></p>
+<p><strong>3、行行比较是 SQL-92 中引入的，SQL-92 是 1992 年制定的规范</strong></p>
+<p>行行比较不是新特性，而是很早就存在的基础功能！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h2><ul>
+<li>《SQL进阶教程》</li>
+<li>神奇的 SQL 之 MySQL 执行计划 → EXPLAIN，让我们了解 SQL 的执行过程！</li>
+<li>神奇的 SQL 之性能优化 → 让 SQL 飞起来</li>
+<li>神奇的 SQL 之擦肩而过 → 真的用到索引了吗</li>
+</ul>
+<p><strong>来源：cnblogs.com/youzhibing/p/15101096.html</strong></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%A6%81%E9%A2%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关系型数据库设计要领</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/20/%E4%BB%8E%200%20%E5%88%B0%201%20%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%20IntelliJ%20IDEA%20%E6%8F%92%E4%BB%B6/">
+                        <span class="hidden-mobile">从 0 到 1 开发一个 IntelliJ IDEA 插件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
