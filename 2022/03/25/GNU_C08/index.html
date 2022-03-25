@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="变参函数的格式检查  8.1 属性声明：formatGNU 通过 attribute 扩展的 format 属性，用来指定变参函数的参数格式检查。 它的使用方法如下： 12__attribute__(( format (archetype, string-index, first-to-check)))void LOG(const char *fmt, ...)  __attribute__((f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变参函数的格式检查">
+<meta property="og:url" content="http://example.com/2022/03/25/GNU_C08/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="变参函数的格式检查  8.1 属性声明：formatGNU 通过 attribute 扩展的 format 属性，用来指定变参函数的参数格式检查。 它的使用方法如下： 12__attribute__(( format (archetype, string-index, first-to-check)))void LOG(const char *fmt, ...)  __attribute__((f">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-25T13:46:50.594Z">
+<meta property="article:modified_time" content="2021-10-04T02:50:50.165Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="GNU">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>变参函数的格式检查 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="变参函数的格式检查">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">变参函数的格式检查</h1>
+            
+            <div class="markdown-body">
+              <center><h2>变参函数的格式检查</h2></center>
+
+<h2 id="8-1-属性声明：format"><a href="#8-1-属性声明：format" class="headerlink" title="8.1 属性声明：format"></a>8.1 属性声明：format</h2><p>GNU 通过 attribute 扩展的 format 属性，用来指定变参函数的参数格式检查。</p>
+<p>它的使用方法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">__attribute__(( format (archetype, <span class="hljs-built_in">string</span>-index, first-to-check)))<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LOG</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *fmt, ...)</span>  __<span class="hljs-title">attribute__</span><span class="hljs-params">((format(<span class="hljs-built_in">printf</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)))</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>我们经常实现一些自己的打印调试函数。这些打印函数往往是变参函数，那编译器编译程序时，怎么知道我们的参数格式对不对呢？因为我们实现的是变参函数，参数的个数和格式都不确定。所以编译器表示压力很大，不知道该如何处理。</p>
+<p>办法总是有的。这不，attribute 的format属性这时候就自带 BGM，隆重出场了。如上面的示例代码，我们定义一个 LOG 变参函数，用来实现打印功能。那编译器编译程序时，如何检查我们参数的格式是否正确呢？其实很简单，通过给 LOG 函数添加 attribute((format(printf,1,2))) 这个属性声明，就是告诉编译器：你知道printf函数不？你怎么对这个函数参数格式检查的，就按同样的方法，对 LOG 函数进行检查。</p>
+<p>属性 format(printf,1,2) 有三个参数。第一个参数 printf 是告诉编译器，按照 printf 函数的检查标准来检查；第2个参数表示在 LOG 函数所有的参数列表中，格式字符串的位置索引；第3个参数是告诉编译器要检查的参数的起始位置。是不是没看明白？举个例子大家就明白了。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">LOG(<span class="hljs-string">&quot;I am litao\n&quot;</span>);<br>LOG(<span class="hljs-string">&quot;I am litao, I have %d houses!\n&quot;</span>,<span class="hljs-number">0</span>);<br>LOG(<span class="hljs-string">&quot;I am litao, I have %d houses! %d cars\n&quot;</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);<br></code></pre></div></td></tr></table></figure>
+
+
+<p>上面代码，是我们的 LOG 函数使用示例。变参函数，其参数个数跟 printf 函数一样，是不固定的。那么编译器如何检查我们的打印格式是否正确呢？很简单，我们只需要将格式字符串的位置告诉编译器就可以了，比如在第2行代码中：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">LOG(<span class="hljs-string">&quot;I am litao, I have %d houses!\n&quot;</span>,<span class="hljs-number">0</span>);<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个 LOG 函数中有2个参数，第一个是格式字符串，第2个是要打印的一个常量值0，用来匹配格式字符串中的格式符。</p>
+<p>什么是格式字符串呢？顾名思义，如果一个字符串中含有格式符，那这个字符串就是格式字符串。比如这个格式字符串：”I am litao, I have %d houses!\n”，里面含有格式符%，我们也可以叫它占位符。打印的时候，后面变参的值会代替这个占位符，在屏幕上显示出来。</p>
+<p>我们通过 format(printf,1,2) 属性声明，告诉编译器：LOG 函数的参数，格式字符串的位置在所有参数列表中的索引是1，即第一个参数；要编译器帮忙检查的参数，在所有的参数列表里索引是2。知道了 LOG 参数列表中格式字符串的位置和要检查的参数位置，编译器就会按照检查 printf 的格式打印一样，对 LOG 函数进行参数检查。</p>
+<p>如果我们的 LOG 函数定义为下面形式：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LOG</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num, <span class="hljs-keyword">char</span> *fmt, ...)</span>  __<span class="hljs-title">attribute__</span><span class="hljs-params">((format(<span class="hljs-built_in">printf</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)))</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个函数定义中，多了一个参数 num，格式字符串在参数列表中的位置发生了变化（在所有的参数列表中，索引为2），要检查的第一个变参的位置也发生了变化（索引为3），那我们使用 format 属性声明时，就要写成 format(printf,2,3) 的形式了。</p>
+<p>以上就是 format 属性的使用方法，鉴于很多同学，可能对变参函数研究得不多，接下来我们就一起研究下变参函数的设计与实现，加深对本节知识的理解。</p>
+<h2 id="8-2-变参函数的设计与实现"><a href="#8-2-变参函数的设计与实现" class="headerlink" title="8.2 变参函数的设计与实现"></a>8.2 变参函数的设计与实现</h2><p>对于一个普通函数，我们在函数实现中，不用关心实参，只需要在函数体内对形参直接引用即可。当函数调用时，传递的实参和形参个数和格式是匹配的。</p>
+<p>变参函数，顾名思义，跟 printf 函数一样：参数的个数、类型都不固定。我们在函数体内因为预先不知道传进来的参数类型和个数，所以实现起来会稍微麻烦一点。首先要解析传进来的实参，保存起来，然后才能接着像普通函数一样，对实参进行处理。</p>
+<h3 id="变参函数初体验"><a href="#变参函数初体验" class="headerlink" title="变参函数初体验"></a>变参函数初体验</h3><p>我们接下来，就定义一个变参函数，实现的功能很简单，即打印传进来的实参值。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_num</span><span class="hljs-params">(<span class="hljs-keyword">int</span> count, ...)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> *args;<br>    args = &amp;count + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>( <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*args: %d\n&quot;</span>, *args);<br>        args++;<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    print_num(<span class="hljs-number">5</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>变参函数的参数存储其实跟 main 函数的参数存储很像，由一个连续的参数列表组成，列表里存放的是每个参数的地址。在上面的函数中，有一个固定的参数 count，这个固定参数的存储地址后面，就是一系列参数的指针。在 print_num 函数中，先获取 count 参数地址，然后使用 &amp;count + 1 就可以获取下一个参数的指针地址，使用指针变量 args 保存这个地址，并依次访问下一个地址，就可以直接打印传进来的各个实参值了。程序运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">*args：<span class="hljs-number">1</span><br>*args：<span class="hljs-number">2</span><br>*args：<span class="hljs-number">3</span><br>*args：<span class="hljs-number">4</span><br>*args：<span class="hljs-number">5</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="变参函数改进版"><a href="#变参函数改进版" class="headerlink" title="变参函数改进版"></a>变参函数改进版</h3><p>上面的程序使用一个 int * 的指针变量依次去访问实参列表。我们接下来把程序改进一下，使用 char * 类型的指针来实现这个功能，使之兼容更多的参数类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_num2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> count,...)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">char</span> *args;<br>    args = (<span class="hljs-keyword">char</span> *)&amp;count + <span class="hljs-number">4</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*args: %d\n&quot;</span>, *(<span class="hljs-keyword">int</span> *)args);<br>        args += <span class="hljs-number">4</span>;<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    print_num2(<span class="hljs-number">5</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>在这个程序中，我们使用char * 类型的指针。涉及到指针运算，一定要注意每一个参数的地址都是4字节大小，所以我们获取下一个参数的地址是：(char *)&amp;count + 4;。不同类型的指针加1操作，转换为实际的数值运算是不一样的。对于一个指向 int 类型的指针变量 p，p+1表示 p + 1 * sizeof(int)，对于一个指向 char 类型的指针变量，p + 1 表示 p + 1 * sizeof(char)。两种不同类型的指针，其运算细节就体现在这里。当然，程序最后的运行结果跟上面的程序是一样的，如下所示。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">*args：<span class="hljs-number">1</span><br>*args：<span class="hljs-number">2</span><br>*args：<span class="hljs-number">3</span><br>*args：<span class="hljs-number">4</span><br>*args：<span class="hljs-number">5</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="变参函数-V3-0-版本"><a href="#变参函数-V3-0-版本" class="headerlink" title="变参函数 V3.0 版本"></a>变参函数 V3.0 版本</h3><p>对于变参函数，编译器或计算机系统一般会提供一些宏给程序员使用，用来解析函数的参数。这样程序员就不用自己解析参数了，直接使用封装好的宏即可。编译器提供的宏有：</p>
+<ul>
+<li><p>va_list：定义在编译器头文件中 typedef char* va_list;。</p>
+</li>
+<li><p>va_start(args,fmt)：根据参数 fmt 的地址，获取 fmt 后面参数的地址，并保存在 args 指针变量中。</p>
+</li>
+<li><p>va_end(args)：释放 args 指针，将其赋值为 NULL。有了这些宏，我们的工作就简化了很多。我们就不用撸起袖子，自己解析了。</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print_num3</span><span class="hljs-params">(<span class="hljs-keyword">int</span> count,...)</span></span><br><span class="hljs-function"></span>&#123;<br>    va_list args;<br>    va_start(args,count);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*args: %d\n&quot;</span>, *(<span class="hljs-keyword">int</span> *)args);<br>        args += <span class="hljs-number">4</span>; <br>    &#125;<br>    va_end(args); <br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    print_num3(<span class="hljs-number">5</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="变参函数-V4-0-版本"><a href="#变参函数-V4-0-版本" class="headerlink" title="变参函数 V4.0 版本"></a>变参函数 V4.0 版本</h3><p>在 V3.0 版本中，我们使用编译器提供的三个宏，省去了解析参数的麻烦。但打印的时候，我们还必须自己实现。在 V4.0 版本中，我们继续改进，使用 vprintf 函数实现我们的打印功能。vprintf 函数的声明在 stdio.h 头文件中。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">CRTIMP <span class="hljs-keyword">int</span> __cdecl __MINGW_NOTHROW    \<br>    <span class="hljs-built_in">vprintf</span> (<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*, __VALIST);<br></code></pre></div></td></tr></table></figure>
+
+
+<p>vprintf 函数有2个参数，一个是格式字符串指针，一个是变参列表。在下面的程序里，我们可以将，使用 va_start 解析后的变参列表，直接传递给 vprintf 函数，实现打印功能。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">my_printf</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *fmt,...)</span></span><br><span class="hljs-function"></span>&#123;<br>    va_list args;<br>    va_start(args,fmt);<br>    <span class="hljs-built_in">vprintf</span>(fmt,args);<br>    va_end(args);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>    my_printf(<span class="hljs-string">&quot;I am litao, I have %d car\n&quot;</span>, num);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>运行结果如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">I am litao, I have <span class="hljs-number">0</span> car<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="变参函数-V5-0-版本"><a href="#变参函数-V5-0-版本" class="headerlink" title="变参函数 V5.0 版本"></a>变参函数 V5.0 版本</h3><p>上面的 my_printf() 函数，基本上实现了跟 printf() 函数相同的功能：支持变参，支持多种格式的数据打印。接下来，我们还需要对其添加 format 属性声明，让编译器在编译时，像检查 printf 一样，检查 my_printf() 函数的参数格式。V5.0 版本如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-keyword">void</span> __attribute__((format(<span class="hljs-built_in">printf</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>))) my_printf(<span class="hljs-keyword">char</span> *fmt,...)<br>&#123;<br>    va_list args;<br>    va_start(args,fmt);<br>    <span class="hljs-built_in">vprintf</span>(fmt,args);<br>    va_end(args);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>    my_printf(<span class="hljs-string">&quot;I am litao, I have %d car\n&quot;</span>, num);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="8-3-实现自己的日志打印函数"><a href="#8-3-实现自己的日志打印函数" class="headerlink" title="8.3 实现自己的日志打印函数"></a>8.3 实现自己的日志打印函数</h2><p>如果你坚持看到了这里，可能会问，有现成的打印函数可用，为什么还要费这么大的劲，去实现自己的打印函数？原因其实很简单。自己实现的打印函数，除了可以实现自己需要的打印格式，还有2个优点，即可以实现打印开关控制、优先级控制。</p>
+<p>闭上迷茫的双眼，好好想象一下。你在调试一个模块，或者一个系统，有好多个文件。如果你在每个文件里添加 printf 打印，调试完成后再删掉，是不是很麻烦？我们自己实现的打印函数，通过一个宏开关，就可以直接关掉或打开，比较方便。比如下面的代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> DEBUG <span class="hljs-comment">//打印开关</span></span><br><br><span class="hljs-keyword">void</span> __attribute__((format(<span class="hljs-built_in">printf</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>))) LOG(<span class="hljs-keyword">char</span> *fmt,...)<br>&#123;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> DEBUG</span><br>    va_list args;<br>    va_start(args,fmt);<br>    <span class="hljs-built_in">vprintf</span>(fmt,args);<br>    va_end(args);<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> num = <span class="hljs-number">0</span>;<br>    LOG(<span class="hljs-string">&quot;I am litao, I have %d car\n&quot;</span>, num);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+<p>当我们定义一个 DEBUG 宏时，LOG 函数实现普通的打印功能；当这个 DEBUG 宏没有定义，LOG 函数就是个空函数。通过这个宏，我们就实现了打印函数的开关功能，在实际调试中比较实用，非常方便。在 Linux 内核的各个模块中，你会经常看到大量的自定义打印函数或宏，如 pr_debug、pr_info 等。</p>
+<p>除此之外，你可以通过宏，设置一些打印等级。比如可以分为 ERROR、WARNNING、INFO、LOG 等级，根据你设置的打印等级，模块打印的 log 信息也会不一样。这个功能就不展开了，有兴趣你可以试一下。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C</a>
+                    
+                      <a class="hover-with-bg" href="/categories/C/GNU/">GNU</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GNU/">GNU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/GNU_C09/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">链接过程中的强符号和弱符号</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/GNU_C07/">
+                        <span class="hidden-mobile">地址对齐那些事儿</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

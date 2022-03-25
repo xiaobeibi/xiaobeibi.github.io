@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Java 日志体系详解  本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。 Log日志体系在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多： 1&#96;commons-logging.jar&#96;、&#96;lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 日志体系详解">
+<meta property="og:url" content="http://example.com/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Java 日志体系详解  本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。 Log日志体系在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多： 1&#96;commons-logging.jar&#96;、&#96;lo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006354.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006757.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202007405.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202007169.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202008015.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.640Z">
+<meta property="article:modified_time" content="2022-03-25T12:18:17.273Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006354.webp">
+  
+  <title>Java 日志体系详解 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java 日志体系详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java 日志体系详解</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Java 日志体系详解</h2></center>
+
+<p>本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。</p>
+<h2 id="Log日志体系"><a href="#Log日志体系" class="headerlink" title="Log日志体系"></a><strong>Log日志体系</strong></h2><p>在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多：</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs autohotkey">`commons-logging.jar`、`log4j.jar`、`sl4j-api.jar`、`logback.jar`<br></code></pre></div></td></tr></table></figure>
+
+<p>等等，眼花缭乱。我们要正确的配置，使得jar包相互作用生效之前，就先要理清它们之间的关系。</p>
+<h3 id="背景-发展史"><a href="#背景-发展史" class="headerlink" title="背景/发展史"></a>背景/发展史</h3><p>那就要从Java Log的发展历程开始说起。</p>
+<ol>
+<li><p>log4j（作者Ceki Gülcü）出来时就等到了广泛的应用（注意这里是直接使用），是Java日志事实上的标准，并成为了Apache的项目</p>
+</li>
+<li><p>Apache要求把log4j并入到JDK，SUN拒绝，并在jdk1.4版本后增加了<code>JUL</code>（<code>java.util.logging</code>）</p>
+</li>
+<li><p>毕竟是JDK自带的，JUL也有很多人用。同时还有其他日志组件，如SimpleLog等。这时如果有人想换成其他日志组件，如log4j换成JUL，因为api完全不同，就需要改动代码。</p>
+</li>
+<li><p>Apache见此，开发了<code>JCL</code>（Jakarta Commons Logging），即<code>commons-logging-xx.jar</code>。它只提供一套通用的日志接口api，并不提供日志的实现。很好的设计原则嘛，依赖抽象而非实现。这样应用程序可以在运行时选择自己想要的日志实现组件。</p>
+</li>
+<li><p>这样看上去也挺美好的，但是log4j的作者觉得JCL不好用，自己开发出<code>slf4j</code>，它跟JCL类似，本身不提供日志具体实现，只对外提供接口或门面。目的就是为了替代JCL。同时，还开发出<code>logback</code>，一个比log4j拥有更高性能的组件，目的是为了替代log4j。</p>
+</li>
+<li><p>Apache参考了logback,并做了一系列优化，推出了<code>log4j2</code></p>
+</li>
+</ol>
+<h3 id="关系-依赖"><a href="#关系-依赖" class="headerlink" title="关系/依赖"></a>关系/依赖</h3><p>大概了解心路历程后，再详细看看它们之间的关系、依赖。</p>
+<h3 id="JCL"><a href="#JCL" class="headerlink" title="JCL"></a>JCL</h3><p><code>commons-logging</code>已经停止更新，最后的状态如下所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006354.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>JCL支持日志组件不多，不过也有很人用的，例如 Spring 现在用的也越来越少了，也不多讲了</p>
+<h3 id="SLF4J"><a href="#SLF4J" class="headerlink" title="SLF4J"></a>SLF4J</h3><p>因为当时Java的日志组件比较混乱繁杂，Ceki Gülcü 推出 slf4j 后，也相应为行业中各个主流日志组件推出了slf4j的适配</p>
+<p>图来源于官方文档</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006757.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>图的意思为如果你想用slf4j作为日志门面的话，你如何去配合使用其他日志实现组件，这里说明一下（注意jar包名缺少了版本号，在找版本时也要注意版本之间是否兼容）</p>
+<ul>
+<li>slf4j + logback<br><code>slf4j-api.jar</code> + <code>logback-classic.jar</code> + <code>logback-core.jar</code></li>
+<li>slf4j + log4j<br><code>slf4j-api.jar</code> + <code>slf4j-log4j12.jar</code> + <code>log4j.jar</code></li>
+<li>slf4j + jul<br><code>slf4j-api.jar</code> + <code>slf4j-jdk14.jar</code></li>
+<li>也可以只用slf4j无日志实现<br><code>slf4j-api.jar</code> + <code>slf4j-nop.jar</code></li>
+</ul>
+<h3 id="SLF4J的适配"><a href="#SLF4J的适配" class="headerlink" title="SLF4J的适配"></a>SLF4J的适配</h3><p>slf4j支持各种适配，无论你现在是用哪种日志组件，你都可以通过slf4j的适配器来使用上slf4j。</p>
+<p>只要你切换到了slf4j，那么再通过slf4j用上实现组件，即上面说的。<br>图来源于官方文档</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202007405.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其实总的来说，无非就是以下几种情况</p>
+<ul>
+<li>JCL –&gt; <code>jcl-over-slf4j.jar</code>适配</li>
+<li>log4j –&gt;<code>log4j-over-slf4j.jar</code>适配</li>
+<li>JUL–&gt;<code>jul-to-slf4j.jar</code>适配</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202007169.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="Spring统一输出"><a href="#Spring统一输出" class="headerlink" title="Spring统一输出"></a><strong>Spring统一输出</strong></h3><p>这就是为了对slf4j的适配做一个例子说明。</p>
+<p>Spring是用JCL作为日志门面的，那我们的应用是slf4j + logback，怎么让Spring也用到logback作为日志输出呢？这样的好处就是我们可以统一项目内的其他模块、框架的日志输出（日志格式，日志文件，存放路径等，以及其他slf4j支持的功能）</p>
+<p>很简单，就是加入<code>jcl-over-slf4j.jar</code>就好了。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202008015.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="适配思路"><a href="#适配思路" class="headerlink" title="适配思路"></a>适配思路</h3><p>其实很简单</p>
+<ol>
+<li>你首先确认需要统一日志的模块、框架是使用哪个日志组件的，然后再找到sfl4j的适配器。</li>
+<li>记得去掉无用的日志实现组件，只保留你要用的。</li>
+</ol>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>slf4j的日志加载会在程序启动时把日志打出来，所以一定要注意，它会说明加载是否成功，加载了那个日志实现。</p>
+<p>slf4j已经对错误作了说明官网说明，下面讲一下可能经常遇到的问题</p>
+<p><strong>Failed to load class org.slf4j.impl.StaticLoggerBinder</strong></p>
+<p>没找到日志实现，如果你觉得你已经写上了对应的日志实现依赖了，那你要检查一下了，一般来说极有可能是版本不兼容。</p>
+<p><strong>Multiple bindings</strong></p>
+<p>找到多个日志实现，slf4j会找其中一个作为日志实现。</p>
+<h2 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h2><p>阿里对此的代码规范：</p>
+<blockquote>
+<p>【强制】应用中不可直接使用日志系统（Log4j、Logback）中的 API，而应依赖使用日志框架 SLF4J 中的 API，使用门面模式的日志框架，有利于维护和各个类的日志处理方式统一。<br>import org.slf4j.Logger;<br>import org.slf4j.LoggerFactory;private static final Logger logger = LoggerFactory.getLogger(Abc.class);</p>
+</blockquote>
+<p>文章帮大家梳理了Java日志组件的关系，以及如何解决日常中常见日志相关的问题，希望对大家帮助。</p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java 线程池配置的常见误区</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+                        <span class="hidden-mobile">Java 日志框架冲突解决方案</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

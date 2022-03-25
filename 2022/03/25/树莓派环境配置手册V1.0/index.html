@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="树莓派环境配置手册 一. 硬件连接本手册适配树莓派4B硬件板卡（4GB或8GB RAM） 1. 开发所需工具 树莓派4主板.  Micro SD 卡：最低使用 16GB 的存储卡，推荐使用 32GB 或以上的版本.  一个基于 USB 的 Micro SD 卡读卡器.  HDMI 兼容显示器.  USB 的有线&#x2F;无线键盘和鼠标   2. 开发所需软件2.1 树莓派镜像下载工具 官网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派环境配置手册">
+<meta property="og:url" content="http://example.com/2022/03/25/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8CV1.0/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="树莓派环境配置手册 一. 硬件连接本手册适配树莓派4B硬件板卡（4GB或8GB RAM） 1. 开发所需工具 树莓派4主板.  Micro SD 卡：最低使用 16GB 的存储卡，推荐使用 32GB 或以上的版本.  一个基于 USB 的 Micro SD 卡读卡器.  HDMI 兼容显示器.  USB 的有线&#x2F;无线键盘和鼠标   2. 开发所需软件2.1 树莓派镜像下载工具 官网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041834261.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835574.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835247.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835973.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835390.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835247.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835574.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836762.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836390.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836686.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836560.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837550.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837988.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837366.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837172.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837281.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837701.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836762.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838355.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838721.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838243.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839333.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839041.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839659.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839648.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839675.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839650.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091446195.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091447001.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448685.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448165.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448729.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448618.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448512.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091449669.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091449079.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091454361.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091455563.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091833135.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091834142.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091835965.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091457747.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458306.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458511.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458247.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458265.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458700.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091459985.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091459702.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091837499.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091839505.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091843251.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.949Z">
+<meta property="article:modified_time" content="2022-03-25T10:27:04.096Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="树莓派">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041834261.jpg">
+  
+  <title>树莓派环境配置手册 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="树莓派环境配置手册">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      26 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">树莓派环境配置手册</h1>
+            
+            <div class="markdown-body">
+              <p>﻿﻿﻿﻿﻿﻿﻿﻿<center><h2>树莓派环境配置手册</h2></center></p>
+<h1 id="一-硬件连接"><a href="#一-硬件连接" class="headerlink" title="一. 硬件连接"></a>一. 硬件连接</h1><p>本手册适配树莓派4B硬件板卡（4GB或8GB RAM）</p>
+<h2 id="1-开发所需工具"><a href="#1-开发所需工具" class="headerlink" title="1. 开发所需工具"></a>1. 开发所需工具</h2><ul>
+<li><p>树莓派4主板.</p>
+</li>
+<li><p>Micro SD 卡：最低使用 16GB 的存储卡，推荐使用 32GB 或以上的版本.</p>
+</li>
+<li><p>一个基于 USB 的 Micro SD 卡读卡器.</p>
+</li>
+<li><p>HDMI 兼容显示器.</p>
+</li>
+<li><p>USB 的有线/无线键盘和鼠标</p>
+</li>
+</ul>
+<h2 id="2-开发所需软件"><a href="#2-开发所需软件" class="headerlink" title="2. 开发所需软件"></a>2. 开发所需软件</h2><h3 id="2-1-树莓派镜像下载工具"><a href="#2-1-树莓派镜像下载工具" class="headerlink" title="2.1 树莓派镜像下载工具"></a>2.1 树莓派镜像下载工具</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041834261.jpg" srcset="/img/loading.gif" lazyload alt="20220202183327"></p>
+<p>官网下载地址：<a target="_blank" rel="noopener" href="https://www.raspberrypi.com/software/">https://www.raspberrypi.com/software/</a></p>
+<p>安装完成后打开：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835574.jpg" srcset="/img/loading.gif" lazyload alt="20220202183547"></p>
+<h3 id="2-2-树莓派镜像"><a href="#2-2-树莓派镜像" class="headerlink" title="2.2 树莓派镜像"></a>2.2 树莓派镜像</h3><p>Ubuntu18.04镜像：<a target="_blank" rel="noopener" href="http://cdimage.ubuntu.com/releases/18.04/release/">http://cdimage.ubuntu.com/releases/18.04/release/</a></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835247.jpg" srcset="/img/loading.gif" lazyload alt="20220202183412"></p>
+<p>Ubuntu20.04镜像：从镜像下载工具中下载，下载方式看下文系统烧写章节。</p>
+<h3 id="2-2-远程登录工具"><a href="#2-2-远程登录工具" class="headerlink" title="2.2 远程登录工具"></a>2.2 远程登录工具</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835973.png" srcset="/img/loading.gif" lazyload alt="image-20220202202747988"></p>
+<p>官网下载地址：<a target="_blank" rel="noopener" href="https://mobaxterm.mobatek.net/download.html">https://mobaxterm.mobatek.net/download.html</a></p>
+<p>安装后界面：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835390.jpg" srcset="/img/loading.gif" lazyload alt="20220202202950"></p>
+<h1 id="二-系统安装"><a href="#二-系统安装" class="headerlink" title="二. 系统安装"></a>二. 系统安装</h1><h2 id="1-Ubuntu18-04"><a href="#1-Ubuntu18-04" class="headerlink" title="1. Ubuntu18.04"></a>1. Ubuntu18.04</h2><h3 id="步骤一：系统烧写"><a href="#步骤一：系统烧写" class="headerlink" title="步骤一：系统烧写"></a>步骤一：系统烧写</h3><p>准备好 Ubuntu18.04 Server 镜像：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835247.jpg" srcset="/img/loading.gif" lazyload alt="20220202183412"></p>
+<p>先将 SD 卡通过读卡器插入电脑。打开树莓派镜像下载工具：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041835574.jpg" srcset="/img/loading.gif" lazyload alt="20220202183547"></p>
+<p>选择系统：CHOOSE OS</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836762.jpg" srcset="/img/loading.gif" lazyload alt="20220202183641"></p>
+<p>下拉到最后选择自定义镜像：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836390.jpg" srcset="/img/loading.gif" lazyload alt="20220202204012"></p>
+<p>选择准备好的Ubuntu镜像：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836686.jpg" srcset="/img/loading.gif" lazyload alt="20220202204340"></p>
+<p>选择SD卡设备：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836560.jpg" srcset="/img/loading.gif" lazyload alt="20220202204551"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837550.jpg" srcset="/img/loading.gif" lazyload alt="v2-275f95583e3de8e95c9cd97068173c0e_720w"></p>
+<p>点击写入：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837988.jpg" srcset="/img/loading.gif" lazyload alt="v2-21b322db4a14d5d336f1d112565af225_720w"></p>
+<p>确定SD为空卡，已做好备份：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837366.jpg" srcset="/img/loading.gif" lazyload alt="v2-b8a9e5c7e22f60c078f01df22751937a_720w"></p>
+<p>烧写中：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837172.jpg" srcset="/img/loading.gif" lazyload alt="v2-5832c1bb1c7c80a517ea49ae6e4bdbd7_720w"></p>
+<p>烧写成功后，会有以下确认提示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837281.jpg" srcset="/img/loading.gif" lazyload alt="v2-d979b85c4651a0a9a85f1790182e29f5_720w"></p>
+<p>现在，从你的系统中安全移除 SD 卡。</p>
+<h3 id="步骤二：开启系统"><a href="#步骤二：开启系统" class="headerlink" title="步骤二：开启系统"></a>步骤二：开启系统</h3><p><strong>将 SD 卡插入树莓派中</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041837701.jpg" srcset="/img/loading.gif" lazyload alt="v2-6f50d09aadb1a15ae837b74651268e9d_720w"></p>
+<p>保证电源线接头、微型 HDMI 线接头、键盘和鼠标接头（有线/无线）都牢固地连接到树莓派板的相关端口。</p>
+<p>若有有线网络可先插入树莓派网口。确保显示器和电源插头也已正确连接，然后再去打开电源插座。</p>
+<p>确认了以上两个步骤后，就可以打开树莓派设备的电源。</p>
+<p><strong>开机注意：</strong></p>
+<hr>
+<blockquote>
+<p>由于系统是server版本的，默认是没有桌面的<br>所以第一次登陆界面是命令行界面<br>默认用户名ubuntu<br>默认密码ubuntu</p>
+<p>第一次进系统会强制你更改密码<br>第一次输入当前密码也就是ubuntu<br>后两次输入新密码<br>主要这里要求的新密码要8位数以上才可以<br>建议密码可以先12345678或其他任意</p>
+</blockquote>
+<hr>
+<h4 id="有线网络连接"><a href="#有线网络连接" class="headerlink" title="有线网络连接"></a>有线网络连接</h4><ul>
+<li><p>如果有有线网络则可直接插入树莓派网口，树莓派默认有线网络自动获取IP。</p>
+</li>
+<li><p>确保插入网线，在命令行输入 ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 成功执行下一步，否则连接网线重启树莓派。</p>
+</li>
+<li><p>确保连上外网后再执行下列操作</p>
+</li>
+</ul>
+<blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">// 更新环境<br>sudo apt-get update<br>// 下载树莓派桌面<br>sudo apt-get install ubuntu-desktop<br>// 保个险<br>sudo apt-get update --fix-missing<br>// 重启<br>reboot<br></code></pre></div></td></tr></table></figure>
+</blockquote>
+<p>重新启动后直接会进入ubuntu桌面环境，wifi或者其他配置可使用鼠标、键盘操作。</p>
+<h4 id="无有线——WIFI配置"><a href="#无有线——WIFI配置" class="headerlink" title="无有线——WIFI配置"></a>无有线——WIFI配置</h4><p>如果无有线网络则可配置WIFI环境：</p>
+<p>18.04之后ubuntu更换了网络管理工具，以前的<code>ifconfig</code>没了，取而代之的是<code>ip</code>命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ip a<br><span class="hljs-comment"># 或者是</span><br>ip addr show<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">ubuntu@ubuntu:~$ ip a<br>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000<br>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>    inet 127.0.0.1/8 scope host lo<br>       valid_lft forever preferred_lft forever<br>    inet6 ::1/128 scope host<br>       valid_lft forever preferred_lft forever<br>2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000<br>    link/ether b8:27:eb:c6:94:8f brd ff:ff:ff:ff:ff:ff<br>    inet 192.168.2.126/24 brd 192.168.2.255 scope global dynamic eth0<br>       valid_lft 85904sec preferred_lft 85904sec<br>    inet6 fe80::ba27:ebff:fec6:948f/64 scope link<br>       valid_lft forever preferred_lft forever<br>3: wlan0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000<br>    link/ether b8:27:eb:93:c1:da brd ff:ff:ff:ff:ff:ff<br><br></code></pre></div></td></tr></table></figure>
+
+<p>使用 <code>ip a</code>命令可以看到，<code>eht0</code>是有线网卡，<code>wlan0</code>是无线网卡，接下来改<code>/etc/netplan/</code>下的YAML配置文件，ubuntu现在自带一个叫<code>nano</code>的编辑器，不会用vim的可以用这个，会用vim的可用vim编辑：</p>
+<p>nano 使用：</p>
+<p>Ctrl+O = 保存<br>Ctrl+X = 退出</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo nano /etc/netplan/xxxxxxx.yaml  <span class="hljs-comment"># 不同的机器文件名不一样</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">network:</span><br>   <span class="hljs-attr">version:</span> <span class="hljs-number">2</span><br>   <span class="hljs-attr">ethernets:</span><br>       <span class="hljs-attr">eth0:</span><br>           <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">true</span><br>           <span class="hljs-attr">match:</span><br>               <span class="hljs-attr">macaddress:</span> <span class="hljs-string">b8:27:eb:c6:94:8f</span><br>           <span class="hljs-attr">set-name:</span> <span class="hljs-string">eth0</span><br>   <span class="hljs-attr">wifis:</span><br>       <span class="hljs-attr">wlan0:</span><br>           <span class="hljs-attr">dhcp4:</span> <span class="hljs-literal">true</span><br>           <span class="hljs-attr">access-points:</span><br>               <span class="hljs-string">&quot;wifi的ssid&quot;</span><span class="hljs-string">:</span><br>                   <span class="hljs-attr">password:</span> <span class="hljs-string">&quot;wifi密码&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>添加上述文件, 其中：</p>
+<p>wifi的ssid：WIFI名称</p>
+<p>password：WIFI密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-comment"># 配置好文件之后 需要执行下面这个命令，查看配置是否有错，如果有错它会自动回滚上次正确配置</span><br>sudo netplan try<br><span class="hljs-comment"># 没错会让你按enter确认使用这些配置，然后执行这个命令来使配置生效</span><br>sudo netplan apply<br></code></pre></div></td></tr></table></figure>
+
+<p>如果 ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 不成功则执行下列命令或者重启</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">systemctl daemon-reload   <span class="hljs-comment"># 无法连接外网使用</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<ul>
+<li>确保连上外网后再执行下列操作</li>
+</ul>
+<blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">// 更新环境<br>sudo apt-get update<br>// 下载树莓派桌面<br>sudo apt-get install ubuntu-desktop<br>// 保个险<br>sudo apt-get update --fix-missing<br>// 重启<br>reboot<br></code></pre></div></td></tr></table></figure>
+</blockquote>
+<p>重新启动后直接会进入ubuntu桌面环境，wifi或者其他配置可使用鼠标、键盘操作。</p>
+<h2 id="2-最新版Ubuntu"><a href="#2-最新版Ubuntu" class="headerlink" title="2. 最新版Ubuntu"></a>2. 最新版Ubuntu</h2><p>直接打开树莓派镜像下载工具：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041836762.jpg" srcset="/img/loading.gif" lazyload alt="20220202183641"></p>
+<p>选择其他系统</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838355.jpg" srcset="/img/loading.gif" lazyload alt="20220202204012"></p>
+<p>选择 ubuntu 系统</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838721.jpg" srcset="/img/loading.gif" lazyload alt="20220202204104"></p>
+<h3 id="2-1-选择桌面版"><a href="#2-1-选择桌面版" class="headerlink" title="2.1 选择桌面版"></a>2.1 选择桌面版</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041838243.jpg" srcset="/img/loading.gif" lazyload alt="20220202215106"></p>
+<ul>
+<li>注意树莓派64位。选择好系统再选择SD卡即可烧写，步骤同Ubuntu18.04</li>
+</ul>
+<p>树莓派插入SD卡后启动即桌面环境，无需命令配置，直接桌面设置WIFI即可。</p>
+<h3 id="2-2-选择Server版"><a href="#2-2-选择Server版" class="headerlink" title="2.2 选择Server版"></a>2.2 选择Server版</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839333.jpg" srcset="/img/loading.gif" lazyload alt="20220202215542"></p>
+<p>选择Server版同Ubuntu18.04，只是镜像不用手动下载，下载工具会自动下载完成。其他烧写和桌面安装配置同Ubuntu18.04</p>
+<h2 id="3-ROS-1-版本安装"><a href="#3-ROS-1-版本安装" class="headerlink" title="3. ROS 1 版本安装"></a>3. ROS 1 版本安装</h2><p><strong>ROS 1</strong> 针对Ubuntu版本有要求。本文档提供18.04的安装方式。安装前确保 Ubuntu18.04 安装成功。</p>
+<p><strong>官网下载安装教程</strong>   <a target="_blank" rel="noopener" href="http://wiki.ros.org/cn/melodic/Installation/Ubuntu">cn/melodic/Installation/Ubuntu - ROS Wiki</a></p>
+<h3 id="强烈推荐"><a href="#强烈推荐" class="headerlink" title="强烈推荐"></a>强烈推荐</h3><p>推荐看ROS入门视频  <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zt411G7Vn?share_source=copy_web">https://www.bilibili.com/video/BV1zt411G7Vn?share_source=copy_web</a></p>
+<p>因为视频为外链，需要的同学可下载该视频收藏。</p>
+<iframe src="//player.bilibili.com/player.html?aid=59458869&bvid=BV1zt411G7Vn&cid=226151393&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<p><strong>墙裂建议跟着视频操作，结合视频第五讲安装ROS。</strong></p>
+<p>以下步骤仅供参考，请结合自己树莓派命令反馈逐一运行，若有任何一项报错先解决报错那步的命令。还是报错或者小乌龟案例运行不成功请直接看下文<strong>异常处理</strong>。</p>
+<ol>
+<li>中科大的ROS源</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo sh -c <span class="hljs-string">&#x27;. /etc/lsb-release &amp;&amp; echo &quot;deb http://mirrors.ustc.edu.cn/ros/ubuntu/ $DISTRIB_CODENAME main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<ol start="2">
+<li>设置key</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo apt-key adv --keyserver <span class="hljs-string">&#x27;hkp://keyserver.ubuntu.com:80&#x27;</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654<br></code></pre></div></td></tr></table></figure>
+
+<ol start="3">
+<li>更新一下</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo apt-get update<br></code></pre></div></td></tr></table></figure>
+
+<ol start="4">
+<li>安装ROS的桌面完整版</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo apt-get install ros-melodic-desktop-full<br></code></pre></div></td></tr></table></figure>
+
+<ol start="5">
+<li>解决依赖</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo rosdep init<br>rosdep update<br></code></pre></div></td></tr></table></figure>
+
+<p>如果sudo rosdep init 显示错误 rosdep不是内部命令，则安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo apt install rospack-tools<br></code></pre></div></td></tr></table></figure>
+
+<p>rosdep update出错，那就再执行一次rosdep update</p>
+<ol start="6">
+<li>添加环境变量</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;source /opt/ros/melodic/setup.bash&quot;</span> &gt;&gt; ~/.bashrc<br><span class="hljs-built_in">source</span> ~/.bashrc<br></code></pre></div></td></tr></table></figure>
+
+<ol start="7">
+<li>安装ros的一些便利工具</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential<br></code></pre></div></td></tr></table></figure>
+
+<ol start="8">
+<li>运行小乌龟事例</li>
+</ol>
+<p>打开第一个终端，输入：<code>roscore</code><br>打开第二个终端，输入：<code>rosrun turtlesim turtlesim_node</code><br>打开第三个终端，输入：<code>rosrun turtlesim turtle_teleop_key</code><br>选择第三个终端，然后按键盘上的方向键就可以控制小乌龟运动了。</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><h4 id="3-1-普适方式"><a href="#3-1-普适方式" class="headerlink" title="3.1 普适方式"></a>3.1 普适方式</h4><hr>
+<p><strong>1.sudo rosdep init 报错</strong></p>
+<p>解决办法，执行如下命令:</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> /etc<br>sudo gedit hosts<br></code></pre></div></td></tr></table></figure>
+
+<p>在文件末尾添加：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">151.101.84.133 raw.githubusercontent.com<br></code></pre></div></td></tr></table></figure>
+
+<p>并将树莓派连接到手机热点。多次重试即可。</p>
+<hr>
+<p><strong>2.rosdep update报错</strong></p>
+<p>或者是出现如下的错误：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839041.png" srcset="/img/loading.gif" lazyload alt="ggdgfdgdfgdfg"></p>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li>步骤1：将电脑连接到手机热点</li>
+</ul>
+<p>更改方法和问题一方法相同。</p>
+<ul>
+<li>步骤2：解决GitHub屏蔽问题</li>
+</ul>
+<p>依次命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo sed -i <span class="hljs-string">&quot;s/raw.githubusercontent.com/raw.ctl.app/g&quot;</span> /usr/lib/python2.7/dist-packages/rosdistro/__init__.py<br> <br>sudo sed -i <span class="hljs-string">&quot;s/raw.githubusercontent.com/raw.ctl.app/g&quot;</span> /usr/lib/python2.7/dist-packages/rosdistro/manifest_provider/github.py<br> <br>sudo sed -i <span class="hljs-string">&quot;s/raw.githubusercontent.com/raw.ctl.app/g&quot;</span> /usr/lib/python2.7/dist-packages/rosdep2/rep3.py<br> <br>sudo sed -i <span class="hljs-string">&quot;s/raw.githubusercontent.com/raw.ctl.app/g&quot;</span> /usr/lib/python2.7/dist-packages/rosdep2/gbpdistro_support.py<br></code></pre></div></td></tr></table></figure>
+
+<p>再执行rosdep update即可。</p>
+<hr>
+<p>若无法解决请参考如下 —— 本质是科学上网，如果能够科学上网问题很好解决。</p>
+<p>[rosdep update read operation time out 不用翻墙的解决方法 - 小贝比 (xiaobeibi.github.io)](<a target="_blank" rel="noopener" href="https://xiaobeibi.github.io/2021/10/13/rosdep">https://xiaobeibi.github.io/2021/10/13/rosdep</a> update read operation time out/)</p>
+<p>[sudo rosdep init ERROR：cannot download default sources list from：closed - 小贝比 (xiaobeibi.github.io)](<a target="_blank" rel="noopener" href="https://xiaobeibi.github.io/2021/10/13/sudo">https://xiaobeibi.github.io/2021/10/13/sudo</a> rosdep init ERROR/)</p>
+<p><a target="_blank" rel="noopener" href="https://xiaobeibi.github.io/2021/10/13/ROS%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98/">Command ‘roscore’ not found, but can be installed with: sudo apt install python-roslaunch - 小贝比 (xiaobeibi.github.io)</a></p>
+<h4 id="3-2-看脸方法"><a href="#3-2-看脸方法" class="headerlink" title="3.2 看脸方法"></a>3.2 看脸方法</h4><p>在推荐的入门视频下方评论区有众多报错解决方案，需要根据具体环境择选。</p>
+<h2 id="4-ROS-2-版本安装"><a href="#4-ROS-2-版本安装" class="headerlink" title="4. ROS 2 版本安装"></a>4. ROS 2 版本安装</h2><p>ROS 目前已在更新 2 版本，博主本人没有进行过学习，但墙裂推荐如下视频：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gr4y1Q7j5?share_source=copy_web">https://www.bilibili.com/video/BV1gr4y1Q7j5?share_source=copy_web</a></p>
+<p>视频使用 Ubuntu20.04 系统，若树莓派使用18.04系统请注意。</p>
+<iframe src="//player.bilibili.com/player.html?aid=764419101&bvid=BV1gr4y1Q7j5&cid=448791033&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<p>配合使用ROS2文档：<a target="_blank" rel="noopener" href="http://ros2.bwbot.org/">引言 · ROS2 中文指南 (bwbot.org)</a></p>
+<h1 id="三-远程登录"><a href="#三-远程登录" class="headerlink" title="三. 远程登录"></a>三. 远程登录</h1><p>远程登录工具推荐使用 mobaXterm</p>
+<p><strong>使用前提：</strong>树莓派IP和远程登录电脑IP需在同一网段。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839659.jpg" srcset="/img/loading.gif" lazyload alt="20220202230634"></p>
+<p>选择Session</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839648.jpg" srcset="/img/loading.gif" lazyload alt="20220202230731"></p>
+<p>选择SSH连接</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839675.jpg" srcset="/img/loading.gif" lazyload alt="20220202230827"></p>
+<p>输入树莓派IP    密码</p>
+<p>点击ok即可。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202041839650.jpg" srcset="/img/loading.gif" lazyload alt="20220202231021"></p>
+<p>双击左侧新建的树莓派IP地址即可远程连接树莓派（如需输入密码则在命令行输入）</p>
+<hr>
+<h1 id="四-配置环境"><a href="#四-配置环境" class="headerlink" title="四. 配置环境"></a>四. 配置环境</h1><h2 id="1-安装-Qt"><a href="#1-安装-Qt" class="headerlink" title="1. 安装 Qt"></a>1. 安装 Qt</h2><p>在树莓派的ubuntu18.04中安装Qt5。<br>参考网站1：<a target="_blank" rel="noopener" href="https://www.waveshare.net/study/article-1027-1.html">https://www.waveshare.net/study/article-1027-1.html</a><br>参考网站2：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaolong1126626497/article/details/106100342?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~first_rank_v2~rank_v25-2-106100342.nonecase&amp;utm_term=%E6%A0%91%E8%8E%93%E6%B4%BE4b%E6%94%AF%E6%8C%81qt%E5%90%97&amp;spm=1000.2123.3001.4430">https://blog.csdn.net/xiaolong1126626497/article/details/106100342?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~first_rank_v2~rank_v25-2-106100342.nonecase&amp;utm_term=%E6%A0%91%E8%8E%93%E6%B4%BE4b%E6%94%AF%E6%8C%81qt%E5%90%97&amp;spm=1000.2123.3001.4430</a></p>
+<h3 id="1-1-命令安装"><a href="#1-1-命令安装" class="headerlink" title="1.1 命令安装"></a>1.1 命令安装</h3><p>打开终端，输入以下命令安装Qt</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ sudo apt-get install build-essential<br></code></pre></div></td></tr></table></figure>
+
+<p>安装qtcreator</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ sudo apt-get install qtcreator <br></code></pre></div></td></tr></table></figure>
+
+<p>安装qml的开发环境</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ sudo apt-get install qt5-default <br><br>$ sudo apt-get install qt5-doc <br><br>$ sudo apt-get install qt5-doc-html qtbase5-doc-html <br><br>$ sudo apt-get install qtbase5-examples<br></code></pre></div></td></tr></table></figure>
+
+<p>安装qml的开发环境</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ sudo apt-get install libgles2-mesa-dev<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="1-2-配置属性"><a href="#1-2-配置属性" class="headerlink" title="1.2 配置属性"></a>1.2 配置属性</h3><p>打开Qt</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ qtcreator<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091446195.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>打开tool的配置选项</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091447001.png" srcset="/img/loading.gif" lazyload alt="image-20220204192813149"></p>
+<p>点击左侧的Kits选型，查看配置情况</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448685.png" srcset="/img/loading.gif" lazyload alt="image-20220204193439683"></p>
+<p>可以看到，默认安装的方式一般都会帮我们自动设置好kit和version等信息，这里分两种情况，有的版本会自动帮我们配置好编译器，如下图所示，那么这一步就可以省略</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448165.png" srcset="/img/loading.gif" lazyload alt="image-20220204193834195"></p>
+<p>然后配置kit中的编译器部分，设置完成后先点击Apply，再点击OK选项。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448729.png" srcset="/img/loading.gif" lazyload alt="image-20220204194027313"></p>
+<h3 id="1-3-编译Qt"><a href="#1-3-编译Qt" class="headerlink" title="1.3 编译Qt"></a>1.3 编译Qt</h3><p>运行最简单的Hello程序，点击编译</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448618.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="2-开机自启动"><a href="#2-开机自启动" class="headerlink" title="2. 开机自启动"></a>2. 开机自启动</h2><p>ubuntu-18.04设置开机启动脚本。比如一开机就设置好/dev/ttyUSB0的权限，不用每次开机都修改一遍。或者可以一开机就执行某个可执行文件。</p>
+<p>参考网站:<a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_34319491/article/details/106456571">https://blog.csdn.net/baidu_34319491/article/details/106456571</a></p>
+<p><strong>操作步骤如下：</strong></p>
+<h3 id="2-1-首先创建脚本文件"><a href="#2-1-首先创建脚本文件" class="headerlink" title="2.1 首先创建脚本文件"></a>2.1 首先创建脚本文件</h3><p>如下面的start.sh,这里以简单的hellow CSDN!为例</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091448512.png" srcset="/img/loading.gif" lazyload alt="image-20220204195044660"></p>
+<h3 id="2-2-给脚本添加可执行权限"><a href="#2-2-给脚本添加可执行权限" class="headerlink" title="2.2 给脚本添加可执行权限"></a>2.2 给脚本添加可执行权限</h3><p>因为刚创建的.sh文件是不可执行的,需要添加权限才可执行,添加方法很见单,使用chmod命令即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ chmod +x start.sh<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="2-3-在终端中运行脚本进行测试"><a href="#2-3-在终端中运行脚本进行测试" class="headerlink" title="2.3 在终端中运行脚本进行测试"></a>2.3 在终端中运行脚本进行测试</h3><p>打开终端,进入脚本所在路径,运行./start.sh</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091449669.png" srcset="/img/loading.gif" lazyload alt="image-20220204195223796"></p>
+<p>终端输出正常的运行结果,测试有效.</p>
+<h3 id="2-4-在完成了上述步骤之后-可以将脚本添加到ubuntu开机启动管理器里头-具体操作如下"><a href="#2-4-在完成了上述步骤之后-可以将脚本添加到ubuntu开机启动管理器里头-具体操作如下" class="headerlink" title="2.4 在完成了上述步骤之后,可以将脚本添加到ubuntu开机启动管理器里头,具体操作如下:"></a>2.4 在完成了上述步骤之后,可以将脚本添加到ubuntu开机启动管理器里头,具体操作如下:</h3><p>打开ubuntu启动管理器,在终端输入<code>gnome-session-properties</code>运行,会打开一个界面,这里记录着系统上层应用的启动软件:</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091449079.png" srcset="/img/loading.gif" lazyload alt="image-20220204195330748"></p>
+<p>可以根据需要点击Add将对应的启动项目加进来,启动项可以是脚本,个人猜想也可以是桌面图标(未测试,大家有兴趣可以测试),这里以脚本为例,把上面的<code>start.sh</code>脚本添加到启动项里来</p>
+<h3 id="2-5-添加执行项目"><a href="#2-5-添加执行项目" class="headerlink" title="2.5 添加执行项目"></a>2.5 添加执行项目</h3><p>点击<code>Add</code>按键，输入相应的信息，这里<code>Name</code>和<code>Comment</code>都可以自己随意设置，只是对启动项的一个说明，中间的<code>Command</code>才是要运行的内容，可以点击<code>Browse...</code>来进行选择，这里就选择刚刚的那个脚本文件(注意脚本文件一定要有可执行的权限).</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091454361.png" srcset="/img/loading.gif" lazyload alt="image-20220204195540464"></p>
+<p>最后点击<code>Add</code>就可以了,界面中就会多了一项刚刚设置的内容</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091455563.png" srcset="/img/loading.gif" lazyload alt="image-20220204195605295"></p>
+<h3 id="2-6-重启测试"><a href="#2-6-重启测试" class="headerlink" title="2.6 重启测试"></a>2.6 重启测试</h3><p>点击重启就可以测试了，会发现开机之后确实打开了一个新的终端，并运行了脚本里的程序.<br>由于一般设备都设置了密码，而管理器里的这些程序，是需要登录之后才可以进行的，所以，可以将设备设置为自动登录(既无密码登录)</p>
+<h2 id="3-树莓派串口"><a href="#3-树莓派串口" class="headerlink" title="3. 树莓派串口"></a>3. 树莓派串口</h2><h3 id="3-1-树莓派Raspberry-Pi串口"><a href="#3-1-树莓派Raspberry-Pi串口" class="headerlink" title="3.1 树莓派Raspberry Pi串口"></a>3.1 树莓派Raspberry Pi串口</h3><p>树莓派4b共有6个UART。</p>
+<p>默认配置好两个串口，一个是硬件串口（/dev/ttyAMA0），另一个是mini串口（/dev/ttyS0）。硬件串口是分配给蓝牙模块使用的，而mini串口是分配给GPIO串口 （GPIO14、GPIO15）。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091833135.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>配置</strong></p>
+<p>执行编辑 config.txt 命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">sudo nano /boot/config.txt<br></code></pre></div></td></tr></table></figure>
+
+<p>在文件结尾添加如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">dtoverlay=uart2<br><br>dtoverlay=uart3<br><br>dtoverlay=uart4<br><br>dtoverlay=uart5<br></code></pre></div></td></tr></table></figure>
+
+<p>保存并退出</p>
+<p>重启后查看是否生效：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ls /dev/ttyAMA*<br></code></pre></div></td></tr></table></figure>
+
+<p>结果显示如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091834142.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>各 UART 串口与 GPIO 对应关系：</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091835965.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="3-2-树莓派Ubuntu系统串口"><a href="#3-2-树莓派Ubuntu系统串口" class="headerlink" title="3.2 树莓派Ubuntu系统串口"></a>3.2 树莓派Ubuntu系统串口</h3><p>树莓派链接多个串口转USB设备，树莓派linux系统环境下，USB串口设备的命名规则是 /dev/ttyUSB0 ，/dev/ttyUSB1，/dev/ttyUSB2。串口设备的命名规则一般是根据设备插拔顺序进行命名，第一个插入的USB串口设备名称为/dev/ttyUSB0,第二个名称为 /dev/ttyUSB1，在实验环境中，往往会发生USB设备插拔情况，从而导致串口设备命名混乱，为此，需要对串口设备进行名称绑定，固定串口设备名称。<br>参考网站：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42590780/article/details/109693103?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3.pc_relevant_aa&utm_relevant_index=6">树莓派4B Ubuntu18.04的USB多个串口固定问题_电阻电容搬运工的博客-CSDN博客_树莓派固定串口</a></p>
+<h4 id="1-查看USB口的固定位置"><a href="#1-查看USB口的固定位置" class="headerlink" title="1 查看USB口的固定位置"></a>1 查看USB口的固定位置</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ls -l /sys/class/tty<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091457747.png" srcset="/img/loading.gif" lazyload alt="image-20220204200831248"></p>
+<p>这是现实中USB口的固定位置，挨个查看找到对应位置并记住。<br>这是我查的树莓派正对着树莓派的端口：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458306.png" srcset="/img/loading.gif" lazyload alt="image-20220204200858348"></p>
+<h4 id="2-编辑配置文件"><a href="#2-编辑配置文件" class="headerlink" title="2  编辑配置文件"></a>2  编辑配置文件</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-variable">$sudo</span> vim /etc/udev/udev.conf <br></code></pre></div></td></tr></table></figure>
+
+<p>查看里边有没有这三句话，没有添加上。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458511.png" srcset="/img/loading.gif" lazyload alt="image-20220204201217355"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458247.png" srcset="/img/loading.gif" lazyload alt="image-20220204201234127"></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ sudo vim/etc/udev/rules.d/usb.rules<br></code></pre></div></td></tr></table></figure>
+
+<p>新建一个规则，写入下面内容</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458265.png" srcset="/img/loading.gif" lazyload alt="image-20220204201324887"></p>
+<p>1-1.2就是你实际USB口物理位置，前面ttyUSB*是根据你的插入时间生成，MODE应该是给权限777，后面就是你软连接的名字，自己随便改。</p>
+<h4 id="3-重启服务"><a href="#3-重启服务" class="headerlink" title="3 重启服务"></a>3 重启服务</h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091458700.png" srcset="/img/loading.gif" lazyload alt="image-20220204201426141"></p>
+<p>有的会报这个错误，有提示运行下就好了。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091459985.png" srcset="/img/loading.gif" lazyload alt="image-20220204201444245"></p>
+<h4 id="4-重新插入设备"><a href="#4-重新插入设备" class="headerlink" title="4 重新插入设备"></a>4 重新插入设备</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">$ ls -l |grep ttyUSB<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091459702.png" srcset="/img/loading.gif" lazyload alt="image-20220204201534376"></p>
+<p>就会发现成功的固定住了。</p>
+<h2 id="4-树莓派摄像头"><a href="#4-树莓派摄像头" class="headerlink" title="4. 树莓派摄像头"></a>4. 树莓派摄像头</h2><h3 id="4-1-硬件连接"><a href="#4-1-硬件连接" class="headerlink" title="4.1 硬件连接"></a>4.1 硬件连接</h3><p>使用树莓派摄像头FFC排线，连接树莓派摄像头与树莓派开发板。其中排线连接的接口被称为CSI（Camera Serial Interface）接口。</p>
+<p>树莓派开发板的CSI接口位于USB和以太网接口旁边。先将CSI接口的黑色挡板拔开，之后将排线蓝色一端正对以太网接口方向插入，之后按下黑色挡板进行固定。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091837499.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>用同样的方法连接摄像头一端，排线的蓝色端与摄像头背面保持相同方向。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091839505.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>注意接线时务必保持电源断开！</p>
+<h3 id="4-2-功能激活"><a href="#4-2-功能激活" class="headerlink" title="4.2 功能激活"></a>4.2 功能激活</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202091843251.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>我们是使用树莓派官方系统下操作树莓派的配置界面打开树莓派的摄像头功能的，如上图所示。</p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Embedded/">Embedded</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Embedded/RaspberryPi/">RaspberryPi</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%86%B0%E5%B1%B1%E4%B8%80%E8%A7%92/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据库事务的冰山一角</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E8%BE%93%E5%85%A5%20xxxhub%20%E7%9A%84%E8%83%8C%E5%90%8E%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/">
+                        <span class="hidden-mobile">输入 xxxhub 的背后到底发生了什么</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

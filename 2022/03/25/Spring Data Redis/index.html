@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Data Redis  有些人还在直接用Jedis操作Redis数据库，但这种方式非常不方便，而且很不灵活。用Spring Boot整合Redis之后，既能非常方便地操作Redis数据库，Spring Boot又可以自由地在Lettuce或Jedis等技术之间自由切换。 目前Jedis操作Redis已经趋于淘汰，而是应该使用Lettuce。Spring Data Redis模块默认使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Data Redis">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20Data%20Redis/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Data Redis  有些人还在直接用Jedis操作Redis数据库，但这种方式非常不方便，而且很不灵活。用Spring Boot整合Redis之后，既能非常方便地操作Redis数据库，Spring Boot又可以自由地在Lettuce或Jedis等技术之间自由切换。 目前Jedis操作Redis已经趋于淘汰，而是应该使用Lettuce。Spring Data Redis模块默认使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201255084.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201255081.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201256892.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201256067.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.780Z">
+<meta property="article:modified_time" content="2022-03-25T13:02:44.299Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringData">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201255084.webp">
+  
+  <title>Spring Data Redis - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Data Redis">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Data Redis</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Data Redis</h2></center>
+
+<p>有些人还在直接用Jedis操作Redis数据库，但这种方式非常不方便，而且很不灵活。用Spring Boot整合Redis之后，既能非常方便地操作Redis数据库，Spring Boot又可以自由地在Lettuce或Jedis等技术之间自由切换。</p>
+<p>目前Jedis操作Redis已经趋于淘汰，而是应该使用Lettuce。Spring Data Redis模块默认使用Lettuce。</p>
+<p>由于Spring Data是高层次的抽象，而SpringData Redis只是属于底层的具体实现，因此Spring Data Redis也提供了与前面Spring Data完全一致的操作。</p>
+<p>归纳起来，Spring Data Redis大致包括如下几方面功能。</p>
+<ul>
+<li>DAO接口只需继承CrudRepository，Spring Data Redis能为DAO组件提供实现类。</li>
+<li>Spring Data Redis支持方法名关键字查询，只不过Redis查询的属性必须是被索引过的。</li>
+<li>Spring Data Redis同样支持DAO组件添加自定义的查询方法—通过添加额外的接口，并为额外的接口提供实现类，Spring Data Redis就能将该实现类中的方法“移植”到DAO组件中。</li>
+<li>Spring Data Redis同样支持Example查询。</li>
+</ul>
+<p>需要说明的是，Spring Data Redis支持的方法名关键字查询功能不如JPA强大，这是由Redis底层决定的—Redis不支持任何查询，它是一个简单的key-value数据库，它获取数据的唯一方式就是根据key获取value。因此它不能支持<code>GreaterThan</code>、<code>LessThan</code>、<code>Like</code>等复杂关键字，它只能支持如下简单的关键字。</p>
+<ul>
+<li>And：比如在接口中可以定义“findByNameAndAge”。</li>
+<li>Or：比如“findByNameOrAge”。</li>
+<li>Is、Equals：比如“findByNameIs”“findByName”“findByNameEquals”。这种表示相同或相等的关键字不加也行。</li>
+<li>Top、First：比如“findFirst5Name”“findTop5ByName”，实现查询前5条记录。</li>
+</ul>
+<p>那问题来了，Spring Data操作的是数据类（对JPA则是持久化类），那么它怎么处理数据类与Redis之间的映射关系呢？其实很简单，SpringData Redis提供了如下两个注解。</p>
+<ul>
+<li><code>@RedisHash</code>：该注解指定将数据类映射到Redis的Hash对象。</li>
+<li><code>@TimeToLive</code>：该注解修饰一个数值类型的属性，用于指定该对象的超时时长。</li>
+</ul>
+<p>此外，Spring Data Redis还提供了如下两个索引化注解。</p>
+<ul>
+<li><code>@Indexed</code>：指定对普通类型的属性建立索引，索引化后的属性可用于查询。</li>
+<li><code>@GeoIndexed</code>：指定对Geo数据（地理数据）类型的属性建立索引。</li>
+</ul>
+<p>在理解了Spring Data Redis的设计之后，接下来通过示例来介绍Spring Data Redis的功能和用法。</p>
+<p>首先依然是创建一个Maven项目，然后让其pom.xml文件继承<code>spring-boot-starter-parent</code>，并添加<code>spring-boot-starter-data-redis.jar</code>依赖和<code>commons-pool2.jar</code>依赖。由于本例使用SpringBoot的测试支持来测试DAO组件，因此还添加了<code>spring-boot-starter-test.jar</code>依赖。具体可以参考本例的pom.xml文件。</p>
+<p>先为本例定义<code>application.properties</code>文件，用来指定Redis服务器的连接信息。</p>
+<p>程序清单</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">spring.redis.host</span>=<span class="hljs-string">localhost</span><br><span class="hljs-meta">spring.redis.port</span>=<span class="hljs-string">6379</span><br><span class="hljs-comment"># 指定连接Redis的DB1数据库</span><br><span class="hljs-meta">spring.redis.database</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 连接密码</span><br><span class="hljs-meta">spring.redis.password</span>=<span class="hljs-string">32147</span><br><span class="hljs-comment"># 指定连接池中最大的活动连接数为20</span><br><span class="hljs-meta">spring.redis.lettuce.pool.maxActive</span> = <span class="hljs-string">20</span><br><span class="hljs-comment"># 指定连接池中最大的空闲连接数为20</span><br><span class="hljs-meta">spring.redis.lettuce.pool.maxIdle</span>=<span class="hljs-string">20</span><br><span class="hljs-comment"># 指定连接池中最小的空闲连接数为2</span><br><span class="hljs-meta">spring.redis.lettuce.pool.minIdle</span> = <span class="hljs-string">2</span><br></code></pre></div></td></tr></table></figure>
+
+<p>下面定义本例用到的数据类。程序清单：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RedisHash(&quot;book&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-comment">// 标识属性，可用于查询</span><br>    <span class="hljs-meta">@Id</span><br>    privateInteger id;<br>    <span class="hljs-comment">// 带@Indexed注解的属性被称为“二级索引”，可用于查询</span><br>    <span class="hljs-meta">@Indexed</span><br>    privateString name;<br>    <span class="hljs-meta">@Indexed</span><br>    privateString description;<br>    privateDouble price;<br>    <span class="hljs-comment">// 定义它的超时时长</span><br>    <span class="hljs-meta">@TimeToLive(unit = TimeUnit.HOURS)</span><br>    Longtimeout;<br>    <span class="hljs-comment">// 省略getter、setter方法和构造器</span><br>    ...<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的Book类使用了<code>@RedisHash(&quot;book&quot;)</code>修饰，这意味着将该类的实例映射到Redis中的key都会增加book前缀。</p>
+<p>上面的id实例变量使用了<code>@Id</code>修饰，这表明它是一个标识属性，这一点和所有Spring Data的设计都是一样的。</p>
+<p>上面的name、description两个实例变量使用了<code>@Indexed</code>修饰，这表明它们将会被“索引化”—其实就是为它们创建对应的key，后面会看到详细示例。</p>
+<p>接下来定义本例中DAO组件的接口。</p>
+<p>程序清单：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BookDaoextends</span> <span class="hljs-title">CrudRepository</span>&lt;<span class="hljs-title">Book</span>, <span class="hljs-title">Integer</span>&gt;,</span><br><span class="hljs-class">       <span class="hljs-title">QueryByExampleExecutor</span>&lt;<span class="hljs-title">Book</span>&gt;</span><br><span class="hljs-class"></span>&#123;<br>   <span class="hljs-function">List&lt;Book&gt; <span class="hljs-title">findByName</span><span class="hljs-params">(Stringname)</span></span>;<br>   <span class="hljs-function">List&lt;Book&gt; <span class="hljs-title">findByDescription</span><span class="hljs-params">(StringsubDesc)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>正如从上面代码所看到的，该DAO接口继承了<code>CrudRepository</code>，这是Spring Data对DAO组件的通用要求。此外，该DAO接口还继承了<code>QueryByExampleExecutor</code>，这意味着它也可支持Example查询。</p>
+<p>下面为该DAO组件定义测试用例，该测试用例的代码如下。</p>
+<p>程序清单：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BookDaoTest</span></span><br><span class="hljs-class"></span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> BookDaobookDao;<br> <br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testSaveWithId</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        varbook = <span class="hljs-keyword">new</span> Book(<span class="hljs-string">&quot;疯狂Python&quot;</span>,<br>               <span class="hljs-string">&quot;系统易懂的Python图书，覆盖数据分析、爬虫等热门内容&quot;</span>, <span class="hljs-number">118.0</span>);<br>        <span class="hljs-comment">// 显式设置id，通常不建议设置</span><br>       book.setId(<span class="hljs-number">2</span>);<br>        book.setTimeout(<span class="hljs-number">5L</span>); <span class="hljs-comment">// 设置超时时长</span><br>        bookDao.save(book);<br>    &#125;<br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testUpdate</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">// 更新id为2的Book对象</span><br>        bookDao.findById(<span class="hljs-number">2</span>)<br>               .ifPresent(book -&gt; &#123;<br>                   book.setName(<span class="hljs-string">&quot;疯狂Python讲义&quot;</span>);<br>                   bookDao.save(book);<br>               &#125;);<br>    &#125;<br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testDelete</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">// 删除id为2的Book对象</span><br>        bookDao.deleteById(<span class="hljs-number">2</span>);<br>    &#125;<br>    <span class="hljs-meta">@ParameterizedTest</span><br>    <span class="hljs-meta">@CsvSource(&#123;&quot;疯狂Java讲义, 最全面深入的Java图书, 129.0&quot;,</span><br><span class="hljs-meta">           &quot;SpringBoot终极讲义,无与伦比的SpringBoot图书, 119.0&quot;&#125;)</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testSave</span><span class="hljs-params">(String name, String description, Double price)</span></span><br><span class="hljs-function"></span>&#123;<br>        varbook = <span class="hljs-keyword">new</span> Book(name, description, price);<br>        bookDao.save(book);<br>    &#125;<br>    <span class="hljs-meta">@ParameterizedTest</span><br>    <span class="hljs-meta">@ValueSource(strings= &#123;&quot;疯狂Java讲义&quot;&#125;)</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testFindByName</span><span class="hljs-params">(String name)</span></span><br><span class="hljs-function"></span>&#123;<br>        bookDao.findByName(name).forEach(System.out::println);<br>    &#125;<br>    <span class="hljs-meta">@ParameterizedTest</span><br>    <span class="hljs-meta">@ValueSource(strings= &#123;&quot;最全面深入的Java图书&quot;&#125;)</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testFindByDescription</span><span class="hljs-params">(String description)</span></span><br><span class="hljs-function"></span>&#123;<br>        bookDao.findByDescription(description).forEach(System.out::println);<br>    &#125;<br>    <span class="hljs-meta">@ParameterizedTest</span><br>    <span class="hljs-meta">@CsvSource(&#123;&quot;疯狂Java讲义, 最全面深入的Java图书&quot;&#125;)</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testExampleQuery1</span><span class="hljs-params">(String name, String description)</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">// 创建样本对象（probe）</span><br>        vars = <span class="hljs-keyword">new</span> Book(name, description, <span class="hljs-number">1.0</span>);<br>        <span class="hljs-comment">// 不使用ExampleMatcher，创建默认的Example</span><br>        bookDao.findAll(Example.of(s)).forEach(System.out::println);<br>    &#125;<br>    <span class="hljs-meta">@ParameterizedTest</span><br>    <span class="hljs-meta">@ValueSource(strings= &#123;&quot;SpringBoot终极讲义&quot;&#125;)</span><br>    <span class="hljs-function">publicvoid <span class="hljs-title">testExampleQuery2</span><span class="hljs-params">(String name)</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">// 创建matchingAll的ExampleMatcher</span><br>        ExampleMatchermatcher = ExampleMatcher.matching()<br>               <span class="hljs-comment">// 忽略null属性，该方法可以省略</span><br>               <span class="hljs-comment">//.withIgnoreNullValues()</span><br>               .withIgnorePaths(<span class="hljs-string">&quot;description&quot;</span>); <span class="hljs-comment">// 忽略description属性</span><br>        <span class="hljs-comment">// 创建样本对象（probe）</span><br>        vars = <span class="hljs-keyword">new</span> Book(name, <span class="hljs-string">&quot;test&quot;</span>, <span class="hljs-number">1.0</span>);<br>        bookDao.findAll(Example.of(s,matcher)).forEach(System.out::println);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>虽然上面DAO组件中只定义了两个方法，但由于DAO接口继承了<code>CrudRepository</code>和<code>QueryByExampleExecutor</code>，它们为DAO接口提供了大量方法。</p>
+<p>运行上面的<code>testSaveWithId()</code>方法，该方法测试BookDao的<code>save()</code>方法，该方法运行完成后看不到任何输出。但打开<code>AnotherRedis DeskTop Manager</code>连接DB1，则可看到图1所示的数据。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201255084.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图1  通过save()方法保存的数据</center>
+
+<p>从图1可以看到，虽然程序只保存了一个Book对象，但Redis底层生成了大量key-value对，由于前面在Book类上增加了<code>@RedisHash(&quot;book&quot;)</code>注解，因此这些key的名字都以“book”开头。</p>
+<p>先看名为“book”的key，图1显示了该key的内容，该key对应一个Set，该Set中的元素就是每个Book对象的标识属性值。由于此时系统中仅有一个Book对象，因此该key对应的Set中只有一个元素。</p>
+<p>再看名为“<code>book:标识属性值</code>”（此处就是book:2）的key，图2显示了该key的内容。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201255081.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图2  实际保存的对象</center>
+
+<p>从图2可以看到，“<code>book:标识属性值</code>”key所对应的是一个Hash，它完整地保存了整个Book对象的所有数据，这就是Redis性能非常好的原因—当程序要根据id获取某个Book对象时，Redis直接获取key为“<code>book:id值</code>”的value，这样就得到了该Book对象的全部数据。</p>
+<p>前面还为Book对象的name、description属性添加了<code>@Indexed</code>注解，因此Spring Data还会为它们创建对应的key，从而实现高速查找。接下来看名为“<code>book:name:疯狂Python</code>”的key的内容，可以看到如图3所示的数据。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201256892.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图3  被索引的属性</center>
+
+<p>从图2可以看到，“book:name:疯狂Python”key对应的是一个Set，该Set的成员就是Book对象的id。此处为何要用Set呢？因为当程序保存多个Book对象时，完全有可能多个Book对象的name属性值都是“疯狂Python”，此时它们的id都需要由“<code>book:name:疯狂Python</code>”key所对应的Set负责保存，因此该key对应的是一个Set。</p>
+<p>由此可见，当对数据类的某个属性使用<code>@Indexed</code>注解修饰之后，在保存该数据对象时就会为它保存一个名为“<code>类映射名:属性名:属性值</code>”的key，在该key对应的Set中将会添加该对象的标识属性。</p>
+<p>最后来看key为“<code>book:标识属性值:idx</code>”的内容，可以看到如图4所示的数据。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201256067.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图4  保存对象额外的key</center>
+
+<p>从图4可以看到，key为“<code>book:标识属性值:idx</code>”的内容也是Set，它保存该对象所有额外的key。假如程序要查找name（假设name有<code>@Indexed</code>修饰）为“疯狂Python”的图书，Spring Data Redis底层会怎么做呢？</p>
+<p>Spring Data Redis会直接获取“<code>book:name:疯狂Python</code>”key对应的Set，该Set中包含了所有name为“疯狂Python”的Book对象的id，然后遍历该Set的每个元素—每个元素都是一个id，接下来Spring Data Redis再获取“<code>book:id值</code>”对应的Hash对象，这样就获得了所有符合条件的Book对象。</p>
+<p>在这个过程中，Spring Data Redis的两次操作都是通过key来获取value的，因此效率非常高，这都得益于SpringData Redis的优良设计和Redis的高效性能。</p>
+<p>如果要保存一个所有属性都不用<code>@Indexed</code>修饰的Book对象，则只需要改变两个key。</p>
+<ul>
+<li><code>book</code>：在该key对应的Set中添加新Book对象的id。</li>
+<li><code>book:id</code>：该key保存该Book对象的全部数据。</li>
+</ul>
+<p>如果要保存一个有N个属性使用@Indexed修饰的Book对象，则需要改变如下key。</p>
+<ul>
+<li><code>book</code>：在该key对应的Set中添加新Book对象的id。</li>
+<li><code>book:id</code>：该key对应的Hash对象保存了该Book对象的全部数据。</li>
+<li><code>book:id:idx</code>：该key对应的Set保存了该Book对象所有额外的key。</li>
+<li><code>N个book:属性名:属性值</code>：该key对应的Set保存了所有该属性都具有相同属性值的Book对象的id值。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringData/">SpringData</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringData/">SpringData</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20MVC%20%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring MVC 请求处理过程详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20Data%20JPA%20%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B02/">
+                        <span class="hidden-mobile">Spring Data JPA 的概述2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

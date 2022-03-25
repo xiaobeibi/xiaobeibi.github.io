@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Ubuntu环境下XTF文件成像小程序  1. 介绍最近花了比较多时间处理xtf格式的侧扫声呐数据，ubuntu下写了一个数据处理的软件。输入为xtf文件路径或xtf文件夹路径。对每个xtf文件有四个输出文件，包括基本信息文件（.json），航迹数据文件（.mat），左舷强度数据文件（.mat），右舷强度数据文件（.mat）。输出文件的信息均为xtf文件记录侧扫输出的原始数据信息。后续可行根据需求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu环境下XTF文件成像小程序">
+<meta property="og:url" content="http://example.com/2022/03/25/ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BXTF%E6%96%87%E4%BB%B6%E6%88%90%E5%83%8F/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Ubuntu环境下XTF文件成像小程序  1. 介绍最近花了比较多时间处理xtf格式的侧扫声呐数据，ubuntu下写了一个数据处理的软件。输入为xtf文件路径或xtf文件夹路径。对每个xtf文件有四个输出文件，包括基本信息文件（.json），航迹数据文件（.mat），左舷强度数据文件（.mat），右舷强度数据文件（.mat）。输出文件的信息均为xtf文件记录侧扫输出的原始数据信息。后续可行根据需求">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141807.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141825.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141841.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141855.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141905.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141917.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.804Z">
+<meta property="article:modified_time" content="2022-03-25T13:16:32.779Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141807.png">
+  
+  <title>Ubuntu环境下XTF文件成像小程序 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ubuntu环境下XTF文件成像小程序">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ubuntu环境下XTF文件成像小程序</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Ubuntu环境下XTF文件成像小程序</h2></center>
+
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>最近花了比较多时间处理xtf格式的侧扫声呐数据，ubuntu下写了一个数据处理的软件。输入为xtf文件路径或xtf文件夹路径。对每个xtf文件有四个输出文件，包括基本信息文件（.json），航迹数据文件（.mat），左舷强度数据文件（.mat），右舷强度数据文件（.mat）。输出文件的信息均为xtf文件记录侧扫输出的原始数据信息。后续可行根据需求利用这些文件做进一步的处理，如斜距校正，灰度校正，几何校正等。另外写了几个python小脚本，主要功能是根据输出的文件绘制简易灰度图和航迹图。</p>
+<p>该软件用于分析xtf格式的离线侧扫声纳数据文件。</p>
+<p>我们的文件可以在每个xtf文件处理后获得：</p>
+<ul>
+<li><p>基本信息（json格式）</p>
+</li>
+<li><p>带有时间戳的轨迹信息（mat格式）</p>
+</li>
+<li><p>左舷数据（mat格式）</p>
+</li>
+<li><p>右舷数据（mat格式）</p>
+</li>
+</ul>
+<p>同时，还有一些简单的python脚本用于进一步处理输出文件，如绘制轨迹图像、绘制侧扫图像等。这个软件在Linux上运行。</p>
+<p>项目内doc文件夹下有简易使用手册可以查询，包括如何安装使用等，当然文章后续我也会做简要说明。此外doc下还有xtf格式的官方文档。在此默认已对侧扫工作原理及输出数据有一定了解。</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h2><ol>
+<li>依赖项</li>
+</ol>
+<p>由于项目需要c++下输出.mat格式文件，因此依赖matio库（<a href="https://link.zhihu.com/?target=https://github.com/tbeu/matio">https://github.com/tbeu/matio</a>），编译前需安装：</p>
+<figure class="highlight q"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs q">sudo apt-<span class="hljs-built_in">get</span> install libmatio-<span class="hljs-built_in">dev</span><br></code></pre></div></td></tr></table></figure>
+
+<p>我们需要获取库的路径，并在CMakeLists中做相应修改。在终端查询：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">dpkg -L libmatio-dev</span><br></code></pre></div></td></tr></table></figure>
+
+<p>其中libmatio.so路径就是项目需要链接的路径。由于不同的平台下系统目录略有不同，不做修改的话可能会导致编译失败。</p>
+<p>此外，项目在处涉及json文件处理时使用了一个非常好用的轻量级c++的json库，RapidJSON，感兴趣的可以了解一下<a href="https://link.zhihu.com/?target=http://rapidjson.org/zh-cn/">http://rapidjson.org/zh-cn/</a>。</p>
+<h2 id="3-编译"><a href="#3-编译" class="headerlink" title="3. 编译"></a>3. 编译</h2><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd xtf_data_analyze<br>mkdir build<br>cd build<br>cmake ..<br>make<br></code></pre></div></td></tr></table></figure>
+
+<p>请注意，CMakeLists.txt中libmatio.so的路径必须是检查之前，否则该编译将失败。</p>
+<p>执行程序可以在内部版本中找到</p>
+<p>文件夹：singleFileProcess，multiFileProcess。</p>
+<p>singleFileProcess用于单文件处理，以xtf文件的路径作为输入。</p>
+<p>multiFileProcess用于多文件处理，以xtf文件夹的路径作为输入。</p>
+<h2 id="4-测试"><a href="#4-测试" class="headerlink" title="4. 测试"></a>4. 测试</h2><p>数据文件夹中有三个xtf文件用于测试。</p>
+<p>单文件测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd build<br>./singleFileProcess ../data/000_1236_info.xtf<br></code></pre></div></td></tr></table></figure>
+
+<p>我们可以在包含xtf文件的文件夹中获取输出文件。所以可以创建四个输出文件</p>
+<p>在数据文件夹中找到</p>
+<p>基本信息数据： 000_1236_info.json</p>
+<p>带有时间戳数据的轨迹：000_1236_TRAJ.mat</p>
+<p>左舷数据：000_1236_PIM.mat</p>
+<p>右舷数据：000_1236_SIM.mat</p>
+<p>多文件测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd build<br>./multiFileProcess ../data/<br></code></pre></div></td></tr></table></figure>
+
+<p>我们可以将轨迹文件排列到一个文件夹中：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs reasonml">mkdir trajectory<br>cp *<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_TRAJ</span>.</span></span>mat ./trajectory<br>sudo rm -rf *<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">_TRAJ</span>.</span></span>mat<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="5-输出文件格式"><a href="#5-输出文件格式" class="headerlink" title="5. 输出文件格式"></a>5. 输出文件格式</h2><p>简要介绍一下输出的几个文件内的数据，具体参考使用手册。</p>
+<ol>
+<li>基本信息文件（xxx_info.json）</li>
+</ol>
+<p>主要是fileheader和chaninfo的信息，其中有几个要注意一下：</p>
+<p>TotalPingNumber：总ping数；</p>
+<p>NavUnits：GPS格式，0表示UTM格式，3表示经纬度格式；</p>
+<p>chan_x：通道x，如chan_0表示通道0；</p>
+<p>BytesPerSample：此通道每个数据字节数，本项目只支持1字节和2字节；</p>
+<p>大多能在xtf官方文档中能查询到。</p>
+<ol start="2">
+<li>航迹数据文件（xxx_TRAJ.mat）</li>
+</ol>
+<p>直接上每列代表的数据：</p>
+<p>[时间戳，侧扫经度，侧扫纬度，侧扫高度，左舷斜距，右舷斜距，左舷单线采样点数，右舷单线采样点数，侧扫速度，侧扫Pitch，侧扫Roll，侧扫Heading]</p>
+<p>注意NavUnits为0时，经纬度为UTM格式的，需要根据需求转换。</p>
+<ol start="3">
+<li>强度矩阵数据文件</li>
+</ol>
+<p>左舷（xxx_PIM.mat）；</p>
+<p>右舷（xxx_SIM.mat）。</p>
+<p>注意BytesPerSample为1时，每个采样点强度信息范围为（0-255）；BytesPerSample为2时，每个采样点强度信息范围为（0~65535）。</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json">&#123;<br>	“BaseInfo”:<br>	&#123;<br>		“FileName” : xxx;<br>		“SonarName” : xxx,<br>		“TotalPingNumber” : xxx,<br>		“NavUnits” : xxx,<br>		“NumberOfSonarChannels” : xxx,<br>		“NumberOfBathymetryChannels” : xxx<br>	&#125;,<br>	“FirstPing”:<br>	&#123;<br>		“Time” : xxx,<br>		“Longitude” : xxx,<br>		“Latitude” : xxx<br>	&#125;,<br>	“LastPing”:<br>	&#123;<br>		“Time” : xxx,<br>		“Longitude” : xxx,<br>		“Latitude” : xxx<br>	&#125;,<br>	“chan_x”:<br>	&#123;<br>		“TypeOfChannel” : xxx,<br>		“SubChannelNumber” : xxx,<br>		“CorrectionFlags” : xxx,<br>		“BytesPerSample” : xxx,<br>		“VoltScale” : xxx,<br>		“Frequency” : xxx,<br>		“HorizBeamAngle” : xxx,<br>		“TiltAngle” : xxx,<br>		“BeamWidth” : xxx<br>	&#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<ol start="4">
+<li>带有时间戳数据的轨迹文件：</li>
+</ol>
+<p>在轨迹mat文件中，键是“trajïu matrix”，值是一个矩阵（TotalPingNumber x 12）。</p>
+<p>每一行由ping数据组成，行与第一行按时间顺序排列</p>
+<p>ping数据作为第一行。列参数如下：</p>
+<p>[timestamp, longitude, latitude, altitude, slantRangePort, slantRangeStbd, numSamplesPort, numSamplesStbd, sensorSpeed, sensorPitch, sensorRoll, sensorHeading]</p>
+<p>第5列和第6列数据是左舷和右舷的倾斜范围。</p>
+<p>第7列和第8列数据是左舷和右舷的样本数。</p>
+<p>利用se数据可以进行弹道成像、倾斜距离校正、几何校正等</p>
+<ol start="5">
+<li>左舷数据文件</li>
+</ol>
+<p>在左舷mat文件中，键是“port_int ensity_matrix”，值是一个矩阵 TotalPingNumber x numSamplesPort。利用矩阵数据可以用射线标度或其它格式绘制侧扫图像的端口侧。</p>
+<ol start="6">
+<li>右舷数据文件</li>
+</ol>
+<p>与左舷数据文件几乎相同，除了按键是“stbd_intensity_matrix”。</p>
+<h2 id="6-python脚本"><a href="#6-python脚本" class="headerlink" title="6. python脚本"></a>6. python脚本</h2><p>几个简易小脚本，在DataProcess中：</p>
+<p>draw_intensity_image.py：绘制简易灰度图（基本未校正）；</p>
+<p>draw_trajectory_image.py：绘制单个文件航迹图；</p>
+<p>draw_multi_trajectory_image.py：绘制多个文件航迹图（注意需要同一测试地点的航迹文件）。</p>
+<h3 id="1-绘制侧扫图像"><a href="#1-绘制侧扫图像" class="headerlink" title="1. 绘制侧扫图像"></a>1. 绘制侧扫图像</h3><p>我们可以用draw_intensity_image.py。需要左舷数据文件和右舷数据文件。示例如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">python3 draw_intensity_image.py xxx_PIM.mat xxx_SIM.mat<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-绘制轨迹图像"><a href="#2-绘制轨迹图像" class="headerlink" title="2. 绘制轨迹图像"></a>2. 绘制轨迹图像</h3><p>我们可以为单个文件绘制轨迹，下面是一个示例：</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> draw_trajectory_image.<span class="hljs-keyword">py</span> xxx_TRAJ.<span class="hljs-keyword">mat</span><br></code></pre></div></td></tr></table></figure>
+
+<p>或者，我们可以将一些轨迹数据文件整理到一个文件夹中，然后将文件夹路径作为</p>
+<p>输入多个图形。所有的轨迹都在同一个图像的坐标系中。</p>
+<p>示例如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-keyword">python3</span> draw_multi_trajectory_image.<span class="hljs-keyword">py</span> FOLDER_PATH<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="7-效果"><a href="#7-效果" class="headerlink" title="7. 效果"></a>7. 效果</h2><p>用项目中data文件夹下的测试数据得到的一些效果如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141807.png" srcset="/img/loading.gif" lazyload alt="000_1236"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141825.png" srcset="/img/loading.gif" lazyload alt="Demowreck"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141841.png" srcset="/img/loading.gif" lazyload alt="ET4125"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141855.png" srcset="/img/loading.gif" lazyload alt="000_1236_TRAJ"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141905.png" srcset="/img/loading.gif" lazyload alt="Demowreck_TRAJ"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715141917.png" srcset="/img/loading.gif" lazyload alt="ET4125_TRAJ"></p>
+<h2 id="8-说明"><a href="#8-说明" class="headerlink" title="8. 说明"></a>8. 说明</h2><p>软件比较粗糙，只是主要对xtf文件原始数据做提取处理，若想获得理想的侧扫图像，需要利用提取得到的数据文件做后处理。此外软件只支持每个采样点数据大小为1字节或2字节。同时对于双频侧扫声呐采集的数据，由于软件只提取了0通道和1通道的信息，故输出的数据文件为低频信息，高频信息未做处理。</p>
+<p>目前软件能满足个人的使用需求，若后续有更进一步的需求，可能会进一步开发。</p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/UUV_Simulator/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UUV_Simulator</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Ubuntu18.04%E5%AE%89%E8%A3%85Gazebo%E5%B9%B6%E4%B8%8EROS%E8%BF%9E%E6%8E%A5/">
+                        <span class="hidden-mobile">Ubuntu18.04安装Gazebo并与ROS连接</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

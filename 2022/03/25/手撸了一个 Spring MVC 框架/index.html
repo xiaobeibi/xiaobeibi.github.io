@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="手撸了一个 Spring MVC 框架  想要了解Spring MVC框架的原理，探究框架是如何设计的，不错的学习方式是阅读源码，然后自己手写一个框架。本文带领大家简化的手写一个Spring MVC框架。 Spring框架对于Java后端程序员来说再熟悉不过了，以前只知道它用的反射实现的，但了解之后才知道有很多巧妙的设计在里面。 如果不看Spring的源码，你将会失去一次和大师学习的机会：它的代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手撸了一个 Spring MVC 框架">
+<meta property="og:url" content="http://example.com/2022/03/25/%E6%89%8B%E6%92%B8%E4%BA%86%E4%B8%80%E4%B8%AA%20Spring%20MVC%20%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="手撸了一个 Spring MVC 框架  想要了解Spring MVC框架的原理，探究框架是如何设计的，不错的学习方式是阅读源码，然后自己手写一个框架。本文带领大家简化的手写一个Spring MVC框架。 Spring框架对于Java后端程序员来说再熟悉不过了，以前只知道它用的反射实现的，但了解之后才知道有很多巧妙的设计在里面。 如果不看Spring的源码，你将会失去一次和大师学习的机会：它的代码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021201803.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021202447.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021204071.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021205720.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021205038.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.944Z">
+<meta property="article:modified_time" content="2022-03-25T13:04:35.623Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringMVC">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021201803.webp">
+  
+  <title>手撸了一个 Spring MVC 框架 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="手撸了一个 Spring MVC 框架">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      39 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">手撸了一个 Spring MVC 框架</h1>
+            
+            <div class="markdown-body">
+              <center><h2>手撸了一个 Spring MVC 框架</h2></center>
+
+<p>想要了解Spring MVC框架的原理，探究框架是如何设计的，不错的学习方式是阅读源码，然后自己手写一个框架。本文带领大家简化的手写一个Spring MVC框架。</p>
+<p>Spring框架对于Java后端程序员来说再熟悉不过了，以前只知道它用的反射实现的，但了解之后才知道有很多巧妙的设计在里面。</p>
+<p>如果不看Spring的源码，你将会失去一次和大师学习的机会：它的代码规范，设计思想很值得学习。我们程序员大部分人都是野路子，不懂什么叫代码规范。写了一个月的代码，最后还得其他老司机花3天时间重构，相信大部分老司机都很头疼看新手的代码。</p>
+<p>废话不多说，我们进入今天的正题，在Web应用程序设计中，MVC模式已经被广泛使用。SpringMVC以DispatcherServlet为核心，负责协调和组织不同组件以完成请求处理并返回响应的工作，实现了MVC模式。想要实现自己的SpringMVC框架，需要从以下几点入手：</p>
+<ul>
+<li>了解SpringMVC运行流程及九大组件</li>
+<li>梳理自己的SpringMVC的设计思路</li>
+<li>实现自己的SpringMVC框架</li>
+</ul>
+<h2 id="一、了解SpringMVC运行流程及九大组件"><a href="#一、了解SpringMVC运行流程及九大组件" class="headerlink" title="一、了解SpringMVC运行流程及九大组件"></a><strong>一、了解SpringMVC运行流程及九大组件</strong></h2><h4 id="1-SpringMVC的运行流程"><a href="#1-SpringMVC的运行流程" class="headerlink" title="1. SpringMVC的运行流程"></a>1. SpringMVC的运行流程</h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021201803.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>⑴ 用户发送请求至前端控制器DispatcherServlet</p>
+<p>⑵ DispatcherServlet收到请求调用HandlerMapping处理器映射器。</p>
+<p>⑶ 处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。</p>
+<p>⑷ DispatcherServlet通过HandlerAdapter处理器适配器调用处理器</p>
+<p>⑸ 执行处理器(Controller，也叫后端控制器)。</p>
+<p>⑹ Controller执行完成返回ModelAndView</p>
+<p>⑺ HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet</p>
+<p>⑻ DispatcherServlet将ModelAndView传给ViewReslover视图解析器</p>
+<p>⑼ ViewReslover解析后返回具体View</p>
+<p>⑽ DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
+<p>⑾ DispatcherServlet响应用户。</p>
+<p>从上面可以看出，DispatcherServlet有接收请求，响应结果，转发等作用。有了DispatcherServlet之后，可以减少组件之间的耦合度。</p>
+<h4 id="2-SpringMVC的九大组件"><a href="#2-SpringMVC的九大组件" class="headerlink" title="2. SpringMVC的九大组件"></a>2. SpringMVC的九大组件</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initStrategies</span><span class="hljs-params">(ApplicationContext context)</span> </span>&#123;<br>  <span class="hljs-comment">//用于处理上传请求。处理方法是将普通的request包装成MultipartHttpServletRequest，后者可以直接调用getFile方法获取File.</span><br>  initMultipartResolver(context);<br>  <span class="hljs-comment">//SpringMVC主要有两个地方用到了Locale：一是ViewResolver视图解析的时候；二是用到国际化资源或者主题的时候。</span><br>  initLocaleResolver(context);<br>  <span class="hljs-comment">//用于解析主题。SpringMVC中一个主题对应一个properties文件，里面存放着跟当前主题相关的所有资源、</span><br>  <span class="hljs-comment">//如图片、css样式等。SpringMVC的主题也支持国际化，</span><br>  initThemeResolver(context);<br>  <span class="hljs-comment">//用来查找Handler的。</span><br>  initHandlerMappings(context);<br>  <span class="hljs-comment">//从名字上看，它就是一个适配器。Servlet需要的处理方法的结构却是固定的，都是以request和response为参数的方法。</span><br>  <span class="hljs-comment">//如何让固定的Servlet处理方法调用灵活的Handler来进行处理呢？这就是HandlerAdapter要做的事情</span><br>  initHandlerAdapters(context);<br>  <span class="hljs-comment">//其它组件都是用来干活的。在干活的过程中难免会出现问题，出问题后怎么办呢？</span><br>  <span class="hljs-comment">//这就需要有一个专门的角色对异常情况进行处理，在SpringMVC中就是HandlerExceptionResolver。</span><br>  initHandlerExceptionResolvers(context);<br>  <span class="hljs-comment">//有的Handler处理完后并没有设置View也没有设置ViewName，这时就需要从request获取ViewName了，</span><br>  <span class="hljs-comment">//如何从request中获取ViewName就是RequestToViewNameTranslator要做的事情了。</span><br>  initRequestToViewNameTranslator(context);<br>  <span class="hljs-comment">//ViewResolver用来将String类型的视图名和Locale解析为View类型的视图。</span><br>  <span class="hljs-comment">//View是用来渲染页面的，也就是将程序返回的参数填入模板里，生成html（也可能是其它类型）文件。</span><br>  initViewResolvers(context);<br>  <span class="hljs-comment">//用来管理FlashMap的，FlashMap主要用在redirect重定向中传递参数。</span><br>  initFlashMapManager(context);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="二、梳理SpringMVC的设计思路"><a href="#二、梳理SpringMVC的设计思路" class="headerlink" title="二、梳理SpringMVC的设计思路"></a><strong>二、梳理SpringMVC的设计思路</strong></h2><p>本文只实现自己的@Controller、@RequestMapping、@RequestParam注解起作用，其余SpringMVC功能读者可以尝试自己实现。</p>
+<h4 id="1、读取配置"><a href="#1、读取配置" class="headerlink" title="1、读取配置"></a>1、读取配置</h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021202447.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从图中可以看出，SpringMVC本质上是一个Servlet,这个 Servlet 继承自 HttpServlet。FrameworkServlet负责初始化SpringMVC的容器，并将Spring容器设置为父容器。</p>
+<p>因为本文只是实现SpringMVC，对于Spring容器不做过多讲解（有兴趣同学可以看看我另一篇文章：向spring大佬低头–大量源码流出解析）。</p>
+<p>为了读取web.xml中的配置，我们用到ServletConfig这个类，它代表当前Servlet在web.xml中的配置信息。通过web.xml中加载我们自己写的MyDispatcherServlet和读取配置文件。</p>
+<h4 id="2、初始化阶段"><a href="#2、初始化阶段" class="headerlink" title="2、初始化阶段"></a>2、初始化阶段</h4><p>在前面我们提到DispatcherServlet的initStrategies方法会初始化9大组件，但是这里将实现一些SpringMVC的最基本的组件而不是全部，按顺序包括：</p>
+<ul>
+<li>加载配置文件</li>
+<li>扫描用户配置包下面所有的类</li>
+<li>拿到扫描到的类，通过反射机制，实例化。并且放到ioc容器中(Map的键值对 beanName-bean) beanName默认是首字母小写</li>
+<li>初始化HandlerMapping，这里其实就是把url和method对应起来放在一个k-v的Map中,在运行阶段取出</li>
+</ul>
+<h4 id="3、运行阶段"><a href="#3、运行阶段" class="headerlink" title="3、运行阶段"></a>3、运行阶段</h4><p> 每一次请求将会调用doGet或doPost方法，所以统一运行阶段都放在doDispatch方法里处理，它会根据url请求去HandlerMapping中匹配到对应的Method，然后利用反射机制调用Controller中的url对应的方法，并得到结果返回。按顺序包括以下功能：</p>
+<ul>
+<li>异常的拦截</li>
+<li>获取请求传入的参数并处理参数</li>
+<li>通过初始化好的handlerMapping中拿出url对应的方法名，反射调用</li>
+</ul>
+<h2 id="三、实现自己的SpringMVC框架"><a href="#三、实现自己的SpringMVC框架" class="headerlink" title="三、实现自己的SpringMVC框架"></a><strong>三、实现自己的SpringMVC框架</strong></h2><p>工程文件及目录：</p>
+<p> <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021204071.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>首先，新建一个maven项目，在pom.xml中导入以下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.liugh<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>liughMVC<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>war<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.source</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.source</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">maven.compiler.target</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">maven.compiler.target</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span><br>  <br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>javax.servlet<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span> <br>       <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>javax.servlet-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span> <br>       <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span> <br>       <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>接着，我们在WEB-INF下创建一个web.xml，如下配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">web-app</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://java.sun.com/xml/ns/javaee&quot;</span> <span class="hljs-attr">xmlns:web</span>=<span class="hljs-string">&quot;http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;3.0&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>MySpringMVC<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>com.liugh.servlet.MyDispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>application.properties<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>MySpringMVC<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>application.properties文件中只是配置要扫描的包到SpringMVC容器中。</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-attr">scanPackage</span>=<span class="hljs-string">com.liugh.core</span><br></code></pre></div></td></tr></table></figure>
+
+<p>创建自己的Controller注解，它只能标注在类上面：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> MyController &#123;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 表示给controller注册别名</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>RequestMapping注解，可以在类和方法上：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> MyRequestMapping &#123;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 表示访问该方法的url</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>RequestParam注解,只能注解在参数上</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.PARAMETER)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> MyRequestParam &#123;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 表示参数的别名，必填</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后创建MyDispatcherServlet这个类，去继承HttpServlet，重写init方法、doGet、doPost方法，以及加上我们第二步分析时要实现的功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDispatcherServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span></span>&#123;<br>  <br>  <span class="hljs-keyword">private</span> Properties properties = <span class="hljs-keyword">new</span> Properties();<br>  <span class="hljs-keyword">private</span> List&lt;String&gt; classNames = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>  <span class="hljs-keyword">private</span> Map&lt;String, Object&gt; ioc = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>  <span class="hljs-keyword">private</span> Map&lt;String, Method&gt; handlerMapping = <span class="hljs-keyword">new</span>  HashMap&lt;&gt;();<br>  <span class="hljs-keyword">private</span> Map&lt;String, Object&gt; controllerMap =<span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(ServletConfig config)</span> <span class="hljs-keyword">throws</span> ServletException </span>&#123;<br>    <br>    <span class="hljs-comment">//1.加载配置文件</span><br>    doLoadConfig(config.getInitParameter(<span class="hljs-string">&quot;contextConfigLocation&quot;</span>));<br>    <span class="hljs-comment">//2.初始化所有相关联的类,扫描用户设定的包下面所有的类</span><br>    doScanner(properties.getProperty(<span class="hljs-string">&quot;scanPackage&quot;</span>));<br>    <span class="hljs-comment">//3.拿到扫描到的类,通过反射机制,实例化,并且放到ioc容器中(k-v beanName-bean) beanName默认是首字母小写</span><br>    doInstance();<br>    <span class="hljs-comment">//4.初始化HandlerMapping(将url和method对应上)</span><br>    initHandlerMapping();<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>    <span class="hljs-keyword">this</span>.doPost(req,resp);<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-comment">//处理请求</span><br>      doDispatch(req,resp);<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      resp.getWriter().write(<span class="hljs-string">&quot;500!! Server Exception&quot;</span>);<br>    &#125;<br><br>  &#125;<br><br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doDispatch</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <span class="hljs-keyword">if</span>(handlerMapping.isEmpty())&#123;<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <br>    String url =req.getRequestURI();<br>    String contextPath = req.getContextPath();<br>    <br>    url=url.replace(contextPath, <span class="hljs-string">&quot;&quot;</span>).replaceAll(<span class="hljs-string">&quot;/+&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>);<br>    <br>    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.handlerMapping.containsKey(url))&#123;<br>      resp.getWriter().write(<span class="hljs-string">&quot;404 NOT FOUND!&quot;</span>);<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <br>    Method method =<span class="hljs-keyword">this</span>.handlerMapping.get(url);<br>    <br>    <span class="hljs-comment">//获取方法的参数列表</span><br>    Class&lt;?&gt;[] parameterTypes = method.getParameterTypes();<br>  <br>    <span class="hljs-comment">//获取请求的参数</span><br>    Map&lt;String, String[]&gt; parameterMap = req.getParameterMap();<br>    <br>    <span class="hljs-comment">//保存参数值</span><br>    Object [] paramValues= <span class="hljs-keyword">new</span> Object[parameterTypes.length];<br>    <br>    <span class="hljs-comment">//方法的参数列表</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt;parameterTypes.length; i++)&#123;<br>            <span class="hljs-comment">//根据参数名称，做某些处理</span><br>            String requestParam = parameterTypes[i].getSimpleName();<br>            <br>            <br>            <span class="hljs-keyword">if</span> (requestParam.equals(<span class="hljs-string">&quot;HttpServletRequest&quot;</span>))&#123;<br>                <span class="hljs-comment">//参数类型已明确，这边强转类型</span><br>              paramValues[i]=req;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (requestParam.equals(<span class="hljs-string">&quot;HttpServletResponse&quot;</span>))&#123;<br>              paramValues[i]=resp;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span>(requestParam.equals(<span class="hljs-string">&quot;String&quot;</span>))&#123;<br>              <span class="hljs-keyword">for</span> (Entry&lt;String, String[]&gt; param : parameterMap.entrySet()) &#123;<br>               String value =Arrays.toString(param.getValue()).replaceAll(<span class="hljs-string">&quot;\\[|\\]&quot;</span>, <span class="hljs-string">&quot;&quot;</span>).replaceAll(<span class="hljs-string">&quot;,\\s&quot;</span>, <span class="hljs-string">&quot;,&quot;</span>);<br>               paramValues[i]=value;<br>             &#125;<br>            &#125;<br>        &#125;<br>    <span class="hljs-comment">//利用反射机制来调用</span><br>    <span class="hljs-keyword">try</span> &#123;<br>      method.invoke(<span class="hljs-keyword">this</span>.controllerMap.get(url), paramValues);<span class="hljs-comment">//第一个参数是method所对应的实例 在ioc容器中</span><br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125;<br>  &#125;<br><br><br><br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span>  <span class="hljs-title">doLoadConfig</span><span class="hljs-params">(String location)</span></span>&#123;<br>    <span class="hljs-comment">//把web.xml中的contextConfigLocation对应value值的文件加载到流里面</span><br>    InputStream resourceAsStream = <span class="hljs-keyword">this</span>.getClass().getClassLoader().getResourceAsStream(location);<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-comment">//用Properties文件加载文件里的内容</span><br>      properties.load(resourceAsStream);<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>      e.printStackTrace();<br>    &#125;<span class="hljs-keyword">finally</span> &#123;<br>      <span class="hljs-comment">//关流</span><br>      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span>!=resourceAsStream)&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>          resourceAsStream.close();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>          e.printStackTrace();<br>        &#125;<br>      &#125;<br>    &#125;<br>    <br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doScanner</span><span class="hljs-params">(String packageName)</span> </span>&#123;<br>    <span class="hljs-comment">//把所有的.替换成/</span><br>    URL url =<span class="hljs-keyword">this</span>.getClass().getClassLoader().getResource(<span class="hljs-string">&quot;/&quot;</span>+packageName.replaceAll(<span class="hljs-string">&quot;\\.&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>));<br>    File dir = <span class="hljs-keyword">new</span> File(url.getFile());<br>    <span class="hljs-keyword">for</span> (File file : dir.listFiles()) &#123;<br>      <span class="hljs-keyword">if</span>(file.isDirectory())&#123;<br>        <span class="hljs-comment">//递归读取包</span><br>        doScanner(packageName+<span class="hljs-string">&quot;.&quot;</span>+file.getName());<br>      &#125;<span class="hljs-keyword">else</span>&#123;<br>        String className =packageName +<span class="hljs-string">&quot;.&quot;</span> +file.getName().replace(<span class="hljs-string">&quot;.class&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br>        classNames.add(className);<br>      &#125;<br>    &#125;<br>  &#125;<br>  <br>  <br>  <br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doInstance</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (classNames.isEmpty()) &#123;<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (String className : classNames) &#123;<br>      <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">//把类搞出来,反射来实例化(只有加@MyController需要实例化)</span><br>        Class&lt;?&gt; clazz =Class.forName(className);<br>         <span class="hljs-keyword">if</span>(clazz.isAnnotationPresent(MyController.class))&#123;<br>          ioc.put(toLowerFirstWord(clazz.getSimpleName()),clazz.newInstance());<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>          <span class="hljs-keyword">continue</span>;<br>        &#125;<br>        <br>        <br>      &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>        <span class="hljs-keyword">continue</span>;<br>      &#125;<br>    &#125;<br>  &#125;<br><br><br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initHandlerMapping</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(ioc.isEmpty())&#123;<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-keyword">for</span> (Entry&lt;String, Object&gt; entry: ioc.entrySet()) &#123;<br>        Class&lt;? extends Object&gt; clazz = entry.getValue().getClass();<br>        <span class="hljs-keyword">if</span>(!clazz.isAnnotationPresent(MyController.class))&#123;<br>          <span class="hljs-keyword">continue</span>;<br>        &#125;<br>        <br>        <span class="hljs-comment">//拼url时,是controller头的url拼上方法上的url</span><br>        String baseUrl =<span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">if</span>(clazz.isAnnotationPresent(MyRequestMapping.class))&#123;<br>          MyRequestMapping annotation = clazz.getAnnotation(MyRequestMapping.class);<br>          baseUrl=annotation.value();<br>        &#125;<br>        Method[] methods = clazz.getMethods();<br>        <span class="hljs-keyword">for</span> (Method method : methods) &#123;<br>          <span class="hljs-keyword">if</span>(!method.isAnnotationPresent(MyRequestMapping.class))&#123;<br>            <span class="hljs-keyword">continue</span>;<br>          &#125;<br>          MyRequestMapping annotation = method.getAnnotation(MyRequestMapping.class);<br>          String url = annotation.value();<br>          <br>          url =(baseUrl+<span class="hljs-string">&quot;/&quot;</span>+url).replaceAll(<span class="hljs-string">&quot;/+&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>);<br>          handlerMapping.put(url,method);<br>          controllerMap.put(url,clazz.newInstance());<br>          System.out.println(url+<span class="hljs-string">&quot;,&quot;</span>+method);<br>        &#125;<br>        <br>      &#125;<br>      <br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125;<br>    <br>  &#125;<br><br><br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 把字符串的首字母小写</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> name</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">toLowerFirstWord</span><span class="hljs-params">(String name)</span></span>&#123;<br>    <span class="hljs-keyword">char</span>[] charArray = name.toCharArray();<br>    charArray[<span class="hljs-number">0</span>] += <span class="hljs-number">32</span>;<br>    <span class="hljs-keyword">return</span> String.valueOf(charArray);<br>  &#125;<br>  <br>    <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这里我们就开发完了自己的SpringMVC，现在我们测试一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@MyController</span><br><span class="hljs-meta">@MyRequestMapping(&quot;/test&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestController</span> </span>&#123;<br>  <br>   <span class="hljs-meta">@MyRequestMapping(&quot;/doTest&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response,</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-meta">@MyRequestParam(&quot;param&quot;)</span> String param)</span></span>&#123;<br>     System.out.println(param);<br>      <span class="hljs-keyword">try</span> &#123;<br>            response.getWriter().write( <span class="hljs-string">&quot;doTest method success! param:&quot;</span>+param);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>   <br>   <span class="hljs-meta">@MyRequestMapping(&quot;/doTest2&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            response.getWriter().println(<span class="hljs-string">&quot;doTest2 method success!&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:8080/liughMVC/test/doTest?param=liugh">http://localhost:8080/liughMVC/test/doTest?param=liugh</a> 如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021205720.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>访问一个不存在的试试：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021205038.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>到这里我们就大功告成了！</p>
+<p>源码地址：<a target="_blank" rel="noopener" href="https://github.com/qq53182347/liughMVC">https://github.com/qq53182347/liughMVC</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringMVC/">SpringMVC</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringMVC/">SpringMVC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E4%B9%A6%E5%86%99%E9%AB%98%E8%B4%A8%E9%87%8FSQL%E7%9A%8430%E6%9D%A1%E5%BB%BA%E8%AE%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">书写高质量SQL的30条建议</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E7%94%A8%20Java%20%E5%AE%9E%E7%8E%B0word%E3%80%81excel%E3%80%81ppt%E3%80%81txt%E7%AD%89%E5%8A%9E%E5%85%AC%E6%96%87%E4%BB%B6%E5%9C%A8%E7%BA%BF%E9%A2%84%E8%A7%88%E5%8A%9F%E8%83%BD%EF%BC%81/">
+                        <span class="hidden-mobile">手把手教你用 Java 实现word、excel、ppt、txt等办公文件在线预览功能！</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

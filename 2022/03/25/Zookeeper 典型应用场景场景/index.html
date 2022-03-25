@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Zookeeper 典型应用场景场景  之前自己写了一些关于Zookeeper的基础知识，Zookeeper作为一种协调分布式应用高性能的调度服务，实际的应用场景也非常的广泛，这里主要通过几个例子来具体的说明Zookeeper在特定场景下的使用方式（下面的这些功能估计consul和etcd也能实现，以后学到了再说吧）。 2.1.一致性配置管理我们在开发的时候，有时候需要获取一些公共的配置，比如数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper 典型应用场景场景">
+<meta property="og:url" content="http://example.com/2022/03/25/Zookeeper%20%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%9C%BA%E6%99%AF/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Zookeeper 典型应用场景场景  之前自己写了一些关于Zookeeper的基础知识，Zookeeper作为一种协调分布式应用高性能的调度服务，实际的应用场景也非常的广泛，这里主要通过几个例子来具体的说明Zookeeper在特定场景下的使用方式（下面的这些功能估计consul和etcd也能实现，以后学到了再说吧）。 2.1.一致性配置管理我们在开发的时候，有时候需要获取一些公共的配置，比如数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202027948.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202030274.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202031864.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.810Z">
+<meta property="article:modified_time" content="2022-03-25T13:05:31.253Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Zookeeper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202027948.webp">
+  
+  <title>Zookeeper 典型应用场景场景 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Zookeeper 典型应用场景场景">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      50 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Zookeeper 典型应用场景场景</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Zookeeper 典型应用场景场景</h2></center>
+
+<p>之前自己写了一些关于Zookeeper的基础知识，Zookeeper作为一种协调分布式应用高性能的调度服务，实际的应用场景也非常的广泛，这里主要通过几个例子来具体的说明Zookeeper在特定场景下的使用方式（下面的这些功能估计consul和etcd也能实现，以后学到了再说吧）。</p>
+<h2 id="2-1-一致性配置管理"><a href="#2-1-一致性配置管理" class="headerlink" title="2.1.一致性配置管理"></a><strong>2.1.一致性配置管理</strong></h2><p>我们在开发的时候，有时候需要获取一些公共的配置，比如数据库连接信息等，并且偶然可能需要更新配置。如果我们的服务器有N多台的话，那修改起来会特别的麻烦，并且还需要重新启动。这里Zookeeper就可以很方便的实现类似的功能。</p>
+<h3 id="2-1-1-思路"><a href="#2-1-1-思路" class="headerlink" title="2.1.1.思路"></a><strong>2.1.1.思路</strong></h3><ol>
+<li><p>将公共的配置存放在Zookeeper的节点中</p>
+</li>
+<li><p>应用程序可以连接到Zookeeper中并对Zookeeper中配置节点进行读取或者修改（对于写操作可以进行权限验证设置），下面是具体的流程图：</p>
+</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202027948.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="2-1-2-事例"><a href="#2-1-2-事例" class="headerlink" title="2.1.2.事例"></a><strong>2.1.2.事例</strong></h3><p>数据库配置信息一致性的维护</p>
+<p>配置类：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommonConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span></span>&#123;<br>  <span class="hljs-comment">// 数据库连接配置</span><br>  <span class="hljs-keyword">private</span> String dbUrl;<br>  <span class="hljs-keyword">private</span> String username;<br>  <span class="hljs-keyword">private</span> String password;<br>  <span class="hljs-keyword">private</span> String driverClass;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommonConfig</span><span class="hljs-params">()</span> </span>&#123;&#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommonConfig</span><span class="hljs-params">(String dbUrl, String username, String password, String driverClass)</span> </span>&#123;<br>    <span class="hljs-keyword">super</span>();<br>    <span class="hljs-keyword">this</span>.dbUrl = dbUrl;<br>    <span class="hljs-keyword">this</span>.username = username;<br>    <span class="hljs-keyword">this</span>.password = password;<br>    <span class="hljs-keyword">this</span>.driverClass = driverClass;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDbUrl</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> dbUrl;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDbUrl</span><span class="hljs-params">(String dbUrl)</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.dbUrl = dbUrl;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getUsername</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> username;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUsername</span><span class="hljs-params">(String username)</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.username = username;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPassword</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> password;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPassword</span><span class="hljs-params">(String password)</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.password = password;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDriverClass</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> driverClass;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDriverClass</span><span class="hljs-params">(String driverClass)</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.driverClass = driverClass;<br>  &#125;<br>  <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CommonConfig:&#123;dbUrl:&quot;</span> + <span class="hljs-keyword">this</span>.dbUrl +<br>        <span class="hljs-string">&quot;, username:&quot;</span> + <span class="hljs-keyword">this</span>.username +<br>        <span class="hljs-string">&quot;, password:&quot;</span> + <span class="hljs-keyword">this</span>.password +<br>        <span class="hljs-string">&quot;, driverClass:&quot;</span> + <span class="hljs-keyword">this</span>.driverClass + <span class="hljs-string">&quot;&#125;&quot;</span>;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>配置管理中心</p>
+<ol>
+<li><p>获取本地配置信息</p>
+</li>
+<li><p>修改配置，并同步</p>
+</li>
+</ol>
+<p>同步配置信息到Zookeeper服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ZkConfigMng</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> String nodePath = <span class="hljs-string">&quot;/commConfig&quot;</span>;<br>  <span class="hljs-keyword">private</span> CommonConfig commonConfig;<br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> CommonConfig <span class="hljs-title">initConfig</span><span class="hljs-params">(CommonConfig commonConfig)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(commonConfig == <span class="hljs-keyword">null</span>) &#123;<br>      <span class="hljs-keyword">this</span>.commonConfig = <span class="hljs-keyword">new</span> CommonConfig(<span class="hljs-string">&quot;jdbc:mysql://127.0.0.1:3306/mydata?useUnicode=true&amp;characterEncoding=utf-8&quot;</span>,<br>          <span class="hljs-string">&quot;root&quot;</span>, <span class="hljs-string">&quot;root&quot;</span>, <span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">this</span>.commonConfig = commonConfig;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.commonConfig;<br>  &#125;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 更新配置</span><br><span class="hljs-comment">   *</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> commonConfig</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> CommonConfig <span class="hljs-title">update</span><span class="hljs-params">(CommonConfig commonConfig)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(commonConfig != <span class="hljs-keyword">null</span>) &#123;<br>      <span class="hljs-keyword">this</span>.commonConfig = commonConfig;<br>    &#125;<br>    syncConfigToZookeeper();<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.commonConfig;<br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">syncConfigToZookeeper</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(zkClient == <span class="hljs-keyword">null</span>) &#123;<br>      zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span>(!zkClient.exists(nodePath)) &#123;<br>      zkClient.createPersistent(nodePath);<br>    &#125;<br>    zkClient.writeData(nodePath, commonConfig);<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>以上是提供者，下面我们需要一个客户端获取这些配置</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ZkConfigClient</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;<br>  <br>  <span class="hljs-keyword">private</span> String nodePath = <span class="hljs-string">&quot;/commConfig&quot;</span>;<br>  <br>  <span class="hljs-keyword">private</span> CommonConfig commonConfig;<br> <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    ZkClient zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(<span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>, <span class="hljs-number">5000</span>));<br>    <span class="hljs-keyword">while</span> (!zkClient.exists(nodePath)) &#123;<br>      System.out.println(<span class="hljs-string">&quot;配置节点不存在!&quot;</span>);<br>      <span class="hljs-keyword">try</span> &#123;<br>        TimeUnit.SECONDS.sleep(<span class="hljs-number">1</span>);<br>      &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>        e.printStackTrace();<br>      &#125;<br>    &#125;<br>    <span class="hljs-comment">// 获取节点</span><br>    commonConfig = (CommonConfig)zkClient.readData(nodePath);<br>    System.out.println(commonConfig.toString());<br>    zkClient.subscribeDataChanges(nodePath, <span class="hljs-keyword">new</span> IZkDataListener() &#123;<br>      <br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleDataDeleted</span><span class="hljs-params">(String dataPath)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">if</span>(dataPath.equals(nodePath)) &#123;<br>          System.out.println(<span class="hljs-string">&quot;节点：&quot;</span> + dataPath + <span class="hljs-string">&quot;被删除了！&quot;</span>);<br>        &#125;<br>      &#125;<br>      <br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleDataChange</span><span class="hljs-params">(String dataPath, Object data)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">if</span>(dataPath.equals(nodePath)) &#123;<br>          System.out.println(<span class="hljs-string">&quot;节点：&quot;</span> + dataPath + <span class="hljs-string">&quot;, 数据：&quot;</span> + data + <span class="hljs-string">&quot; - 更新&quot;</span>);<br>          commonConfig = (CommonConfig) data;<br>        &#125;<br>      &#125;<br>    &#125;);<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>下面启动Main函数</p>
+<p>配置管理服务启动</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>    SpringApplication.run(ZookeeperApiDemoApplication.class, args);<br>    <br>    ZkConfigMng zkConfigMng = <span class="hljs-keyword">new</span> ZkConfigMng();<br>    zkConfigMng.initConfig(<span class="hljs-keyword">null</span>);<br>    zkConfigMng.syncConfigToZookeeper();<br>    TimeUnit.SECONDS.sleep(<span class="hljs-number">10</span>);<br>    <br>    <span class="hljs-comment">// 修改值</span><br>    zkConfigMng.update(<span class="hljs-keyword">new</span> CommonConfig(<span class="hljs-string">&quot;jdbc:mysql://192.168.1.122:3306/mydata?useUnicode=true&amp;characterEncoding=utf-8&quot;</span>,<br>        <span class="hljs-string">&quot;root&quot;</span>, <span class="hljs-string">&quot;wxh&quot;</span>, <span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>));<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>客户端启动：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>    SpringApplication.run(ZookeeperApiDemoApplication.class, args);<br> <br>    ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">3</span>);<br>    <span class="hljs-comment">// 模拟多个客户端获取配置</span><br>    executorService.submit(<span class="hljs-keyword">new</span> ZkConfigClient());<br>    executorService.submit(<span class="hljs-keyword">new</span> ZkConfigClient());<br>    executorService.submit(<span class="hljs-keyword">new</span> ZkConfigClient());<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="2-2-分布式锁"><a href="#2-2-分布式锁" class="headerlink" title="2.2.分布式锁"></a><strong>2.2.分布式锁</strong></h2><p>在我们日常的开发中，如果是单个进程中对共享资源的访问，我们只需要用synchronized或者lock就能实现互斥操作。但是对于跨进程、跨主机、跨网络的共享资源似乎就无能为力了。</p>
+<h3 id="2-2-1-思路"><a href="#2-2-1-思路" class="headerlink" title="2.2.1.思路"></a><strong>2.2.1.思路</strong></h3><ol>
+<li><p>首先zookeeper中我们可以创建一个/distributed_lock持久化节点</p>
+</li>
+<li><p>然后再在/distributed_lock节点下创建自己的临时顺序节点，比如：/distributed_lock/task_00000000008</p>
+</li>
+<li><p>获取所有的/distributed_lock下的所有子节点，并排序</p>
+</li>
+<li><p>判读自己创建的节点是否最小值（第一位）</p>
+</li>
+<li><p>如果是，则获取得到锁，执行自己的业务逻辑，最后删除这个临时节点。</p>
+</li>
+<li><p>如果不是最小值，则需要监听自己创建节点前一位节点的数据变化，并阻塞。</p>
+</li>
+<li><p>当前一位节点被删除时，我们需要通过递归来判断自己创建的节点是否在是最小的，如果是则执行5）；如果不是则执行6）（就是递归循环的判断）</p>
+</li>
+</ol>
+<p>下面是具体的流程图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202030274.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="2-2-2-事例"><a href="#2-2-2-事例" class="headerlink" title="2.2.2.事例"></a><strong>2.2.2.事例</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DistributedLock</span> </span>&#123;<br>  <br>  <span class="hljs-comment">// 常亮</span><br>  <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Constant</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SESSION_TIMEOUT = <span class="hljs-number">10000</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String CONNECTION_STRING = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String LOCK_NODE = <span class="hljs-string">&quot;/distributed_lock&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String CHILDREN_NODE = <span class="hljs-string">&quot;/task_&quot;</span>;<br>  &#125;<br>  <br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">DistributedLock</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 连接到Zookeeper</span><br>    zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(Constant.CONNECTION_STRING));<br>    <span class="hljs-keyword">if</span>(!zkClient.exists(Constant.LOCK_NODE)) &#123;<br>      zkClient.create(Constant.LOCK_NODE, <span class="hljs-string">&quot;分布式锁节点&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLock</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-comment">// 1。在Zookeeper指定节点下创建临时顺序节点</span><br>      String lockName = zkClient.createEphemeralSequential(Constant.LOCK_NODE + Constant.CHILDREN_NODE, <span class="hljs-string">&quot;&quot;</span>);<br>      <span class="hljs-comment">// 尝试获取锁</span><br>      acquireLock(lockName);<br>      <span class="hljs-keyword">return</span> lockName;<br>    &#125; <span class="hljs-keyword">catch</span>(Exception e) &#123;<br>      e.printStackTrace();<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>  &#125;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 获取锁</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@throws</span> InterruptedException</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">acquireLock</span><span class="hljs-params">(String lockName)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>    <span class="hljs-comment">// 2.获取lock节点下的所有子节点</span><br>    List&lt;String&gt; childrenList = zkClient.getChildren(Constant.LOCK_NODE);<br>    <span class="hljs-comment">// 3.对子节点进行排序，获取最小值</span><br>    Collections.sort(childrenList, <span class="hljs-keyword">new</span> Comparator&lt;String&gt;() &#123;<br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(String o1, String o2)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> Integer.parseInt(o1.split(<span class="hljs-string">&quot;_&quot;</span>)[<span class="hljs-number">1</span>]) - Integer.parseInt(o2.split(<span class="hljs-string">&quot;_&quot;</span>)[<span class="hljs-number">1</span>]);<br>      &#125;<br>      <br>    &#125;);<br>    <span class="hljs-comment">// 4.判断当前创建的节点是否在第一位</span><br>    <span class="hljs-keyword">int</span> lockPostion = childrenList.indexOf(lockName.split(<span class="hljs-string">&quot;/&quot;</span>)[lockName.split(<span class="hljs-string">&quot;/&quot;</span>).length - <span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">if</span>(lockPostion &lt; <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-comment">// 不存在该节点</span><br>      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ZkNodeExistsException(<span class="hljs-string">&quot;不存在的节点：&quot;</span> + lockName);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lockPostion == <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-comment">// 获取到锁</span><br>      System.out.println(<span class="hljs-string">&quot;获取到锁：&quot;</span> + lockName);<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lockPostion &gt; <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-comment">// 未获取到锁，阻塞</span><br>      System.out.println(<span class="hljs-string">&quot;...... 未获取到锁，阻塞等待 。。。。。。&quot;</span>);<br>      <span class="hljs-comment">// 5.如果未获取得到锁，监听当前创建的节点前一位的节点</span><br>      <span class="hljs-keyword">final</span> CountDownLatch latch = <span class="hljs-keyword">new</span> CountDownLatch(<span class="hljs-number">1</span>);<br>      IZkDataListener listener = <span class="hljs-keyword">new</span> IZkDataListener() &#123;<br>        <br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleDataDeleted</span><span class="hljs-params">(String dataPath)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>          <span class="hljs-comment">// 6.前一个节点被删除,当不保证轮到自己</span><br>          System.out.println(<span class="hljs-string">&quot;。。。。。。前一个节点被删除 。。。。。。&quot;</span>);<br>          acquireLock(lockName);<br>          latch.countDown();<br>        &#125;<br>        <br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleDataChange</span><span class="hljs-params">(String dataPath, Object data)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>          <span class="hljs-comment">// 不用理会</span><br>        &#125;<br>      &#125;;<br>      <span class="hljs-keyword">try</span> &#123;<br>        zkClient.subscribeDataChanges(Constant.LOCK_NODE + <span class="hljs-string">&quot;/&quot;</span> + childrenList.get(lockPostion - <span class="hljs-number">1</span>), listener);<br>        latch.await();<br>      &#125; <span class="hljs-keyword">finally</span> &#123;<br>        zkClient.unsubscribeDataChanges(Constant.LOCK_NODE + <span class="hljs-string">&quot;/&quot;</span> + childrenList.get(lockPostion - <span class="hljs-number">1</span>), listener);<br>      &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>  &#125;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 释放锁（删除节点）</span><br><span class="hljs-comment">   *</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> lockName</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">releaseLock</span><span class="hljs-params">(String lockName)</span> </span>&#123;<br>    zkClient.delete(lockName);<br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">closeZkClient</span><span class="hljs-params">()</span> </span>&#123;<br>    zkClient.close();<br>  &#125;<br>&#125;<br> <br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ZookeeperDemoApplication</span> </span>&#123;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>    SpringApplication.run(ZookeeperDemoApplication.class, args);<br>    <br>    DistributedLock lock = <span class="hljs-keyword">new</span> DistributedLock();<br>    String lockName = lock.getLock();<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 执行我们的业务逻辑</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">if</span>(lockName != <span class="hljs-keyword">null</span>) &#123;<br>      lock.releaseLock(lockName);<br>    &#125;<br>    <br>    lock.closeZkClient();<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="2-3-分布式队列"><a href="#2-3-分布式队列" class="headerlink" title="2.3.分布式队列"></a><strong>2.3.分布式队列</strong></h2><p>在日常使用中，特别是像生产者消费者模式中，经常会使用BlockingQueue来充当缓冲区的角色。但是在分布式系统中这种方式就不能使用BlockingQueue来实现了，但是Zookeeper可以实现。</p>
+<h3 id="2-3-1-思路"><a href="#2-3-1-思路" class="headerlink" title="2.3.1.思路"></a><strong>2.3.1.思路</strong></h3><ol>
+<li><p>首先利用Zookeeper中临时顺序节点的特点</p>
+</li>
+<li><p>当生产者创建节点生产时，需要判断父节点下临时顺序子节点的个数，如果达到了上限，则阻塞等待；如果没有达到，就创建节点。</p>
+</li>
+<li><p>当消费者获取节点时，如果父节点中不存在临时顺序子节点，则阻塞等待；如果有子节点，则获取执行自己的业务，执行完毕后删除该节点即可。</p>
+</li>
+<li><p>获取时获取最小值，保证FIFO特性。</p>
+</li>
+</ol>
+<h3 id="2-3-2-事例"><a href="#2-3-2-事例" class="headerlink" title="2.3.2.事例"></a><strong>2.3.2.事例</strong></h3><p>这个是一个消费者对一个生产者，如果是多个消费者对多个生产者，对代码需要调整。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AppConstant</span> </span>&#123;<br>  <span class="hljs-keyword">static</span> String ZK_CONNECT_STR = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>;<br>  <span class="hljs-keyword">static</span> String NODE_PATH = <span class="hljs-string">&quot;/mailbox&quot;</span>;<br>  <span class="hljs-keyword">static</span> String CHILD_NODE_PATH = <span class="hljs-string">&quot;/mail_&quot;</span>;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> MAILBOX_SIZE = <span class="hljs-number">10</span>;<br>&#125;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailConsumer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>, <span class="hljs-title">AppConstant</span></span>&#123;<br> <br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <span class="hljs-keyword">private</span> Lock lock;<br>  <span class="hljs-keyword">private</span> Condition condition;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MailConsumer</span><span class="hljs-params">()</span> </span>&#123;<br>    lock = <span class="hljs-keyword">new</span> ReentrantLock();<br>    condition = lock.newCondition();<br>    zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(ZK_CONNECT_STR));<br>    System.out.println(<span class="hljs-string">&quot;sucess connected to zookeeper server!&quot;</span>);<br>    <span class="hljs-comment">// 不存在就创建mailbox节点</span><br>    <span class="hljs-keyword">if</span>(!zkClient.exists(NODE_PATH)) &#123;<br>      zkClient.create(NODE_PATH, <span class="hljs-string">&quot;this is mailbox&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>  &#125;<br> <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    IZkChildListener listener = <span class="hljs-keyword">new</span> IZkChildListener() &#123;<br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleChildChange</span><span class="hljs-params">(String parentPath, List&lt;String&gt; currentChilds)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;Znode[&quot;</span>+parentPath + <span class="hljs-string">&quot;] size:&quot;</span> + currentChilds.size());<br>        <span class="hljs-comment">// 还是要判断邮箱是否为空</span><br>        <span class="hljs-keyword">if</span>(currentChilds.size() &gt; <span class="hljs-number">0</span>) &#123;<br>          <span class="hljs-comment">// 唤醒等待的线程</span><br>          <span class="hljs-keyword">try</span> &#123;<br>            lock.lock();<br>            condition.signal();<br>          &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>          &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>          &#125;<br>        &#125;<br>      &#125;<br>    &#125;;<br>    <span class="hljs-comment">// 监视子节点的改变，不用放用while循环中，监听一次就行了，不需要重复绑定</span><br>    zkClient.subscribeChildChanges(NODE_PATH, listener);<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-comment">//循环随机发送邮件模拟真是情况</span><br>      <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>) &#123;<br>        <span class="hljs-comment">// 判断是否可以发送邮件</span><br>        checkMailReceive();<br>        <span class="hljs-comment">// 接受邮件</span><br>        List&lt;String&gt; mailList = zkClient.getChildren(NODE_PATH);<br>        <span class="hljs-comment">// 如果mailsize==0,也没有关系；可以直接循环获取就行了</span><br>        <span class="hljs-keyword">if</span>(mailList.size() &gt; <span class="hljs-number">0</span>) &#123;<br>          Collections.sort(mailList, <span class="hljs-keyword">new</span> Comparator&lt;String&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(String o1, String o2)</span> </span>&#123;<br>              <span class="hljs-keyword">return</span> Integer.parseInt(o1.split(<span class="hljs-string">&quot;_&quot;</span>)[<span class="hljs-number">1</span>]) - Integer.parseInt(o2.split(<span class="hljs-string">&quot;_&quot;</span>)[<span class="hljs-number">1</span>]);<br>            &#125;<br>          &#125;);<br>          <span class="hljs-comment">// 模拟邮件处理(0-1S)</span><br>          TimeUnit.MILLISECONDS.sleep(<span class="hljs-keyword">new</span> Random().nextInt(<span class="hljs-number">1000</span>));<br>          zkClient.delete(NODE_PATH + <span class="hljs-string">&quot;/&quot;</span> + mailList.get(<span class="hljs-number">0</span>));<br>          System.out.println(<span class="hljs-string">&quot;mail has been received:&quot;</span> + NODE_PATH + <span class="hljs-string">&quot;/&quot;</span> + mailList.get(<span class="hljs-number">0</span>));<br>        &#125;<br>      &#125;<br>    &#125;<span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>      zkClient.unsubscribeChildChanges(NODE_PATH, listener);<br>    &#125;<br>  &#125;<br> <br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkMailReceive</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      lock.lock();<br>      <span class="hljs-comment">// 判断邮箱是为空</span><br>      List&lt;String&gt; mailList = zkClient.getChildren(NODE_PATH);<br>      System.out.println(<span class="hljs-string">&quot;mailbox size: &quot;</span> + mailList.size());<br>      <span class="hljs-keyword">if</span>(mailList.size() == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// 邮箱为空，阻塞消费者，直到邮箱有邮件</span><br>        System.out.println(<span class="hljs-string">&quot;mailbox is empty, please wait 。。。&quot;</span>);<br>        condition.await();<br>        <span class="hljs-comment">// checkMailReceive();</span><br>      &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>      lock.unlock();<br>    &#125;<br>  &#125;<br>&#125;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailProducer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span>, <span class="hljs-title">AppConstant</span></span>&#123;<br>  <br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <span class="hljs-keyword">private</span> Lock lock;<br>  <span class="hljs-keyword">private</span> Condition condition;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 初始化状态</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MailProducer</span><span class="hljs-params">()</span> </span>&#123;<br>    lock = <span class="hljs-keyword">new</span> ReentrantLock();<br>    condition = lock.newCondition();<br>    zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(ZK_CONNECT_STR));<br>    System.out.println(<span class="hljs-string">&quot;sucess connected to zookeeper server!&quot;</span>);<br>    <span class="hljs-comment">// 不存在就创建mailbox节点</span><br>    <span class="hljs-keyword">if</span>(!zkClient.exists(NODE_PATH)) &#123;<br>      zkClient.create(NODE_PATH, <span class="hljs-string">&quot;this is mailbox&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>  &#125;<br> <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    IZkChildListener listener = <span class="hljs-keyword">new</span> IZkChildListener() &#123;<br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleChildChange</span><span class="hljs-params">(String parentPath, List&lt;String&gt; currentChilds)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;Znode[&quot;</span>+parentPath + <span class="hljs-string">&quot;] size:&quot;</span> + currentChilds.size());<br>        <span class="hljs-comment">// 还是要判断邮箱是否已满</span><br>        <span class="hljs-keyword">if</span>(currentChilds.size() &lt; MAILBOX_SIZE) &#123;<br>          <span class="hljs-comment">// 唤醒等待的线程</span><br>          <span class="hljs-keyword">try</span> &#123;<br>            lock.lock();<br>            condition.signal();<br>          &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>          &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>          &#125;<br>        &#125;<br>      &#125;<br>    &#125;;<br>    <span class="hljs-comment">// 监视子节点的改变，不用放用while循环中，监听一次就行了，不需要重复绑定</span><br>    zkClient.subscribeChildChanges(NODE_PATH, listener);<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-comment">//循环随机发送邮件模拟真是情况</span><br>      <span class="hljs-keyword">while</span>(<span class="hljs-keyword">true</span>) &#123;<br>        <span class="hljs-comment">// 判断是否可以发送邮件</span><br>        checkMailSend();<br>        <span class="hljs-comment">// 发送邮件</span><br>        String cretePath = zkClient.createEphemeralSequential(NODE_PATH + CHILD_NODE_PATH, <span class="hljs-string">&quot;your mail&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;your mail has been send:&quot;</span> + cretePath);<br>        <span class="hljs-comment">// 模拟随机间隔的发送邮件(0-10S)</span><br>        TimeUnit.MILLISECONDS.sleep(<span class="hljs-keyword">new</span> Random().nextInt(<span class="hljs-number">1000</span>));<br>      &#125;<br>    &#125;<span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>      zkClient.unsubscribeChildChanges(NODE_PATH, listener);<br>    &#125;<br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkMailSend</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>      lock.lock();<br>      <span class="hljs-comment">// 判断邮箱是否已满</span><br>      List&lt;String&gt; mailList = zkClient.getChildren(NODE_PATH);<br>      System.out.println(<span class="hljs-string">&quot;mailbox size: &quot;</span> + mailList.size());<br>      <span class="hljs-keyword">if</span>(mailList.size() &gt;= MAILBOX_SIZE) &#123;<br>        <span class="hljs-comment">// 邮箱已满，阻塞生产者，直到邮箱有空间</span><br>        System.out.println(<span class="hljs-string">&quot;mailbox is full, please wait 。。。&quot;</span>);<br>        condition.await();<br>        checkMailSend();<br>      &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>      e.printStackTrace();<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>      lock.unlock();<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="2-4-均衡负载"><a href="#2-4-均衡负载" class="headerlink" title="2.4.均衡负载"></a><strong>2.4.均衡负载</strong></h2><p>首先我们需要简单的理解分布式和集群，通俗点说：分布式就是将一个系统拆分到多个独立运行的应用中（有可能在同一台主机也有可能在不同的主机上），集群就是将单个独立的应用复制多分放在不同的主机上来减轻服务器的压力。而Zookeeper不仅仅可以作为分布式集群的服务注册调度中心（例如dubbo），也可以实现集群的负载均衡。</p>
+<h3 id="2-4-1-思路"><a href="#2-4-1-思路" class="headerlink" title="2.4.1.思路"></a><strong>2.4.1.思路</strong></h3><ol>
+<li>首先我们要理解，如果是一个集群，那么他就会有多台主机。所以，他在Zookeeper中信息的存在应该是如下所示：</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202031864.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol start="2">
+<li>如上的结构，当服务调用方调用服务时，就可以根据特定的均衡负载算法来实现对服务的调用（调用前需要监听/service/serviceXXX节点，以更新列表数据）</li>
+</ol>
+<h3 id="2-4-2-事例"><a href="#2-4-2-事例" class="headerlink" title="2.4.2.事例"></a><strong>2.4.2.事例</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 服务提供者</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Administrator</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceProvider</span> </span>&#123;<br>  <span class="hljs-comment">// 静态常量</span><br>  <span class="hljs-keyword">static</span> String ZK_CONNECT_STR = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>;<br>  <span class="hljs-keyword">static</span> String NODE_PATH = <span class="hljs-string">&quot;/service&quot;</span>;<br>  <span class="hljs-keyword">static</span> String SERIVCE_NAME = <span class="hljs-string">&quot;/myService&quot;</span>;<br>  <br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ServiceProvider</span><span class="hljs-params">()</span> </span>&#123;<br>    zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(ZK_CONNECT_STR));<br>    System.out.println(<span class="hljs-string">&quot;sucess connected to zookeeper server!&quot;</span>);<br>    <span class="hljs-comment">// 不存在就创建NODE_PATH节点</span><br>    <span class="hljs-keyword">if</span>(!zkClient.exists(NODE_PATH)) &#123;<br>      zkClient.create(NODE_PATH, <span class="hljs-string">&quot;this is mailbox&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>  &#125;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registryService</span><span class="hljs-params">(String localIp, Object obj)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(!zkClient.exists(NODE_PATH + SERIVCE_NAME)) &#123;<br>      zkClient.create(NODE_PATH + SERIVCE_NAME, <span class="hljs-string">&quot;provider services list&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>    <span class="hljs-comment">// 对自己的服务进行注册</span><br>    zkClient.createEphemeral(NODE_PATH + SERIVCE_NAME + <span class="hljs-string">&quot;/&quot;</span> + localIp, obj);<br>    System.out.println(<span class="hljs-string">&quot;注册成功！[&quot;</span> + localIp + <span class="hljs-string">&quot;]&quot;</span>);<br>  &#125;<br>&#125;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 消费者，通过某种均衡负载算法选择某一个提供者</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Administrator</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ServiceConsumer</span> </span>&#123;<br>  <span class="hljs-comment">// 静态常量</span><br>  <span class="hljs-keyword">static</span> String ZK_CONNECT_STR = <span class="hljs-string">&quot;127.0.0.1:2181&quot;</span>;<br>  <span class="hljs-keyword">static</span> String NODE_PATH = <span class="hljs-string">&quot;/service&quot;</span>;<br>  <span class="hljs-keyword">static</span> String SERIVCE_NAME = <span class="hljs-string">&quot;/myService&quot;</span>;<br>  <br>  <span class="hljs-keyword">private</span> List&lt;String&gt; serviceList = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();<br>  <br>  <span class="hljs-keyword">private</span> ZkClient zkClient;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ServiceConsumer</span><span class="hljs-params">()</span> </span>&#123;<br>    zkClient = <span class="hljs-keyword">new</span> ZkClient(<span class="hljs-keyword">new</span> ZkConnection(ZK_CONNECT_STR));<br>    System.out.println(<span class="hljs-string">&quot;sucess connected to zookeeper server!&quot;</span>);<br>    <span class="hljs-comment">// 不存在就创建NODE_PATH节点</span><br>    <span class="hljs-keyword">if</span>(!zkClient.exists(NODE_PATH)) &#123;<br>      zkClient.create(NODE_PATH, <span class="hljs-string">&quot;this is mailbox&quot;</span>, CreateMode.PERSISTENT);<br>    &#125;<br>  &#125;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 订阅服务</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subscribeSerivce</span><span class="hljs-params">()</span> </span>&#123;<br>    serviceList = zkClient.getChildren(NODE_PATH + SERIVCE_NAME);<br>    zkClient.subscribeChildChanges(NODE_PATH + SERIVCE_NAME, <span class="hljs-keyword">new</span> IZkChildListener() &#123;<br>      <span class="hljs-meta">@Override</span><br>      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleChildChange</span><span class="hljs-params">(String parentPath, List&lt;String&gt; currentChilds)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        serviceList = currentChilds;<br>      &#125;<br>    &#125;);<br>  &#125;<br>  <br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 模拟调用服务</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">consume</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">//负载均衡算法获取某台机器调用服务</span><br>    <span class="hljs-keyword">int</span> index = <span class="hljs-keyword">new</span> Random().nextInt(serviceList.size());<br>    System.out.println(<span class="hljs-string">&quot;调用[&quot;</span> + NODE_PATH + SERIVCE_NAME + <span class="hljs-string">&quot;]服务：&quot;</span> + serviceList.get(index));<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a><strong>3.总结</strong></h2><p>Zookeeper是一个功能非常强大的应用，除了上面几种应用外，还有命名服务、分布式协调通知等也是常用的场景。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Zookeeper/">Zookeeper</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Zookeeper/">Zookeeper</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E4%BF%9D%E6%8A%A4%20Java%20%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8D%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">保护 Java 字节码不被反编译</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/WiFiStepUpComputer/">
+                        <span class="hidden-mobile">蓝牙转WIFI计步上位机</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

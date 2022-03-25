@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="通俗易懂讲解 Java 线程安全  电脑中时会有很多单独运行的程序，每个程序有一个独立的进程，而进程之间是相互独立存在的。比如下图中的QQ、酷狗播放器、电脑管家等等。  什么是线程进程想要执行任务就需要依赖线程。换句话说，就是进程中的最小执行单位就是线程，并且一个进程中至少有一个线程。 那什么是多线程？提到多线程这里要说两个概念，就是串行和并行，搞清楚这个，我们才能更好地理解多线程。 所谓串行，其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通俗易懂讲解 Java 线程安全">
+<meta property="og:url" content="http://example.com/2022/03/25/%E9%80%9A%E4%BF%97%E6%98%93%E6%87%82%E8%AE%B2%E8%A7%A3%20Java%20%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="通俗易懂讲解 Java 线程安全  电脑中时会有很多单独运行的程序，每个程序有一个独立的进程，而进程之间是相互独立存在的。比如下图中的QQ、酷狗播放器、电脑管家等等。  什么是线程进程想要执行任务就需要依赖线程。换句话说，就是进程中的最小执行单位就是线程，并且一个进程中至少有一个线程。 那什么是多线程？提到多线程这里要说两个概念，就是串行和并行，搞清楚这个，我们才能更好地理解多线程。 所谓串行，其">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021317173.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318924.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318288.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318617.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318730.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021319661.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320807.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320395.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320408.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021321976.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.957Z">
+<meta property="article:modified_time" content="2022-03-25T12:23:48.677Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021317173.webp">
+  
+  <title>通俗易懂讲解 Java 线程安全 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="通俗易懂讲解 Java 线程安全">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">通俗易懂讲解 Java 线程安全</h1>
+            
+            <div class="markdown-body">
+              <center><h2>通俗易懂讲解 Java 线程安全</h2></center>
+
+<p>电脑中时会有很多单独运行的程序，每个程序有一个独立的进程，而进程之间是相互独立存在的。比如下图中的QQ、酷狗播放器、电脑管家等等。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021317173.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a><strong>什么是线程</strong></h3><p>进程想要执行任务就需要依赖线程。换句话说，就是进程中的最小执行单位就是线程，并且一个进程中至少有一个线程。</p>
+<p>那什么是多线程？提到多线程这里要说两个概念，就是串行和并行，搞清楚这个，我们才能更好地理解多线程。</p>
+<p>所谓串行，其实是相对于单条线程来执行多个任务来说的，我们就拿下载文件来举个例子：当我们下载多个文件时，在串行中它是按照一定的顺序去进行下载的，也就是说，必须等下载完A之后才能开始下载B，它们在时间上是不可能发生重叠的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318924.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>并行：下载多个文件，开启多条线程，多个文件同时进行下载，这里是严格意义上的，在同一时刻发生的，并行在时间上是重叠的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318288.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>了解了这两个概念之后，我们再来说说什么是多线程。举个例子，我们打开腾讯管家，腾讯管家本身就是一个程序，也就是说它就是一个进程，它里面有很多的功能，我们可以看下图，能查杀病毒、清理垃圾、电脑加速等众多功能。</p>
+<p>按照单线程来说，无论你想要清理垃圾、还是要病毒查杀，那么你必须先做完其中的一件事，才能做下一件事，这里面是有一个执行顺序的。</p>
+<p>如果是多线程的话，我们其实在清理垃圾的时候，还可以进行查杀病毒、电脑加速等等其他的操作，这个是严格意义上的同一时刻发生的，没有执行上的先后顺序。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318617.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上就是，一个进程运行时产生了多个线程。</p>
+<p>在了解完这个问题后，我们又需要去了解一个使用多线程不得不考虑的问题——线程安全。</p>
+<p>今天我们不说如何保证一个线程的安全，我们聊聊什么是线程安全？因为我之前面试被问到了，说真的，我之前真的不是特别了解这个问题，我们好像只学了如何确保一个线程安全，却不知道所谓的安全到底是什么！</p>
+<h3 id="什么是线程安全？"><a href="#什么是线程安全？" class="headerlink" title="什么是线程安全？"></a><strong>什么是线程安全？</strong></h3><p>既然是线程安全问题，那么毫无疑问，所有的隐患都是在多个线程访问的情况下产生的，也就是我们要确保在多条线程访问的时候，我们的程序还能按照我们预期的行为去执行，我们看一下下面的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Integer count = <span class="hljs-number">0</span>;<br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getCount</span><span class="hljs-params">()</span> </span>&#123;<br>       count ++;<br>       System.out.println(count);<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>很简单的一段代码，下面我们就来统计一下这个方法的访问次数，多个线程同时访问会不会出现什么问题，我开启的3条线程，每个线程循环10次，得到以下结果：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021318730.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们可以看到，这里出现了两个26，出现这种情况显然表明这个方法根本就不是线程安全的，出现这种问题的原因有很多。</p>
+<p>最常见的一种，就是我们A线程在进入方法后，拿到了count的值，刚把这个值读取出来，还没有改变count的值的时候，结果线程B也进来的，那么导致线程A和线程B拿到的count值是一样的。</p>
+<p>那么由此我们可以了解到，这确实不是一个线程安全的类，因为他们都需要操作这个共享的变量。其实要对线程安全问题给出一个明确的定义，还是蛮复杂的，我们根据我们这个程序来总结下什么是线程安全。</p>
+<p>当多个线程访问某个方法时，不管你通过怎样的调用方式、或者说这些线程如何交替地执行，我们在主程序中不需要去做任何的同步，这个类的结果行为都是我们设想的正确行为，那么我们就可以说这个类是线程安全的。     </p>
+<p>搞清楚了什么是线程安全，接下来我们看看Java中确保线程安全最常用的两种方式。先来看段代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">threadMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> j)</span> </span>&#123;<br><br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;<br><br>    j = j + i;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>大家觉得这段代码是线程安全的吗？</p>
+<p>毫无疑问，它绝对是线程安全的，我们来分析一下，为什么它是线程安全的？</p>
+<p>我们可以看到这段代码是没有任何状态的，就是说我们这段代码，不包含任何的作用域，也没有去引用其他类中的域进行引用，它所执行的作用范围与执行结果只存在它这条线程的局部变量中，并且只能由正在执行的线程进行访问。当前线程的访问，不会对另一个访问同一个方法的线程造成任何的影响。</p>
+<p>两个线程同时访问这个方法，因为没有共享的数据，所以他们之间的行为，并不会影响其他线程的操作和结果，所以说无状态的对象，也是线程安全的。</p>
+<h3 id="添加一个状态呢？"><a href="#添加一个状态呢？" class="headerlink" title="添加一个状态呢？"></a><strong>添加一个状态呢？</strong></h3><p>如果我们给这段代码添加一个状态，添加一个count，来记录这个方法并命中的次数，每请求一次count+1，那么这个时候这个线程还是安全的吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo</span> </span>&#123;<br><br>   <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 记录方法的命中次数</span><br><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">threadMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> j)</span> </span>&#123;<br><br>       count++ ;<br><br>       <span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;<br><br>       j = j + i;<br>   &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>很明显已经不是了，单线程运行起来确实是没有任何问题的，但是当出现多条线程并发访问这个方法的时候，问题就出现了，我们先来分析下count+1这个操作。</p>
+<p>进入这个方法之后首先要读取count的值，然后修改count的值，最后才把这把值赋值给count，总共包含了三步过程：“读取”一&gt;“修改”一&gt;“赋值”，既然这个过程是分步的，那么我们先来看下面这张图，看看你能不能看出问题：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021319661.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以发现，count的值并不是正确的结果，当线程A读取到count的值，但是还没有进行修改的时候，线程B已经进来了，然后线程B读取到的还是count为1的值，正因为如此所以我们的count值已经出现了偏差，那么这样的程序放在我们的代码中，是存在很多的隐患的。</p>
+<h3 id="如何确保线程安全？"><a href="#如何确保线程安全？" class="headerlink" title="如何确保线程安全？"></a><strong>如何确保线程安全？</strong></h3><p>既然存在线程安全的问题，那么肯定得想办法解决这个问题，怎么解决？我们说说常见的几种方式。</p>
+<h4 id="1、synchronized"><a href="#1、synchronized" class="headerlink" title="1、synchronized"></a><strong>1、synchronized</strong></h4><p>synchronized关键字，就是用来控制线程同步的，保证我们的线程在多线程环境下，不被多个线程同时执行，确保我们数据的完整性，使用方法一般是加在方法上。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadDemo</span> </span>&#123;<br><br>   <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 记录方法的命中次数</span><br><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">threadMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> j)</span> </span>&#123;<br><br>       count++ ;<br><br>       <span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;<br><br>       j = j + i;<br>   &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>这样就可以确保我们的线程同步了，同时这里需要注意一个大家平时忽略的问题，首先synchronized锁的是括号里的对象，而不是代码，其次，对于非静态的synchronized方法，锁的是对象本身也就是this。</p>
+<p>当synchronized锁住一个对象之后，别的线程如果想要获取锁对象，那么就必须等这个线程执行完释放锁对象之后才可以，否则一直处于等待状态。</p>
+<p>注意点：虽然加synchronized关键字，可以让我们的线程变得安全，但是我们在用的时候，也要注意缩小synchronized的使用范围，如果随意使用时很影响程序的性能，别的对象想拿到锁，结果你没用锁还一直把锁占用，这样就有点浪费资源。</p>
+<h4 id="2、Lock"><a href="#2、Lock" class="headerlink" title="2、Lock"></a><strong>2、Lock</strong></h4><p>先来说说它跟synchronized有什么区别吧，Lock是在Java1.6被引入进来的，Lock的引入让锁有了可操作性，什么意思？就是我们在需要的时候去手动的获取锁和释放锁，甚至我们还可以中断获取以及超时获取的同步特性，但是从使用上说Lock明显没有synchronized使用起来方便快捷。我们先来看下一般是如何使用的：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> Lock lock = <span class="hljs-keyword">new</span> ReentrantLock(); <span class="hljs-comment">// ReentrantLock是Lock的子类</span><br><br>   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">(Thread thread)</span></span>&#123;<br>       lock.lock(); <span class="hljs-comment">// 获取锁对象</span><br>       <span class="hljs-keyword">try</span> &#123;<br>           System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;获得了锁&quot;</span>);<br>           <span class="hljs-comment">// Thread.sleep(2000);</span><br>       &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>           e.printStackTrace();<br>       &#125; <span class="hljs-keyword">finally</span> &#123;<br>           System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;释放了锁&quot;</span>);<br>           lock.unlock(); <span class="hljs-comment">// 释放锁对象</span><br>       &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>进入方法我们首先要获取到锁，然后去执行我们业务代码，这里跟synchronized不同的是，Lock获取的所对象需要我们亲自去进行释放，为了防止我们代码出现异常，所以我们的释放锁操作放在finally中，因为finally中的代码无论如何都是会执行的。</p>
+<p>写个主方法，开启两个线程测试一下我们的程序是否正常：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>       LockTest lockTest = <span class="hljs-keyword">new</span> LockTest();<br><br>       <span class="hljs-comment">// 线程1</span><br>       Thread t1 = <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;<br><br>           <span class="hljs-meta">@Override</span><br>           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>               <span class="hljs-comment">// Thread.currentThread()  返回当前线程的引用</span><br>               lockTest.method(Thread.currentThread());<br>           &#125;<br>       &#125;, <span class="hljs-string">&quot;t1&quot;</span>);<br><br>       <span class="hljs-comment">// 线程2</span><br>       Thread t2 = <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;<br><br>           <span class="hljs-meta">@Override</span><br>           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>               lockTest.method(Thread.currentThread());<br>           &#125;<br>       &#125;, <span class="hljs-string">&quot;t2&quot;</span>);<br><br>       t1.start();<br>       t2.start();<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320807.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看出我们的执行，是没有任何问题的。</p>
+<p>其实在Lock还有几种获取锁的方式，我们这里再说一种，就是tryLock()这个方法跟Lock()是有区别的，Lock在获取锁的时候，如果拿不到锁，就一直处于等待状态，直到拿到锁，但是tryLock()却不是这样的，tryLock是有一个Boolean的返回值的，如果没有拿到锁，直接返回false，停止等待，它不会像Lock()那样去一直等待获取锁。</p>
+<p>我们来看下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">(Thread thread)</span></span>&#123;<br>       <span class="hljs-comment">// lock.lock(); // 获取锁对象</span><br>       <span class="hljs-keyword">if</span> (lock.tryLock()) &#123;<br>           <span class="hljs-keyword">try</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;获得了锁&quot;</span>);<br>               <span class="hljs-comment">// Thread.sleep(2000);</span><br>           &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>               e.printStackTrace();<br>           &#125; <span class="hljs-keyword">finally</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;释放了锁&quot;</span>);<br>               lock.unlock(); <span class="hljs-comment">// 释放锁对象</span><br>           &#125;<br>       &#125;<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>结果：我们继续使用刚才的两个线程进行测试可以发现，在线程t1获取到锁之后，线程t2立马进来，然后发现锁已经被占用，那么这个时候它也不在继续等待。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320395.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>似乎这种方法，感觉不是很完美，如果我第一个线程，拿到锁的时间，比第二个线程进来的时间还要长，是不是也拿不到锁对象？</p>
+<p>那我能不能，用一中方式来控制一下，让后面等待的线程，可以等待5秒，如果5秒之后，还获取不到锁，那么就停止等，其实tryLock()是可以进行设置等待的相应时间的。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">(Thread thread)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>       <span class="hljs-comment">// lock.lock(); // 获取锁对象</span><br><br>       <span class="hljs-comment">// 如果2秒内获取不到锁对象，那就不再等待</span><br>       <span class="hljs-keyword">if</span> (lock.tryLock(<span class="hljs-number">2</span>,TimeUnit.SECONDS)) &#123;<br>           <span class="hljs-keyword">try</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;获得了锁&quot;</span>);<br><br>               <span class="hljs-comment">// 这里睡眠3秒</span><br>               Thread.sleep(<span class="hljs-number">3000</span>);<br>           &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>               e.printStackTrace();<br>           &#125; <span class="hljs-keyword">finally</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;释放了锁&quot;</span>);<br>               lock.unlock(); <span class="hljs-comment">// 释放锁对象</span><br>           &#125;<br>       &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>结果：看上面的代码，我们可以发现，虽然我们获取锁对象的时候，可以等待2秒，但是我们线程t1在获取锁对象之后，执行任务缺花费了3秒，那么这个时候线程t2是不在等待的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021320408.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们再来改一下这个等待时间，改为5秒，再来看下结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">(Thread thread)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>       <span class="hljs-comment">// lock.lock(); // 获取锁对象</span><br><br>       <span class="hljs-comment">// 如果5秒内获取不到锁对象，那就不再等待</span><br>       <span class="hljs-keyword">if</span> (lock.tryLock(<span class="hljs-number">5</span>,TimeUnit.SECONDS)) &#123;<br>           <span class="hljs-keyword">try</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;获得了锁&quot;</span>);<br>           &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>               e.printStackTrace();<br>           &#125; <span class="hljs-keyword">finally</span> &#123;<br>               System.out.println(<span class="hljs-string">&quot;线程名：&quot;</span>+thread.getName() + <span class="hljs-string">&quot;释放了锁&quot;</span>);<br>               lock.unlock(); <span class="hljs-comment">// 释放锁对象</span><br>           &#125;<br>       &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>结果：这个时候我们可以看到，线程t2等到5秒获取到了锁对象，执行了任务代码。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021321976.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上就是使用Lock，来保证我们线程安全的方式。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%9B%BE%E8%A7%A3%2023%20%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">图解 23 种设计模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E8%B0%88%E8%B0%88%E5%BC%95%E5%85%A5Spring%20Cloud%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                        <span class="hidden-mobile">团队适合引入Spring Cloud微服务吗?</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

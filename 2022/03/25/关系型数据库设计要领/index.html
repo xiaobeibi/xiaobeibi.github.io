@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="关系型数据库设计要领  摘要本文讨论关系数据库设计相关的一些内容，涉及关系模型，表结构设计等内容，以学生选修课程讲述设计过程，在尽量讲清楚设计要领的前提下，简化设计内容。 本文基于MySQL数据库为基础，适合有一定关系型数据库基础的人阅读。 实体-关系模型（E-R）首先搞清楚什么是E-R数据模型？它有什么用？ E-R模型在将现实世界中事实的含义和相互关联映射到概念模式方面非常有用，因此，许多数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系型数据库设计要领">
+<meta property="og:url" content="http://example.com/2022/03/25/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%A6%81%E9%A2%86/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="关系型数据库设计要领  摘要本文讨论关系数据库设计相关的一些内容，涉及关系模型，表结构设计等内容，以学生选修课程讲述设计过程，在尽量讲清楚设计要领的前提下，简化设计内容。 本文基于MySQL数据库为基础，适合有一定关系型数据库基础的人阅读。 实体-关系模型（E-R）首先搞清楚什么是E-R数据模型？它有什么用？ E-R模型在将现实世界中事实的含义和相互关联映射到概念模式方面非常有用，因此，许多数据库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201640934.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201641578.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201642108.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201642561.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643164.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643077.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643133.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.858Z">
+<meta property="article:modified_time" content="2022-03-25T10:15:50.046Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201640934.png">
+  
+  <title>关系型数据库设计要领 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="关系型数据库设计要领">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">关系型数据库设计要领</h1>
+            
+            <div class="markdown-body">
+              <center><h2>关系型数据库设计要领</h2></center>
+
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a><strong>摘要</strong></h2><p>本文讨论关系数据库设计相关的一些内容，涉及关系模型，表结构设计等内容，以学生选修课程讲述设计过程，在尽量讲清楚设计要领的前提下，简化设计内容。</p>
+<p>本文基于MySQL数据库为基础，适合有一定关系型数据库基础的人阅读。</p>
+<h2 id="实体-关系模型（E-R）"><a href="#实体-关系模型（E-R）" class="headerlink" title="实体-关系模型（E-R）"></a><strong>实体-关系模型（E-R）</strong></h2><p>首先搞清楚什么是E-R数据模型？它有什么用？</p>
+<p>E-R模型在将现实世界中事实的含义和相互关联映射到概念模式方面非常有用，因此，许多数据库设计工具都利用了E-R模型的概念。E-R模型所采用的三个主要概念是：实体集、关系集和属性。</p>
+<ul>
+<li><code>实体</code>：实体是世界中可以区别于其他对象的“事件”或者“物体”，例如，学校里的每个学生、学生选修的每门课程等都是一个实体。</li>
+<li><code>属性</code>：属性是实体集中每个成员具有的描述性性质。例如，学生的姓名，学号等。</li>
+<li><code>实体集</code>：实体集就是就有相同类型及属性的实体集合，比如，学校里的所有学生，学生选修的所有课程等。</li>
+<li><code>关系</code>：关系是多个实体间的相互关联。例如，小明选修语文课程。</li>
+<li><code>关系集</code>：关系集是同类关系的集合。例如，所用学生选修课程的集合。</li>
+</ul>
+<p>既然知道了E-R数据模型的作用，下面就让我们来画出学生选修课程的E-R图吧。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201640934.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其中，（学号，姓名，年龄，性别）为学生的属性，（成绩）为选修关系的属性，（课程号，课程名，学分）为课程的属性。学生和课程之间的关系是多对多，即一个学生可以选择多门课程，一门课程可以被多个学生选修。</p>
+<h2 id="关系表设计"><a href="#关系表设计" class="headerlink" title="关系表设计"></a><strong>关系表设计</strong></h2><p>从上面的E-R图，我们一眼就能看出他们之间的联系，那该如何设计关系模式呢？</p>
+<p>我们要知道，关系数据库设计的目的是为了生成一组关系模式，使我们能够既不必存储不必要的冗余信息，又能方便地获取信息。为了是我们方便的达到这个目的，范式设计应运而生。</p>
+<h3 id="Boyce-Codd范式"><a href="#Boyce-Codd范式" class="headerlink" title="Boyce-Codd范式"></a>Boyce-Codd范式</h3><p>我们所知道的令人满意的范式之一是Boyce-Codd范式（BCNF）。如果对F+中所有形如 α→β 的函数依赖，其中 α⊆R 且 β⊆R，下面的定义至少有一个成立：</p>
+<ul>
+<li>α→β 是平凡函数依赖（即 β ⊂ α）。（一般来说，平凡函数依赖并没有讨论意义，讨论的都是非平凡函数依赖，即 β ∉⊂ α 的情况）</li>
+<li>α 是模式R的超码。</li>
+</ul>
+<p>考虑如下关系模式及其相应的函数依赖：</p>
+<ul>
+<li>学生 = （学号，姓名，年龄，性别）</li>
+</ul>
+<p>学号 → 姓名 年龄 性别</p>
+<ul>
+<li>课程 = （课程号，课程名，学分）</li>
+</ul>
+<p>课程号 → 课程名 学分</p>
+<ul>
+<li>选修 = （学号，课程号，成绩）</li>
+</ul>
+<p>学号 课程号 → 成绩</p>
+<p>以上模式均属于BCNF。就拿第一组关系模式来说，学生上仅有的非平凡函数依赖，箭头左侧是学号，学号是该模式的一个候选码（候选码属于超码的子集），没有破坏BCNF的定义。</p>
+<p>其实并不是每个BCNF都能保持函数依赖的，例如：</p>
+<p>Banker-schema = （branch-name，customer-name，banker-name）</p>
+<p>它表示的是一个客户在某一分支机构有一个银行账户负责人。它要求满足的函数依赖集F为</p>
+<ul>
+<li>banker-name → branch-name</li>
+<li>branch-name customer-name → banker-name</li>
+</ul>
+<p>显然，Banker-schema不属于BCNF，因为 banker-name 不是超码。</p>
+<p>我们可以将它分解得到如下的BCNF：</p>
+<p>Banker-branch-schema = （banker-name，branch-name）</p>
+<p>Customer-banker-schema = （customer-name，banker-name）</p>
+<p>分解后的模式只保持了banker-name → branch-name，而branch-name customer-name → banker-name的依赖没有保持。</p>
+<h3 id="第三范式"><a href="#第三范式" class="headerlink" title="第三范式"></a>第三范式</h3><p>当我们不能同时满足以下三个设计目标：</p>
+<ul>
+<li>BCNF。</li>
+<li>无损连接。</li>
+<li>保持函数依赖。</li>
+</ul>
+<p><strong>我们可以放弃BCNF而接受相对较弱的第三范式（3NF）。因为3NF总能找到无损连接并保持依赖的分解。</strong></p>
+<p>具有函数依赖即F的关系模式R属于3NF，只要F+中所有形如 α→β 的函数依赖，其中 α⊆R 且 β⊆R，下面的定义至少有一个成立：</p>
+<ul>
+<li>α→β 是平凡函数依赖（即 β ⊂ α）。</li>
+<li>α 是模式R的超码。</li>
+<li>β - α 中的每个属性 A 都包含在R的候选码中。</li>
+</ul>
+<p>回到Banker-schema的例子中，我们已经看到了没能将该关系模式转化成BCNF而又保持依赖和无损连接的分解，但改模式属于3NF。在Banker-schema中，候选码是{branch-name，customer-name}，所以Banker-schema上不包含候选码的就只有banker-name。</p>
+<p>而形如 α → banker-name 的非平凡函数依赖都是以{branch-name，customer-name}作为 α 的一部分。由于{branch-name，customer-name}是候选码，所以符合3NF的定义。</p>
+<blockquote>
+<p>每个BCNF都属于3NF，因为BCNF的约束比3NF更严格。</p>
+</blockquote>
+<h2 id="存储引擎的选择"><a href="#存储引擎的选择" class="headerlink" title="存储引擎的选择"></a><strong>存储引擎的选择</strong></h2><p>关系模式一但确定，基本的数据库表结构就确定了，接下来就是表结构的详细设计了，这里先从存储引擎开始，MySQL提供的各种存储引擎都是根据不同的用例设计的。</p>
+<p>下表概述了MySQL提供的一些存储引擎。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201641578.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>最常用的两种存储引擎：MyISAM和InnoDB。</p>
+<ul>
+<li>MyISAM：MySQL 5.5.5以前，MyISAM作为MySQL的默认存储引擎。</li>
+<li>InnoDB：MySQL 5.5.5以后，InnoDB作为MySQL的默认存储引擎。</li>
+</ul>
+<h3 id="何如选择？"><a href="#何如选择？" class="headerlink" title="何如选择？"></a>何如选择？</h3><p>选择标准: 根据应用特点选择合适的存储引擎，对于复杂的应用系统可以根据实际情况选择多种存储引擎进行组合。但是要知道组合使用的缺点：</p>
+<ul>
+<li>InnoDB和非InnoDB存储引擎的组合对比，仅使用InnoDB存储引擎可以简化备份和恢复操作。</li>
+<li>MySQL Enterprise Backup对使用InnoDB存储引擎的所有表进行热备份。</li>
+<li>对于使用MyISAM或其他非InnoDB存储引擎的表，它会执行“热”备份，数据库会继续运行，但这些表在备份时不能修改。</li>
+</ul>
+<p>下面是常用存储引擎的适用环境：</p>
+<ul>
+<li>InnoDB：事务型业务场景首选。</li>
+<li>MyISAM：非事务型的大多数业务场景。</li>
+<li>Memory：数据保存到内存中，能提供极速的访问速度。（个人觉得可以使用Redis等NoSQL数据库代替）</li>
+</ul>
+<h2 id="字符集选择"><a href="#字符集选择" class="headerlink" title="字符集选择"></a><strong>字符集选择</strong></h2><p>存储引擎之后就是确定字符集，字符集的选择十分重要，不管是MySQL还是Oracle，如果在数据库创建阶段没有正确选择字符集，那么在后期需要更换字符集的时候将要付出高昂的代价。</p>
+<h3 id="如何选择？"><a href="#如何选择？" class="headerlink" title="如何选择？"></a>如何选择？</h3><p>建议在能够完全满足应用当下和未来几年发展的前提下，尽量使用小的字符集。应为更小的字符集意味着能够节省空间、减少网络传输字节数，同时由于存储空间小间接的提升了系统的性能。</p>
+<p>不同的数据库有不同的字符集应用级别，分别为服务器级别、库级别、表级别、字段级别，通常推荐使用库级别或者表级别。因为库级别或者表级别在保有灵活性的同时，兼顾数据间字符集的统一，这可以给开发省去很多处理字符集的麻烦。</p>
+<h2 id="数据类型的选择"><a href="#数据类型的选择" class="headerlink" title="数据类型的选择"></a><strong>数据类型的选择</strong></h2><h3 id="选择原则"><a href="#选择原则" class="headerlink" title="选择原则"></a>选择原则</h3><p>前提：使用合适的存储引擎。</p>
+<p>选择原则：为了获得最佳的存储，您应该在所有情况下尝试使用最精确的类型。</p>
+<h3 id="固定长度和可变长度"><a href="#固定长度和可变长度" class="headerlink" title="固定长度和可变长度"></a>固定长度和可变长度</h3><p><strong>char 与 varchar</strong></p>
+<p>下面这个例子说明二者的区别：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201642108.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>请注意上表中最后一行的值只适用不使用严格模式时；如果 MySQL 运行在严格模式，超过列 长度的值不保存，并且会出现错误。</p>
+<p>从 CHAR(4)和 VARCHAR(4)列检索的值并不总是相同，因为检索时从 CHAR 列删除了尾部的空 格。通过下面的例子说明该差别：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> vc (v <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">4</span>), c <span class="hljs-type">CHAR</span>(<span class="hljs-number">4</span>));<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.01</span> sec)<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> vc <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;ab  &#x27;</span>, <span class="hljs-string">&#x27;ab  &#x27;</span>);<br>Query OK, <span class="hljs-number">1</span> <span class="hljs-type">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">SELECT</span> CONCAT(<span class="hljs-string">&#x27;(&#x27;</span>, v, <span class="hljs-string">&#x27;)&#x27;</span>), CONCAT(<span class="hljs-string">&#x27;(&#x27;</span>, c, <span class="hljs-string">&#x27;)&#x27;</span>) <span class="hljs-keyword">FROM</span> vc;<br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------+---------------------+</span><br><span class="hljs-operator">|</span> CONCAT(<span class="hljs-string">&#x27;(&#x27;</span>, v, <span class="hljs-string">&#x27;)&#x27;</span>) <span class="hljs-operator">|</span> CONCAT(<span class="hljs-string">&#x27;(&#x27;</span>, c, <span class="hljs-string">&#x27;)&#x27;</span>) <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------+---------------------+</span><br><span class="hljs-operator">|</span> (ab  )              <span class="hljs-operator">|</span> (ab)                <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">---------------------+---------------------+</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.06</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>对于InnoDB数据表，内部的行格式没有区分固定长度和可变长度列，所有数据化行都使用指向数据列值的头指针，因此在本质上，使用固定长度的CHAR列不一定比使用可变长度的VARCHAR列要好。</p>
+<p>因为，主要的性能因数是数据行使用的存储总量。对于占用空间来说，CHAR总是大于等于VARCHAR，所以，使用VARCHAR来最小化行数据的存储总量，进而减少磁盘I/O频率。</p>
+<p><strong>text 和 blob</strong></p>
+<p>在使用text或者blob类型的字段是需要注意一下几点，以便获得更好的性能：</p>
+<ul>
+<li>执行大量的删除和更新操作后，会留下很”空洞“，需要定期optimize table进行碎片整理；</li>
+<li>避免查询大型的text和blob。查询大型的text和blob会使一页能装下的数据量减少，增加磁盘I/O压力。</li>
+<li>把text和blob分离到单独的表中。这会把原来表中的数据列转变为更短的固定长度的数据行格式，这个十分有用。</li>
+</ul>
+<h3 id="浮点数和定点数"><a href="#浮点数和定点数" class="headerlink" title="浮点数和定点数"></a>浮点数和定点数</h3><p>在MySQL中float、double是浮点数，decimal是定点数。</p>
+<p>浮点数优势：在长度一定的情况下，浮点数能表示更大的数据范围。</p>
+<p>浮点数缺点：精度问题。</p>
+<blockquote>
+<p>友情提醒：在有关金钱交易方面浮点数慎用！！！</p>
+</blockquote>
+<h3 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h3><p>MySQL支持SQL标准整数类型INTEGER（或INT）和SMALLINT。作为标准的扩展，MySQL还支持整数类型TINYINT、MEDIUMINT和BIGINT。下表显示了每个整数类型所需的存储空间和范围。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201642561.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="索引设计"><a href="#索引设计" class="headerlink" title="索引设计"></a><strong>索引设计</strong></h2><h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><ul>
+<li>搜索的索引列，不一定是所要选择的列。最适合索引的列是出现在 WHERE 子 句中的列，或连接子句中指定的列，而不是出现在 SELECT 关键字后的选择列表中的列。</li>
+<li>使用惟一索引。对于惟一值的列，索引的效果最好，而具有多个 重复值的列，其索引效果最差。</li>
+<li>使用短索引。如果对字符串列进行索引，应该指定一个前缀长度 。例如，如果有一个 CHAR(200) 列，如果在前 10 个或 20 个字符内，多数值是惟一的， 那么就不要对整个列进行索引。</li>
+<li>利用最左前缀。每个额外的索 引都要占用额外的磁盘空间，并降低写操作的性能。</li>
+<li>不要过度索引。</li>
+<li>考虑在列上进行的比较类型。如果是在列上做函数运算，对其进行索引将毫无意义。</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>针对上面提到的学生选课E-R图，给出设计结果和说明：</p>
+<p>表1-1 学生信息表（Student）</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643164.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>表1-2 课程信息表（Course）</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643077.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>表1-3 选课成绩表（SC）</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201643133.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>Student中姓名的长度是40，这里把外国人也考虑进来了；</li>
+<li>Student中性别定义成枚举，主要是枚举意义简明；</li>
+<li>Student中没有存年龄，而存储的出生日期，是因为年龄并不是一成不变的，并且能够通过出生日期正确计算。</li>
+<li>SC中成绩使用的是double而不采用decimal，主要是因为成绩并不需要那么高的精确度。</li>
+<li>SC中（sno,cno）作为联合主键而不是独立主键，由于现阶段markdown无法合拼行，所以无法编辑。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h2><ul>
+<li>（美）Abraham Silberschatz等.数据库系统概念.北京：机械工业出版社，2012</li>
+<li>MySQL 5.7 Reference Manual</li>
+<li>[eimhe.com]网易技术部的MySQL中文资料.</li>
+</ul>
+<p>来源：blog.csdn.net/qq_36011946/article/details/105305063</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%85%B3%E4%BA%8E%20Spring%20%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%9A%84%E5%87%A0%E4%B8%AA%E7%9F%A5%E8%AF%86%E7%82%B9/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于 Spring 依赖注入的几个知识点</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E9%AB%98%E9%80%BC%E6%A0%BC%E7%9A%84%20SQL%20%E5%86%99%E6%B3%95%EF%BC%9A%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/">
+                        <span class="hidden-mobile">高逼格的 SQL 写法：行行比较</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

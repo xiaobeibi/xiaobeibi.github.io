@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Boot 实现扫码登录  最近有个项目涉及到 websocket 实现扫码登录，看到一篇不错的技术文，分享一下。 一、首先咱们需要一张表这表是干啥的呢？就是记录一下谁扫码了。谁登录了。  User_Token表  字段如下：  uuid : 用于确保唯一性 userId ：谁登录的 loginTime ：登录时间 createTime ：创建时间 用于判断是否过期 state：是否二">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot 实现扫码登录">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20Boot%20%E5%AE%9E%E7%8E%B0%E6%89%AB%E7%A0%81%E7%99%BB%E5%BD%95/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Boot 实现扫码登录  最近有个项目涉及到 websocket 实现扫码登录，看到一篇不错的技术文，分享一下。 一、首先咱们需要一张表这表是干啥的呢？就是记录一下谁扫码了。谁登录了。  User_Token表  字段如下：  uuid : 用于确保唯一性 userId ：谁登录的 loginTime ：登录时间 createTime ：创建时间 用于判断是否过期 state：是否二">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-25T13:46:50.768Z">
+<meta property="article:modified_time" content="2022-03-07T06:43:41.571Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Spring Boot 实现扫码登录 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Boot 实现扫码登录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Boot 实现扫码登录</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Boot 实现扫码登录</h2></center>
+
+<p>最近有个项目涉及到 websocket 实现扫码登录，看到一篇不错的技术文，分享一下。</p>
+<h3 id="一、首先咱们需要一张表"><a href="#一、首先咱们需要一张表" class="headerlink" title="一、首先咱们需要一张表"></a>一、首先咱们需要一张表</h3><p>这表是干啥的呢？就是记录一下谁扫码了。谁登录了。</p>
+<blockquote>
+<p>User_Token表</p>
+</blockquote>
+<p>字段如下：</p>
+<ul>
+<li>uuid : 用于确保唯一性</li>
+<li>userId ：谁登录的</li>
+<li>loginTime ：登录时间</li>
+<li>createTime ：创建时间 用于判断是否过期</li>
+<li>state：是否二维码失效 0有效 1失效</li>
+</ul>
+<h3 id="二、角色都有哪些"><a href="#二、角色都有哪些" class="headerlink" title="二、角色都有哪些"></a>二、角色都有哪些</h3><p>咱们还需要分析一下子。扫码登录这个业务逻辑都有哪些角色</p>
+<ul>
+<li>android端 or 微信Web端 ：扫码</li>
+<li>PC端 ：被扫。登录</li>
+<li>服务端：掌控全局，提供接口。</li>
+</ul>
+<h3 id="三、接口都需要哪些？"><a href="#三、接口都需要哪些？" class="headerlink" title="三、接口都需要哪些？"></a>三、接口都需要哪些？</h3><p>有了角色。你用大腿也能想出来接口了对不对！！</p>
+<p>所以咱们的接口有2个！</p>
+<ul>
+<li>生成二维码接口：生成一个二维码。二维码中有UUID。</li>
+<li>确认身份接口：确定身份以及判断是否二维码过期等</li>
+</ul>
+<h3 id="四、步骤"><a href="#四、步骤" class="headerlink" title="四、步骤"></a>四、步骤</h3><p>那句话怎么说的来着。要把大象装冰箱一共分几步？</p>
+<ul>
+<li>PC端打开。调用生成二维码接口 并与 服务端建立链接。链接使用uuid进行绑定</li>
+<li>微信Web端进行扫码。获取二维码中的uuid。</li>
+<li>微信Web端拿到uuid以后。显示是否登录页面。点击确定后 调用 确认身份接口。</li>
+<li>确认身份接口通过以后。服务端给PC端发送信息。完成登录。此时链接断开。</li>
+</ul>
+<p>好了！分析完了这些。你们一定在想。。还有完没完啊。。不要在BB了。。赶紧贴代码吧。。</p>
+<blockquote>
+<p>作者：观众老爷们。我这是在教给你们如何思考的方法呀?</p>
+</blockquote>
+<p>那么开始贴代码吧！希望大家在看到的同时也可以自己进行思考。</p>
+<h3 id="五、疯狂贴代码"><a href="#五、疯狂贴代码" class="headerlink" title="五、疯狂贴代码"></a>五、疯狂贴代码</h3><p>首先需要获取二维码的代码对不对！贴！</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//获取登录二维码、放入Token</span><br><span class="hljs-meta">@RequestMapping(value = &quot;/getLoginQr&quot; ,method = RequestMethod.GET)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createCodeImg</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;<br>    response.setHeader(<span class="hljs-string">&quot;Pragma&quot;</span>, <span class="hljs-string">&quot;No-cache&quot;</span>);<br>    response.setHeader(<span class="hljs-string">&quot;Cache-Control&quot;</span>, <span class="hljs-string">&quot;no-cache&quot;</span>);<br><br>    response.setDateHeader(<span class="hljs-string">&quot;Expires&quot;</span>, <span class="hljs-number">0</span>);<br>    response.setContentType(<span class="hljs-string">&quot;image/jpeg&quot;</span>);<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">//这里没啥操作 就是生成一个UUID插入 数据库的表里</span><br>        String uuid = userService.createQrImg();<br>        response.setHeader(<span class="hljs-string">&quot;uuid&quot;</span>, uuid);<br>        <span class="hljs-comment">// 这里是开源工具类 hutool里的QrCodeUtil</span><br>        <span class="hljs-comment">// 网址：http://hutool.mydoc.io/</span><br>        QrCodeUtil.generate(uuid, <span class="hljs-number">300</span>, <span class="hljs-number">300</span>, <span class="hljs-string">&quot;jpg&quot;</span>,response.getOutputStream());<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>有了获取二维码的接口。相对的前端需要调用。</p>
+<blockquote>
+<p>知识点：动态加载图片流并取出header中的参数</p>
+</blockquote>
+<p>这里使用了xmlhttp进行处理。</p>
+<p><strong>为什么？</strong></p>
+<p>因为后端返回的是一个流。那么流中。就是放置了二维码中的uuid。这个uuid作为一次会话的标识符使用。那么前端也需要拿到。跟后端进行webSocket链接。</p>
+<p>这样有人扫码后。服务端才可以使用webSocket的方式通知前端。有人扫码成功了。你做你的业务吧。酱紫。</p>
+<p>所以为了拿到请求中 header中放置的uuid 所以这样通过xmlhttp进行处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;qrCodeImg-box&quot;</span> id=<span class="hljs-string">&quot;qrImgDiv&quot;</span>&gt;&lt;/div&gt;<br>js<br><br>$(<span class="hljs-built_in">document</span>).ready(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>    initQrImg();<br>&#125;);<br> <br> <br> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initQrImg</span>(<span class="hljs-params"></span>)</span>&#123;<br>    $(<span class="hljs-string">&quot;#qrImgDiv&quot;</span>).empty();<br><br>    <span class="hljs-keyword">var</span> xmlhttp;<br>    xmlhttp=<span class="hljs-keyword">new</span> XMLHttpRequest();<br>    xmlhttp.open(<span class="hljs-string">&quot;GET&quot;</span>,getQrPath,<span class="hljs-literal">true</span>);<br>    xmlhttp.responseType = <span class="hljs-string">&quot;blob&quot;</span>;<br>    xmlhttp.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">this</span>);<br>        uuid = <span class="hljs-built_in">this</span>.getResponseHeader(<span class="hljs-string">&quot;uuid&quot;</span>);<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.status == <span class="hljs-number">200</span>) &#123;<br>            <span class="hljs-keyword">var</span> blob = <span class="hljs-built_in">this</span>.response;<br>            <span class="hljs-keyword">var</span> img = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&quot;img&quot;</span>);<br>            img.className = <span class="hljs-string">&#x27;qrCodeBox-img&#x27;</span>;<br>            img.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>                <span class="hljs-built_in">window</span>.URL.revokeObjectURL(img.src);<br>            &#125;;<br>            img.src = <span class="hljs-built_in">window</span>.URL.createObjectURL(blob);<br>            <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;qrImgDiv&quot;</span>).appendChild(img);<br><br>            initWebSocket();<br>        &#125;<br>    &#125;<br>    xmlhttp.send();<br>&#125;<br><br><br><br><span class="hljs-keyword">var</span> path = <span class="hljs-string">&quot;://localhost:8085&quot;</span>;<br><span class="hljs-keyword">var</span> getQrPath = <span class="hljs-string">&quot;http&quot;</span> + path + <span class="hljs-string">&quot;/user/getLoginQr&quot;</span>;<br><span class="hljs-keyword">var</span> wsPath = <span class="hljs-string">&quot;ws&quot;</span> + path + <span class="hljs-string">&quot;/websocket/&quot;</span>;<br><br><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initWebSocket</span>(<span class="hljs-params"></span>)</span>&#123;<br><br>   <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span>(WebSocket) == <span class="hljs-string">&quot;undefined&quot;</span>) &#123;<br>       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;您的浏览器不支持WebSocket&quot;</span>);<br>   &#125;<span class="hljs-keyword">else</span>&#123;<br>       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;您的浏览器支持WebSocket&quot;</span>);<br>       <span class="hljs-comment">//实现化WebSocket对象，指定要连接的服务器地址与端口 建立连接</span><br>       <span class="hljs-comment">//等同于socket = new WebSocket(&quot;ws://localhost:8083/checkcentersys/websocket/20&quot;);</span><br>       <span class="hljs-keyword">var</span> wsPathStr = wsPath+uuid;<br>       socket = <span class="hljs-keyword">new</span> WebSocket(wsPathStr);<br>       <span class="hljs-comment">//打开事件</span><br>       socket.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Socket 已打开&quot;</span>);<br>           <span class="hljs-comment">//socket.send(&quot;这是来自客户端的消息&quot; + location.href + new Date());</span><br>       &#125;;<br>       <span class="hljs-comment">//获得消息事件</span><br>       socket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">msg</span>) </span>&#123;<br>           <span class="hljs-built_in">console</span>.log(msg.data);<br>           <span class="hljs-keyword">var</span> data = <span class="hljs-built_in">JSON</span>.parse(msg.data);<br>           <span class="hljs-keyword">if</span>(data.code == <span class="hljs-number">200</span>)&#123;<br>               alert(<span class="hljs-string">&quot;登录成功！&quot;</span>);<br>               <span class="hljs-comment">//这里存放自己业务需要的数据。怎么放自己看</span><br>               <span class="hljs-built_in">window</span>.sessionStorage.uuid = uuid;<br>               <span class="hljs-built_in">window</span>.sessionStorage.userId = data.userId;<br>               <span class="hljs-built_in">window</span>.sessionStorage.projId = data.projId;<br><br>               <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">&quot;pages/upload.html&quot;</span><br>           &#125;<span class="hljs-keyword">else</span>&#123;<br>               <span class="hljs-comment">//如果过期了，关闭连接、重置连接、刷新二维码</span><br>               socket.close();<br>               initQrImg();<br>           &#125;<br>           <span class="hljs-comment">//发现消息进入 开始处理前端触发逻辑</span><br>       &#125;;<br>       <span class="hljs-comment">//关闭事件</span><br>       socket.onclose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>           <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Socket已关闭&quot;</span>);<br>       &#125;;<br>       <span class="hljs-comment">//发生了错误事件</span><br>       socket.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>           alert(<span class="hljs-string">&quot;Socket发生了错误&quot;</span>);<br>           <span class="hljs-comment">//此时可以尝试刷新页面</span><br>       &#125;<br>   &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>好了。上面已经提到了前端如何配置 webSocket。</p>
+<h3 id="Spring-Boot-中操作-WebSocket"><a href="#Spring-Boot-中操作-WebSocket" class="headerlink" title="Spring Boot 中操作 WebSocket"></a>Spring Boot 中操作 WebSocket</h3><p>1、增加pom.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-websocket<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>2、增加一个Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * WebSocket的支持</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> ServerEndpointExporter <span class="hljs-title">serverEndpointExporter</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ServerEndpointExporter();<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>3、定义WebSocketServer</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.stylefeng.guns.rest.modular.inve.websocket;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Created by jiangjiacheng on 2019/6/4.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.util.concurrent.CopyOnWriteArraySet;<br> <br><span class="hljs-keyword">import</span> javax.websocket.OnClose;<br><span class="hljs-keyword">import</span> javax.websocket.OnError;<br><span class="hljs-keyword">import</span> javax.websocket.OnMessage;<br><span class="hljs-keyword">import</span> javax.websocket.OnOpen;<br><span class="hljs-keyword">import</span> javax.websocket.Session;<br><span class="hljs-keyword">import</span> javax.websocket.server.PathParam;<br><span class="hljs-keyword">import</span> javax.websocket.server.ServerEndpoint;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-keyword">import</span> cn.hutool.log.Log;<br><span class="hljs-keyword">import</span> cn.hutool.log.LogFactory;<br> <br><span class="hljs-meta">@ServerEndpoint(&quot;/websocket/&#123;sid&#125;&quot;)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebSocketServer</span> </span>&#123;<br> <br>    <span class="hljs-keyword">static</span> Log log=LogFactory.get(WebSocketServer.class);<br> <br>    <span class="hljs-comment">//静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> onlineCount = <span class="hljs-number">0</span>;<br> <br>    <span class="hljs-comment">//concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> CopyOnWriteArraySet&lt;WebSocketServer&gt; webSocketSet = <span class="hljs-keyword">new</span> CopyOnWriteArraySet&lt;WebSocketServer&gt;();<br> <br>    <span class="hljs-comment">//与某个客户端的连接会话，需要通过它来给客户端发送数据</span><br>    <span class="hljs-keyword">private</span> Session session;<br> <br>    <span class="hljs-comment">//接收sid</span><br>    <span class="hljs-keyword">private</span> String sid=<span class="hljs-string">&quot;&quot;</span>;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 连接建立成功调用的方法*/</span><br>    <span class="hljs-meta">@OnOpen</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onOpen</span><span class="hljs-params">(Session session,<span class="hljs-meta">@PathParam(&quot;sid&quot;)</span> String sid)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.session = session;<br>        webSocketSet.add(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//加入set中</span><br>        addOnlineCount(); <span class="hljs-comment">//在线数加1</span><br>        log.info(<span class="hljs-string">&quot;有新窗口开始监听:&quot;</span>+sid+<span class="hljs-string">&quot;,当前在线人数为&quot;</span> + getOnlineCount());<br>        <span class="hljs-keyword">this</span>.sid=sid;<br>        <span class="hljs-comment">/*try &#123;</span><br><span class="hljs-comment">            sendMessage(&quot;连接成功&quot;);</span><br><span class="hljs-comment">        &#125; catch (IOException e) &#123;</span><br><span class="hljs-comment">            log.error(&quot;websocket IO异常&quot;);</span><br><span class="hljs-comment">        &#125;*/</span><br>    &#125;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 连接关闭调用的方法</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@OnClose</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClose</span><span class="hljs-params">()</span> </span>&#123;<br>        webSocketSet.remove(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//从set中删除</span><br>        subOnlineCount(); <span class="hljs-comment">//在线数减1</span><br>        log.info(<span class="hljs-string">&quot;有一连接关闭！当前在线人数为&quot;</span> + getOnlineCount());<br>    &#125;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 收到客户端消息后调用的方法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message 客户端发送过来的消息*/</span><br>    <span class="hljs-meta">@OnMessage</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMessage</span><span class="hljs-params">(String message, Session session)</span> </span>&#123;<br>        log.info(<span class="hljs-string">&quot;收到来自窗口&quot;</span>+sid+<span class="hljs-string">&quot;的信息:&quot;</span>+message);<br>        <span class="hljs-comment">//群发消息</span><br>        <span class="hljs-keyword">for</span> (WebSocketServer item : webSocketSet) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                item.sendMessage(message);<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> error</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@OnError</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Session session, Throwable error)</span> </span>&#123;<br>        log.error(<span class="hljs-string">&quot;发生错误&quot;</span>);<br>        error.printStackTrace();<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 实现服务器主动推送</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(String message)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        <span class="hljs-keyword">this</span>.session.getBasicRemote().sendText(message);<br>    &#125;<br> <br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 群发自定义消息</span><br><span class="hljs-comment">     * */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendInfo</span><span class="hljs-params">(String message,<span class="hljs-meta">@PathParam(&quot;sid&quot;)</span> String sid)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        log.info(<span class="hljs-string">&quot;推送消息到窗口&quot;</span>+sid+<span class="hljs-string">&quot;，推送内容:&quot;</span>+message);<br>        <span class="hljs-keyword">for</span> (WebSocketServer item : webSocketSet) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">//这里可以设定只推送给这个sid的，为null则全部推送</span><br>                <span class="hljs-keyword">if</span>(sid == <span class="hljs-keyword">null</span>) &#123;<br>                    item.sendMessage(message);<br>                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(item.sid.equals(sid))&#123;<br>                    item.sendMessage(message);<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br> <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getOnlineCount</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> onlineCount;<br>    &#125;<br> <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addOnlineCount</span><span class="hljs-params">()</span> </span>&#123;<br>        WebSocketServer.onlineCount++;<br>    &#125;<br> <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subOnlineCount</span><span class="hljs-params">()</span> </span>&#123;<br>        WebSocketServer.onlineCount--;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>这样就增加了webSocket的支持啦。</p>
+<p>1、首先PC端调用接口展示出来了二维码。</p>
+<p>2、请求二维码中的http请求。就有uuid在 header中。直接取到uuid 作为webSocket的标识sid进行连接。</p>
+<p>3、然后手机端使用相机拿到二维码中的uuid。使用uuid + userid 请求 扫码成功接口。</p>
+<p>贴扫码成功接口</p>
+<p>Controller代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 确认身份接口：确定身份以及判断是否二维码过期等</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> token</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> userId</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@RequestMapping(value = &quot;/bindUserIdAndToken&quot; ,method = RequestMethod.GET)</span><br><span class="hljs-meta">@ResponseBody</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">bindUserIdAndToken</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;token&quot;)</span> String token ,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 <span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Integer userId,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 <span class="hljs-meta">@RequestParam(required = false,value = &quot;projId&quot;)</span> Integer projId)</span></span>&#123;<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SuccessTip(userService.bindUserIdAndToken(userId,token,projId));<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ErrorTip(<span class="hljs-number">500</span>,e.getMessage());<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>Service代码</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">bindUserIdAndToken</span><span class="hljs-params">(Integer userId, String token,Integer projId)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><br>    QrLoginToken qrLoginToken = <span class="hljs-keyword">new</span> QrLoginToken();<br>    qrLoginToken.setToken(token);<br>    qrLoginToken = qrLoginTokenMapper.selectOne(qrLoginToken);<br><br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span> == qrLoginToken)&#123;<br>        <span class="hljs-keyword">throw</span>  <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;错误的请求！&quot;</span>);<br>    &#125;<br><br>    Date createDate = <span class="hljs-keyword">new</span> Date(qrLoginToken.getCreateTime().getTime() + (<span class="hljs-number">1000</span> * <span class="hljs-number">60</span> * Constant.LOGIN_VALIDATION_TIME));<br>    Date nowDate = <span class="hljs-keyword">new</span> Date();<br>    <span class="hljs-keyword">if</span>(nowDate.getTime() &gt; createDate.getTime())&#123;<span class="hljs-comment">//当前时间大于校验时间</span><br><br>        JSONObject jsonObject = <span class="hljs-keyword">new</span> JSONObject();<br>        jsonObject.put(<span class="hljs-string">&quot;code&quot;</span>,<span class="hljs-number">500</span>);<br>        jsonObject.put(<span class="hljs-string">&quot;msg&quot;</span>,<span class="hljs-string">&quot;二维码失效！&quot;</span>);<br>        WebSocketServer.sendInfo(jsonObject.toJSONString(),token);<br><br>        <span class="hljs-keyword">throw</span>  <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;二维码失效！&quot;</span>);<br>    &#125;<br><br>    qrLoginToken.setLoginTime(<span class="hljs-keyword">new</span> Date());<br>    qrLoginToken.setUserId(userId);<br><br>    <span class="hljs-keyword">int</span> i = qrLoginTokenMapper.updateById(qrLoginToken);<br><br>    JSONObject jsonObject = <span class="hljs-keyword">new</span> JSONObject();<br>    jsonObject.put(<span class="hljs-string">&quot;code&quot;</span>,<span class="hljs-number">200</span>);<br>    jsonObject.put(<span class="hljs-string">&quot;msg&quot;</span>,<span class="hljs-string">&quot;ok&quot;</span>);<br>    jsonObject.put(<span class="hljs-string">&quot;userId&quot;</span>,userId);<br>    <span class="hljs-keyword">if</span>(ToolUtil.isNotEmpty(projId))&#123;<br>        jsonObject.put(<span class="hljs-string">&quot;projId&quot;</span>,projId);<br>    &#125;<br>    WebSocketServer.sendInfo(jsonObject.toJSONString(),token);<br><br>    <span class="hljs-keyword">if</span>(i &gt; <span class="hljs-number">0</span> )&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">throw</span>  <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot;服务器异常！&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>逻辑大概就是判断一下 token对不对。如果对的话。时间是否过期。如果没有过期进行业务逻辑操作</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//这句话比较关键</span><br>WebSocketServer.sendInfo(jsonObject.toJSONString(),token);<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>就是通知前端已经登录成功了。并且给他业务所需要的内容。然后前端代码接收到了。就进行业务逻辑操作就可以啦。</p>
+<p>作者 | 93年颈椎病人</p>
+<p>来源 | <a target="_blank" rel="noopener" href="https://blog.csdn.net/q826qq1878/article/details/91041679">https://blog.csdn.net/q826qq1878/article/details/91041679</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20Boot%20%E9%A1%B9%E7%9B%AE%E4%BC%98%E5%8C%96%E5%92%8C%20JVM%20%E8%B0%83%E4%BC%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring Boot 项目优化和 JVM 调优</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20Boot%20%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%8B%A6%E6%88%AA%E5%99%A8/">
+                        <span class="hidden-mobile">Spring Boot 实现登录拦截器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

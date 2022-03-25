@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Netty：Java 领域网络编程的王者  一、简介1. 课程背景分布式系统的根基在于网络编程，而 Netty 是 Java 领域网络编程的王者。 2. 课程内容 第一部分 NIO 编程，三大组件 第二部分 Netty 入门学习，EventLoop、Channel、Future、Pipeline、Handler、ByteBuf 第三部分 Netty 进阶学习，粘包半包的解决方法、协议的设计、序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty：Java 领域网络编程的王者">
+<meta property="og:url" content="http://example.com/2022/03/25/Netty%EF%BC%9AJava%20%E9%A2%86%E5%9F%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8E%8B%E8%80%85/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Netty：Java 领域网络编程的王者  一、简介1. 课程背景分布式系统的根基在于网络编程，而 Netty 是 Java 领域网络编程的王者。 2. 课程内容 第一部分 NIO 编程，三大组件 第二部分 Netty 入门学习，EventLoop、Channel、Future、Pipeline、Handler、ByteBuf 第三部分 Netty 进阶学习，粘包半包的解决方法、协议的设计、序列化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201480.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201815.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201876.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142203778.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142203752.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204723.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204962.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204341.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142207654.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142207662.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.700Z">
+<meta property="article:modified_time" content="2022-03-25T12:34:35.960Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Netty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201480.webp">
+  
+  <title>Netty：Java 领域网络编程的王者 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Netty：Java 领域网络编程的王者">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      22k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      69 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Netty：Java 领域网络编程的王者</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Netty：Java 领域网络编程的王者</h2></center>
+
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><h3 id="1-课程背景"><a href="#1-课程背景" class="headerlink" title="1. 课程背景"></a>1. 课程背景</h3><p>分布式系统的根基在于网络编程，而 Netty 是 Java 领域网络编程的王者。</p>
+<h3 id="2-课程内容"><a href="#2-课程内容" class="headerlink" title="2. 课程内容"></a>2. 课程内容</h3><ul>
+<li>第一部分 NIO 编程，三大组件</li>
+<li>第二部分 Netty 入门学习，EventLoop、Channel、Future、Pipeline、Handler、ByteBuf</li>
+<li>第三部分 Netty 进阶学习，粘包半包的解决方法、协议的设计、序列化知识</li>
+<li>第四部分 Netty 常见参数的学习及优化</li>
+<li>第五部分 源码</li>
+</ul>
+<h2 id="二、NIO-基础"><a href="#二、NIO-基础" class="headerlink" title="二、NIO 基础"></a>二、NIO 基础</h2><p>non Blocking IO 非阻塞 IO</p>
+<h3 id="1-三大组件"><a href="#1-三大组件" class="headerlink" title="1. 三大组件"></a>1. 三大组件</h3><h4 id="1-1-Channel-amp-Buffer"><a href="#1-1-Channel-amp-Buffer" class="headerlink" title="1.1 Channel &amp; Buffer"></a>1.1 Channel &amp; Buffer</h4><p>channel 有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer，也可以将 buffer 的数据写入 channel，而之前的 stream 要么是写入，要么是输出。</p>
+<p>常见的 Channel 有：</p>
+<ul>
+<li>FileChannel</li>
+<li>DatagramChannel</li>
+<li>SocketChannel</li>
+<li>ServerSocketChannel</li>
+</ul>
+<p>buffer 则用来缓冲读写数据，常见的 buffer 有：</p>
+<ul>
+<li><p>ByteBuffer</p>
+</li>
+<li><ul>
+<li>MappedByteBuffer</li>
+<li>DirectByteBuffer</li>
+<li>HeapByteBuffer</li>
+</ul>
+</li>
+<li><p>Short/Int/Long/Float/Double/Char Buffer</p>
+</li>
+</ul>
+<h4 id="1-2-Selector"><a href="#1-2-Selector" class="headerlink" title="1.2 Selector"></a>1.2 Selector</h4><p><strong>使用多线程技术</strong></p>
+<p>为每个连接分别开辟一个线程，分别去处理对应的 socket 连接</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201480.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>:exclamation: 多线程缺点</p>
+<ul>
+<li>内存占用高</li>
+<li>线程上下文切换成本高</li>
+<li>只适合连接数较少的场景</li>
+</ul>
+<p><strong>使用线程池技术</strong></p>
+<p>使用线程池，让线程池中的线程去处理连接</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201815.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这种方式存在以下几个问题：</p>
+<ul>
+<li>阻塞模式下，线程仅能处理一个连接</li>
+<li>仅适合短连接场景</li>
+</ul>
+<p><strong>使用 Selector</strong></p>
+<p>selector 的作用就是配合一个线程来管理多个 channel（fileChannel 因为是阻塞式的，所以无法使用 selector），获取这些 channel 上发生的事件，这些 channel  工作在非阻塞模式下，当一个 channel 中没有执行任务时，可以去执行其他 channel 中的任务。适合连接数多，但流量较少的场景。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201876.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>若事件未就绪，调用 selector 的 select() 方法会阻塞线程，直到 channel 发生了就绪事件。这些事件就绪后，select 方法就会返回这些事件交给 thread 来处理。</p>
+<h3 id="2-ByteBuffer"><a href="#2-ByteBuffer" class="headerlink" title="2.ByteBuffer"></a><strong>2.ByteBuffer</strong></h3><p><strong>使用案例</strong></p>
+<p>有一普通文本文件 data.txt 内容为</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-number">1234567890</span><span class="hljs-keyword">abc</span><br></code></pre></div></td></tr></table></figure>
+
+<p>使用 FileChannel 来读取文件内容</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestByteBuffer</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">// FileChannel</span><br>        <span class="hljs-comment">// 1.输入输出流 2.RandomAccessFile</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            FileChannel fileChannel = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;data.txt&quot;</span>).getChannel();<br>            <span class="hljs-comment">// 准备缓冲区</span><br>            ByteBuffer buf = ByteBuffer.allocate(<span class="hljs-number">10</span>);<br>            <span class="hljs-comment">// 从 Channel 中读取数据，向 Buffer 写入</span><br>            <span class="hljs-keyword">int</span> len;<br>            <span class="hljs-keyword">while</span> ((len = fileChannel.read(buf)) != -<span class="hljs-number">1</span>) &#123;<br>                log.info(<span class="hljs-string">&quot;读取到的字节：&#123;&#125;&quot;</span>, len);<br>                buf.flip(); <span class="hljs-comment">// 切换至读模式</span><br>                log.debug(<span class="hljs-string">&quot;输出内容为：&#123;&#125;&quot;</span>, <span class="hljs-keyword">new</span> String(buf.array(), <span class="hljs-number">0</span>, len));<br><span class="hljs-comment">//                while (buf.hasRemaining()) &#123; // 是否还剩余数据</span><br><span class="hljs-comment">//                    byte b = buf.get();</span><br><span class="hljs-comment">//                    log.debug(&quot;输出内容为：&#123;&#125;&quot;, (char) b);</span><br><span class="hljs-comment">//                &#125;</span><br>                <span class="hljs-comment">// 切换为写模式</span><br>                buf.clear();<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-1-ByteBuffer-使用步骤"><a href="#2-1-ByteBuffer-使用步骤" class="headerlink" title="2.1 ByteBuffer 使用步骤"></a>2.1 ByteBuffer 使用步骤</h4><ol>
+<li>向 buffer 写入数据，e.g. 调用 <code>channel.read(buf)</code></li>
+<li>调用 <code>flip()</code> 切换至读模式</li>
+<li>向 buffer 读取数据，e.g. 调用 <code>buf.get()</code></li>
+<li>调用 <code>clear()</code> 或 <code>compact()</code> 切换至写模式</li>
+<li>重复 1~4 步骤</li>
+</ol>
+<p><strong>核心属性</strong></p>
+<p>字节缓冲区的父类 Buffer 中有几个核心属性，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// Invariants: mark &lt;= position &lt;= limit &lt;= capacity</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mark = -<span class="hljs-number">1</span>;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> position = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> limit;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> capacity;<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li><code>capacity</code>：缓冲区的容量。通过构造函数赋予，一旦设置，无法更改。</li>
+<li><code>limit</code>：缓冲区的界限。位于 limit 后的数据不可读写。缓冲的限制不能为负，并且不能大于其容量。</li>
+<li><code>position</code>：下一个读写位置的索引（类似 PC）。缓冲区的位置不能为负，并且不能大于 limit。</li>
+<li><code>mark</code>：记录当前 position 的值。position 被改变后，可以通过调用 <code>reset()</code> 方法恢复到 mark 的位置。</li>
+</ul>
+<p><strong>核心方法：</strong></p>
+<p><code>put()</code> 方法</p>
+<ul>
+<li>put() 方法可以将一个数据放入缓冲区</li>
+<li>进行该操作后，position 的值会 +1，指向下一个可以放入的位置。capacity = limit。</li>
+</ul>
+<p><code>flip()</code> 方法</p>
+<ul>
+<li><p>flip() 方法会切换对缓冲区的操作模式，由写 -&gt; 读 / 读 -&gt; 写</p>
+</li>
+<li><p>进行该操作后</p>
+</li>
+<li><ul>
+<li>如果是 写模式 -&gt; 读模式，position = 0，limit 指向最后一个元素的下一个位置，capacity 不变</li>
+<li>如果是读 -&gt; 写，则恢复为 put() 方法中的值</li>
+</ul>
+</li>
+</ul>
+<p><code>get()</code>方法</p>
+<ul>
+<li><code>get()</code> 方法会读取缓冲区中的一个值</li>
+<li>进行该操作后，position 会 +1，如果超过了 limit 则会抛出异常</li>
+<li>注意：<code>get(i)</code>方法不会改变 position 的值</li>
+</ul>
+<p><code>rewind()</code> 方法</p>
+<ul>
+<li>该方法只能在读写模式下使用</li>
+<li><code>rewind()</code> 方法后，会恢复 position、limit 和 capacity 的值，变为进行 get() 前的值</li>
+</ul>
+<p><code>clean()</code> 方法</p>
+<ul>
+<li>clean() 方法会将缓冲区中的各个属性恢复为最初的状态，position = 0，capacity = limit</li>
+<li>此时，缓冲区的数据依然存在，处于“被遗忘”状态，下次进行写操作时会覆盖这些数据</li>
+</ul>
+<p><code>mark()</code>和<code>reset()</code>方法</p>
+<ul>
+<li>mark() 方法会将 position 的值保存到 mark 属性中</li>
+<li>reset() 方法会将 position 的值改为 mark 中保存的值</li>
+</ul>
+<p><code>compact()</code> 方法</p>
+<p>此方法为 ByteBuffer 的方法，而不是 Buffer 的方法</p>
+<ul>
+<li>compact() 会把未读完的数据向前压缩，然后切换到写模式</li>
+<li>数据前移后，原位置的值并未清零，写时会覆盖之前的值</li>
+</ul>
+<h4 id="2-2-ByteBuffer-结构"><a href="#2-2-ByteBuffer-结构" class="headerlink" title="2.2 ByteBuffer 结构"></a>2.2 ByteBuffer 结构</h4><p>ByteBuffer 有以下重要属性</p>
+<ul>
+<li>capacity</li>
+<li>position</li>
+<li>limit</li>
+</ul>
+<p>刚开始</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142203778.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>0021</p>
+<p>写模式下，position 是写入位置，limit 等于容量，下图表示写入了 4 个字节后的状态。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142203752.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>0018</p>
+<p>flip 动作发生后，position 切换为读取位置，limit 切换为读取限制。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204723.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>读取 4 个 byte 后，状态：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204962.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>clear 动作发生后，状态变为一开始。</p>
+<p>compact() 方法，是把未读完的部分向前压缩，然后切换至写模式。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142204341.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>💡 调试工具类</strong></p>
+<p>导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.netty<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>netty-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.1.51.Final<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ByteBufferUtil</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">char</span>[] BYTE2CHAR = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">256</span>];<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">char</span>[] HEXDUMP_TABLE = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">256</span> * <span class="hljs-number">4</span>];<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String[] HEXPADDING = <span class="hljs-keyword">new</span> String[<span class="hljs-number">16</span>];<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String[] HEXDUMP_ROWPREFIXES = <span class="hljs-keyword">new</span> String[<span class="hljs-number">65536</span> &gt;&gt;&gt; <span class="hljs-number">4</span>];<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String[] BYTE2HEX = <span class="hljs-keyword">new</span> String[<span class="hljs-number">256</span>];<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String[] BYTEPADDING = <span class="hljs-keyword">new</span> String[<span class="hljs-number">16</span>];<br><br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">char</span>[] DIGITS = <span class="hljs-string">&quot;0123456789abcdef&quot;</span>.toCharArray();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) &#123;<br>            HEXDUMP_TABLE[i &lt;&lt; <span class="hljs-number">1</span>] = DIGITS[i &gt;&gt;&gt; <span class="hljs-number">4</span> &amp; <span class="hljs-number">0x0F</span>];<br>            HEXDUMP_TABLE[(i &lt;&lt; <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>] = DIGITS[i &amp; <span class="hljs-number">0x0F</span>];<br>        &#125;<br><br>        <span class="hljs-keyword">int</span> i;<br><br>        <span class="hljs-comment">// Generate the lookup table for hex dump paddings</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; HEXPADDING.length; i++) &#123;<br>            <span class="hljs-keyword">int</span> padding = HEXPADDING.length - i;<br>            StringBuilder buf = <span class="hljs-keyword">new</span> StringBuilder(padding * <span class="hljs-number">3</span>);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; padding; j++) &#123;<br>                buf.append(<span class="hljs-string">&quot;   &quot;</span>);<br>            &#125;<br>            HEXPADDING[i] = buf.toString();<br>        &#125;<br><br>        <span class="hljs-comment">// Generate the lookup table for the start-offset header in each row (up to 64KiB).</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; HEXDUMP_ROWPREFIXES.length; i++) &#123;<br>            StringBuilder buf = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">12</span>);<br>            buf.append(NEWLINE);<br>            buf.append(Long.toHexString(i &lt;&lt; <span class="hljs-number">4</span> &amp; <span class="hljs-number">0xFFFFFFFFL</span> | <span class="hljs-number">0x100000000L</span>));<br>            buf.setCharAt(buf.length() - <span class="hljs-number">9</span>, <span class="hljs-string">&#x27;|&#x27;</span>);<br>            buf.append(<span class="hljs-string">&#x27;|&#x27;</span>);<br>            HEXDUMP_ROWPREFIXES[i] = buf.toString();<br>        &#125;<br><br>        <span class="hljs-comment">// Generate the lookup table for byte-to-hex-dump conversion</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; BYTE2HEX.length; i++) &#123;<br>            BYTE2HEX[i] = <span class="hljs-string">&#x27; &#x27;</span> + StringUtil.byteToHexStringPadded(i);<br>        &#125;<br><br>        <span class="hljs-comment">// Generate the lookup table for byte dump paddings</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; BYTEPADDING.length; i++) &#123;<br>            <span class="hljs-keyword">int</span> padding = BYTEPADDING.length - i;<br>            StringBuilder buf = <span class="hljs-keyword">new</span> StringBuilder(padding);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; padding; j++) &#123;<br>                buf.append(<span class="hljs-string">&#x27; &#x27;</span>);<br>            &#125;<br>            BYTEPADDING[i] = buf.toString();<br>        &#125;<br><br>        <span class="hljs-comment">// Generate the lookup table for byte-to-char conversion</span><br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; BYTE2CHAR.length; i++) &#123;<br>            <span class="hljs-keyword">if</span> (i &lt;= <span class="hljs-number">0x1f</span> || i &gt;= <span class="hljs-number">0x7f</span>) &#123;<br>                BYTE2CHAR[i] = <span class="hljs-string">&#x27;.&#x27;</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                BYTE2CHAR[i] = (<span class="hljs-keyword">char</span>) i;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 打印所有内容</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> buffer</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debugAll</span><span class="hljs-params">(ByteBuffer buffer)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> oldlimit = buffer.limit();<br>        buffer.limit(buffer.capacity());<br>        StringBuilder origin = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">256</span>);<br>        appendPrettyHexDump(origin, buffer, <span class="hljs-number">0</span>, buffer.capacity());<br>        System.out.println(<span class="hljs-string">&quot;+--------+-------------------- all ------------------------+----------------+&quot;</span>);<br>        System.out.printf(<span class="hljs-string">&quot;position: [%d], limit: [%d]\n&quot;</span>, buffer.position(), oldlimit);<br>        System.out.println(origin);<br>        buffer.limit(oldlimit);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 打印可读取内容</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> buffer</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debugRead</span><span class="hljs-params">(ByteBuffer buffer)</span> </span>&#123;<br>        StringBuilder builder = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">256</span>);<br>        appendPrettyHexDump(builder, buffer, buffer.position(), buffer.limit() - buffer.position());<br>        System.out.println(<span class="hljs-string">&quot;+--------+-------------------- read -----------------------+----------------+&quot;</span>);<br>        System.out.printf(<span class="hljs-string">&quot;position: [%d], limit: [%d]\n&quot;</span>, buffer.position(), buffer.limit());<br>        System.out.println(builder);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">appendPrettyHexDump</span><span class="hljs-params">(StringBuilder dump, ByteBuffer buf, <span class="hljs-keyword">int</span> offset, <span class="hljs-keyword">int</span> length)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (isOutOfBounds(offset, length, buf.capacity())) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(<br>                    <span class="hljs-string">&quot;expected: &quot;</span> + <span class="hljs-string">&quot;0 &lt;= offset(&quot;</span> + offset + <span class="hljs-string">&quot;) &lt;= offset + length(&quot;</span> + length<br>                            + <span class="hljs-string">&quot;) &lt;= &quot;</span> + <span class="hljs-string">&quot;buf.capacity(&quot;</span> + buf.capacity() + <span class="hljs-string">&#x27;)&#x27;</span>);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (length == <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        dump.append(<br>                <span class="hljs-string">&quot;         +-------------------------------------------------+&quot;</span> +<br>                        NEWLINE + <span class="hljs-string">&quot;         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |&quot;</span> +<br>                        NEWLINE + <span class="hljs-string">&quot;+--------+-------------------------------------------------+----------------+&quot;</span>);<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> startIndex = offset;<br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> fullRows = length &gt;&gt;&gt; <span class="hljs-number">4</span>;<br>        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> remainder = length &amp; <span class="hljs-number">0xF</span>;<br><br>        <span class="hljs-comment">// Dump the rows which have 16 bytes.</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> row = <span class="hljs-number">0</span>; row &lt; fullRows; row++) &#123;<br>            <span class="hljs-keyword">int</span> rowStartIndex = (row &lt;&lt; <span class="hljs-number">4</span>) + startIndex;<br><br>            <span class="hljs-comment">// Per-row prefix.</span><br>            appendHexDumpRowPrefix(dump, row, rowStartIndex);<br><br>            <span class="hljs-comment">// Hex dump</span><br>            <span class="hljs-keyword">int</span> rowEndIndex = rowStartIndex + <span class="hljs-number">16</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = rowStartIndex; j &lt; rowEndIndex; j++) &#123;<br>                dump.append(BYTE2HEX[getUnsignedByte(buf, j)]);<br>            &#125;<br>            dump.append(<span class="hljs-string">&quot; |&quot;</span>);<br><br>            <span class="hljs-comment">// ASCII dump</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = rowStartIndex; j &lt; rowEndIndex; j++) &#123;<br>                dump.append(BYTE2CHAR[getUnsignedByte(buf, j)]);<br>            &#125;<br>            dump.append(<span class="hljs-string">&#x27;|&#x27;</span>);<br>        &#125;<br><br>        <span class="hljs-comment">// Dump the last row which has less than 16 bytes.</span><br>        <span class="hljs-keyword">if</span> (remainder != <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-keyword">int</span> rowStartIndex = (fullRows &lt;&lt; <span class="hljs-number">4</span>) + startIndex;<br>            appendHexDumpRowPrefix(dump, fullRows, rowStartIndex);<br><br>            <span class="hljs-comment">// Hex dump</span><br>            <span class="hljs-keyword">int</span> rowEndIndex = rowStartIndex + remainder;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = rowStartIndex; j &lt; rowEndIndex; j++) &#123;<br>                dump.append(BYTE2HEX[getUnsignedByte(buf, j)]);<br>            &#125;<br>            dump.append(HEXPADDING[remainder]);<br>            dump.append(<span class="hljs-string">&quot; |&quot;</span>);<br><br>            <span class="hljs-comment">// Ascii dump</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = rowStartIndex; j &lt; rowEndIndex; j++) &#123;<br>                dump.append(BYTE2CHAR[getUnsignedByte(buf, j)]);<br>            &#125;<br>            dump.append(BYTEPADDING[remainder]);<br>            dump.append(<span class="hljs-string">&#x27;|&#x27;</span>);<br>        &#125;<br><br>        dump.append(NEWLINE +<br>                <span class="hljs-string">&quot;+--------+-------------------------------------------------+----------------+&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">appendHexDumpRowPrefix</span><span class="hljs-params">(StringBuilder dump, <span class="hljs-keyword">int</span> row, <span class="hljs-keyword">int</span> rowStartIndex)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (row &lt; HEXDUMP_ROWPREFIXES.length) &#123;<br>            dump.append(HEXDUMP_ROWPREFIXES[row]);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            dump.append(NEWLINE);<br>            dump.append(Long.toHexString(rowStartIndex &amp; <span class="hljs-number">0xFFFFFFFFL</span> | <span class="hljs-number">0x100000000L</span>));<br>            dump.setCharAt(dump.length() - <span class="hljs-number">9</span>, <span class="hljs-string">&#x27;|&#x27;</span>);<br>            dump.append(<span class="hljs-string">&#x27;|&#x27;</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">short</span> <span class="hljs-title">getUnsignedByte</span><span class="hljs-params">(ByteBuffer buffer, <span class="hljs-keyword">int</span> index)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">short</span>) (buffer.get(index) &amp; <span class="hljs-number">0xFF</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    ByteBuffer buffer = ByteBuffer.allocate(<span class="hljs-number">16</span>);<br>    <span class="hljs-comment">// 向 buffer 写入一个数据</span><br>    buffer.put((<span class="hljs-keyword">byte</span>) <span class="hljs-number">97</span>);<br>    debugAll(buffer);<br>    <span class="hljs-comment">// 获取数据</span><br>    buffer.flip();<br>    debugAll(buffer);<br>    System.out.println((<span class="hljs-keyword">char</span>) buffer.get());<br>    debugAll(buffer);<br>    <span class="hljs-comment">// 使用 compact() 切换模式</span><br>    buffer.compact();<br>    debugAll(buffer);<br>    <span class="hljs-comment">// 再次写入</span><br>    buffer.put((<span class="hljs-keyword">byte</span>) <span class="hljs-number">98</span>);<br>    buffer.put((<span class="hljs-keyword">byte</span>) <span class="hljs-number">99</span>);<br>    debugAll(buffer);<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">10:01:36.720 [main] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the default logging framework<br>+--------+-------------------- all ------------------------+----------------+<br>position: [1], <span class="hljs-built_in">limit</span>: [16]<br>         +-------------------------------------------------+<br>         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|00000000| 61 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |a...............|<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [0], <span class="hljs-built_in">limit</span>: [1]<br>         +-------------------------------------------------+<br>         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|00000000| 61 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |a...............|<br>+--------+-------------------------------------------------+----------------+<br>a<br>+--------+-------------------- all ------------------------+----------------+<br>position: [1], <span class="hljs-built_in">limit</span>: [1]<br>         +-------------------------------------------------+<br>         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|00000000| 61 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |a...............|<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [0], <span class="hljs-built_in">limit</span>: [16]<br>         +-------------------------------------------------+<br>         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|00000000| 61 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |a...............|<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [2], <span class="hljs-built_in">limit</span>: [16]<br>         +-------------------------------------------------+<br>         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|00000000| 62 63 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |bc..............|<br>+--------+-------------------------------------------------+----------------+<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-3-ByBuffer-常见方法"><a href="#2-3-ByBuffer-常见方法" class="headerlink" title="2.3 ByBuffer 常见方法"></a>2.3 ByBuffer 常见方法</h4><p>分配空间 allocate()</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ByteBuffer buf = ByteBuffer.allocate(<span class="hljs-number">16</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>向 buffer 写入数据</p>
+<ul>
+<li>调用 channel 的 <code>read()</code> 方法</li>
+<li>调用 buffer 的 <code>put()</code> 方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">int</span> read = channel.read(buf);<br><span class="hljs-comment">// 第二种</span><br>buf.put((<span class="hljs-keyword">byte</span>) <span class="hljs-number">97</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>从 buffer 读取数据</p>
+<ul>
+<li>调用 channel 的 <code>write()</code> 方法</li>
+<li>调用 buffer 的 <code>get()</code> 方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">int</span> writeBytes = channel.write(buf);<br><span class="hljs-keyword">byte</span> b = buf.get();<br></code></pre></div></td></tr></table></figure>
+
+<p><code>get()</code> 方法会让 position 读指针后移，如果想重复读取数据</p>
+<ul>
+<li><p>可以调用 <code>rewind()</code> 方法将 position 重置为 0.</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Buffer <span class="hljs-title">rewind</span><span class="hljs-params">()</span> </span>&#123;<br>    position = <span class="hljs-number">0</span>;<br>    mark = -<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure></li>
+<li><p>或者调用 <code>get(int i)</code> 获取索引 i 的内容，不会移动读指针。</p>
+</li>
+</ul>
+<p>mark() and reset()</p>
+<p>mark 是在读取时，做一个标记，即使 position 改变，只要调用 reset 就能够回到 mark 的位置</p>
+<blockquote>
+<p>注意：</p>
+<p>rewind() 和 flip() 都会清楚 mark 位置。</p>
+</blockquote>
+<p>字符串与 ByteBuffer 互转</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 字符串与 ByteBuffer 互转</span><br><span class="hljs-comment">// 1.还是写模式</span><br><span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-string">&quot;hello&quot;</span>.getBytes();<br>ByteBuffer buf2 = ByteBuffer.allocate(<span class="hljs-number">16</span>);<br>buf2.put(bytes);<br>debugAll(buf2);<br><span class="hljs-comment">// 2.Charset，切换到读模式</span><br>ByteBuffer buf3 = StandardCharsets.UTF_8.encode(<span class="hljs-string">&quot;hello&quot;</span>);<br>debugAll(buf3);<br><span class="hljs-comment">// 3.wrap() 方法，切换到读模式</span><br>ByteBuffer buf4 = ByteBuffer.wrap(<span class="hljs-string">&quot;hello&quot;</span>.getBytes());<br>debugAll(buf4);<br>System.out.println((<span class="hljs-keyword">char</span>) buf4.get()); <span class="hljs-comment">// h</span><br><br><span class="hljs-comment">// ByteBuffer --&gt; String</span><br>String buf2Str = StandardCharsets.UTF_8.decode(buf3).toString();<br>System.out.println(buf2Str);<br></code></pre></div></td></tr></table></figure>
+
+<p>Buffer 的线程安全</p>
+<blockquote>
+<p>Buffer 是非线程安全的。</p>
+</blockquote>
+<h4 id="2-4-Scattering-Reads"><a href="#2-4-Scattering-Reads" class="headerlink" title="2.4 Scattering Reads"></a>2.4 Scattering Reads</h4><p>分散读取，有一个文本文件</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">onttwothree</span><br></code></pre></div></td></tr></table></figure>
+
+<p>使用如下方式读取，可以将数据填充至多个 buffer</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 分散读取</span><br><span class="hljs-keyword">try</span> &#123;<br>    FileChannel channel = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">&quot;words.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>).getChannel();<br>    ByteBuffer buf1 = ByteBuffer.allocate(<span class="hljs-number">3</span>);<br>    ByteBuffer buf2 = ByteBuffer.allocate(<span class="hljs-number">3</span>);<br>    ByteBuffer buf3 = ByteBuffer.allocate(<span class="hljs-number">5</span>);<br>    channel.read(<span class="hljs-keyword">new</span> ByteBuffer[]&#123;buf1, buf2, buf3&#125;);<br>    buf1.flip();<br>    buf2.flip();<br>    buf3.flip();<br>    debugAll(buf1);<br>    debugAll(buf2);<br>    debugAll(buf3);<br>&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>    e.printStackTrace();<br>&#125;<br><span class="hljs-number">12</span>:<span class="hljs-number">58</span>:<span class="hljs-number">55.475</span> [main] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the <span class="hljs-keyword">default</span> logging framework<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">0</span>], limit: [<span class="hljs-number">3</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">6f</span> 6e <span class="hljs-number">65</span>                                        |one             |<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">0</span>], limit: [<span class="hljs-number">3</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">74</span> <span class="hljs-number">77</span> <span class="hljs-number">6f</span>                                        |two             |<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">0</span>], limit: [<span class="hljs-number">5</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">74</span> <span class="hljs-number">68</span> <span class="hljs-number">72</span> <span class="hljs-number">65</span> <span class="hljs-number">65</span>                                  |three           |<br>+--------+-------------------------------------------------+----------------+<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-5-Gathering-Writes"><a href="#2-5-Gathering-Writes" class="headerlink" title="2.5 Gathering Writes"></a>2.5 Gathering Writes</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;<br>    RandomAccessFile file = <span class="hljs-keyword">new</span> RandomAccessFile(<span class="hljs-string">&quot;words2.txt&quot;</span>, <span class="hljs-string">&quot;rw&quot;</span>);<br>    FileChannel channel = file.getChannel();<br>    ByteBuffer buf = ByteBuffer.allocate(<span class="hljs-number">4</span>);<br>    ByteBuffer buf2 = ByteBuffer.allocate(<span class="hljs-number">4</span>);<br>    channel.position(<span class="hljs-number">11</span>);<br>    buf.put(<span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[]&#123;<span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>&#125;);<br>    buf2.put(<span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[]&#123;<span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>&#125;);<br>    buf.flip();<br>    buf2.flip();<br>    debugAll(buf);<br>    debugAll(buf2);<br>    channel.write(<span class="hljs-keyword">new</span> ByteBuffer[]&#123;buf, buf2&#125;);<br>&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>    e.printStackTrace();<br>&#125;<br><span class="hljs-number">13</span>:<span class="hljs-number">05</span>:<span class="hljs-number">19.694</span> [main] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the <span class="hljs-keyword">default</span> logging framework<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">0</span>], limit: [<span class="hljs-number">4</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">66</span> <span class="hljs-number">6f</span> <span class="hljs-number">75</span> <span class="hljs-number">72</span>                                     |four            |<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">0</span>], limit: [<span class="hljs-number">4</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">66</span> <span class="hljs-number">69</span> <span class="hljs-number">76</span> <span class="hljs-number">65</span>                                     |five            |<br>+--------+-------------------------------------------------+----------------+<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-6-粘包、半包现象"><a href="#2-6-粘包、半包现象" class="headerlink" title="2.6 粘包、半包现象"></a>2.6 粘包、半包现象</h4><p>网络上有多条数据发送给服务端，数据之间使用 \n 进行分隔；但由于某种原因这些数据在接收时，被进行了重新组合，例如原始数据有 3 条为：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs taggerscript">hello, world<span class="hljs-symbol">\n</span><br>I&#x27;m zhangsan<span class="hljs-symbol">\n</span><br>How are you?<span class="hljs-symbol">\n</span><br></code></pre></div></td></tr></table></figure>
+
+<p>变成了下面的两个 ByteBuffer</p>
+<figure class="highlight livescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs livescript">hello, world<span class="hljs-string">\nI&#x27;m</span> zhangsan<span class="hljs-string">\nHo</span><br>w are you?<span class="hljs-string">\n</span><br></code></pre></div></td></tr></table></figure>
+
+<p>要求编写程序，将错乱的数据恢复成原始的 \n 分隔的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    <span class="hljs-comment">// 黏包、半包</span><br>    ByteBuffer source = ByteBuffer.allocate(<span class="hljs-number">32</span>);<br>    source.put(<span class="hljs-string">&quot;Hello, world\nI&#x27;m zhangsan\nHo&quot;</span>.getBytes());<br>    split(source);<br>    source.put(<span class="hljs-string">&quot;w are you?\n&quot;</span>.getBytes());<br>    split(source);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">split</span><span class="hljs-params">(ByteBuffer source)</span> </span>&#123;<br>    <span class="hljs-comment">// 传进来的参数是写模式，切换到读模式</span><br>    source.flip();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; source.limit(); i++) &#123;<br>        <span class="hljs-keyword">if</span> (source.get(i) == <span class="hljs-string">&#x27;\n&#x27;</span>) &#123;<br>            <span class="hljs-keyword">int</span> len = i + <span class="hljs-number">1</span> - source.position();<br>            <span class="hljs-comment">// 把这条完整的消息写入到新的 ByteBuffer</span><br>            ByteBuffer target = ByteBuffer.allocate(len);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; len; j++) &#123;<br>                target.put(source.get());<br>            &#125;<br>            debugAll(target);<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">// 切换到写模式，有些数据被拆分，所以使用 compact()</span><br>    source.compact();<br>&#125;<br><span class="hljs-number">13</span>:<span class="hljs-number">26</span>:<span class="hljs-number">33.581</span> [main] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the <span class="hljs-keyword">default</span> logging framework<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">13</span>], limit: [<span class="hljs-number">13</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">48</span> <span class="hljs-number">65</span> 6c 6c <span class="hljs-number">6f</span> 2c <span class="hljs-number">20</span> <span class="hljs-number">77</span> <span class="hljs-number">6f</span> <span class="hljs-number">72</span> 6c <span class="hljs-number">64</span> 0a          |Hello, world.   |<br>+--------+-------------------------------------------------+----------------+<br>+--------+-------------------- all ------------------------+----------------+<br>position: [<span class="hljs-number">13</span>], limit: [<span class="hljs-number">13</span>]<br>         +-------------------------------------------------+<br>         |  <span class="hljs-number">0</span>  <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>  <span class="hljs-number">9</span>  a  b  c  d  e  f |<br>+--------+-------------------------------------------------+----------------+<br>|<span class="hljs-number">00000000</span>| <span class="hljs-number">49</span> <span class="hljs-number">27</span> <span class="hljs-number">6d</span> <span class="hljs-number">20</span> 7a <span class="hljs-number">68</span> <span class="hljs-number">61</span> 6e <span class="hljs-number">67</span> <span class="hljs-number">73</span> <span class="hljs-number">61</span> 6e 0a          |I<span class="hljs-string">&#x27;m zhangsan.   |</span><br><span class="hljs-string">+--------+-------------------------------------------------+----------------+</span><br><span class="hljs-string">+--------+-------------------- all ------------------------+----------------+</span><br><span class="hljs-string">position: [13], limit: [13]</span><br><span class="hljs-string">         +-------------------------------------------------+</span><br><span class="hljs-string">         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |</span><br><span class="hljs-string">+--------+-------------------------------------------------+----------------+</span><br><span class="hljs-string">|00000000| 48 6f 77 20 61 72 65 20 79 6f 75 3f 0a          |How are you?.   |</span><br><span class="hljs-string">+--------+-------------------------------------------------+----------------+</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-文件编程"><a href="#3-文件编程" class="headerlink" title="3.文件编程"></a>3.文件编程</h3><h4 id="3-1-FileChannel"><a href="#3-1-FileChannel" class="headerlink" title="3.1 FileChannel"></a>3.1 FileChannel</h4><blockquote>
+<p>FileChannel 只能工作在阻塞模式下</p>
+</blockquote>
+<p>获取</p>
+<p>不能直接打开 FileChannel，必须通过 FileInputStream、FileOutputStream 或者 RandomAccessFile 来获取 FileChannel，它们都有 getChannel() 方法。</p>
+<ul>
+<li>通过 FileInputStream 获取的 channel 只能读</li>
+<li>通过 FileOutputStream 获取的 channel 只能写</li>
+<li>通过 RandomAccessFile 是否能读写根据构造 RandomAccessFile 时的读写模式决定。</li>
+</ul>
+<p>读取</p>
+<p>返回 -1 表示达到了文件的末尾。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">int</span> read = channel.read(buf);<br></code></pre></div></td></tr></table></figure>
+
+<p>写入</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ByteBuffer buf = ...;<br>buf.put(...); <span class="hljs-comment">// 存入数据</span><br>buf.flip(); <span class="hljs-comment">// 切换读模式</span><br><span class="hljs-keyword">while</span> (buf.hasRemaining()) &#123;<br>    channel.write(buf);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在 while 中调用 channel.write 是因为 write 方法并不能保证一次将 buffer 中的内容全部写入 channel.</p>
+<p>关闭</p>
+<p>channel 必须关闭，不过调用了 FileInputStream、FileOutputStream 或者 RandomAccessFile 的 close 方法会间接地调用 channel 的 close 方法。</p>
+<p>位置</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">long</span> pos = channel.position(); <span class="hljs-comment">// 获取当前位置</span><br><span class="hljs-keyword">long</span> newPos = ...;<br>channel.position(newPos); <span class="hljs-comment">// 设置当前位置</span><br></code></pre></div></td></tr></table></figure>
+
+<p>设置当前位置时，如果设置为文件的末尾</p>
+<ul>
+<li>这时会返回  -1</li>
+<li>这时写入，会追加内容，但是注意如果 position 超过了文件末尾，再写入时在新内容和原末尾之间会有空洞（00）。</li>
+</ul>
+<p>大小</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">channel.size(); <span class="hljs-comment">// 获取文件的大小</span><br></code></pre></div></td></tr></table></figure>
+
+<p>强制写入</p>
+<p>操作系统出于性能的考虑，会将数据缓存，不是立刻写入磁盘。可以调用 force(true)  方法将文件内容和元数据（文件的权限等信息）立刻写入磁盘.</p>
+<h4 id="3-2-两个-Channel-传输数据"><a href="#3-2-两个-Channel-传输数据" class="headerlink" title="3.2 两个 Channel 传输数据"></a><strong>3.2 两个 Channel 传输数据</strong></h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> (FileChannel from = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;data.txt&quot;</span>).getChannel();<br>         FileChannel to = <span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">&quot;to.txt&quot;</span>).getChannel();<br>        ) &#123;<br>        <span class="hljs-comment">// 效率高，底层会利用操作系统的零拷贝进行优化</span><br>        <span class="hljs-comment">// from.transferTo(0, from.size(), to);</span><br>        <span class="hljs-keyword">long</span> size = from.size();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> left = size; left &gt; <span class="hljs-number">0</span>; ) &#123;<br>            left -= from.transferTo((size - left), left, to);<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="3-3-Path"><a href="#3-3-Path" class="headerlink" title="3.3 Path"></a>3.3 Path</h4><p>jdk7 引入了 Path 和 Paths 类</p>
+<ul>
+<li>Path 用来表示文件路径</li>
+<li>Paths 是工具类，用来获取 Path 实例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Path source = Paths.get(<span class="hljs-string">&quot;1.txt&quot;</span>);<br>sout(source.normalize()); <span class="hljs-comment">// 正常化路径</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="3-4-Files"><a href="#3-4-Files" class="headerlink" title="3.4 Files"></a>3.4 Files</h4><table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Files.exists(path)</td>
+<td align="left">检查文件是否存在</td>
+</tr>
+<tr>
+<td align="left">Files.createDirectory(path)</td>
+<td align="left">创建一级目录 如果目录已存在，则抛出异常 FileAlreadyExistsException 不能一次创建多级目录，否则会抛异常 NoSuchFileException</td>
+</tr>
+<tr>
+<td align="left">Files.createDirectories(path)</td>
+<td align="left">创建多及目录</td>
+</tr>
+<tr>
+<td align="left">Files.copy(Path, Path, StandardCopyOption.REPLACE_EXISTING)</td>
+<td align="left">拷贝文件，如果文件已存在，抛异常</td>
+</tr>
+<tr>
+<td align="left">Files.move(source, target, StandardCopyOption.ATOMIC_MOVE);</td>
+<td align="left">移动文件，StandardCopyOption.ATOMIC_MOVE 保证文件移动的原子性</td>
+</tr>
+<tr>
+<td align="left">Files.delete(target)</td>
+<td align="left">删除目录，目录里面若存在内容，抛异常，DirectoryNotEmptyException</td>
+</tr>
+</tbody></table>
+<p>遍历目录文件</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>    Path path = Paths.get(<span class="hljs-string">&quot;E:\\BaiduNetdiskDownload\\Netty网络编程&quot;</span>);<br>    <span class="hljs-comment">// 文件目录总数</span><br>    AtomicInteger dirCount = <span class="hljs-keyword">new</span> AtomicInteger();<br>    <span class="hljs-comment">// 文件总数</span><br>    AtomicInteger fileCount = <span class="hljs-keyword">new</span> AtomicInteger();<br>    Files.walkFileTree(path, <span class="hljs-keyword">new</span> SimpleFileVisitor&lt;Path&gt;() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> FileVisitResult <span class="hljs-title">preVisitDirectory</span><span class="hljs-params">(Path dir, BasicFileAttributes attrs)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;--&gt;&quot;</span> + dir);<br>            dirCount.getAndIncrement();<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.preVisitDirectory(dir, attrs);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> FileVisitResult <span class="hljs-title">visitFile</span><span class="hljs-params">(Path file, BasicFileAttributes attrs)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>            System.out.println(<span class="hljs-string">&quot;file: &quot;</span> + file);<br>            fileCount.getAndIncrement();<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.visitFile(file, attrs);<br>        &#125;<br>    &#125;);<br>    System.out.println(<span class="hljs-string">&quot;文件夹数目：&quot;</span> + dirCount);<br>    System.out.println(<span class="hljs-string">&quot;文件数目：&quot;</span> + fileCount);<br>&#125;<br>SimpleFileVisitor<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142207654.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>运行结果：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142207662.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>统计 .md 文档的数目</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Path path = Paths.get(<span class="hljs-string">&quot;E:\\BaiduNetdiskDownload\\Netty网络编程&quot;</span>);<br><span class="hljs-comment">// 统计 .md 文档数目</span><br>AtomicInteger mdCnt = <span class="hljs-keyword">new</span> AtomicInteger();<br>Files.walkFileTree(path, <span class="hljs-keyword">new</span> SimpleFileVisitor&lt;Path&gt;() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> FileVisitResult <span class="hljs-title">visitFile</span><span class="hljs-params">(Path file, BasicFileAttributes attrs)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        <span class="hljs-keyword">if</span> (file.toString().endsWith(<span class="hljs-string">&quot;.md&quot;</span>)) &#123; <span class="hljs-comment">// toFile().toString().</span><br>            System.out.println(file.toString());<br>            mdCnt.incrementAndGet();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.visitFile(file, attrs);<br>    &#125;<br>&#125;);<br>System.out.println(<span class="hljs-string">&quot;md文档数目：&quot;</span> + mdCnt);<br></code></pre></div></td></tr></table></figure>
+
+<p>删除多级目录</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Path path = Paths.get(<span class="hljs-string">&quot;d:\\a&quot;</span>);<br>Files.walkFileTree(path, <span class="hljs-keyword">new</span> SimpleFileVisitor&lt;Path&gt;()&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> FileVisitResult <span class="hljs-title">visitFile</span><span class="hljs-params">(Path file, BasicFileAttributes attrs)</span> </span><br><span class="hljs-function">        <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        Files.delete(file);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.visitFile(file, attrs);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> FileVisitResult <span class="hljs-title">postVisitDirectory</span><span class="hljs-params">(Path dir, IOException exc)</span> </span><br><span class="hljs-function">        <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        Files.delete(dir);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.postVisitDirectory(dir, exc);<br>    &#125;<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>拷贝多级目录</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">long</span> start = System.currentTimeMillis();<br>String source = <span class="hljs-string">&quot;D:\\Snipaste-1.16.2-x64&quot;</span>;<br>String target = <span class="hljs-string">&quot;D:\\Snipaste-1.16.2-x64aaa&quot;</span>;<br><br>Files.walk(Paths.get(source)).forEach(path -&gt; &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        String targetName = path.toString().replace(source, target);<br>        <span class="hljs-comment">// 是目录</span><br>        <span class="hljs-keyword">if</span> (Files.isDirectory(path)) &#123;<br>            Files.createDirectory(Paths.get(targetName));<br>        &#125;<br>        <span class="hljs-comment">// 是普通文件</span><br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Files.isRegularFile(path)) &#123;<br>            Files.copy(path, Paths.get(targetName));<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>&#125;);<br><span class="hljs-keyword">long</span> end = System.currentTimeMillis();<br>System.out.println(end - start);<br></code></pre></div></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Netty/">Netty</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Netty/">Netty</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Netty%E5%AD%A6%E4%B9%A0%E4%B9%8BNIO%E5%9F%BA%E7%A1%80/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Netty学习之NIO基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Netty/">
+                        <span class="hidden-mobile">Netty基础学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Mybatis-Plus 官方神器发布  今天介绍一个 MyBatis - Plus 官方发布的神器：mybatis-mate 为 mp 企业级模块，支持分库分表，数据审计、数据敏感词过滤（AC算法），字段加密，字典回写（数据绑定），数据权限，表结构自动生成 SQL 维护等，旨在更敏捷优雅处理数据。 主要功能 字典绑定 字段加密 数据脱敏 表结构动态维护 数据审计记录 数据范围（数据权限） 数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis-Plus 官方神器发布">
+<meta property="og:url" content="http://example.com/2022/03/25/Mybatis-Plus%20%E5%AE%98%E6%96%B9%E7%A5%9E%E5%99%A8%E5%8F%91%E5%B8%83/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Mybatis-Plus 官方神器发布  今天介绍一个 MyBatis - Plus 官方发布的神器：mybatis-mate 为 mp 企业级模块，支持分库分表，数据审计、数据敏感词过滤（AC算法），字段加密，字典回写（数据绑定），数据权限，表结构自动生成 SQL 维护等，旨在更敏捷优雅处理数据。 主要功能 字典绑定 字段加密 数据脱敏 表结构动态维护 数据审计记录 数据范围（数据权限） 数据库">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-25T13:46:50.673Z">
+<meta property="article:modified_time" content="2022-03-25T12:33:26.987Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Mybatis">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Mybatis-Plus 官方神器发布 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Mybatis-Plus 官方神器发布">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Mybatis-Plus 官方神器发布</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Mybatis-Plus 官方神器发布</h2></center>
+
+<p>今天介绍一个 MyBatis - Plus 官方发布的神器：mybatis-mate 为 mp 企业级模块，支持分库分表，数据审计、数据敏感词过滤（AC算法），字段加密，字典回写（数据绑定），数据权限，表结构自动生成 SQL 维护等，旨在更敏捷优雅处理数据。</p>
+<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><ul>
+<li>字典绑定</li>
+<li>字段加密</li>
+<li>数据脱敏</li>
+<li>表结构动态维护</li>
+<li>数据审计记录</li>
+<li>数据范围（数据权限）</li>
+<li>数据库分库分表、动态据源、读写分离、数- - 据库健康检查自动切换。</li>
+</ul>
+<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2. 使用"></a>2. 使用</h2><h3 id="2-1-依赖导入"><a href="#2-1-依赖导入" class="headerlink" title="2.1 依赖导入"></a>2.1 依赖导入</h3><p>Spring Boot 引入自动依赖注解包</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.baomidou<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-mate-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>注解（实体分包使用）</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.baomidou<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-mate-annotation<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-2-字段数据绑定（字典回写）"><a href="#2-2-字段数据绑定（字典回写）" class="headerlink" title="2.2 字段数据绑定（字典回写）"></a>2.2 字段数据绑定（字典回写）</h3><p>例如 user_sex 类型 sex 字典结果映射到 sexText 属性</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FieldDict(type = &quot;user_sex&quot;, target = &quot;sexText&quot;)</span><br><span class="hljs-keyword">private</span> Integer sex;<br><br><span class="hljs-keyword">private</span> String sexText;<br></code></pre></div></td></tr></table></figure>
+
+<p>实现 IDataDict 接口提供字典数据源，注入到 Spring 容器即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataDict</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IDataDict</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 从数据库或缓存中获取</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Map&lt;String, String&gt; SEX_MAP = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;String, String&gt;() &#123;&#123;<br>        put(<span class="hljs-string">&quot;0&quot;</span>, <span class="hljs-string">&quot;女&quot;</span>);<br>        put(<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;男&quot;</span>);<br>    &#125;&#125;;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getNameByCode</span><span class="hljs-params">(FieldDict fieldDict, String code)</span> </span>&#123;<br>        System.err.println(<span class="hljs-string">&quot;字段类型：&quot;</span> + fieldDict.type() + <span class="hljs-string">&quot;，编码：&quot;</span> + code);<br>        <span class="hljs-keyword">return</span> SEX_MAP.get(code);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-3-字段加密"><a href="#2-3-字段加密" class="headerlink" title="2.3 字段加密"></a>2.3 字段加密</h3><p>属性 @FieldEncrypt 注解即可加密存储，会自动解密查询结果，支持全局配置加密密钥算法，及注解密钥算法，可以实现 IEncryptor 注入自定义算法。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FieldEncrypt(algorithm = Algorithm.PBEWithMD5AndDES)</span><br><span class="hljs-keyword">private</span> String password;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-4-字段脱敏"><a href="#2-4-字段脱敏" class="headerlink" title="2.4 字段脱敏"></a>2.4 字段脱敏</h3><p>属性 @FieldSensitive 注解即可自动按照预设策略对源数据进行脱敏处理，默认 SensitiveType 内置 9 种常用脱敏策略。</p>
+<p>例如：中文名、银行卡账号、手机号码等 脱敏策略。也可以自定义策略如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FieldSensitive(type = &quot;testStrategy&quot;)</span><br><span class="hljs-keyword">private</span> String username;<br><br><span class="hljs-meta">@FieldSensitive(type = SensitiveType.mobile)</span><br><span class="hljs-keyword">private</span> String mobile;<br></code></pre></div></td></tr></table></figure>
+
+<p>自定义脱敏策略 testStrategy 添加到默认策略中注入 Spring 容器即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SensitiveStrategyConfig</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 注入脱敏策略</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ISensitiveStrategy <span class="hljs-title">sensitiveStrategy</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">// 自定义 testStrategy 类型脱敏处理</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SensitiveStrategy().addStrategy(<span class="hljs-string">&quot;testStrategy&quot;</span>, t -&gt; t + <span class="hljs-string">&quot;***test***&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>例如文章敏感词过滤</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 演示文章敏感词过滤</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArticleController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> SensitiveWordsMapper sensitiveWordsMapper;<br><br>    <span class="hljs-comment">// 测试访问下面地址观察请求地址、界面返回数据及控制台（ 普通参数 ）</span><br>    <span class="hljs-comment">// 无敏感词 http://localhost:8080/info?content=tom&amp;see=1&amp;age=18</span><br>    <span class="hljs-comment">// 英文敏感词 http://localhost:8080/info?content=my%20content%20is%20tomcat&amp;see=1&amp;age=18</span><br>    <span class="hljs-comment">// 汉字敏感词 http://localhost:8080/info?content=%E7%8E%8B%E5%AE%89%E7%9F%B3%E5%94%90%E5%AE%8B%E5%85%AB%E5%A4%A7%E5%AE%B6&amp;see=1</span><br>    <span class="hljs-comment">// 多个敏感词 http://localhost:8080/info?content=%E7%8E%8B%E5%AE%89%E7%9F%B3%E6%9C%89%E4%B8%80%E5%8F%AA%E7%8C%ABtomcat%E6%B1%A4%E5%A7%86%E5%87%AF%E7%89%B9&amp;see=1&amp;size=6</span><br>    <span class="hljs-comment">// 插入一个字变成非敏感词 http://localhost:8080/info?content=%E7%8E%8B%E7%8C%AB%E5%AE%89%E7%9F%B3%E6%9C%89%E4%B8%80%E5%8F%AA%E7%8C%ABtomcat%E6%B1%A4%E5%A7%86%E5%87%AF%E7%89%B9&amp;see=1&amp;size=6</span><br>    <span class="hljs-meta">@GetMapping(&quot;/info&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">info</span><span class="hljs-params">(Article article)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">return</span> ParamsConfig.toJson(article);<br>    &#125;<br><br><br>    <span class="hljs-comment">// 添加一个敏感词然后再去观察是否生效 http://localhost:8080/add</span><br>    <span class="hljs-comment">// 观察【猫】这个词被过滤了 http://localhost:8080/info?content=%E7%8E%8B%E5%AE%89%E7%9F%B3%E6%9C%89%E4%B8%80%E5%8F%AA%E7%8C%ABtomcat%E6%B1%A4%E5%A7%86%E5%87%AF%E7%89%B9&amp;see=1&amp;size=6</span><br>    <span class="hljs-comment">// 嵌套敏感词处理 http://localhost:8080/info?content=%E7%8E%8B%E7%8C%AB%E5%AE%89%E7%9F%B3%E6%9C%89%E4%B8%80%E5%8F%AA%E7%8C%ABtomcat%E6%B1%A4%E5%A7%86%E5%87%AF%E7%89%B9&amp;see=1&amp;size=6</span><br>    <span class="hljs-comment">// 多层嵌套敏感词 http://localhost:8080/info?content=%E7%8E%8B%E7%8E%8B%E7%8C%AB%E5%AE%89%E7%9F%B3%E5%AE%89%E7%9F%B3%E6%9C%89%E4%B8%80%E5%8F%AA%E7%8C%ABtomcat%E6%B1%A4%E5%A7%86%E5%87%AF%E7%89%B9&amp;see=1&amp;size=6</span><br>    <span class="hljs-meta">@GetMapping(&quot;/add&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">add</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        Long id = <span class="hljs-number">3L</span>;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == sensitiveWordsMapper.selectById(id)) &#123;<br>            System.err.println(<span class="hljs-string">&quot;插入一个敏感词：&quot;</span> + sensitiveWordsMapper.insert(<span class="hljs-keyword">new</span> SensitiveWords(id, <span class="hljs-string">&quot;猫&quot;</span>)));<br>            <span class="hljs-comment">// 插入一个敏感词，刷新算法引擎敏感词</span><br>            SensitiveWordsProcessor.reloadSensitiveWords();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ok&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 测试访问下面地址观察控制台（ 请求json参数 ）</span><br>    <span class="hljs-comment">// idea 执行 resources 目录 TestJson.http 文件测试</span><br>    <span class="hljs-meta">@PostMapping(&quot;/json&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">json</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> Article article)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">return</span> ParamsConfig.toJson(article);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-5-DDL-数据结构自动维护"><a href="#2-5-DDL-数据结构自动维护" class="headerlink" title="2.5 DDL 数据结构自动维护"></a>2.5 DDL 数据结构自动维护</h3><p>解决升级表结构初始化，版本发布更新 SQL 维护问题，目前支持 MySql、PostgreSQL。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostgresDdl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IDdl</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 执行 SQL 脚本方式</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title">getSqlFiles</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> Arrays.asList(<br>                <span class="hljs-comment">// 内置包方式</span><br>                <span class="hljs-string">&quot;db/tag-schema.sql&quot;</span>,<br>                <span class="hljs-comment">// 文件绝对路径方式</span><br>                <span class="hljs-string">&quot;D:\\db\\tag-data.sql&quot;</span><br>        );<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>不仅仅可以固定执行，也可以动态执行！！</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ddlScript.run(<span class="hljs-keyword">new</span> StringReader(<span class="hljs-string">&quot;DELETE FROM user;\n&quot;</span> +<br>                <span class="hljs-string">&quot;INSERT INTO user (id, username, password, sex, email) VALUES\n&quot;</span> +<br>                <span class="hljs-string">&quot;(20, &#x27;Duo&#x27;, &#x27;123456&#x27;, 0, &#x27;Duo@baomidou.com&#x27;);&quot;</span>));<br></code></pre></div></td></tr></table></figure>
+
+<p>它还支持多数据源执行！！！</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MysqlDdl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IDdl</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sharding</span><span class="hljs-params">(Consumer&lt;IDdl&gt; consumer)</span> </span>&#123;<br>        <span class="hljs-comment">// 多数据源指定，主库初始化从库自动同步</span><br>        String group = <span class="hljs-string">&quot;mysql&quot;</span>;<br>        ShardingGroupProperty sgp = ShardingKey.getDbGroupProperty(group);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != sgp) &#123;<br>            <span class="hljs-comment">// 主库</span><br>            sgp.getMasterKeys().forEach(key -&gt; &#123;<br>                ShardingKey.change(group + key);<br>                consumer.accept(<span class="hljs-keyword">this</span>);<br>            &#125;);<br>            <span class="hljs-comment">// 从库</span><br>            sgp.getSlaveKeys().forEach(key -&gt; &#123;<br>                ShardingKey.change(group + key);<br>                consumer.accept(<span class="hljs-keyword">this</span>);<br>            &#125;);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 执行 SQL 脚本方式</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title">getSqlFiles</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> Arrays.asList(<span class="hljs-string">&quot;db/user-mysql.sql&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-6-动态多数据源主从自由切换"><a href="#2-6-动态多数据源主从自由切换" class="headerlink" title="2.6 动态多数据源主从自由切换"></a>2.6 动态多数据源主从自由切换</h3><p>@Sharding 注解使数据源不限制随意使用切换，你可以在 mapper 层添加注解，按需求指哪打哪！！</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Mapper</span><br><span class="hljs-meta">@Sharding(&quot;mysql&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseMapper</span>&lt;<span class="hljs-title">User</span>&gt; </span>&#123;<br><br>    <span class="hljs-meta">@Sharding(&quot;postgres&quot;)</span><br>    <span class="hljs-function">Long <span class="hljs-title">selectByUsername</span><span class="hljs-params">(String username)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>你也可以自定义策略统一调兵遣将</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyShardingStrategy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RandomShardingStrategy</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 决定切换数据源 key &#123;<span class="hljs-doctag">@link</span> ShardingDatasource&#125;</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> group 动态数据库组</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> invocation &#123;<span class="hljs-doctag">@link</span> Invocation&#125;</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sqlCommandType &#123;<span class="hljs-doctag">@link</span> SqlCommandType&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">determineDatasourceKey</span><span class="hljs-params">(String group, Invocation invocation, SqlCommandType sqlCommandType)</span> </span>&#123;<br>        <span class="hljs-comment">// 数据源组 group 自定义选择即可， keys 为数据源组内主从多节点，可随机选择或者自己控制</span><br>        <span class="hljs-keyword">this</span>.changeDatabaseKey(group, sqlCommandType, keys -&gt; chooseKey(keys, invocation));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以开启主从策略，当然也是可以开启健康检查！具体配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">mybatis-mate:</span><br>  <span class="hljs-attr">sharding:</span><br>    <span class="hljs-attr">health:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 健康检测</span><br>    <span class="hljs-attr">primary:</span> <span class="hljs-string">mysql</span> <span class="hljs-comment"># 默认选择数据源</span><br>    <span class="hljs-attr">datasource:</span><br>      <span class="hljs-attr">mysql:</span> <span class="hljs-comment"># 数据库组</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">node1</span><br>          <span class="hljs-string">...</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">node2</span><br>          <span class="hljs-attr">cluster:</span> <span class="hljs-string">slave</span> <span class="hljs-comment"># 从库读写分离时候负责 sql 查询操作，主库 master 默认可以不写</span><br>          <span class="hljs-string">...</span><br>      <span class="hljs-attr">postgres:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">node1</span> <span class="hljs-comment"># 数据节点</span><br>          <span class="hljs-string">...</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-7-分布式事务日志打印"><a href="#2-7-分布式事务日志打印" class="headerlink" title="2.7 分布式事务日志打印"></a>2.7 分布式事务日志打印</h3><p>部分配置如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * &lt;p&gt;</span><br><span class="hljs-comment"> * 性能分析拦截器，用于输出每条 SQL 语句及其执行时间</span><br><span class="hljs-comment"> * &lt;/p&gt;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Intercepts(&#123;@Signature(type = StatementHandler.class, method = &quot;query&quot;, args = &#123;Statement.class, ResultHandler.class&#125;),</span><br><span class="hljs-meta">        @Signature(type = StatementHandler.class, method = &quot;update&quot;, args = &#123;Statement.class&#125;),</span><br><span class="hljs-meta">        @Signature(type = StatementHandler.class, method = &quot;batch&quot;, args = &#123;Statement.class&#125;)&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PerformanceInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Interceptor</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * SQL 执行最大时长，超过自动停止运行，有助于发现问题。</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> maxTime = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * SQL 是否格式化</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> format = <span class="hljs-keyword">false</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 是否写入日志文件&lt;br&gt;</span><br><span class="hljs-comment">     * true 写入日志文件，不阻断程序执行！&lt;br&gt;</span><br><span class="hljs-comment">     * 超过设定的最大执行时长异常提示！</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> writeInLog = <span class="hljs-keyword">false</span>;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">intercept</span><span class="hljs-params">(Invocation invocation)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        Statement statement;<br>        Object firstArg = invocation.getArgs()[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">if</span> (Proxy.isProxyClass(firstArg.getClass())) &#123;<br>            statement = (Statement) SystemMetaObject.forObject(firstArg).getValue(<span class="hljs-string">&quot;h.statement&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            statement = (Statement) firstArg;<br>        &#125;<br>        MetaObject stmtMetaObj = SystemMetaObject.forObject(statement);<br>        <span class="hljs-keyword">try</span> &#123;<br>            statement = (Statement) stmtMetaObj.getValue(<span class="hljs-string">&quot;stmt.statement&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            <span class="hljs-comment">// do nothing</span><br>        &#125;<br>        <span class="hljs-keyword">if</span> (stmtMetaObj.hasGetter(<span class="hljs-string">&quot;delegate&quot;</span>)) &#123;<span class="hljs-comment">//Hikari</span><br>            <span class="hljs-keyword">try</span> &#123;<br>                statement = (Statement) stmtMetaObj.getValue(<span class="hljs-string">&quot;delegate&quot;</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br><br>            &#125;<br>        &#125;<br><br>        String originalSql = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">if</span> (originalSql == <span class="hljs-keyword">null</span>) &#123;<br>            originalSql = statement.toString();<br>        &#125;<br>        originalSql = originalSql.replaceAll(<span class="hljs-string">&quot;[\\s]+&quot;</span>, <span class="hljs-string">&quot; &quot;</span>);<br>        <span class="hljs-keyword">int</span> index = indexOfSqlStart(originalSql);<br>        <span class="hljs-keyword">if</span> (index &gt; <span class="hljs-number">0</span>) &#123;<br>            originalSql = originalSql.substring(index);<br>        &#125;<br><br>        <span class="hljs-comment">// 计算执行 SQL 耗时</span><br>        <span class="hljs-keyword">long</span> start = SystemClock.now();<br>        Object result = invocation.proceed();<br>        <span class="hljs-keyword">long</span> timing = SystemClock.now() - start;<br><br>        <span class="hljs-comment">// 格式化 SQL 打印执行结果</span><br>        Object target = PluginUtils.realTarget(invocation.getTarget());<br>        MetaObject metaObject = SystemMetaObject.forObject(target);<br>        MappedStatement ms = (MappedStatement) metaObject.getValue(<span class="hljs-string">&quot;delegate.mappedStatement&quot;</span>);<br>        StringBuilder formatSql = <span class="hljs-keyword">new</span> StringBuilder();<br>        formatSql.append(<span class="hljs-string">&quot; Time：&quot;</span>).append(timing);<br>        formatSql.append(<span class="hljs-string">&quot; ms - ID：&quot;</span>).append(ms.getId());<br>        formatSql.append(<span class="hljs-string">&quot;\n Execute SQL：&quot;</span>).append(sqlFormat(originalSql, format)).append(<span class="hljs-string">&quot;\n&quot;</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.isWriteInLog()) &#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getMaxTime() &gt;= <span class="hljs-number">1</span> &amp;&amp; timing &gt; <span class="hljs-keyword">this</span>.getMaxTime()) &#123;<br>                log.error(formatSql.toString());<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                log.debug(formatSql.toString());<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            System.err.println(formatSql);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getMaxTime() &gt;= <span class="hljs-number">1</span> &amp;&amp; timing &gt; <span class="hljs-keyword">this</span>.getMaxTime()) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot; The SQL execution time is too large, please optimize ! &quot;</span>);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">plugin</span><span class="hljs-params">(Object target)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (target <span class="hljs-keyword">instanceof</span> StatementHandler) &#123;<br>            <span class="hljs-keyword">return</span> Plugin.wrap(target, <span class="hljs-keyword">this</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> target;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setProperties</span><span class="hljs-params">(Properties prop)</span> </span>&#123;<br>        String maxTime = prop.getProperty(<span class="hljs-string">&quot;maxTime&quot;</span>);<br>        String format = prop.getProperty(<span class="hljs-string">&quot;format&quot;</span>);<br>        <span class="hljs-keyword">if</span> (StringUtils.isNotEmpty(maxTime)) &#123;<br>            <span class="hljs-keyword">this</span>.maxTime = Long.parseLong(maxTime);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (StringUtils.isNotEmpty(format)) &#123;<br>            <span class="hljs-keyword">this</span>.format = Boolean.valueOf(format);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getMaxTime</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> maxTime;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> PerformanceInterceptor <span class="hljs-title">setMaxTime</span><span class="hljs-params">(<span class="hljs-keyword">long</span> maxTime)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.maxTime = maxTime;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isFormat</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> format;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> PerformanceInterceptor <span class="hljs-title">setFormat</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> format)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.format = format;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isWriteInLog</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> writeInLog;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> PerformanceInterceptor <span class="hljs-title">setWriteInLog</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> writeInLog)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.writeInLog = writeInLog;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Method <span class="hljs-title">getMethodRegular</span><span class="hljs-params">(Class&lt;?&gt; clazz, String methodName)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (Object.class.equals(clazz)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">for</span> (Method method : clazz.getDeclaredMethods()) &#123;<br>            <span class="hljs-keyword">if</span> (method.getName().equals(methodName)) &#123;<br>                <span class="hljs-keyword">return</span> method;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> getMethodRegular(clazz.getSuperclass(), methodName);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取sql语句开头部分</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sql</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">indexOfSqlStart</span><span class="hljs-params">(String sql)</span> </span>&#123;<br>        String upperCaseSql = sql.toUpperCase();<br>        Set&lt;Integer&gt; set = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        set.add(upperCaseSql.indexOf(<span class="hljs-string">&quot;SELECT &quot;</span>));<br>        set.add(upperCaseSql.indexOf(<span class="hljs-string">&quot;UPDATE &quot;</span>));<br>        set.add(upperCaseSql.indexOf(<span class="hljs-string">&quot;INSERT &quot;</span>));<br>        set.add(upperCaseSql.indexOf(<span class="hljs-string">&quot;DELETE &quot;</span>));<br>        set.remove(-<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">if</span> (CollectionUtils.isEmpty(set)) &#123;<br>            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        &#125;<br>        List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(set);<br>        Collections.sort(list, Integer::compareTo);<br>        <span class="hljs-keyword">return</span> list.get(<span class="hljs-number">0</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> SqlFormatter sqlFormatter = <span class="hljs-keyword">new</span> SqlFormatter();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 格式sql</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> boundSql</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> format</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">sqlFormat</span><span class="hljs-params">(String boundSql, <span class="hljs-keyword">boolean</span> format)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (format) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">return</span> sqlFormatter.format(boundSql);<br>            &#125; <span class="hljs-keyword">catch</span> (Exception ignored) &#123;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> boundSql;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestController</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> BuyService buyService;<br><br>    <span class="hljs-comment">// 数据库 test 表 t_order 在事务一致情况无法插入数据，能够插入说明多数据源事务无效</span><br>    <span class="hljs-comment">// 测试访问 http://localhost:8080/test</span><br>    <span class="hljs-comment">// 制造事务回滚 http://localhost:8080/test?error=true 也可通过修改表结构制造错误</span><br>    <span class="hljs-comment">// 注释 ShardingConfig 注入 dataSourceProvider 可测试事务无效情况</span><br>    <span class="hljs-meta">@GetMapping(&quot;/test&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">test</span><span class="hljs-params">(Boolean error)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> buyService.buy(<span class="hljs-keyword">null</span> != error &amp;&amp; error);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-8-数据权限"><a href="#2-8-数据权限" class="headerlink" title="2.8 数据权限"></a>2.8 数据权限</h3><p>mapper 层添加注解:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 测试 test 类型数据权限范围，混合分页模式</span><br><span class="hljs-meta">@DataScope(type = &quot;test&quot;, value = &#123;</span><br><span class="hljs-meta">        // 关联表 user 别名 u 指定部门字段权限</span><br><span class="hljs-meta">        @DataColumn(alias = &quot;u&quot;, name = &quot;department_id&quot;),</span><br><span class="hljs-meta">        // 关联表 user 别名 u 指定手机号字段（自己判断处理）</span><br><span class="hljs-meta">        @DataColumn(alias = &quot;u&quot;, name = &quot;mobile&quot;)</span><br><span class="hljs-meta">&#125;)</span><br><span class="hljs-meta">@Select(&quot;select u.* from user u&quot;)</span><br><span class="hljs-function">List&lt;User&gt; <span class="hljs-title">selectTestList</span><span class="hljs-params">(IPage&lt;User&gt; page, Long id, <span class="hljs-meta">@Param(&quot;name&quot;)</span> String username)</span></span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>模拟业务处理逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> IDataScopeProvider <span class="hljs-title">dataScopeProvider</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AbstractDataScopeProvider() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setWhere</span><span class="hljs-params">(PlainSelect plainSelect, Object[] args, DataScopeProperty dataScopeProperty)</span> </span>&#123;<br>            <span class="hljs-comment">// args 中包含 mapper 方法的请求参数，需要使用可以自行获取</span><br>            <span class="hljs-comment">/*</span><br><span class="hljs-comment">                // 测试数据权限，最终执行 SQL 语句</span><br><span class="hljs-comment">                SELECT u.* FROM user u WHERE (u.department_id IN (&#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;5&#x27;))</span><br><span class="hljs-comment">                AND u.mobile LIKE &#x27;%1533%&#x27;</span><br><span class="hljs-comment">             */</span><br>            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;test&quot;</span>.equals(dataScopeProperty.getType())) &#123;<br>                <span class="hljs-comment">// 业务 test 类型</span><br>                List&lt;DataColumnProperty&gt; dataColumns = dataScopeProperty.getColumns();<br>                <span class="hljs-keyword">for</span> (DataColumnProperty dataColumn : dataColumns) &#123;<br>                    <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;department_id&quot;</span>.equals(dataColumn.getName())) &#123;<br>                        <span class="hljs-comment">// 追加部门字段 IN 条件，也可以是 SQL 语句</span><br>                        Set&lt;String&gt; deptIds = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>                        deptIds.add(<span class="hljs-string">&quot;1&quot;</span>);<br>                        deptIds.add(<span class="hljs-string">&quot;2&quot;</span>);<br>                        deptIds.add(<span class="hljs-string">&quot;3&quot;</span>);<br>                        deptIds.add(<span class="hljs-string">&quot;5&quot;</span>);<br>                        ItemsList itemsList = <span class="hljs-keyword">new</span> ExpressionList(deptIds.stream().map(StringValue::<span class="hljs-keyword">new</span>).collect(Collectors.toList()));<br>                        InExpression inExpression = <span class="hljs-keyword">new</span> InExpression(<span class="hljs-keyword">new</span> Column(dataColumn.getAliasDotName()), itemsList);<br>                        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == plainSelect.getWhere()) &#123;<br>                            <span class="hljs-comment">// 不存在 where 条件</span><br>                            plainSelect.setWhere(<span class="hljs-keyword">new</span> Parenthesis(inExpression));<br>                        &#125; <span class="hljs-keyword">else</span> &#123;<br>                            <span class="hljs-comment">// 存在 where 条件 and 处理</span><br>                            plainSelect.setWhere(<span class="hljs-keyword">new</span> AndExpression(plainSelect.getWhere(), inExpression));<br>                        &#125;<br>                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;mobile&quot;</span>.equals(dataColumn.getName())) &#123;<br>                        <span class="hljs-comment">// 支持一个自定义条件</span><br>                        LikeExpression likeExpression = <span class="hljs-keyword">new</span> LikeExpression();<br>                        likeExpression.setLeftExpression(<span class="hljs-keyword">new</span> Column(dataColumn.getAliasDotName()));<br>                        likeExpression.setRightExpression(<span class="hljs-keyword">new</span> StringValue(<span class="hljs-string">&quot;%1533%&quot;</span>));<br>                        plainSelect.setWhere(<span class="hljs-keyword">new</span> AndExpression(plainSelect.getWhere(), likeExpression));<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>最终执行 SQL 输出：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> u.<span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">user</span> u<br>  <span class="hljs-keyword">WHERE</span> (u.department_id <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;2&#x27;</span>, <span class="hljs-string">&#x27;3&#x27;</span>, <span class="hljs-string">&#x27;5&#x27;</span>))<br>  <span class="hljs-keyword">AND</span> u.mobile <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%1533%&#x27;</span> LIMIT <span class="hljs-number">1</span>, <span class="hljs-number">10</span><br></code></pre></div></td></tr></table></figure>
+
+<p>目前仅有付费版本，了解更多 mybatis-mate 使用示例详见：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/baomidou/mybatis-mate-examples">https://gitee.com/baomidou/mybatis-mate-examples</a></p>
+</blockquote>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Mybatis/">Mybatis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Mybatis/">Mybatis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/MyBatis-Plus%20%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis-Plus 看这篇就够了</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/MyBatis%20%E9%80%9F%E6%88%90%E6%89%8B%E5%86%8C/">
+                        <span class="hidden-mobile">MyBatis 速成手册</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

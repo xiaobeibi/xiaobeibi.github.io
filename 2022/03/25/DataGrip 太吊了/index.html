@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="DataGrip 太吊了  DataGrip使用入门最近看到一款数据库客户端工具，DataGrip，是大名鼎鼎的JetBrains公司出品的，就是那个出品Intellij IDEA的公司。 DataGrip是一款数据库管理客户端工具，方便连接到数据库服务器，执行sql、创建表、创建索引以及导出数据等。之前试用的客户端工具是dbvisualizer，但是在试用了DataGrip以后，我就决定抛弃db">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataGrip 太吊了">
+<meta property="og:url" content="http://example.com/2022/03/25/DataGrip%20%E5%A4%AA%E5%90%8A%E4%BA%86/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="DataGrip 太吊了  DataGrip使用入门最近看到一款数据库客户端工具，DataGrip，是大名鼎鼎的JetBrains公司出品的，就是那个出品Intellij IDEA的公司。 DataGrip是一款数据库管理客户端工具，方便连接到数据库服务器，执行sql、创建表、创建索引以及导出数据等。之前试用的客户端工具是dbvisualizer，但是在试用了DataGrip以后，我就决定抛弃db">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192041024.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192041745.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042744.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042991.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042806.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042761.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042915.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042118.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192043905.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192044936.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192044967.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045813.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045865.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045558.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045414.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045495.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045461.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045171.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045020.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045895.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046879.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046251.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046112.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046719.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046039.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046176.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046901.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046934.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046442.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046581.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047988.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047386.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047562.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048106.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048742.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048669.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048354.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048108.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048795.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049773.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049665.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049398.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192050961.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192050318.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051078.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051141.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051318.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051774.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051306.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.568Z">
+<meta property="article:modified_time" content="2022-03-25T10:09:17.194Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192041024.webp">
+  
+  <title>DataGrip 太吊了 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="DataGrip 太吊了">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DataGrip 太吊了</h1>
+            
+            <div class="markdown-body">
+              <center><h2>DataGrip 太吊了</h2></center>
+
+<h2 id="DataGrip使用入门"><a href="#DataGrip使用入门" class="headerlink" title="DataGrip使用入门"></a><strong>DataGrip使用入门</strong></h2><p>最近看到一款数据库客户端工具，DataGrip，是大名鼎鼎的JetBrains公司出品的，就是那个出品Intellij IDEA的公司。</p>
+<p>DataGrip是一款数据库管理客户端工具，方便连接到数据库服务器，执行sql、创建表、创建索引以及导出数据等。之前试用的客户端工具是dbvisualizer，但是在试用了DataGrip以后，我就决定抛弃dbvisualizer。</p>
+<p>我相信，当你第一眼看到DataGrip以后，会有一种惊艳的感觉，就好比你第一眼看到一个姑娘，就是那么一瞥，你对自己说，就是她了！废话不多说，来看看DataGrip的常用功能。</p>
+<p>DataGrip下载链接如下<a target="_blank" rel="noopener" href="https://www.jetbrains.com/datagrip/download%E3%80%82%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%B9%9F%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%8C%E5%8F%8C%E5%87%BB%E5%AE%89%E8%A3%85%EF%BC%8C%E4%B8%8B%E4%B8%80%E6%AD%A5%EF%BC%8C%E4%B8%AD%E9%97%B4%E4%BC%9A%E8%AE%A9%E4%BD%A0%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98%EF%BC%8C%E6%9C%AC%E4%BA%BA%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E7%BB%8F%E5%85%B8%E7%9A%84Darcula%EF%BC%8C%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%90%8E%EF%BC%8C%E5%90%AF%E5%8A%A8%EF%BC%8C%E7%95%8C%E9%9D%A2%E5%A6%82%E4%B8%8B">https://www.jetbrains.com/datagrip/download。安装过程也很简单，双击安装，下一步，中间会让你选择主题，本人选择的是经典的Darcula，安装完成后，启动，界面如下</a></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192041024.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>相信使用过IDEA的同学会感到很亲切。接下来管理数据库驱动。DataGrip支持主流的数据库，File-&gt;DataSource</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192041745.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>也可以在Database视图中展开绿色的+号，添加数据库连接</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042744.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>选择需要连接的数据库类型</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042991.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在面板中，左上部分列出了已经建立的数据库连接，点击各项，右侧会展示当前连接的配置信息，General面板中，可以配置数据库连接的信息，如主机、用户名、密码等，不同数据库配置信息不完全相同，填入数据库URL，注意，URL后有个选项，可以选择直接填入url，那么就不需要单独填主机名、端口等信息了。</p>
+<p>Driver部分显示数据库驱动信息，如果还没有下载过驱动，底部会有个警告，提示缺少驱动</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042806.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>点击Driver后的数据库类型，会跳转到驱动下载页面，点击download，下载完会显示驱动包</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042761.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042915.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果下载的驱动有问题，可以手动添加本地驱动包，在试用过程中，创建Oracle连接时，下载的驱动包就有问题，提示缺少class，点击右侧绿色的+号，选择本地下载好的jar包，通过右侧上下箭头，将导入的jar包移到最上位置就OK了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192042118.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>点击Test Connection，查看配置是否正确，接下来就可以使用了。</p>
+<p>打开DataGrip，选择File-&gt;Settings，当前面板显示了常用设置项</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192043905.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>基本上默认设置就足够了，要更改设置也很简单，左侧菜单已经分类好了，第一项是数据库相关的配置，第二项是配置外观的，在这里可以修改主题，key map修改快捷键，editor配置编辑器相关设置，在这里可以修改编辑器字体，展开edit项，Editor-&gt;Color &amp; Fonts-&gt;Font</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192044936.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>需要将当前主题保存一下，点击save as，起个名，选择重命名后的主题就能修改了，这里我选择习惯的Conurier New字体，大小为14号，点击右下角的apply，点击OK</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192044967.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其他的没啥好设置的了。</p>
+<p>接下来，我们来使用DataGrip完成数据库的常用操作，包括查询数据、修改数据，创建数据库、表等。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045813.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>左上区域显示了当前数据库连接，展开后会显示数据库表等信息，如果展开后没有任何信息，需要选中数据库连接，点击上面的旋转图标同步一下，下方有个More Schema选项，点击可以切换不同的schema。</p>
+<p>右键选中的数据库连接，选择open console，就可以在右侧的控制台中书写sql语句了。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045865.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>DataGrip的智能提示非常爽，无论是标准的sql关键字，还是表名、字段名，甚至数据库特定的字段，都能提示，不得不感叹这智能提示太强大了，Intellij IDEA的智能提示也是秒杀eclipse。</p>
+<p>写完sql语句后，可以选中，电子左上侧绿色箭头执行</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045558.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>也可以使用快捷键Ctrl+Enter，选中情况下，会直接执行该sql，未选中情况下，如果控制台中有多条sql，会提示你要执行哪条sql。之前习惯了dbvisualizer中的操作，dbvisualizer中光标停留在当前sql上(sql以分号结尾)，按下Ctrl+.快捷键会自动执行当前sql，其实DataGrip也能设置，在setting-&gt;Database-General中</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045414.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>语句执行时默认是提示，改成smallest statement后，光标停留在当前语句时，按下Ctrl+Enter就会直接执行当前语句。</p>
+<p>语句的执行结果在底部显示</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045495.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果某列的宽度太窄，可以鼠标点击该列的任意一个，使用快捷键Ctrl+Shift+左右箭头可以调整宽度，如果要调整所有列的宽度，可以点击左上角红框部分，选择所有行，使用快捷键Ctrl+Shift+左右箭头调整</p>
+<p>添加行、删除行也很方便，上部的+、-按钮能直接添加行或删除选中的行，编辑列同样也很方便，双击要修改的列，输入修改后的值，鼠标在其他部分点击就完成修改了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045461.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>有的时候我们要把某个字段置为null，不是空字符串””，DataGrip也提供了渐变的操作，直接在列上右键，选择set null</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045171.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>对于需要多窗口查看结果的，即希望查询结果在新的tab中展示，可以点击pin tab按钮，那新查询将不会再当前tab中展示，而是新打开一个tab</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045020.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>旁边的output控制台显示了执行sql的日志信息，能看到sql执行的时间等信息</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192045895.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我就问这么吊的工具，还有谁！！！</p>
+<p>要新建表也是相当简单、智能，选中数据库连接，点击绿色+号下选择table</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046879.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在新打开的窗口中，可以填写表信息</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046251.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我就问你看到这个窗口兴奋不兴奋！！！</p>
+<p>顶部可以填写表名、表注释，中间可以点击右侧绿色+号添加列，列类型type也是能自动补全，default右侧的消息框图标点击后能对列添加注释，旁边的几个tab可以设置索引及外键</p>
+<p>所有这些操作的DDL都会直接在底部显示</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046112.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我就问你怕不怕</p>
+<p>表建完后，可以点击下图中的table图标，打开表查看视图</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046719.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以查看表的数据，也能查看DDL语句</p>
+<p>这些基本功能的设计、体验，已经惊艳到我了，接下来就是数据的导出。</p>
+<p>DataGrip的导出功能也是相当强大</p>
+<p>选择需要导出数据的表，右键，Dump Data To File</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046039.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>即可以导出insert、update形式的sql语句，也能导出为html、csv、json格式的数据</p>
+<p>也可以在查询结果视图中导出</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046176.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>点击右上角下载图标，在弹出窗口中可以选择不同的导出方式，如sql insert、sql update、csv格式等</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046901.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果是导出到csv格式，还能控制导出的格式</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046934.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>导出后用excel打开是这种结果</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046442.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>除了能导出数据外，还能导入数据</p>
+<p>选择表，右键-&gt;Import from File，选择要导入的文件</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192046581.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>注意，导出的时候如果勾选了左侧的两个header选项，导入的时候如果有header，也要勾选，不然会提示列个数不匹配</p>
+<h3 id="1、关键字导航："><a href="#1、关键字导航：" class="headerlink" title="1、关键字导航："></a><strong>1、关键字导航：</strong></h3><p>当在datagrip的文本编辑区域编写sql时，按住键盘Ctrl键不放，同时鼠标移动到sql关键字上，比如表名、字段名称、或者是函数名上，鼠标会变成手型，关键字会变蓝，并加了下划线，点击，会自动定位到左侧对象树，并选中点击的对象</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047988.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="2、快速导航到指定的表、视图、函数等："><a href="#2、快速导航到指定的表、视图、函数等：" class="headerlink" title="2、快速导航到指定的表、视图、函数等："></a><strong>2、快速导航到指定的表、视图、函数等：</strong></h3><p>在datagrip中，使用Ctrl+N快捷键，弹出一个搜索框，输入需要导航的名称，回车即可</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047386.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="3、全局搜索"><a href="#3、全局搜索" class="headerlink" title="3、全局搜索"></a><strong>3、全局搜索</strong></h3><p>连续两次按下shift键，或者鼠标点击右上角的搜索图标，弹出搜索框，搜索任何你想搜索的东西</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192047562.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="4、结果集搜索"><a href="#4、结果集搜索" class="headerlink" title="4、结果集搜索"></a><strong>4、结果集搜索</strong></h3><p>在查询结果集视图区域点击鼠标，按下Ctrl+F快捷键，弹出搜索框，输入搜索内容，支持正则表达式、过滤结果。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048106.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="5、导航到关联数据"><a href="#5、导航到关联数据" class="headerlink" title="5、导航到关联数据"></a><strong>5、导航到关联数据</strong></h3><p>表之间会有外检关联，查询的时候，能直接定位到关联数据，或者被关联数据，例如user1表有个外检字段classroom指向classroom表的主键id，在查询classroom表数据的时候，可以在id字段上右键，go to，referencing data</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048742.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>选择要显示第一条数据还是显示所有数据</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048669.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>会自动打开关联表的数据</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048354.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>相反，查询字表的数据时，也能自动定位到父表</p>
+<h3 id="6、结果集数据过滤"><a href="#6、结果集数据过滤" class="headerlink" title="6、结果集数据过滤"></a><strong>6、结果集数据过滤</strong></h3><p>对于使用table edit（对象树中选中表，右键-&gt;table editor）打开的结果集，可以使用条件继续过滤结果集，如下图所示，可以在结果集左上角输入款中输入where条件过滤</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048108.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>也可以对着需要过滤数据的列右键，filter by过滤</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192048795.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="7、行转列"><a href="#7、行转列" class="headerlink" title="7、行转列"></a><strong>7、行转列</strong></h3><p>对于字段比较多的表，查看数据要左右推动，可以切换成列显示，在结果集视图区域使用Ctrl+Q快捷键</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049773.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="1、变量重命名"><a href="#1、变量重命名" class="headerlink" title="1、变量重命名"></a><strong>1、变量重命名</strong></h4><p>鼠标点击需要重命名的变量，按下Shift+F6快捷键，弹出重命名对话框，输入新的名称</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049665.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="2、自动检测无法解析的对象"><a href="#2、自动检测无法解析的对象" class="headerlink" title="2、自动检测无法解析的对象"></a><strong>2、自动检测无法解析的对象</strong></h4><p>如果表名、字段名不存在，datagrip会自动提示，此时对着有问题的表名或字段名，按下Alt+Enter，会自动提示是否创建表或添加字段。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192049398.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="3、权限定字段名"><a href="#3、权限定字段名" class="headerlink" title="3、权限定字段名"></a><strong>3、权限定字段名</strong></h4><p>对于查询使用表别名的，而字段中没有使用别名前缀的，datagrip能自动添加前缀，鼠标停留在需要添加别名前缀的字段上，使用Alt+Enter快捷键</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192050961.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="4、-通配符自动展开"><a href="#4、-通配符自动展开" class="headerlink" title="4、*通配符自动展开"></a><strong>4、*通配符自动展开</strong></h4><p>查询的时候我们会使用select *查询所有列，这是不好的习惯，datagrip能快速展开列，光标定位到*后面，按下Alt+Enter快捷键</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192050318.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="5、大写自动转换"><a href="#5、大写自动转换" class="headerlink" title="5、大写自动转换"></a><strong>5、大写自动转换</strong></h4><p>sql使用大写形式是个好的习惯，如果使用了小写，可以将光标停留在需要转换的字段或表名上，使用Ctrl+shift+U快捷键自动转换</p>
+<h4 id="6、sql格式化"><a href="#6、sql格式化" class="headerlink" title="6、sql格式化"></a><strong>6、sql格式化</strong></h4><p>选中需要格式化的sql代码，使用Ctrl+Alt+L快捷键</p>
+<p>datagrip提供了一个功能强大的编辑器，实现了notpad++的列编辑模式</p>
+<h5 id="1、多光标模式"><a href="#1、多光标模式" class="headerlink" title="1、多光标模式"></a><strong>1、多光标模式</strong></h5><p>在编辑sql的时候，可能需要同时输入或同时删除一些字符，按下alt+shift，同时鼠标在不同的位置点击，会出现多个光标</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051078.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h5 id="2、代码注释"><a href="#2、代码注释" class="headerlink" title="2、代码注释"></a><strong>2、代码注释</strong></h5><p>选中要注释的代码，按下Ctrl+/或Ctrl+shift+/快捷键，能注释代码，或取消注释</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051141.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h5 id="3、列编辑"><a href="#3、列编辑" class="headerlink" title="3、列编辑"></a><strong>3、列编辑</strong></h5><p>按住键盘Alt键，同时按下鼠标左键拖动，能选择多列，拷贝黏贴等操作</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051318.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h5 id="4、代码历史"><a href="#4、代码历史" class="headerlink" title="4、代码历史"></a><strong>4、代码历史</strong></h5><p>在文本编辑器中，邮件，local history，show history，可以查看使用过的sql历史</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051774.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>命令历史</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192051306.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B7%A5%E5%85%B7/">工具</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Docker%20%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker极简入门指南</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/CarRentalManagementSystem/">
+                        <span class="hidden-mobile">汽车租赁管理demo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

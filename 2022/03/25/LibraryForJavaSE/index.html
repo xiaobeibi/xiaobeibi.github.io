@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="纯 JavaSE 实现的图书管理系统  1. 简介图书馆管理小项目的主要目的是让学完JavaSE的小伙伴对之前掌握的知识做一些运用，该项目应用的知识点包括下面内容：  面向对象的思想  分层的思想  接口  异常  集合  日期处理  Stream流  IO流  反射  JavaFX（了解）  CSS（了解）   通过学习本项目，可以巩固 JavaSE 的知识，对于后续的学习来说可以起到很好的衔接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="纯 JavaSE 实现的图书管理系统">
+<meta property="og:url" content="http://example.com/2022/03/25/LibraryForJavaSE/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="纯 JavaSE 实现的图书管理系统  1. 简介图书馆管理小项目的主要目的是让学完JavaSE的小伙伴对之前掌握的知识做一些运用，该项目应用的知识点包括下面内容：  面向对象的思想  分层的思想  接口  异常  集合  日期处理  Stream流  IO流  反射  JavaFX（了解）  CSS（了解）   通过学习本项目，可以巩固 JavaSE 的知识，对于后续的学习来说可以起到很好的衔接">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506162521.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506162952.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163355.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163426.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163613.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163847.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164005.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164135.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164239.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507113658.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507114050.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507114414.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.656Z">
+<meta property="article:modified_time" content="2022-03-25T13:09:33.553Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaDemo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506162521.png">
+  
+  <title>纯 JavaSE 实现的图书管理系统 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="纯 JavaSE 实现的图书管理系统">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      43 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">纯 JavaSE 实现的图书管理系统</h1>
+            
+            <div class="markdown-body">
+              <center><h2>纯 JavaSE 实现的图书管理系统</h2></center>
+
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>图书馆管理小项目的主要目的是让学完JavaSE的小伙伴对之前掌握的知识做一些运用，该项目应用的知识点包括下面内容：</p>
+<ul>
+<li><p>面向对象的思想</p>
+</li>
+<li><p>分层的思想</p>
+</li>
+<li><p>接口</p>
+</li>
+<li><p>异常</p>
+</li>
+<li><p>集合</p>
+</li>
+<li><p>日期处理</p>
+</li>
+<li><p>Stream流</p>
+</li>
+<li><p>IO流</p>
+</li>
+<li><p>反射</p>
+</li>
+<li><p>JavaFX（了解）</p>
+</li>
+<li><p>CSS（了解）</p>
+</li>
+</ul>
+<p>通过学习本项目，可以巩固 JavaSE 的知识，对于后续的学习来说可以起到很好的衔接。项目首页</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506162521.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161337"></p>
+<h3 id="1-1-基本信息"><a href="#1-1-基本信息" class="headerlink" title="1.1 基本信息"></a>1.1 基本信息</h3><p>开发工具：IDEA</p>
+<p>JDK版本：8</p>
+<p>项目编码：GBK</p>
+<p>默认登录用户和密码为：admin</p>
+<h3 id="1-2-使用技术"><a href="#1-2-使用技术" class="headerlink" title="1.2 使用技术"></a>1.2 使用技术</h3><p>除了JavaSE相关知识点外，该项目还使用了一些第三方的技术，包括：</p>
+<ul>
+<li><p>Jfoenix：提供了更加美观的UI控件</p>
+</li>
+<li><p>Dashboardfx：将一些美观的UI控件组合起来使用，构建出了一个仪表盘</p>
+</li>
+</ul>
+<h3 id="1-3-关联第三方jar包"><a href="#1-3-关联第三方jar包" class="headerlink" title="1.3 关联第三方jar包"></a>1.3 关联第三方jar包</h3><p>由于项目中使用了一些第三方的技术，所以需要将这些技术相关的jar包导入到项目来使用。实际应用的时候，我们会使用很多第三方技术，这些第三方技术的开发者会将代码打成jar包以供使用。</p>
+<h3 id="1-4-程序概览"><a href="#1-4-程序概览" class="headerlink" title="1.4 程序概览"></a>1.4 程序概览</h3><ul>
+<li><p>bean：存放实体类的包</p>
+</li>
+<li><p>global：存放了一些全局使用的类</p>
+</li>
+<li><p>media.img：存放一些图片</p>
+</li>
+<li><p>module：存放界面相关的类</p>
+</li>
+<li><p>service：存放服务相关类</p>
+</li>
+<li><p>theme：存放美化界面相关的文件</p>
+</li>
+<li><p>App：主类</p>
+</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506162952.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161358"></p>
+<h2 id="2-项目功能"><a href="#2-项目功能" class="headerlink" title="2 项目功能"></a>2 项目功能</h2><h3 id="2-1-登录功能"><a href="#2-1-登录功能" class="headerlink" title="2.1 登录功能"></a>2.1 登录功能</h3><p>在项目启动时，会加载所有界面对应的fxml文件，然后将这些对象放入到map中，此map由ViewManager类进行管理。用户登录后，会根据输入的用户名从properties文件中查找数据，如果查询出来的数据跟用户输入的用户名和密码匹配的话，则登录成功，跳转至main页面中。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163355.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161220"></p>
+<p>同时可创建账户信息</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163426.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161249"></p>
+<h3 id="2-2-用户信息"><a href="#2-2-用户信息" class="headerlink" title="2.2 用户信息"></a>2.2 用户信息</h3><p>此界面可由登录管理员添加改动</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163613.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506162029"></p>
+<h3 id="2-3-用户相关功能"><a href="#2-3-用户相关功能" class="headerlink" title="2.3 用户相关功能"></a>2.3 用户相关功能</h3><p>此界面提供用户信息的增删改查功能包括余额修改和冻结操作</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506163847.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161903"></p>
+<h3 id="2-4-图书相关功能"><a href="#2-4-图书相关功能" class="headerlink" title="2.4 图书相关功能"></a>2.4 图书相关功能</h3><p>此界面提供图书信息的增删改查功能包括借阅操作</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164005.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161839"></p>
+<h3 id="2-5-借阅相关功能"><a href="#2-5-借阅相关功能" class="headerlink" title="2.5 借阅相关功能"></a>2.5 借阅相关功能</h3><p>此界面提供图书和借阅者的信息功能包括还书和逾期扣款操作</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164135.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161854"></p>
+<h3 id="2-6-图书分类可视化功能"><a href="#2-6-图书分类可视化功能" class="headerlink" title="2.6 图书分类可视化功能"></a>2.6 图书分类可视化功能</h3><p>此界面提供一个饼图显示图书分类数量</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210506164239.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210506161912"></p>
+<h2 id="3-技术运用"><a href="#3-技术运用" class="headerlink" title="3 技术运用"></a>3 技术运用</h2><h3 id="3-1-分层思想"><a href="#3-1-分层思想" class="headerlink" title="3.1 分层思想"></a>3.1 分层思想</h3><p>实际开发中会编写大量的代码，不同的代码解决的问题不一样，因此我们最好将这些代码进行分层存放，主要还是划分职责，这样有利于后期的扩展。</p>
+<p><strong>代码分层：</strong></p>
+<ul>
+<li><p>controller（请求处理层）：负责与界面数据进行交互处理</p>
+</li>
+<li><p>service（业务逻辑层）：负责业务逻辑相关处理</p>
+</li>
+<li><p>DAO（数据持久层）：负责数据持久化操作，DAO的全称是Data Access Object</p>
+</li>
+</ul>
+<h3 id="3-2-Serializable接口"><a href="#3-2-Serializable接口" class="headerlink" title="3.2 Serializable接口"></a>3.2 Serializable接口</h3><p>创建若干User对象放入到List中，通过对象输出流将List对象写出到硬盘的User.txt文件中，从而达到持久化的操作。</p>
+<p>通过IO流将List对象数据持久化到硬盘的文件中，List中存放的数据是User类型，所以要让User类实现Serializable接口。倘若我们要对某个类的对象进行IO操作时，别忘了让这个类实现Serializable接口。</p>
+<h3 id="3-3-serialVersionUID"><a href="#3-3-serialVersionUID" class="headerlink" title="3.3 serialVersionUID"></a>3.3 serialVersionUID</h3><p>在User类实现Serializable接口后，最好添加serialVersionUID，这样做的好处就是在User对象已经被存储到硬盘文件之后，我们再修改User类属性时不会发生异常。便于对User对象版本的控制。</p>
+<h3 id="3-4-异常的抛出"><a href="#3-4-异常的抛出" class="headerlink" title="3.4 异常的抛出"></a>3.4 异常的抛出</h3><p>我们在DAO层中使用了try catch对异常进行了捕获，倘若DAO层出现了异常，其上层的service和controller中是不知道的，这里最好在DAO层的catch里面再抛出异常，目的是通知上层这里有异常，上层代码获取到异常之后再进行后续的处理。</p>
+<h3 id="3-5-泛型通配符"><a href="#3-5-泛型通配符" class="headerlink" title="3.5 泛型通配符"></a>3.5 泛型通配符</h3><p>图书数据初始化和用户数据初始化类似，所以将两个方法进行重构，重构之后合并为一个方法。方法中添加两个形参，分别是String path（存放的路径）和List&lt;?&gt; list(存放的数据)。这里由于list中的泛型是不同的，所以不能在形参中填写具体的类型，这里我们使用了泛型通配符来解决该问题。</p>
+<h3 id="3-6-反射的使用"><a href="#3-6-反射的使用" class="headerlink" title="3.6 反射的使用"></a>3.6 反射的使用</h3><p>修改操作中需要将输入的数据一一对应的放入到查询出的图书对象中，需要调用很多set和get方法，倘若属性过多的话，代码就显得繁琐了，为了解决该问题，我们编写了一个工具类，里面利用反射来获取类中的全部属性，之后再进行赋值操作。注意工具类中要排除不希望赋值的属性，例如：serialVersionUID。</p>
+<h3 id="3-7-绑定控制器"><a href="#3-7-绑定控制器" class="headerlink" title="3.7 绑定控制器"></a>3.7 绑定控制器</h3><p>每个fxml文件都有一个对应的java文件相关联，这样的java文件叫做控制器，我们可以通过fxml文件中的最外层标签里面的fx:controller标签进行绑定</p>
+<h2 id="4-程序实现"><a href="#4-程序实现" class="headerlink" title="4 程序实现"></a>4 程序实现</h2><h3 id="4-1-MVC分层实现"><a href="#4-1-MVC分层实现" class="headerlink" title="4.1 MVC分层实现"></a>4.1 MVC分层实现</h3><p>实体bean对象创建：</p>
+<ul>
+<li><p>Admin：管理员信息实体类</p>
+</li>
+<li><p>Book：图书实体类</p>
+</li>
+<li><p>Constant：用户及图书借阅状态常量实体类</p>
+</li>
+<li><p>Lend：借阅信息实体类</p>
+</li>
+<li><p>User：用户实体类</p>
+</li>
+<li><p>PathConstant：持久化信息路径</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507113658.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210507113639"></p>
+</li>
+</ul>
+<p>Dao持久层创建：</p>
+<ul>
+<li><p>BookDao：书籍信息持久化操作</p>
+</li>
+<li><p>ChartDao：图表信息持久化操作</p>
+</li>
+<li><p>LendDao：借阅信息持久化操作</p>
+</li>
+<li><p>UserDao：用户信息持久化操作</p>
+</li>
+<li><p>impl：Dao对应的实现类</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507114050.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210507114029"></p>
+</li>
+</ul>
+<p>Service服务层创建：</p>
+<ul>
+<li><p>AdminService：管理员服务层</p>
+</li>
+<li><p>BookService：图书信息服务层</p>
+</li>
+<li><p>ChartService：图表信息服务层</p>
+</li>
+<li><p>LendService：借阅信息服务层</p>
+</li>
+<li><p>UserService：用户信息服务层</p>
+</li>
+<li><p>impl：Service层对应的实现类</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507114414.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210507114402"></p>
+</li>
+</ul>
+<p>Controller控制层创建</p>
+<p>控制层一个fxml文件对应一个控制类，用于前台界面的显示，关于JavaFX技术知识本文不过多介绍，感兴趣的同学可以自行学习</p>
+<h3 id="4-2-Dao层用户实现示例"><a href="#4-2-Dao层用户实现示例" class="headerlink" title="4.2 Dao层用户实现示例"></a>4.2 Dao层用户实现示例</h3><p>用户查询功能实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">select</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> (ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH))) &#123;<br>            <span class="hljs-keyword">return</span> (List&lt;User&gt;) ois.readObject();<br><br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>        <span class="hljs-comment">//如果上面出现了异常，则返回一个List对象</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">select</span><span class="hljs-params">(User user)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> (ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH))) &#123;<br>            List&lt;User&gt; list = (List&lt;User&gt;) ois.readObject();<br>            <span class="hljs-keyword">return</span> list.stream().filter(u-&gt;u.getId() == user.getId()).collect(Collectors.toList());<br><br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>        <span class="hljs-comment">//如果上面出现了异常，则返回一个List对象</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>用户添加功能实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(User user)</span> </span>&#123;<br>        ObjectInputStream ois = <span class="hljs-keyword">null</span>;<br>        ObjectOutputStream oos = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//读取文件中的List对象</span><br>            ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH));<br>            List&lt;User&gt; list = (List&lt;User&gt;) ois.readObject();<br>            <span class="hljs-keyword">if</span> (list != <span class="hljs-keyword">null</span>) &#123;<br><br>                <span class="hljs-comment">//获取list中最后的User对象</span><br>                User lastUser = list.get(list.size() - <span class="hljs-number">1</span>);<br>                <span class="hljs-comment">//生成用户的编号</span><br>                user.setId(lastUser.getId() + <span class="hljs-number">1</span>);<br><br>                <span class="hljs-comment">//将user对象放入到List中，然后将list写出到文件中</span><br>                list.add(user);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>                user.setId(<span class="hljs-number">1001</span>);<br>                list.add(user);<br>            &#125;<br><br>            oos = <span class="hljs-keyword">new</span> ObjectOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(PathConstant.USER_PATH));<br>            oos.writeObject(list);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (ois != <span class="hljs-keyword">null</span>) &#123;<br>                    ois.close();<br>                &#125;<br>                <span class="hljs-keyword">if</span> (oos != <span class="hljs-keyword">null</span>) &#123;<br>                    oos.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>用户更新功能实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(User user)</span> </span>&#123;<br>        <span class="hljs-comment">//将list数据从文件中查出来</span><br>        ObjectInputStream ois = <span class="hljs-keyword">null</span>;<br>        ObjectOutputStream oos = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH));<br>            List&lt;User&gt; list = (List&lt;User&gt;) ois.readObject();<br>            <span class="hljs-keyword">if</span> (list != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-comment">//从list中查找要修改的数据</span><br>                User originUser = list.stream().filter(u -&gt; u.getId() == user.getId()).findFirst().get();<br>                <span class="hljs-comment">//修改数据(弃用)</span><br><span class="hljs-comment">//                originUser.setName(user.getName());</span><br><span class="hljs-comment">//                originUser.setMoney(user.getMoney());</span><br>                <span class="hljs-comment">//使用工具类(改用)</span><br>                BeanUtil.populate(originUser, user);<br>                <span class="hljs-comment">//将数据持久化到文件中</span><br>                oos = <span class="hljs-keyword">new</span> ObjectOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(PathConstant.USER_PATH));<br>                oos.writeObject(list);<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (ois != <span class="hljs-keyword">null</span>) &#123;<br>                    ois.close();<br>                &#125;<br>                <span class="hljs-keyword">if</span> (oos != <span class="hljs-keyword">null</span>) &#123;<br>                    oos.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>用户删除功能实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        ObjectInputStream ois = <span class="hljs-keyword">null</span>;<br>        ObjectOutputStream oos = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//读取数据</span><br>            ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH));<br>            List&lt;User&gt; list = (List&lt;User&gt;) ois.readObject();<br>            <span class="hljs-comment">//使用stream流查找</span><br>            User user = list.stream().filter(u -&gt; u.getId() == id).findFirst().get();<br>            <span class="hljs-comment">//从list中将该user删除</span><br>            list.remove(user);<br><br>            <span class="hljs-comment">//将list写出到文件中</span><br>            oos = <span class="hljs-keyword">new</span> ObjectOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(PathConstant.USER_PATH));<br>            oos.writeObject(list);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();<span class="hljs-comment">//抛给控制器</span><br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (ois != <span class="hljs-keyword">null</span>) &#123;<br>                    ois.close();<br>                &#125;<br>                <span class="hljs-keyword">if</span> (oos != <span class="hljs-keyword">null</span>) &#123;<br>                    oos.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>用户冻结功能实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">frozen</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        ObjectInputStream ois = <span class="hljs-keyword">null</span>;<br>        ObjectOutputStream oos = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH));<br>            List&lt;User&gt; list = (List&lt;User&gt;)ois.readObject();<br>            User user = list.stream().filter(u -&gt; u.getId() == id).findFirst().get();<br>            <span class="hljs-comment">//将状态修改为冻结</span><br>            user.setStatus(Constant.USER_FROZEN);<br>            oos = <span class="hljs-keyword">new</span> ObjectOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(PathConstant.USER_PATH));<br>            oos.writeObject(list);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();<br>        &#125;  <span class="hljs-keyword">finally</span> &#123;<br><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (ois != <span class="hljs-keyword">null</span>) &#123;<br>                    ois.close();<br>                &#125;<br>                <span class="hljs-keyword">if</span> (oos != <span class="hljs-keyword">null</span>) &#123;<br>                    oos.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>查询可借阅书籍用户实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">selectUserToLend</span><span class="hljs-params">()</span> </span>&#123;<br>       <span class="hljs-keyword">try</span> (ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(<span class="hljs-keyword">new</span> FileInputStream(PathConstant.USER_PATH))) &#123;<br>           List&lt;User&gt; list = (List&lt;User&gt;) ois.readObject();<br>           <span class="hljs-keyword">if</span>(list != <span class="hljs-keyword">null</span>)&#123;<br>               <span class="hljs-comment">//查询出用户状态是正常且isLend是false</span><br>               <span class="hljs-keyword">return</span> list.stream().filter(u -&gt; Constant.USER_OK.equals(u.getStatus()) &amp;&amp; <span class="hljs-keyword">false</span> == u.isLend()).collect(Collectors.toList());<br>           &#125;<br>       &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>           e.printStackTrace();<br>       &#125;<br>       <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>注：其他BookDao和LendDao实现同理</p>
+<h3 id="4-3-Service层用户实现示例"><a href="#4-3-Service层用户实现示例" class="headerlink" title="4.3 Service层用户实现示例"></a>4.3 Service层用户实现示例</h3><p>Service层无过多功能，只是调用Dao层接口，示例如下，其他BookService和LendService同理</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  查询</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">select</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">//调用Dao层写好的方法即可</span><br>        <span class="hljs-keyword">return</span> userDao.select();<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  添加</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(User user)</span> </span>&#123;<br>        userDao.add(user);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  修改</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(User user)</span> </span>&#123;<br>        userDao.update(user);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  删除</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        userDao.delete(id);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *  冻结</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">frozen</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>&#123;<br>        userDao.frozen(id);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">selectUserToLend</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> userDao.selectUserToLend();<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户充值</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> money</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">charge</span><span class="hljs-params">(User user, BigDecimal money)</span> </span>&#123;<br>        <span class="hljs-comment">//计算充值之后的余额</span><br>        BigDecimal sum = money.add(user.getMoney());<br>        <span class="hljs-comment">//判断充值后余额是否大于0</span><br>        <span class="hljs-keyword">if</span> (BigDecimal.ZERO.compareTo(sum) &lt; <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-comment">//修改用户状态</span><br>            user.setStatus(Constant.USER_OK);<br>        &#125;<br>        user.setMoney(sum);<br>        <span class="hljs-comment">//更新用户</span><br>        userDao.update(user);<br>        <span class="hljs-comment">//修改借阅文件中的用户数据</span><br>        List&lt;Lend&gt; lendList = lendDao.select(<span class="hljs-keyword">null</span>);<br>        <span class="hljs-keyword">for</span> (Lend lend : lendList) &#123;<br>            <span class="hljs-keyword">if</span> (lend.getUser().getId() == user.getId()) &#123;<br>                lend.setUser(user);<br>                lendDao.update(lend);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> user;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="4-4-Controller层用户实现示例"><a href="#4-4-Controller层用户实现示例" class="headerlink" title="4.4 Controller层用户实现示例"></a>4.4 Controller层用户实现示例</h3><p>界面初始化：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initialize</span><span class="hljs-params">(URL location, ResourceBundle resources)</span> </span>&#123;<br><br>        <span class="hljs-comment">//调用 service 层查询数据</span><br>        List&lt;User&gt; userList = userService.select();<br>        users.addAll(userList);<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">        users.add(new User(1, &quot;张三&quot;, &quot;正常&quot;, new BigDecimal((&quot;100&quot;))));</span><br><span class="hljs-comment">        users.add(new User(2, &quot;李四&quot;, &quot;正常&quot;, new BigDecimal((&quot;100&quot;))));</span><br><span class="hljs-comment">        users.add(new User(3, &quot;王五&quot;, &quot;正常&quot;, new BigDecimal((&quot;100&quot;))));</span><br><span class="hljs-comment">*/</span><br>        c1.setCellValueFactory(<span class="hljs-keyword">new</span> PropertyValueFactory&lt;&gt;(<span class="hljs-string">&quot;id&quot;</span>));<br>        c2.setCellValueFactory(<span class="hljs-keyword">new</span> PropertyValueFactory&lt;&gt;(<span class="hljs-string">&quot;name&quot;</span>));<br>        c3.setCellValueFactory(<span class="hljs-keyword">new</span> PropertyValueFactory&lt;&gt;(<span class="hljs-string">&quot;money&quot;</span>));<br>        c4.setCellValueFactory(<span class="hljs-keyword">new</span> PropertyValueFactory&lt;&gt;(<span class="hljs-string">&quot;status&quot;</span>));<br>        userTableView.setItems(users);<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>删除用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FXML</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteUser</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            User user = <span class="hljs-keyword">this</span>.userTableView.getSelectionModel().getSelectedItem();<br>            <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)&#123;<br>                Alerts.warning(<span class="hljs-string">&quot;未选择&quot;</span>,<span class="hljs-string">&quot;请先选择要删除的用户&quot;</span>);<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>            <span class="hljs-comment">//删除用户</span><br>            userService.delete(user.getId());<br>            <span class="hljs-keyword">this</span>.users.remove(user);<br>            Alerts.success(<span class="hljs-string">&quot;成功&quot;</span>, <span class="hljs-string">&quot;删除成功&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            Alerts.error(<span class="hljs-string">&quot;失败&quot;</span>,<span class="hljs-string">&quot;删除失败&quot;</span>);<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>充值用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FXML</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">chargeView</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            User user = <span class="hljs-keyword">this</span>.userTableView.getSelectionModel().getSelectedItem();<br>            <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)&#123;<br>                Alerts.warning(<span class="hljs-string">&quot;未选择&quot;</span>,<span class="hljs-string">&quot;请先选择要充值的用户&quot;</span>);<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>            initChargeStage(user);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>冻结用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FXML</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">frozen</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            User user = <span class="hljs-keyword">this</span>.userTableView.getSelectionModel().getSelectedItem();<br>            <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)&#123;<br>                Alerts.warning(<span class="hljs-string">&quot;未选择&quot;</span>,<span class="hljs-string">&quot;请先选择要冻结的用户&quot;</span>);<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>            <span class="hljs-comment">//冻结用户</span><br>            userService.frozen(user.getId());<br>            user.setStatus(Constant.USER_FROZEN);<br>            userTableView.refresh();<br>            Alerts.success(<span class="hljs-string">&quot;成功&quot;</span>, <span class="hljs-string">&quot;冻结成功&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            e.printStackTrace();<br>            Alerts.error(<span class="hljs-string">&quot;失败&quot;</span>,<span class="hljs-string">&quot;冻结失败&quot;</span>);<br>        &#125;<br><br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>修改添加用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@FXML</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">userEditView</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            User user = <span class="hljs-keyword">this</span>.userTableView.getSelectionModel().getSelectedItem();<br>            <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)&#123;<br>                Alerts.warning(<span class="hljs-string">&quot;未选择&quot;</span>,<span class="hljs-string">&quot;请先选择要修改的数据&quot;</span>);<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br><br>           initStage(user);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        添加</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@FXML</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">userAddView</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            initStage(<span class="hljs-keyword">null</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>初始化信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">        初始化充值stage</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initChargeStage</span><span class="hljs-params">(User user)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        FXMLLoader loader = <span class="hljs-keyword">new</span> FXMLLoader();<br>        loader.setLocation(App.class.getResource(<span class="hljs-string">&quot;/com/bjpowernode/module/user/UserChargeView.fxml&quot;</span>));<br>        StackPane target = (StackPane) loader.load();<br>        Scene scene = <span class="hljs-keyword">new</span> Scene(target);<br><br>        Stage stage = <span class="hljs-keyword">new</span> Stage();<span class="hljs-comment">//创建舞台；</span><br>        UserChargeViewCtrl controller = (UserChargeViewCtrl)loader.getController();<br>        controller.setStage(stage);<br>        controller.setUser(user);<br>        controller.setUserTableView(userTableView);<br>        stage.setHeight(<span class="hljs-number">500</span>);<br>        stage.setWidth(<span class="hljs-number">400</span>);<br>        <span class="hljs-comment">//设置窗口图标</span><br>        stage.getIcons().add(<span class="hljs-keyword">new</span> Image(<span class="hljs-string">&quot;icon.png&quot;</span>));<br>        stage.initModality(Modality.APPLICATION_MODAL);<br>        stage.setScene(scene); <span class="hljs-comment">//将场景载入舞台；</span><br>        stage.show(); <span class="hljs-comment">//显示窗口；</span><br>    &#125;<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        初始化stage</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initStage</span><span class="hljs-params">(User user)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        FXMLLoader loader = <span class="hljs-keyword">new</span> FXMLLoader();<br>        loader.setLocation(App.class.getResource(<span class="hljs-string">&quot;/com/bjpowernode/module/user/UserHandleView.fxml&quot;</span>));<br>        StackPane target = (StackPane) loader.load();<br>        <span class="hljs-comment">//Scene scene1 = App.getDecorator().getScene();</span><br>        Scene scene = <span class="hljs-keyword">new</span> Scene(target);<br><br><br>        Stage stage = <span class="hljs-keyword">new</span> Stage();<span class="hljs-comment">//创建舞台；</span><br>        UserHandleViewCtrl controller = (UserHandleViewCtrl)loader.getController();<br>        controller.setStage(stage);<br>        controller.setUsers(users);<br>        controller.setUser(user);<br>        controller.setUserTableView(userTableView);<br><span class="hljs-comment">//        stage.setResizable(false);</span><br>        stage.setHeight(<span class="hljs-number">500</span>);<br>        stage.setWidth(<span class="hljs-number">400</span>);<br>        <span class="hljs-comment">//设置窗口图标</span><br>        stage.getIcons().add(<span class="hljs-keyword">new</span> Image(<span class="hljs-string">&quot;icon.png&quot;</span>));<br>        stage.initModality(Modality.APPLICATION_MODAL);<br>        stage.setScene(scene); <span class="hljs-comment">//将场景载入舞台；</span><br>        stage.show(); <span class="hljs-comment">//显示窗口；</span><br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>注：其他 Controller 层实现同理</p>
+<h3 id="4-5-工具类实现"><a href="#4-5-工具类实现" class="headerlink" title="4.5 工具类实现"></a>4.5 工具类实现</h3><p>本项目为实现数据初始化和数据同步复制实现了两个工具类，在项目运行前可先运行数据初始化工具类</p>
+<ul>
+<li>BeanUtil为利用反射原理实现的对象属性值的拷贝</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">    *  对象属性值的拷贝</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> origin</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@param</span> dest</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">populate</span><span class="hljs-params">(Object origin, Object dest)</span> </span>&#123;<br>       <span class="hljs-keyword">try</span> &#123;<br>           <span class="hljs-comment">//使用反射解决这个问题</span><br>           <span class="hljs-comment">//判断两个对象是否是同一类型</span><br>           <span class="hljs-keyword">if</span> (origin.getClass() != dest.getClass()) &#123;<br>               <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;两个对象必须得是同一类型&quot;</span>);<br>           &#125;<br><br>           Class&lt;?&gt; clazz = origin.getClass();<br>           <span class="hljs-comment">//获取origin中的属性</span><br>           Field[] fields = clazz.getDeclaredFields();<br>           <span class="hljs-keyword">for</span> (Field f : fields) &#123;<br>               <span class="hljs-comment">//排除serialVersionUID</span><br>               <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;serialVersionUID&quot;</span>.equals(f.getName())) &#123;<br>                   <span class="hljs-keyword">continue</span>;<br>               &#125;<br>               <span class="hljs-comment">//打破封装</span><br>               f.setAccessible(<span class="hljs-keyword">true</span>);<br>               <span class="hljs-comment">//从dest对象中找到对应的属性值，然后赋值到origin相应的属性中</span><br>               f.set(origin,f.get(dest));<br>           &#125;<br>       &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException e) &#123;<br>           e.printStackTrace();<br>       &#125;<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<ul>
+<li>InitDataUtil为初始化用户、书籍、借阅信息等数据的工具类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 初始化数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initData</span><span class="hljs-params">(String path,List&lt;?&gt; list)</span> </span>&#123;<br>        ObjectOutputStream oos = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-comment">//创建相关文件夹</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            File directory = <span class="hljs-keyword">new</span> File(path.split(<span class="hljs-string">&quot;/&quot;</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;/&quot;</span>);<br>            File file = <span class="hljs-keyword">new</span> File(path);<br>            <span class="hljs-comment">//判断文件夹是否存在</span><br>            <span class="hljs-keyword">if</span> (!directory.exists()) &#123;<br>                directory.mkdir();<br>            &#125;<br>            <span class="hljs-comment">//判断文件是否存在</span><br>            <span class="hljs-keyword">if</span> (!file.exists()) &#123;<br>                file.createNewFile();<br>                <span class="hljs-comment">//利用对象输出流将list数据写出到文件中</span><br>                oos = <span class="hljs-keyword">new</span> ObjectOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(path));<br>                oos.writeObject(list);<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">//关闭流</span><br>            <span class="hljs-keyword">if</span> (oos != <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    oos.close();<br>                &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>项目改进：</p>
+<p>此小项目适合刚学完JavaSE基础的同学，有项目基础的可以运用 SpringBoot + MyBatis Plus 来分层，结合MySQL做持久化，前端可继续采用JavaFX来重构此项目。</p>
+<p>完整项目源码请到我的 github 下载，记得点个star哦，T_T</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xiaobeibi/JavaDemoProjects/tree/master/LibraryForJavaSE">https://github.com/xiaobeibi/JavaDemoProjects/tree/master/LibraryForJavaSE</a></p>
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaDemo/">JavaDemo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaDemo/">JavaDemo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Linux%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE%E7%9A%84%206%20%E7%A7%8D%E6%96%B9%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux 环境变量配置的 6 种方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/">
+                        <span class="hidden-mobile">超详细 Kafka 入门（最佳实践）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

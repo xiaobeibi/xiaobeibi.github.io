@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="后端：前端，我们分手吧  1. 背景互联网技术的应用领域已经涉及到人们日常生活的方方面面，复杂的使用场景以及海量的访问用户促使互联网技术快速迭代和发展。系统架构的发展可以概括为三个阶段，即前后端未分离阶段、前后端半分离阶段和前后端完全分离阶段。 一方面，前后端技术之间的边界逐渐清晰，明确了前后端开发工程师各自的工作职责，前后端开发工作更加专业化和精细化。 另一方面，前后端分离的开发架构可以有效提高">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后端：前端，我们分手吧">
+<meta property="og:url" content="http://example.com/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="后端：前端，我们分手吧  1. 背景互联网技术的应用领域已经涉及到人们日常生活的方方面面，复杂的使用场景以及海量的访问用户促使互联网技术快速迭代和发展。系统架构的发展可以概括为三个阶段，即前后端未分离阶段、前后端半分离阶段和前后端完全分离阶段。 一方面，前后端技术之间的边界逐渐清晰，明确了前后端开发工程师各自的工作职责，前后端开发工作更加专业化和精细化。 另一方面，前后端分离的开发架构可以有效提高">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120636.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120644.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120759.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120852.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.912Z">
+<meta property="article:modified_time" content="2022-03-25T13:30:35.416Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="设计架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120636.png">
+  
+  <title>后端：前端，我们分手吧 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="后端：前端，我们分手吧">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">后端：前端，我们分手吧</h1>
+            
+            <div class="markdown-body">
+              <center><h2>后端：前端，我们分手吧</h2></center>
+
+<h3 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a><strong>1. 背景</strong></h3><p>互联网技术的应用领域已经涉及到人们日常生活的方方面面，复杂的使用场景以及海量的访问用户促使互联网技术快速迭代和发展。系统架构的发展可以概括为三个阶段，即前后端未分离阶段、前后端半分离阶段和前后端完全分离阶段。</p>
+<p>一方面，前后端技术之间的边界逐渐清晰，明确了前后端开发工程师各自的工作职责，前后端开发工作更加专业化和精细化。</p>
+<p>另一方面，前后端分离的开发架构可以有效提高项目开发效率、维护效率和管理效率，在开发过程中前后端代码进行独立的开发和修改，最终通过接口的调用完成功能对接。而项目管理人员可以更好的规划项目开发周期，为项目敏捷开发、快速迭代奠定良好的基础。</p>
+<p>为了更好地适应大型分布式架构、微服务架构和多终端服务应用场景，前后端之间的逐渐解耦是技术发展的必然趋势。在下文中会针对前后端系统架构的三个发展阶段分别进行详细介绍，对比各阶段之间的优劣性，让读者对这三个阶段有更清晰的认识。</p>
+<h3 id="2、前后端未分离阶段"><a href="#2、前后端未分离阶段" class="headerlink" title="2、前后端未分离阶段"></a><strong>2、前后端未分离阶段</strong></h3><p>在前后端未分离的模式中，前端的页面效果都是由后端来控制，前端发出请求，由后端渲染页面，具体情况如下图所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120636.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图1. 前后端未分离</center>
+
+<p>而前后端未分离模式时期最常用的便是MVC（Model-View-Controller）框架，其原理如下图所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120644.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图2. MVC架构</center>
+
+<p>其大致流程就是将所有的请求都发送给作为控制器的Servlet，它接受请求，并根据请求信息将它们分发给适当的JSP来响应。同时，Servlet还根据JSP的需求生成JavaBeans的实例并输出给JSP环境。</p>
+<p>MVC框架在上个世纪70年代问世，对于当时来说，一个较为清晰的前后端交互模型，以及较高重用性，直到今天它依然被人们使用，可见其还是有一定的优越性。</p>
+<p>那么是什么原因使得人们要摒弃前后端不分离的开发模式，而转去追求前后端分离呢？原因如下：</p>
+<ol>
+<li><p>前后端不分离导致前端无法单独进行调试，必须要等后端代码开发支持后才可以进行，不利于项目整体推进；</p>
+</li>
+<li><p>前端不可避免会遇到后台代码，开发者需要掌握多项技术，无谓的增加了学习成本，不利于程序员的成长；</p>
+</li>
+<li><p>这种开发模式的耦合性太强，将前后端代码统一打包放在一起时，如果我们的首页里有100张图片，那么当用户访问首页的时候，就需要建立100个HTTP请求，我们的服务器接收这些请求，都需要耗费内存去创建Socket来进行TCP传输，如果更多人同时去请求这个页面，那么服务器的压力会更大，甚至可能导致服务器的宕机。</p>
+</li>
+<li><p>JSP本身所导致的一些其他问题 比如，JSP第一次运行的时候比较缓慢，因为里头包含一个将JSP翻译为Servlet的步骤，然后之后的每次请求JSP都是访问Servlet再用输出流输出的HTML页面，效率没有直接使用HTML高。再比如因为同步加载的原因，在JSP中有很多内容的情况下，页面响应会很慢。</p>
+</li>
+</ol>
+<h3 id="3、半分离时代"><a href="#3、半分离时代" class="headerlink" title="3、半分离时代"></a><strong>3、半分离时代</strong></h3><p>前后端半分离，前端的数据是通过接口（Ajax）来获取的，通过前端的DOM来对页面上的数据进行绑定，最终由浏览器将页面渲染出来。这也就是Ajax与SPA应用（单页应用）结合的方式，其结构图如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120759.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图3. 前后端半分离</center>
+
+<p>步骤如下：</p>
+<ol>
+<li>前端浏览器请求，CDN返回HTML页面；</li>
+<li>HTML中的JS代码以Ajax方式请求后台的Restful接口；</li>
+<li>接口返回Json数据，页面解析Json数据，通过DOM操作渲染页面；</li>
+<li>后端将数据拼装为JSON，通过接口供前端使用。   </li>
+</ol>
+<p>那么WEB工作流程是：</p>
+<ol>
+<li><p>打开web，加载基本资源，如CSS，JS等；</p>
+</li>
+<li><p>发起一个Ajax请求再到服务端请求数据，同时展示loading；</p>
+</li>
+<li><p>得到Json格式的数据后再根据逻辑选择模板渲染出DOM字符串；</p>
+</li>
+<li><p>将DOM字符串插入页面中web view渲染出DOM结构；</p>
+</li>
+</ol>
+<p>WEB工作流程中的步骤是在用户端进行，减轻了服务端的一部分工作。但是数据的展示及页面的加载等与用户的设备性能由很大的关联性。也就是说，如果用户设备足够好，资源加载快，用户体验好。反之，则相反。</p>
+<p>为什么说是半分离的？因为不是所有页面都是单页面应用，在多页面应用的情况下，前端因为没有掌握controller层，前端需要跟后端讨论，我们这个页面是要同步输出呢，还是异步Json渲染呢？而且，即使在这一时期，通常也是一个工程师搞定前后端所有工作。因此，在这一阶段，只能算半分离。</p>
+<p>首先，这种方式的优点是很明显的。在半分离模式下，前后端的分工依然不是很清晰，前后端通过Ajax接口协作更加紧密，其实这种模式下，与未分离时代区别不大。只是将复杂度从服务端转移到了前端浏览器的JavaScript等了。</p>
+<p>只是在代码层面，前端不会嵌入任何后台代码，前端专注于HTML、CSS、JS的开发，不依赖于后端。自己还能够模拟Json数据来渲染页面。发现Bug，也能迅速定位出是谁的问题。</p>
+<p>然而，在这种架构下，还是存在明显的弊端的。最明显的有如下几点：</p>
+<ol>
+<li><p>JS存在大量冗余，在业务复杂的情况下，页面的渲染部分的代码，非常复杂；</p>
+</li>
+<li><p>在Json返回的数据量比较大的情况下，渲染的十分缓慢，会出现页面卡顿的情况；</p>
+</li>
+<li><p>SEO（ Search Engine Optimization，即搜索引擎优化）非常不方便，由于搜索引擎的爬虫无法爬下JS异步渲染的数据，导致这样的页面，SEO会存在一定的问题；</p>
+</li>
+<li><p>资源消耗严重，在业务复杂的情况下，一个页面可能要发起多次HTTP请求才能将页面渲染完毕。</p>
+</li>
+</ol>
+<p>正是因为如上缺点，我们才亟需真正的前后端分离架构。</p>
+<h3 id="4、分离时代"><a href="#4、分离时代" class="headerlink" title="4、分离时代"></a><strong>4、分离时代</strong></h3><p>大家一致认同的前后端分离的例子就是SPA(Single-page application)，所有用到的展现数据都是后端通过异步接口(AJAX/JSONP)的方式提供的，前端只管展现。从某种意义上来说，SPA确实做到了前后端分离，但这种方式存在前后端职责上的不明确。</p>
+<p>在半分离时代，接口通常是按照展现逻辑来提供的，而且为了提高效率，在后端会处理一些展现逻辑，这就意味着后端还是涉足了view层的工作，不是真正的前后端分离。</p>
+<p> 前后端的彻底分离，是前后端代码、资源、职责、服务和部署等的分离。Web服务器只保留静态资源(HTML、CSS、JS等)，应用服务器则只提供访问接口来对数据进行持久化操作，从而通过代码和资源的分离进一步实现前后端服务和部署的分离。</p>
+<p>随着前后端彻底的分离后，开发权重前移，前端开发人员不必再受到后端数据模板的局限，后端开发人员的职责也进一步明确，不再对数据的展现逻辑进行处理，前后端可以在约定好接口之后实现高效并行开发。</p>
+<p>前后端分离框架比传统基于web的应用开发框架具有更加高效灵活等特点，并且还减轻了服务器端的负载。在传统的基于Web的软件开发过程中，前后端的分界线通常为浏览器，一般认为在浏览器中处理与用户进行交互展示的部分为前端；将在服务器运行，并且为前端提供业务逻辑和数据的部分等代码称为后端。</p>
+<p>在传统的MVC框架结构下，前端与后端之间的耦合度高，改动任何一个前端页面都会引起控制层、模型层和视图层进行相应改变，开发效率大大降低，从而项目的扩展开发受到限制。同时，由于前端请求的是完整HTML页面，在网络带宽有限的情况下，会导致用户界面卡顿，因此也增加了服务器后端解析的负担。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120852.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<center>图4. 前后端完全分离</center>
+
+<p>前后端分离项目架构是一种新型的Web应用架构模式，前后端在开发阶段规定好数据的交互格式，实现开发和测试并行，同时，在运行阶段分离部署前后端项目，通信交互请求则继续使用HTTP或者其他协议。</p>
+<p>近几年来，随着React、Vue、Angular等前端框架的迅速发展和广泛应用，前后端分离技术的性能和优势也得到了充分肯定，其应用规模与技术方案也越来越成熟。与传统的Web开发结构不同，前后端分离架构针对静态资源的请求，同样是直接定位并返回，但客户端向服务器请求的不再整个动态页面，而是以Ajax请求的形式，通过向后台发送API进行请求，后端只负责读写数据库并响应前端API数据请求。</p>
+<p>客户端异步获取API数据后，通过JavaScript动态修改页面内容切换用户视图。这样一方面减轻了服务器端动态生成HTML视图的负担，另一方面，由于用户视图的切换仅依赖于JavaScript的执行，无需考虑网络带宽的延迟，因此大大提升了Web应用的操作交互效率。</p>
+<p>与此同时，后端只提供API服务而不考虑前端的实现问题，所以可以在同一套后端API的基础上建立多个前端，包括Android端、IOS端、Web端及PC端等。对于前端来说，可以借助React Native、Codorva等框架开发Hybrid应用，实现同一套代码开发，多终端下部署。</p>
+<h3 id="5、总结"><a href="#5、总结" class="headerlink" title="5、总结"></a><strong>5、总结</strong></h3><p>相比于前后端未分离的MVC架构，前后端半分离的架构通过利用AJAX请求和JSON数据的传输可以保证前后端之间相对独立的开发与维护，看似已经做到了前后端的分离。但是在这种开发模式下后端的开发仍需要关注前端接口，前后端代码之间的定制化明显，无法灵活应用。完全分离的开发架构可以使解除前端接口对后端代码的约束，使后端代码更加灵活的迁移到不同平台上使用；而前端开发人员也可以更加专注于提高用户交互体验。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%BC%BA%E5%A4%A7%E7%9A%84%20IDEA%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强大的 IDEA 代码生成</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83/">
+                        <span class="hidden-mobile">前后端分离的接口规范</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

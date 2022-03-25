@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Oracle学习笔记  一:基本查询​    1.查询1981-1-1到1981-12-31号入职的雇员 1select * from emp where to_date(&amp;#x27;1981-1-1&amp;#x27;,&amp;#x27;yyyy-MM-dd&amp;#x27;) and to_date(&amp;#x27;1981-12-31&amp;#x27;,&amp;#x27;yyyy-MM-dd&amp;#x27;);  ​    2.查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle学习笔记">
+<meta property="og:url" content="http://example.com/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Oracle学习笔记  一:基本查询​    1.查询1981-1-1到1981-12-31号入职的雇员 1select * from emp where to_date(&amp;#x27;1981-1-1&amp;#x27;,&amp;#x27;yyyy-MM-dd&amp;#x27;) and to_date(&amp;#x27;1981-12-31&amp;#x27;,&amp;#x27;yyyy-MM-dd&amp;#x27;);  ​    2.查">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-25T13:46:50.715Z">
+<meta property="article:modified_time" content="2021-10-12T14:26:03.128Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Oracle">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Oracle学习笔记 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Oracle学习笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Oracle学习笔记</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Oracle学习笔记</h2></center>
+
+<h1 id="一-基本查询"><a href="#一-基本查询" class="headerlink" title="一:基本查询"></a>一:基本查询</h1><p>​    1.查询1981-1-1到1981-12-31号入职的雇员</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> to_date(<span class="hljs-string">&#x27;1981-1-1&#x27;</span>,<span class="hljs-string">&#x27;yyyy-MM-dd&#x27;</span>) <span class="hljs-keyword">and</span> to_date(<span class="hljs-string">&#x27;1981-12-31&#x27;</span>,<span class="hljs-string">&#x27;yyyy-MM-dd&#x27;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>​    2.查询员工编号是9527,1997,1314的员工            查询雇员姓名是’JAMES’,’SMITH’,’ALLEN’的雇员的信息</p>
+<p>​        2.1 or方式</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> empno <span class="hljs-operator">=</span> <span class="hljs-number">9527</span> <span class="hljs-keyword">or</span> empno <span class="hljs-operator">=</span> <span class="hljs-number">1997</span> <span class="hljs-keyword">or</span> empno <span class="hljs-operator">=</span> <span class="hljs-number">1314</span>;<br><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;JAMES&#x27;</span> <span class="hljs-keyword">or</span> ename <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;SMITH&#x27;</span> <span class="hljs-keyword">or</span> ename <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;ALLEN&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>​        2.2 in方式</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> empno <span class="hljs-keyword">in</span> (<span class="hljs-number">9527</span>,<span class="hljs-number">1997</span>,<span class="hljs-number">1314</span>);	<br><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;JAMES&#x27;</span>,<span class="hljs-string">&#x27;SMITH&#x27;</span>,<span class="hljs-string">&#x27;ALLEN&#x27;</span>);		<br></code></pre></div></td></tr></table></figure>
+
+<p>​    3.查询所有雇员姓名中第二个字符有’M’的雇员</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;_M%&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>​        查询名字中带有’M’的雇员</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%M%&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>4.查询雇员编号不是9527的雇员信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- !=方式</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> empno <span class="hljs-operator">!=</span> <span class="hljs-number">9527</span>;<br><span class="hljs-comment">-- &lt;&gt;方式</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> empno <span class="hljs-operator">&lt;&gt;</span> <span class="hljs-number">9527</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>5.查询雇员的工资进行降序排列(默认的是升序)</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp oder <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>6.查询雇员的奖金并做降序排列(关于 nulls first/nulls last)</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> 	ename, comm <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> comm <span class="hljs-keyword">DESC</span> nulls <span class="hljs-keyword">last</span>;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="二-字符函数"><a href="#二-字符函数" class="headerlink" title="二:字符函数"></a>二:字符函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.把&#x27;smith&#x27;转成大写   关键字:upper</span><br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;smith&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br><span class="hljs-comment">-- 2.把ename转成小写  关键字lower</span><br>	<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">LOWER</span>(ename) <span class="hljs-keyword">from</span> emp;<br><span class="hljs-comment">-- 3.将&#x27;smith&#x27;首字母大写   关键字:initcap</span><br>	<span class="hljs-keyword">SELECT</span> initcap(ename) <span class="hljs-keyword">FROM</span> emp;<br><span class="hljs-comment">-- 4.将&#x27;helloworld&#x27;截取字符串成&#x27;hello&#x27;  关键字:substr</span><br>	<span class="hljs-keyword">SELECT</span> SUBSTR(<span class="hljs-string">&#x27;helloword&#x27;</span>,<span class="hljs-number">0</span>,<span class="hljs-number">5</span>) <span class="hljs-keyword">from</span> daul;		<br><span class="hljs-comment">-- 5.获取&#x27;hello&#x27;字符串的长度  关键字:length</span><br>	<span class="hljs-keyword">SELECT</span> LENGTH(<span class="hljs-string">&#x27;hello&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br><span class="hljs-comment">-- 6.将&#x27;hello&#x27;中的&#x27;l&#x27;用&#x27;x&#x27;替换  关键字 :repalce</span><br>	<span class="hljs-keyword">SELECT</span> REPLACE(<span class="hljs-string">&#x27;hello&#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>,<span class="hljs-string">&#x27;x&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="三-数值函数"><a href="#三-数值函数" class="headerlink" title="三:数值函数"></a>三:数值函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.将15.66进行四舍五入(从-2到2)   关键字:round</span><br>		<span class="hljs-keyword">SELECT</span> ROUND(<span class="hljs-number">15.66</span>,<span class="hljs-number">-2</span>) <span class="hljs-keyword">FROM</span> daul;  <span class="hljs-comment">-- 0</span><br>		<span class="hljs-keyword">SELECT</span> ROUND(<span class="hljs-number">15.66</span>,<span class="hljs-number">-1</span>) <span class="hljs-keyword">FROM</span> daul;  <span class="hljs-comment">-- 20</span><br>		<span class="hljs-keyword">SELECT</span> ROUND(<span class="hljs-number">15.66</span>,<span class="hljs-number">0</span>) <span class="hljs-keyword">FROM</span> daul;  <span class="hljs-comment">-- 16</span><br>		<span class="hljs-keyword">SELECT</span> ROUND(<span class="hljs-number">15.66</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">FROM</span> daul;  <span class="hljs-comment">-- 15.7</span><br>		<span class="hljs-keyword">SELECT</span> ROUND(<span class="hljs-number">15.66</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">FROM</span> daul;  <span class="hljs-comment">-- 15.66 </span><br>		<br> <span class="hljs-comment">-- 2.将15.66进行截断(从-2到2)   关键字:tranc</span><br>		<span class="hljs-keyword">SELECT</span> trunc(<span class="hljs-number">15.66</span>,<span class="hljs-number">-2</span>) <span class="hljs-keyword">FROM</span> daul; <span class="hljs-comment">-- 0   在mysql中相当于truncate</span><br>		<span class="hljs-keyword">SELECT</span> trunc(<span class="hljs-number">15.66</span>,<span class="hljs-number">-1</span>) <span class="hljs-keyword">FROM</span> daul; <span class="hljs-comment">-- 10</span><br>		<span class="hljs-keyword">SELECT</span> trunc(<span class="hljs-number">15.66</span>,<span class="hljs-number">0</span>) <span class="hljs-keyword">FROM</span> daul; <span class="hljs-comment">-- 15</span><br>		<span class="hljs-keyword">SELECT</span> trunc(<span class="hljs-number">15.66</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">FROM</span> daul; <span class="hljs-comment">-- 15.6</span><br>		<span class="hljs-keyword">SELECT</span> trunc(<span class="hljs-number">15.66</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">FROM</span> daul; <span class="hljs-comment">-- 15.66</span><br> <span class="hljs-comment">-- 3.对15/4取余数  关键字 mod</span><br>	    <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MOD</span>(<span class="hljs-number">15</span>,<span class="hljs-number">4</span>) <span class="hljs-keyword">FROM</span> daul;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="四-日期函数"><a href="#四-日期函数" class="headerlink" title="四:日期函数"></a>四:日期函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询系统时间  sysdate</span><br>	<span class="hljs-keyword">SELECT</span> SYSDATE <span class="hljs-keyword">from</span> daul;<br><span class="hljs-comment">-- 2.查询雇员进入公司的周数</span><br>    <span class="hljs-keyword">SELECT</span> ename , (SYSDATE<span class="hljs-operator">-</span>hiredate)<span class="hljs-operator">/</span><span class="hljs-number">7</span> <span class="hljs-keyword">FROM</span> emp;<br><span class="hljs-comment">-- 3.查询员工进入公司的月数 month_between</span><br>	<span class="hljs-keyword">SELECT</span> ename,month_between(SYSDATE,hiredate) <span class="hljs-keyword">from</span> emp;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="五-转换函数"><a href="#五-转换函数" class="headerlink" title="五:转换函数"></a>五:转换函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 将系统日期显示为yyyy-mm-dd hh:mi:ss(去掉补零和24小时显示时间) 关键字  to_char</span><br>	<span class="hljs-keyword">select</span> to_char(sysdate,<span class="hljs-string">&#x27;yyyy-mm-dd hh24:mi:ss&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br><span class="hljs-comment">-- 显示成年月日</span><br>	<span class="hljs-keyword">select</span> to_char(sysdate,<span class="hljs-string">&#x27;yyyy&#x27;</span>)<span class="hljs-operator">||</span><span class="hljs-string">&#x27;年&#x27;</span><span class="hljs-operator">||</span>to_char(sysdate,<span class="hljs-string">&#x27;MM&#x27;</span>)<span class="hljs-operator">||</span><span class="hljs-string">&#x27;月&#x27;</span><span class="hljs-operator">||</span>to_char(sysdate,<span class="hljs-string">&#x27;dd&#x27;</span>)<span class="hljs-operator">||</span><span class="hljs-string">&#x27;日&#x27;</span>;<br>	<br><span class="hljs-comment">-- 将字符串&#x27;1981-1-1&#x27;转换成日期类型  关键字:to_date</span><br>    <span class="hljs-keyword">select</span> to_date(<span class="hljs-string">&#x27;1981-1-1&#x27;</span>,<span class="hljs-string">&#x27;yyyy-MM-dd&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="六-通用函数"><a href="#六-通用函数" class="headerlink" title="六:通用函数"></a>六:通用函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.空值的处理函数</span><br>	 <span class="hljs-keyword">SELECT</span> nvl(comm,<span class="hljs-number">0</span>) <span class="hljs-keyword">from</span> emp;<br><span class="hljs-comment">-- 2.nvl2(判断值,空返回值,非空返回值)</span><br>	 <span class="hljs-keyword">SELECT</span> mvl(<span class="hljs-string">&#x27;xxxx&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;0&#x27;</span>) <span class="hljs-keyword">from</span> daul;<br>	 <br>	 <br><span class="hljs-comment">/*空值函数是与空值null相关的一些函数，完成对空值null的一些操作，从而对空值进行处理。主要包括：nvl，nvl2，nullif，coalesce函数。</span><br><span class="hljs-comment">a).nvl(expr1,expr2)：如果expr1是空值，则返回expr2。</span><br><span class="hljs-comment">b).nvl2(expr1,expr2,expr3)：如果expr1不是空值，返回expr2，否则返回expr3。</span><br><span class="hljs-comment">c).nullif(expr1,expr2)：比较两个表达式，如果相等，返回null，否则，返回第一个表达式。</span><br><span class="hljs-comment">d).coalesce (表达式1, 表达式2, ... 表达式n)函数是对NVL函数的扩展。COALESCE	函数的功能是返回第一个不为空的参数，参数个数不受限制。*/</span><br>例<span class="hljs-number">1</span>：<span class="hljs-keyword">select</span> ename,sal<span class="hljs-operator">+</span>nvl(comm,<span class="hljs-number">0</span>) totalsal <span class="hljs-keyword">from</span> emp;<br>例<span class="hljs-number">2</span>：<span class="hljs-keyword">select</span> nvl2(<span class="hljs-keyword">null</span>,<span class="hljs-string">&#x27;8&#x27;</span>,<span class="hljs-string">&#x27;fd&#x27;</span>) <span class="hljs-keyword">from</span> dual;<br>例<span class="hljs-number">3</span>：<span class="hljs-keyword">select</span> <span class="hljs-built_in">nullif</span>(<span class="hljs-number">28</span>,<span class="hljs-number">28</span>),<span class="hljs-built_in">nullif</span>(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">from</span> dual;<br>例<span class="hljs-number">4</span>：<span class="hljs-keyword">select</span> <span class="hljs-built_in">coalesce</span>(<span class="hljs-keyword">null</span>,<span class="hljs-string">&#x27;5&#x27;</span>,<span class="hljs-string">&#x27;f&#x27;</span>) <span class="hljs-keyword">from</span> dual;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="七-条件表达式"><a href="#七-条件表达式" class="headerlink" title="七:条件表达式"></a>七:条件表达式</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 查询员工的job内容并转成中文显示</span><br>   <span class="hljs-comment">-- decode 方式</span><br>   <span class="hljs-keyword">select</span> ename,decode(job,<span class="hljs-string">&#x27;CLERK&#x27;</span>,<span class="hljs-string">&#x27;柜员&#x27;</span>,<span class="hljs-string">&#x27;SALESMAN&#x27;</span>,<span class="hljs-string">&#x27;销售&#x27;</span>,<span class="hljs-string">&#x27;MANAGER&#x27;</span>,<span class="hljs-string">&#x27;管理&#x27;</span>,<span class="hljs-string">&#x27;其他&#x27;</span>) <span class="hljs-keyword">from</span> emp;<br>   <span class="hljs-comment">-- case when the end方式</span><br>   <span class="hljs-keyword">select</span> ename,<span class="hljs-keyword">case</span> job <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;CLERK&#x27;</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&#x27;柜员&#x27;</span><br>   						 <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;SALESMAN&#x27;</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&#x27;销售&#x27;</span><br>   						 <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;MANAGER&#x27;</span> <span class="hljs-keyword">then</span> <span class="hljs-string">&#x27;管理&#x27;</span><br>   						 <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;其他&#x27;</span><br>   						 <span class="hljs-keyword">end</span> <span class="hljs-keyword">from</span> emp;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h1 id="八-多行函数-聚合函数"><a href="#八-多行函数-聚合函数" class="headerlink" title="八:多行函数(聚合函数)"></a>八:多行函数(聚合函数)</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询所有员工的记录数  关键字:conut()</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> emp;<br><span class="hljs-comment">-- 2.查询佣金的总数 -- (如何查询某个字段的总数量)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(comm) <span class="hljs-keyword">from</span> emp;<br><span class="hljs-comment">-- 3.查询最低工资  关键字  min</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">min</span>(sal) <span class="hljs-keyword">FROM</span> emp;<br><span class="hljs-comment">-- 4.查询最高工资  关键字 max</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">max</span>(sal) <span class="hljs-keyword">FROM</span> emp;<br><span class="hljs-comment">-- 5.查询平均工资 关键字  max</span><br><span class="hljs-keyword">select</span> <span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">from</span> emp;<br><span class="hljs-comment">-- 6.查询20号部门的员工工资总和</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(sal) <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> deptno <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>​    </p>
+<h1 id="九-分组函数"><a href="#九-分组函数" class="headerlink" title="九:分组函数"></a>九:分组函数</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询部分编号及人数  分组查询关键字 GROUP BY</span><br><span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno;<br><span class="hljs-comment">-- 2.查询每个部门的编号及平均工资</span><br><span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno;<br><span class="hljs-comment">-- 3.查询部门名称,部门编号,平均工资</span><br><span class="hljs-keyword">SELECT</span> dname,emp.deptno,<span class="hljs-built_in">avg</span>(sal) <span class="hljs-keyword">FROM</span> emp,dept <span class="hljs-keyword">WHERE</span> emp.deptno <span class="hljs-operator">=</span> dept.deptno <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> emp.deptno,dname;<br><span class="hljs-comment">-- 4.查询部门人数超过5的部门</span><br><span class="hljs-keyword">SELECT</span> 	deptno,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno <span class="hljs-keyword">having</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;</span> <span class="hljs-number">5</span>;<br><span class="hljs-comment">-- 5.查询部门编号,部门名称,平均工资且平均工资大于2000的</span><br><span class="hljs-keyword">SELECT</span> emp.deptno,dname,<span class="hljs-built_in">AVG</span>(sal) <span class="hljs-keyword">from</span> emp,dept <span class="hljs-keyword">where</span> emp.deptno <span class="hljs-operator">=</span> dept.deptno	<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> emp.deptno,dname <span class="hljs-keyword">having</span> <span class="hljs-built_in">AVG</span>(sal) <span class="hljs-operator">&gt;</span> <span class="hljs-number">2000</span>;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>Day02</p>
+<h1 id="十-连接查询"><a href="#十-连接查询" class="headerlink" title="十:连接查询"></a>十:连接查询</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询员工编号,姓名,领导编号,姓名,包括没有领导的</span><br><span class="hljs-keyword">SELECT</span> e1.empno,e1.ename,e2.empno,e2.ename <span class="hljs-keyword">FROM</span> emp e1 <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> 	emp e2 <span class="hljs-keyword">ON</span> e1.mgr <span class="hljs-operator">=</span> e2.empno;<br><span class="hljs-comment">-- oracle的(+)方式</span><br><span class="hljs-keyword">SELECT</span> e1.empno,e1.ename,e2.empno,e2.ename <span class="hljs-keyword">FROM</span> emp e1 ,emp e2 <span class="hljs-keyword">where</span> e1.mgr <span class="hljs-operator">=</span> e2.empno(<span class="hljs-operator">+</span>);<br><span class="hljs-comment">-- 2.查询出所有部门的信息(包括没员工的部门)及部门以下的员工信息</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp,dept <span class="hljs-keyword">WHERE</span> emp.deptno(<span class="hljs-operator">+</span>) <span class="hljs-operator">=</span> dept.deptno;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="十一-子查询"><a href="#十一-子查询" class="headerlink" title="十一:子查询"></a>十一:子查询</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询比雇员7654工资高,同时从事和7788的工作一样的员工</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> sal <span class="hljs-operator">&gt;</span> (<span class="hljs-keyword">SELECT</span> sal <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> empno <span class="hljs-operator">=</span> <span class="hljs-number">7654</span>) <span class="hljs-keyword">AND</span> job <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> job <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> empno <span class="hljs-operator">=</span> <span class="hljs-number">7788</span>); <br><span class="hljs-comment">-- 2.查询每个部门的最低工资及最低工资的部门名称和雇员名称(多表联查建议画图)</span><br><span class="hljs-keyword">SELECT</span> e1.deptno,dept.dname,e1.minsal,emp.ename <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> deptno,<span class="hljs-built_in">MIN</span>(sal) minsal <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno) e1 ,emp , dept <span class="hljs-keyword">WHERE</span> e1.minsal<span class="hljs-operator">=</span>emp.sal <span class="hljs-keyword">and</span> e1.deptno <span class="hljs-operator">=</span> emp.deptno <span class="hljs-keyword">and</span> e1.deptno <span class="hljs-operator">=</span> dept.deptno;<br><span class="hljs-comment">-- 练习一.找到员工表中工资最高的前三名</span><br><span class="hljs-keyword">SELECT</span> rownum,e.<span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> emp.<span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> sal <span class="hljs-keyword">DESC</span>) e <span class="hljs-keyword">WHERE</span> rownum <span class="hljs-operator">&lt;=</span> <span class="hljs-number">3</span>;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="十二-分页查询"><a href="#十二-分页查询" class="headerlink" title="十二:分页查询"></a>十二:分页查询</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">分页公式:<br>pageNo <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br>pageSize <span class="hljs-operator">=</span> <span class="hljs-number">3</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> rownum r,e.<span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> 表名 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 列名 <span class="hljs-keyword">DESC</span>)e) e1 <span class="hljs-keyword">WHERE</span> r<span class="hljs-operator">&gt;</span>(pageNo <span class="hljs-operator">-</span> <span class="hljs-number">1</span>)<span class="hljs-operator">*</span>pageSize <span class="hljs-keyword">and</span> r<span class="hljs-operator">&lt;</span>pageNo<span class="hljs-operator">*</span>pageSize;<br><br><span class="hljs-comment">-- 1.查询员工表,将员工工资进行降序查询,并进行分页取出第一页,一页三条记录</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> (<span class="hljs-keyword">SELECT</span> rownum r,e.<span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> sal <span class="hljs-keyword">DESC</span>)e) e1 <span class="hljs-keyword">WHERE</span> r<span class="hljs-operator">&gt;</span><span class="hljs-number">0</span> <span class="hljs-keyword">and</span> r<span class="hljs-operator">&lt;</span><span class="hljs-number">3</span>;<br></code></pre></div></td></tr></table></figure>
+
+<h1 id="十二-集合运算交并差-了解"><a href="#十二-集合运算交并差-了解" class="headerlink" title="十二:集合运算交并差(了解)"></a>十二:集合运算交并差(了解)</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">-- 1.查询工资大于1300并且job是SALESMAN(intersect)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> sal <span class="hljs-operator">&gt;</span> <span class="hljs-number">1300</span><br><span class="hljs-keyword">intersect</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> job <span class="hljs-operator">=</span><span class="hljs-string">&#x27;SALESMAN&#x27;</span>;<br><span class="hljs-comment">-- 2.查询工资大于1300或者job是&#x27;SALESMAN&#x27;(union)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> sal <span class="hljs-operator">&gt;</span> <span class="hljs-number">1300</span><br><span class="hljs-keyword">UNION</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> job <span class="hljs-operator">=</span><span class="hljs-string">&#x27;SALESMAN&#x27;</span>;<br><span class="hljs-comment">-- 3.查询工资大于1200和job是&#x27;SALESMAN&#x27;的差集(minus)</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> sal <span class="hljs-operator">&gt;</span> <span class="hljs-number">1300</span><br>minus<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> job <span class="hljs-operator">=</span><span class="hljs-string">&#x27;SALESMAN&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+<h1 id="十三-exists-not-exists关键字"><a href="#十三-exists-not-exists关键字" class="headerlink" title="十三:exists / not exists关键字"></a>十三:exists / not exists关键字</h1><figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-comment">/*</span><br><span class="hljs-comment">SELECT...WHERE exists(查询语句)</span><br><span class="hljs-comment">exist:当查询结果不为null的时候,返回true</span><br><span class="hljs-comment">当查询结果为null的时候,返回false</span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">-- 1.查询出有员工的部门</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> dept <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">EXISTS</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> dept.deptno <span class="hljs-operator">=</span> emp.deptno);<br><span class="hljs-comment">-- 2.查询出没有员工的部门</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> dept <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">EXISTS</span>(<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> emp <span class="hljs-keyword">WHERE</span> dept.deptno <span class="hljs-operator">=</span> emp.deptno);<br></code></pre></div></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oracle学习笔记续</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/OnlineBiddingSystem/">
+                        <span class="hidden-mobile">在线招标Demo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

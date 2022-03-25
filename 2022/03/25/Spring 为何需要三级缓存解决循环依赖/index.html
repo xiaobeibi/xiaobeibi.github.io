@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring 为何需要三级缓存解决循环依赖  在使用 spring 框架的日常开发中，bean之间的循环依赖太频繁了，spring已经帮我们去解决循环依赖问题，对我们开发者来说是无感知的，下面具体分析一下spring是如何解决bean之间循环依赖，为什么要使用到三级缓存，而不是二级缓存？ bean生命周期首先大家需要了解一下bean在spring中的生命周期，bean在spring的加载流程，才能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 为何需要三级缓存解决循环依赖">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring 为何需要三级缓存解决循环依赖  在使用 spring 框架的日常开发中，bean之间的循环依赖太频繁了，spring已经帮我们去解决循环依赖问题，对我们开发者来说是无感知的，下面具体分析一下spring是如何解决bean之间循环依赖，为什么要使用到三级缓存，而不是二级缓存？ bean生命周期首先大家需要了解一下bean在spring中的生命周期，bean在spring的加载流程，才能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201534687.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536821.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536810.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536984.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537634.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537846.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537759.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537355.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537321.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537503.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201538172.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539780.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539290.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539480.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539813.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540148.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540030.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540709.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540985.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201541756.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.789Z">
+<meta property="article:modified_time" content="2022-03-25T12:44:18.490Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201534687.png">
+  
+  <title>Spring 为何需要三级缓存解决循环依赖 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring 为何需要三级缓存解决循环依赖">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring 为何需要三级缓存解决循环依赖</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring 为何需要三级缓存解决循环依赖</h2></center>
+
+<p>在使用 spring 框架的日常开发中，bean之间的循环依赖太频繁了，spring已经帮我们去解决循环依赖问题，对我们开发者来说是无感知的，下面具体分析一下spring是如何解决bean之间循环依赖，为什么要使用到三级缓存，而不是二级缓存？</p>
+<h2 id="bean生命周期"><a href="#bean生命周期" class="headerlink" title="bean生命周期"></a><strong>bean生命周期</strong></h2><p>首先大家需要了解一下bean在spring中的生命周期，bean在spring的加载流程，才能够更加清晰知道spring是如何解决循环依赖的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201534687.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们在spring的BeanFactory工厂列举了很多接口，代表着bean的生命周期，我们主要记住的是我圈红线圈出来的接口, 再结合spring的源码来看这些接口主要是在哪里调用的</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536821.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>AbstractAutowireCapableBeanFactory类的doCreateBean方法是创建bean的开始，我们可以看到首先需要实例化这个bean，也就是在堆中开辟一块内存空间给这个对象，createBeanInstance方法里面逻辑大概就是采用反射生成实例对象，进行到这里表示对象还并未进行属性的填充，也就是@Autowired注解的属性还未得到注入</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536810.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们可以看到第二步就是填充bean的成员属性，populateBean方法里面的逻辑大致就是对使用到了注入属性的注解就会进行注入，如果在注入的过程发现注入的对象还没生成，则会跑去生产要注入的对象，第三步就是调用initializeBean方法初始化bean，也就是调用我们上述所提到的接口</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201536984.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到initializeBean方法中，首先调用的是使用的Aware接口的方法，我们具体看一下invokeAwareMethods方法中会调用Aware接口的那些方法</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537634.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们可以知道如果我们实现了BeanNameAware，BeanClassLoaderAware，BeanFactoryAware三个Aware接口的话，会依次调用setBeanName(), setBeanClassLoader(), setBeanFactory()方法，再看applyBeanPostProcessorsBeforeInitialization源码</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537846.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>发现会如果有类实现了BeanPostProcessor接口，就会执行postProcessBeforeInitialization方法，这里需要注意的是：如果多个类实现BeanPostProcessor接口，那么多个实现类都会执行postProcessBeforeInitialization方法，可以看到是for循环依次执行的，还有一个注意的点就是如果加载A类到spring容器中，A类也重写了BeanPostProcessor接口的postProcessBeforeInitialization方法，这时要注意A类的postProcessBeforeInitialization方法并不会得到执行，因为A类还未加载完成，还未完全放到spring的singletonObjects一级缓存中。</p>
+<p>再看一个注意的点</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537759.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537355.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到ApplicationContextAwareProcessor也实现了BeanPostProcessor接口，重写了postProcessBeforeInitialization方法，方法里面并调用了invokeAwareInterfaces方法，而invokeAwareInterfaces方法也写着如果实现了众多的Aware接口，则会依次执行相应的方法，值得注意的是ApplicationContextAware接口的setApplicationContext方法，再看一下invokeInitMethods源码</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537321.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>发现如果实现了InitializingBean接口，重写了afterPropertiesSet方法，则会调用afterPropertiesSet方法，最后还会调用是否指定了init-method，可以通过标签，或者@Bean注解的initMethod指定，最后再看一张applyBeanPostProcessorsAfterInitialization源码图</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201537503.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>发现跟之前的postProcessBeforeInitialization方法类似，也是循环遍历实现了BeanPostProcessor的接口实现类，执行postProcessAfterInitialization方法。整个bean的生命执行流程就如上面截图所示，哪个接口的方法在哪里被调用，方法的执行流程。</p>
+<p>最后，对bean的生命流程进行一个流程图的总结</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201538172.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="三级缓存解决循环依赖"><a href="#三级缓存解决循环依赖" class="headerlink" title="三级缓存解决循环依赖"></a><strong>三级缓存解决循环依赖</strong></h2><p>上一小节对bean的生命周期做了一个整体的流程分析，对spring如何去解决循环依赖的很有帮助。前面我们分析到填充属性时，如果发现属性还未在spring中生成，则会跑去生成属性对象实例。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539780.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们可以看到填充属性的时候，spring会提前将已经实例化的bean通过ObjectFactory半成品暴露出去，为什么称为半成品是因为这时候的bean对象实例化，但是未进行属性填充，是一个不完整的bean实例对象</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539290.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>spring利用singletonObjects, earlySingletonObjects, singletonFactories三级缓存去解决的，所说的缓存其实也就是三个Map</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539480.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到三级缓存各自保存的对象，这里重点关注二级缓存earlySingletonObjects和三级缓存singletonFactory，一级缓存可以进行忽略。前面我们讲过先实例化的bean会通过ObjectFactory半成品提前暴露在三级缓存中</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201539813.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>singletonFactory是传入的一个匿名内部类，调用ObjectFactory.getObject()最终会调用getEarlyBeanReference方法。再来看看循环依赖中是怎么拿其它半成品的实例对象的。</p>
+<p>我们假设现在有这样的场景AService依赖BService，BService依赖AService</p>
+<ol>
+<li><p>AService首先实例化，实例化通过ObjectFactory半成品暴露在三级缓存中</p>
+</li>
+<li><p>填充属性BService，发现BService还未进行过加载，就会先去加载BService</p>
+</li>
+<li><p>再加载BService的过程中，实例化，也通过ObjectFactory半成品暴露在三级缓存</p>
+</li>
+<li><p>填充属性AService的时候，这时候能够从三级缓存中拿到半成品的ObjectFactory</p>
+</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540148.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>拿到ObjectFactory对象后，调用ObjectFactory.getObject()方法最终会调用getEarlyBeanReference()方法，getEarlyBeanReference这个方法主要逻辑大概描述下如果bean被AOP切面代理则返回的是beanProxy对象，如果未被代理则返回的是原bean实例。</p>
+<p>这时我们会发现能够拿到bean实例(属性未填充)，然后从三级缓存移除，放到二级缓存earlySingletonObjects中，而此时B注入的是一个半成品的实例A对象，不过随着B初始化完成后，A会继续进行后续的初始化操作，最终B会注入的是一个完整的A实例，因为在内存中它们是同一个对象。</p>
+<p>下面是重点，我们发现这个二级缓存好像显得有点多余，好像可以去掉，只需要一级和三级缓存也可以做到解决循环依赖的问题？？？</p>
+<p>只要两个缓存确实可以做到解决循环依赖的问题，但是有一个前提这个bean没被AOP进行切面代理，如果这个bean被AOP进行了切面代理，那么只使用两个缓存是无法解决问题，下面来看一下bean被AOP进行了切面代理的场景</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540030.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们发现AService的testAopProxy被AOP代理了，看看传入的匿名内部类的getEarlyBeanReference返回的是什么对象。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540709.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>发现singletonFactory.getObject()返回的是一个AService的代理对象，还是被CGLIB代理的。再看一张再执行一遍singletonFactory.getObject()返回的是否是同一个AService的代理对象</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201540985.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们会发现再执行一遍singleFactory.getObject()方法又是一个新的代理对象，这就会有问题了，因为AService是单例的，每次执行singleFactory.getObject()方法又会产生新的代理对象。</p>
+<p>假设这里只有一级和三级缓存的话，我每次从三级缓存中拿到singleFactory对象，执行getObject()方法又会产生新的代理对象，这是不行的，因为AService是单例的，所有这里我们要借助二级缓存来解决这个问题，将执行了singleFactory.getObject()产生的对象放到二级缓存中去，后面去二级缓存中拿，没必要再执行一遍singletonFactory.getObject()方法再产生一个新的代理对象，保证始终只有一个代理对象。还有一个注意的点</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201541756.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>既然singleFactory.getObject()返回的是代理对象，那么注入的也应该是代理对象，我们可以看到注入的确实是经过CGLIB代理的AService对象。所以如果没有AOP的话确实可以两级缓存就可以解决循环依赖的问题，如果加上AOP，两级缓存是无法解决的，不可能每次执行singleFactory.getObject()方法都给我产生一个新的代理对象，所以还要借助另外一个缓存来保存产生的代理对象</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>前面先讲到bean的加载流程，了解了bean加载流程对spring如何解决循环依赖的问题很有帮助，后面再分析到spring为什么需要利用到三级缓存解决循环依赖问题，而不是二级缓存。网上可以试试AOP的情形，实践一下就能明白二级缓存为什么解决不了AOP代理的场景了</p>
+<p>在工作中，一直认为编程代码不是最重要的，重要的是在工作中所养成的编程思维。</p>
+<p>如果本文对你有帮助的话，请不要吝啬你的赞，谢谢！</p>
+<p>来源：cnblogs.com/semi-sub/p/13548479.html</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/SpringBoot+SpringSecurity%20%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%20+%20Jwt%20%E7%9A%84%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SpringBoot+SpringSecurity 前后端分离 + Jwt 的权限认证</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20%E5%AE%B9%E5%99%A8/">
+                        <span class="hidden-mobile">Spring 容器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

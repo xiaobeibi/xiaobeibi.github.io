@@ -1,0 +1,598 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Redis 缓存使用技巧和设计方案  缓存能够有效地加速应用的读写速度，同时也可以降低后端负载，对日常应用的开发至关重要。下面会介绍缓存使用技巧和设计方案，包含如下内容：缓存的收益和成本分析、缓存更新策略的选择和使用场景、缓存粒度控制方法、穿透问题优化、无底洞问题优化、雪崩问题优化、热点key重建优化。 1）缓存的收益和成本分析下图左侧为客户端直接调用存储层的架构，右侧为比较典型的缓存层+存储层架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 缓存使用技巧和设计方案">
+<meta property="og:url" content="http://example.com/2022/03/25/Redis%20%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Redis 缓存使用技巧和设计方案  缓存能够有效地加速应用的读写速度，同时也可以降低后端负载，对日常应用的开发至关重要。下面会介绍缓存使用技巧和设计方案，包含如下内容：缓存的收益和成本分析、缓存更新策略的选择和使用场景、缓存粒度控制方法、穿透问题优化、无底洞问题优化、雪崩问题优化、热点key重建优化。 1）缓存的收益和成本分析下图左侧为客户端直接调用存储层的架构，右侧为比较典型的缓存层+存储层架">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826256.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826383.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827504.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827778.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827699.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827057.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828704.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828137.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828132.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829198.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829915.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829068.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829253.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.721Z">
+<meta property="article:modified_time" content="2022-03-25T10:18:49.951Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826256.webp">
+  
+  <title>Redis 缓存使用技巧和设计方案 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Redis 缓存使用技巧和设计方案">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Redis 缓存使用技巧和设计方案</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Redis 缓存使用技巧和设计方案</h2></center>
+
+<p>缓存能够有效地加速应用的读写速度，同时也可以降低后端负载，对日常应用的开发至关重要。下面会介绍缓存使用技巧和设计方案，包含如下内容：缓存的收益和成本分析、缓存更新策略的选择和使用场景、缓存粒度控制方法、穿透问题优化、无底洞问题优化、雪崩问题优化、热点key重建优化。</p>
+<h3 id="1）缓存的收益和成本分析"><a href="#1）缓存的收益和成本分析" class="headerlink" title="1）缓存的收益和成本分析"></a>1）缓存的收益和成本分析</h3><p>下图左侧为客户端直接调用存储层的架构，右侧为比较典型的缓存层+存储层架构。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826256.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>下面分析一下缓存加入后带来的收益和成本。</p>
+<p><strong>收益：</strong></p>
+<p>①加速读写：因为缓存通常都是全内存的，而存储层通常读写性能不够强悍（例如MySQL），通过缓存的使用可以有效地加速读写，优化用户体验。</p>
+<p>②降低后端负载：帮助后端减少访问量和复杂计算（例如很复杂的SQL语句），在很大程度降低了后端的负载。</p>
+<p><strong>成本：</strong></p>
+<p>①数据不一致性：缓存层和存储层的数据存在着一定时间窗口的不一致性，时间窗口跟更新策略有关。</p>
+<p>②代码维护成本：加入缓存后，需要同时处理缓存层和存储层的逻辑，增大了开发者维护代码的成本。</p>
+<p>③运维成本：以Redis Cluster为例，加入后无形中增加了运维成本。</p>
+<p><strong>缓存的使用场景基本包含如下两种：</strong></p>
+<p>①开销大的复杂计算：以MySQL为例子，一些复杂的操作或者计算（例如大量联表操作、一些分组计算），如果不加缓存，不但无法满足高并发量，同时也会给MySQL带来巨大的负担。</p>
+<p>②加速请求响应：即使查询单条后端数据足够快（例如<code>select*from table where id=</code>），那么依然可以使用缓存，以Redis为例子，每秒可以完成数万次读写，并且提供的批量操作可以优化整个IO链的响应时间。</p>
+<h3 id="2）缓存更新策略"><a href="#2）缓存更新策略" class="headerlink" title="2）缓存更新策略"></a>2）缓存更新策略</h3><p>缓存中的数据会和数据源中的真实数据有一段时间窗口的不一致，需要利用某些策略进行更新，下面会介绍几种主要的缓存更新策略。</p>
+<p><strong>①LRU/LFU/FIFO算法剔除</strong>：剔除算法通常用于缓存使用量超过了预设的最大值时候，如何对现有的数据进行剔除。例如Redis使用maxmemory-policy这个配置作为内存最大值后对于数据的剔除策略。</p>
+<p><strong>②超时剔除</strong>：通过给缓存数据设置过期时间，让其在过期时间后自动删除，例如Redis提供的expire命令。如果业务可以容忍一段时间内，缓存层数据和存储层数据不一致，那么可以为其设置过期时间。在数据过期后，再从真实数据源获取数据，重新放到缓存并设置过期时间。例如一个视频的描述信息，可以容忍几分钟内数据不一致，但是涉及交易方面的业务，后果可想而知。</p>
+<p><strong>③主动更新</strong>：应用方对于数据的一致性要求高，需要在真实数据更新后，立即更新缓存数据。例如可以利用消息系统或者其他方式通知缓存更新。</p>
+<p>三种常见更新策略的对比：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826383.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>有两个建议：</p>
+<p>①低一致性业务建议配置最大内存和淘汰策略的方式使用。</p>
+<p>②高一致性业务可以结合使用超时剔除和主动更新，这样即使主动更新出了问题，也能保证数据过期时间后删除脏数据。</p>
+<h3 id="3）缓存粒度控制"><a href="#3）缓存粒度控制" class="headerlink" title="3）缓存粒度控制"></a>3）缓存粒度控制</h3><p>缓存粒度问题是一个容易被忽视的问题，如果使用不当，可能会造成很多无用空间的浪费，网络带宽的浪费，代码通用性较差等情况，需要综合数据通用性、空间占用比、代码维护性三点进行取舍。</p>
+<p>缓存比较常用的选型，缓存层选用Redis，存储层选用MySQL。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827504.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="4）穿透优化"><a href="#4）穿透优化" class="headerlink" title="4）穿透优化"></a>4）穿透优化</h3><p>缓存穿透是指查询一个根本不存在的数据，缓存层和存储层都不会命中，通常出于容错的考虑，如果从存储层查不到数据则不写入缓存层。</p>
+<p>通常可以在程序中分别统计总调用数、缓存层命中数、存储层命中数，如果发现大量存储层空命中，可能就是出现了缓存穿透问题。造成缓存穿透的基本原因有两个。第一，自身业务代码或者数据出现问题，第二，一些恶意攻击、爬虫等造成大量空命中。下面我们来看一下如何解决缓存穿透问题。</p>
+<p><strong>①缓存空对象</strong>：如图下所示，当第2步存储层不命中后，仍然将空对象保留到缓存层中，之后再访问这个数据将会从缓存中获取，这样就保护了后端数据源。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827778.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>缓存空对象会有两个问题：第一，空值做了缓存，意味着缓存层中存了更多的键，需要更多的内存空间（如果是攻击，问题更严重），比较有效的方法是针对这类数据设置一个较短的过期时间，让其自动剔除。第二，缓存层和存储层的数据会有一段时间窗口的不一致，可能会对业务有一定影响。例如过期时间设置为5分钟，如果此时存储层添加了这个数据，那此段时间就会出现缓存层和存储层数据的不一致，此时可以利用消息系统或者其他方式清除掉缓存层中的空对象。</p>
+<p><strong>②布隆过滤器拦截</strong></p>
+<p>如下图所示，在访问缓存层和存储层之前，将存在的key用布隆过滤器提前保存起来，做第一层拦截。例如：一个推荐系统有4亿个用户id，每个小时算法工程师会根据每个用户之前历史行为计算出推荐数据放到存储层中，但是最新的用户由于没有历史行为，就会发生缓存穿透的行为，为此可以将所有推荐数据的用户做成布隆过滤器。如果布隆过滤器认为该用户id不存在，那么就不会访问存储层，在一定程度保护了存储层。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827699.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>缓存空对象和布隆过滤器方案对比</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201827057.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>另：布隆过滤器简单说明：</p>
+<p>如果想判断一个元素是不是在一个集合里，一般想到的是将集合中所有元素保存起来，然后通过比较确定。链表、树、散列表（又叫哈希表，Hash table）等等数据结构都是这种思路。但是随着集合中元素的增加，我们需要的存储空间越来越大。同时检索速度也越来越慢。</p>
+<p>Bloom Filter 是一种空间效率很高的随机数据结构，Bloom filter 可以看做是对 bit-map 的扩展, 它的原理是：</p>
+<p>当一个元素被加入集合时，通过 K 个 Hash 函数将这个元素映射成一个位阵列（Bit array）中的 K 个点，把它们置为 1。检索时，我们只要看看这些点是不是都是 1 就（大约）知道集合中有没有它了：</p>
+<p>如果这些点有任何一个 0，则被检索元素一定不在；如果都是 1，则被检索元素很可能在。</p>
+<h3 id="5）无底洞优化"><a href="#5）无底洞优化" class="headerlink" title="5）无底洞优化"></a>5）无底洞优化</h3><p>为了满足业务需要可能会添加大量新的缓存节点，但是发现性能不但没有好转反而下降了。用一句通俗的话解释就是，更多的节点不代表更高的性能，所谓“无底洞”就是说投入越多不一定产出越多。但是分布式又是不可以避免的，因为访问量和数据量越来越大，一个节点根本抗不住，所以如何高效地在分布式缓存中批量操作是一个难点。</p>
+<p><strong>无底洞问题分析：</strong></p>
+<p>①客户端一次批量操作会涉及多次网络操作，也就意味着批量操作会随着节点的增多，耗时会不断增大。</p>
+<p>②网络连接数变多，对节点的性能也有一定影响。</p>
+<p>如何在分布式条件下优化批量操作？我们来看一下常见的IO优化思路：</p>
+<ul>
+<li>命令本身的优化，例如优化SQL语句等。</li>
+<li>减少网络通信次数。</li>
+<li>降低接入成本，例如客户端使用长连/连接池、NIO等。</li>
+</ul>
+<p>这里我们假设命令、客户端连接已经为最优，重点讨论减少网络操作次数。下面我们将结合Redis Cluster的一些特性对四种分布式的批量操作方式进行说明。</p>
+<p><strong>①串行命令</strong>：由于n个key是比较均匀地分布在Redis Cluster的各个节点上，因此无法使用mget命令一次性获取，所以通常来讲要获取n个key的值，最简单的方法就是逐次执行n个get命令，这种操作时间复杂度较高，它的操作时间=n次网络时间+n次命令时间，网络次数是n。很显然这种方案不是最优的，但是实现起来比较简单。</p>
+<p><strong>②串行IO</strong>：Redis Cluster使用CRC16算法计算出散列值，再取对16383的余数就可以算出slot值，同时Smart客户端会保存slot和节点的对应关系，有了这两个数据就可以将属于同一个节点的key进行归档，得到每个节点的key子列表，之后对每个节点执行mget或者Pipeline操作，它的操作时间=node次网络时间+n次命令时间，网络次数是node的个数，整个过程如下图所示，很明显这种方案比第一种要好很多，但是如果节点数太多，还是有一定的性能问题。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828704.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>③并行IO</strong>：此方案是将方案2中的最后一步改为多线程执行，网络次数虽然还是节点个数，但由于使用多线程网络时间变为<code>O（1）</code>，这种方案会增加编程的复杂度。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828137.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>④hash_tag实现</strong>：Redis Cluster的hash_tag功能，它可以将多个key强制分配到一个节点上，它的操作时间=1次网络时间+n次命令时间。</p>
+<p>四种批量操作解决方案对比</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201828132.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="6）雪崩优化"><a href="#6）雪崩优化" class="headerlink" title="6）雪崩优化"></a>6）雪崩优化</h3><p>缓存雪崩：由于缓存层承载着大量请求，有效地保护了存储层，但是如果缓存层由于某些原因不能提供服务，于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会级联宕机的情况。</p>
+<p>预防和解决缓存雪崩问题，可以从以下三个方面进行着手：</p>
+<p><strong>①保证缓存层服务高可用性</strong>。如果缓存层设计成高可用的，即使个别节点、个别机器、甚至是机房宕掉，依然可以提供服务，例如前面介绍过的Redis Sentinel和Redis Cluster都实现了高可用。</p>
+<p><strong>②依赖隔离组件为后端限流并降级</strong>。在实际项目中，我们需要对重要的资源（例如Redis、MySQL、HBase、外部接口）都进行隔离，让每种资源都单独运行在自己的线程池中，即使个别资源出现了问题，对其他服务没有影响。但是线程池如何管理，比如如何关闭资源池、开启资源池、资源池阀值管理，这些做起来还是相当复杂的。</p>
+<p><strong>③提前演练</strong>。在项目上线前，演练缓存层宕掉后，应用以及后端的负载情况以及可能出现的问题，在此基础上做一些预案设定。</p>
+<h3 id="7）热点key重建优化"><a href="#7）热点key重建优化" class="headerlink" title="7）热点key重建优化"></a>7）热点key重建优化</h3><p>开发人员使用“缓存+过期时间”的策略既可以加速数据读写，又保证数据的定期更新，这种模式基本能够满足绝大部分需求。但是有两个问题如果同时出现，可能就会对应用造成致命的危害：</p>
+<ul>
+<li>当前key是一个热点key（例如一个热门的娱乐新闻），并发量非常大。</li>
+<li>重建缓存不能在短时间完成，可能是一个复杂计算，例如复杂的SQL、多次IO、多个依赖等。在缓存失效的瞬间，有大量线程来重建缓存，造成后端负载加大，甚至可能会让应用崩溃。</li>
+</ul>
+<p>要解决这个问题也不是很复杂，但是不能为了解决这个问题给系统带来更多的麻烦，所以需要制定如下目标：</p>
+<ul>
+<li>减少重建缓存的次数</li>
+<li>数据尽可能一致。</li>
+<li>较少的潜在危险</li>
+</ul>
+<p><strong>①互斥锁</strong>：此方法只允许一个线程重建缓存，其他线程等待重建缓存的线程执行完，重新从缓存获取数据即可，整个过程如图所示。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829198.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>下面代码使用Redis的setnx命令实现上述功能：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829915.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>1）从Redis获取数据，如果值不为空，则直接返回值；否则执行下面的2.1）和2.2）步骤。</p>
+<p>2.1）如果set（nx和ex）结果为true，说明此时没有其他线程重建缓存，那么当前线程执行缓存构建逻辑。</p>
+<p>2.2）如果set（nx和ex）结果为false，说明此时已经有其他线程正在执行构建缓存的工作，那么当前线程将休息指定时间（例如这里是50毫秒，取决于构建缓存的速度）后，重新执行函数，直到获取到数据。</p>
+<p><strong>②永远不过期</strong></p>
+<p>“永远不过期”包含两层意思：</p>
+<ul>
+<li>从缓存层面来看，确实没有设置过期时间，所以不会出现热点key过期后产生的问题，也就是“物理”不过期。</li>
+<li>从功能层面来看，为每个value设置一个逻辑过期时间，当发现超过逻辑过期时间后，会使用单独的线程去构建缓存。</li>
+</ul>
+<p>从实战看，此方法有效杜绝了热点key产生的问题，但唯一不足的就是重构缓存期间，会出现数据不一致的情况，这取决于应用方是否容忍这种不一致。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829068.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>两种热点key的解决方法</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201829253.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/Redis/">Redis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Redis/">Redis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/">
+                        <span class="hidden-mobile">Redis的拓展方案</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

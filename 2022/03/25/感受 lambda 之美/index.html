@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="感受 lambda 之美  一、引言java8最大的特性就是引入Lambda表达式，即函数式编程，可以将行为进行传递。总结就是：使用不可变值与函数，函数对不可变值进行处理，映射成另一个值。 二、Java重要的函数式接口1、什么是函数式接口函数接口是只有一个抽象方法的接口，用作 Lambda 表达式的类型。使用@FunctionalInterface注解修饰的类，编译器会检测该类是否只有一个抽象方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="感受 lambda 之美">
+<meta property="og:url" content="http://example.com/2022/03/25/%E6%84%9F%E5%8F%97%20lambda%20%E4%B9%8B%E7%BE%8E/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="感受 lambda 之美  一、引言java8最大的特性就是引入Lambda表达式，即函数式编程，可以将行为进行传递。总结就是：使用不可变值与函数，函数对不可变值进行处理，映射成另一个值。 二、Java重要的函数式接口1、什么是函数式接口函数接口是只有一个抽象方法的接口，用作 Lambda 表达式的类型。使用@FunctionalInterface注解修饰的类，编译器会检测该类是否只有一个抽象方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705134907.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135047.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135122.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135140.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135153.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135234.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135304.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135333.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.850Z">
+<meta property="article:modified_time" content="2022-03-25T12:20:20.334Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705134907.webp">
+  
+  <title>感受 lambda 之美 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="感受 lambda 之美">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">感受 lambda 之美</h1>
+            
+            <div class="markdown-body">
+              <center><h2>感受 lambda 之美</h2></center>
+
+<h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h2><p>java8最大的特性就是引入Lambda表达式，即函数式编程，可以将行为进行传递。总结就是：使用不可变值与函数，函数对不可变值进行处理，映射成另一个值。</p>
+<h2 id="二、Java重要的函数式接口"><a href="#二、Java重要的函数式接口" class="headerlink" title="二、Java重要的函数式接口"></a><strong>二、Java重要的函数式接口</strong></h2><h3 id="1、什么是函数式接口"><a href="#1、什么是函数式接口" class="headerlink" title="1、什么是函数式接口"></a><strong>1、什么是函数式接口</strong></h3><p>函数接口是只有一个抽象方法的接口，用作 Lambda 表达式的类型。使用@FunctionalInterface注解修饰的类，编译器会检测该类是否只有一个抽象方法或接口，否则，会报错。可以有多个默认方法，静态方法。</p>
+<h4 id="1-1-java8自带的常用函数式接口。"><a href="#1-1-java8自带的常用函数式接口。" class="headerlink" title="1.1 java8自带的常用函数式接口。"></a><strong>1.1 java8自带的常用函数式接口。</strong></h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705134907.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Predicate&lt;Integer&gt; predicate = x -&gt; x &gt; <span class="hljs-number">185</span>;<br>        Student student = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;9龙&quot;</span>, <span class="hljs-number">23</span>, <span class="hljs-number">175</span>);<br>        System.out.println(<span class="hljs-string">&quot;9龙的身高高于185吗？：&quot;</span> + predicate.test(student.getStature()));<br><br>        Consumer&lt;String&gt; consumer = System.out::println;<br>        consumer.accept(<span class="hljs-string">&quot;命运由我不由天&quot;</span>);<br><br>        Function&lt;Student, String&gt; function = Student::getName;<br>        String name = function.apply(student);<br>        System.out.println(name);<br><br>        Supplier&lt;Integer&gt; supplier = <br>            () -&gt; Integer.valueOf(BigDecimal.TEN.toString());<br>        System.out.println(supplier.get());<br><br>        UnaryOperator&lt;Boolean&gt; unaryOperator = uglily -&gt; !uglily;<br>        Boolean apply2 = unaryOperator.apply(<span class="hljs-keyword">true</span>);<br>        System.out.println(apply2);<br><br>        BinaryOperator&lt;Integer&gt; operator = (x, y) -&gt; x * y;<br>        Integer integer = operator.apply(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>);<br>        System.out.println(integer);<br><br>        test(() -&gt; <span class="hljs-string">&quot;我是一个演示的函数式接口&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 演示自定义函数式接口使用</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> worker</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(Worker worker)</span> </span>&#123;<br>        String work = worker.work();<br>        System.out.println(work);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Worker</span> </span>&#123;<br>        <span class="hljs-function">String <span class="hljs-title">work</span><span class="hljs-params">()</span></span>;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//9龙的身高高于185吗？：false</span><br><span class="hljs-comment">//命运由我不由天</span><br><span class="hljs-comment">//9龙</span><br><span class="hljs-comment">//10</span><br><span class="hljs-comment">//false</span><br><span class="hljs-comment">//6</span><br><span class="hljs-comment">//我是一个演示的函数式接口</span><br></code></pre></div></td></tr></table></figure>
+
+<p>以上演示了lambda接口的使用及自定义一个函数式接口并使用。</p>
+<p>下面，我们看看java8将函数式接口封装到流中如何高效的帮助我们处理集合。</p>
+<p>注意：Student::getName例子中这种编写lambda表达式的方式称为方法引用。</p>
+<p>格式为ClassNmae::methodName。是不是很神奇，java8就是这么迷人。</p>
+<blockquote>
+<p>示例：本篇所有示例都基于以下三个类。OutstandingClass：班级；Student：学生；SpecialityEnum：特长。</p>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135047.webp" srcset="/img/loading.gif" lazyload alt="图片"></h4><h4 id="1-2-惰性求值与及早求值"><a href="#1-2-惰性求值与及早求值" class="headerlink" title="1.2 惰性求值与及早求值"></a><strong>1.2 惰性求值与及早求值</strong></h4><p>惰性求值：只描述Stream，操作的结果也是Stream，这样的操作称为惰性求值。惰性求值可以像建造者模式一样链式使用，最后再使用及早求值得到最终结果。</p>
+<p>及早求值：得到最终的结果而不是Stream，这样的操作称为及早求值。</p>
+<h3 id="2、常用的流"><a href="#2、常用的流" class="headerlink" title="2、常用的流"></a><strong>2、常用的流</strong></h3><h4 id="2-1-collect-Collectors-toList"><a href="#2-1-collect-Collectors-toList" class="headerlink" title="2.1 collect(Collectors.toList())"></a><strong>2.1 collect(Collectors.toList())</strong></h4><p>将流转换为list。还有toSet()，toMap()等。及早求值。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; studentList = Stream.of(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>),<br>                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>),<br>                <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>)).collect(Collectors.toList());<br>        System.out.println(studentList);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//[Student&#123;name=&#x27;路飞&#x27;, age=22, stature=175, specialities=null&#125;, </span><br><span class="hljs-comment">//Student&#123;name=&#x27;红发&#x27;, age=40, stature=180, specialities=null&#125;, </span><br><span class="hljs-comment">//Student&#123;name=&#x27;白胡子&#x27;, age=50, stature=185, specialities=null&#125;]</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-2-filter"><a href="#2-2-filter" class="headerlink" title="2.2 filter"></a><strong>2.2 filter</strong></h4><p>顾名思义，起过滤筛选的作用。内部就是Predicate接口。惰性求值。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135122.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>比如我们筛选出出身高小于180的同学。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        List&lt;Student&gt; list = students.stream()<br>            .filter(stu -&gt; stu.getStature() &lt; <span class="hljs-number">180</span>)<br>            .collect(Collectors.toList());<br>        System.out.println(list);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//[Student&#123;name=&#x27;路飞&#x27;, age=22, stature=175, specialities=null&#125;]</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-3-map"><a href="#2-3-map" class="headerlink" title="2.3 map"></a><strong>2.3 map</strong></h4><p>转换功能，内部就是Function接口。惰性求值</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135140.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        List&lt;String&gt; names = students.stream().map(student -&gt; student.getName())<br>                .collect(Collectors.toList());<br>        System.out.println(names);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//[路飞, 红发, 白胡子]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>例子中将student对象转换为String对象，获取student的名字。</p>
+<h4 id="2-4-flatMap"><a href="#2-4-flatMap" class="headerlink" title="2.4 flatMap"></a><strong>2.4 flatMap</strong></h4><p>将多个Stream合并为一个Stream。惰性求值</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135153.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        List&lt;Student&gt; studentList = Stream.of(students,<br>                asList(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;艾斯&quot;</span>, <span class="hljs-number">25</span>, <span class="hljs-number">183</span>),<br>                        <span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;雷利&quot;</span>, <span class="hljs-number">48</span>, <span class="hljs-number">176</span>)))<br>                .flatMap(students1 -&gt; students1.stream()).collect(Collectors.toList());<br>        System.out.println(studentList);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//[Student&#123;name=&#x27;路飞&#x27;, age=22, stature=175, specialities=null&#125;, </span><br><span class="hljs-comment">//Student&#123;name=&#x27;红发&#x27;, age=40, stature=180, specialities=null&#125;, </span><br><span class="hljs-comment">//Student&#123;name=&#x27;白胡子&#x27;, age=50, stature=185, specialities=null&#125;, </span><br><span class="hljs-comment">//Student&#123;name=&#x27;艾斯&#x27;, age=25, stature=183, specialities=null&#125;,</span><br><span class="hljs-comment">//Student&#123;name=&#x27;雷利&#x27;, age=48, stature=176, specialities=null&#125;]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>调用Stream.of的静态方法将两个list转换为Stream，再通过flatMap将两个流合并为一个。</p>
+<h4 id="2-5-max和min"><a href="#2-5-max和min" class="headerlink" title="2.5 max和min"></a><strong>2.5 max和min</strong></h4><p>我们经常会在集合中求最大或最小值，使用流就很方便。及早求值。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        Optional&lt;Student&gt; max = students.stream()<br>            .max(Comparator.comparing(stu -&gt; stu.getAge()));<br>        Optional&lt;Student&gt; min = students.stream()<br>            .min(Comparator.comparing(stu -&gt; stu.getAge()));<br>        <span class="hljs-comment">//判断是否有值</span><br>        <span class="hljs-keyword">if</span> (max.isPresent()) &#123;<br>            System.out.println(max.get());<br>        &#125;<br>        <span class="hljs-keyword">if</span> (min.isPresent()) &#123;<br>            System.out.println(min.get());<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//Student&#123;name=&#x27;白胡子&#x27;, age=50, stature=185, specialities=null&#125;</span><br><span class="hljs-comment">//Student&#123;name=&#x27;路飞&#x27;, age=22, stature=175, specialities=null&#125;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>max、min接收一个Comparator（例子中使用java8自带的静态函数，只需要传进需要比较值即可。）并且返回一个Optional对象，该对象是java8新增的类，专门为了防止null引发的空指针异常。</p>
+<p>可以使用max.isPresent()判断是否有值；可以使用max.orElse(new Student())，当值为null时就使用给定值；也可以使用max.orElseGet(() -&gt; new Student());这需要传入一个Supplier的lambda表达式。</p>
+<h4 id="2-6-count"><a href="#2-6-count" class="headerlink" title="2.6 count"></a><strong>2.6 count</strong></h4><p>统计功能，一般都是结合filter使用，因为先筛选出我们需要的再统计即可。及早求值</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        <span class="hljs-keyword">long</span> count = students.stream().filter(s1 -&gt; s1.getAge() &lt; <span class="hljs-number">45</span>).count();<br>        System.out.println(<span class="hljs-string">&quot;年龄小于45岁的人数是：&quot;</span> + count);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//年龄小于45岁的人数是：2</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="2-7-reduce"><a href="#2-7-reduce" class="headerlink" title="2.7 reduce"></a><strong>2.7 reduce</strong></h4><p>reduce 操作可以实现从一组值中生成一个值。在上述例子中用到的 count 、 min 和 max 方法，因为常用而被纳入标准库中。事实上，这些方法都是 reduce 操作。及早求值。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135234.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Integer reduce = Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>).reduce(<span class="hljs-number">0</span>, (acc, x) -&gt; acc+ x);<br>        System.out.println(reduce);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//10</span><br></code></pre></div></td></tr></table></figure>
+
+<p>我们看得reduce接收了一个初始值为0的累加器，依次取出值与累加器相加，最后累加器的值就是最终的结果。</p>
+<h2 id="三、高级集合类及收集器"><a href="#三、高级集合类及收集器" class="headerlink" title="三、高级集合类及收集器"></a><strong>三、高级集合类及收集器</strong></h2><h3 id="3-1-转换成值"><a href="#3-1-转换成值" class="headerlink" title="3.1 转换成值"></a><strong>3.1 转换成值</strong></h3><p>收集器，一种通用的、从流生成复杂值的结构。只要将它传给 collect 方法，所有的流就都可以使用它了。标准类库已经提供了一些有用的收集器，以下示例代码中的收集器都是从 java.util.stream.Collectors 类中静态导入的。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CollectorsTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students1 = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students1.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">23</span>, <span class="hljs-number">175</span>));<br>        students1.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students1.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>        OutstandingClass ostClass1 = <span class="hljs-keyword">new</span> OutstandingClass(<span class="hljs-string">&quot;一班&quot;</span>, students1);<br>        <span class="hljs-comment">//复制students1，并移除一个学生</span><br>        List&lt;Student&gt; students2 = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(students1);<br>        students2.remove(<span class="hljs-number">1</span>);<br>        OutstandingClass ostClass2 = <span class="hljs-keyword">new</span> OutstandingClass(<span class="hljs-string">&quot;二班&quot;</span>, students2);<br>        <span class="hljs-comment">//将ostClass1、ostClass2转换为Stream</span><br>        Stream&lt;OutstandingClass&gt; classStream = Stream.of(ostClass1, ostClass2);<br>        OutstandingClass outstandingClass = biggestGroup(classStream);<br>        System.out.println(<span class="hljs-string">&quot;人数最多的班级是：&quot;</span> + outstandingClass.getName());<br><br>        System.out.println(<span class="hljs-string">&quot;一班平均年龄是：&quot;</span> + averageNumberOfStudent(students1));<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取人数最多的班级</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> OutstandingClass <span class="hljs-title">biggestGroup</span><span class="hljs-params">(Stream&lt;OutstandingClass&gt; outstandingClasses)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> outstandingClasses.collect(<br>                maxBy(comparing(ostClass -&gt; ostClass.getStudents().size())))<br>                .orElseGet(OutstandingClass::<span class="hljs-keyword">new</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 计算平均年龄</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">averageNumberOfStudent</span><span class="hljs-params">(List&lt;Student&gt; students)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> students.stream().collect(averagingInt(Student::getAge));<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//人数最多的班级是：一班</span><br><span class="hljs-comment">//一班平均年龄是：37.666666666666664</span><br></code></pre></div></td></tr></table></figure>
+
+<p>maxBy或者minBy就是求最大值与最小值。</p>
+<h3 id="3-2-转换成块"><a href="#3-2-转换成块" class="headerlink" title="3.2 转换成块"></a><strong>3.2 转换成块</strong></h3><p>常用的流操作是将其分解成两个集合，Collectors.partitioningBy帮我们实现了，接收一个Predicate函数式接口。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135304.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>将示例学生分为会唱歌与不会唱歌的两个集合。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PartitioningByTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//省略List&lt;student&gt; students的初始化</span><br>        Map&lt;Boolean, List&lt;Student&gt;&gt; listMap = students.stream().collect(<br>            Collectors.partitioningBy(student -&gt; student.getSpecialities().<br>                                      contains(SpecialityEnum.SING)));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-3-数据分组"><a href="#3-3-数据分组" class="headerlink" title="3.3 数据分组"></a><strong>3.3 数据分组</strong></h3><p>数据分组是一种更自然的分割数据操作，与将数据分成 ture 和 false 两部分不同，可以使用任意值对数据分组。Collectors.groupingBy接收一个Function做转换。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705135333.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如图，我们使用groupingBy将根据进行分组为圆形一组，三角形一组，正方形一组。</p>
+<p>例子：根据学生第一个特长进行分组</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroupingByTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//省略List&lt;student&gt; students的初始化</span><br>         Map&lt;SpecialityEnum, List&lt;Student&gt;&gt; listMap = <br>             students.stream().collect(<br>             Collectors.groupingBy(student -&gt; student.getSpecialities().get(<span class="hljs-number">0</span>)));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>Collectors.groupingBy与SQL 中的 group by 操作是一样的。</p>
+<h3 id="3-4-字符串拼接"><a href="#3-4-字符串拼接" class="headerlink" title="3.4 字符串拼接"></a><strong>3.4 字符串拼接</strong></h3><p>如果将所有学生的名字拼接起来，怎么做呢？通常只能创建一个StringBuilder，循环拼接。使用Stream，使用Collectors.joining()简单容易。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JoiningTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;Student&gt; students = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(<span class="hljs-number">3</span>);<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;路飞&quot;</span>, <span class="hljs-number">22</span>, <span class="hljs-number">175</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;红发&quot;</span>, <span class="hljs-number">40</span>, <span class="hljs-number">180</span>));<br>        students.add(<span class="hljs-keyword">new</span> Student(<span class="hljs-string">&quot;白胡子&quot;</span>, <span class="hljs-number">50</span>, <span class="hljs-number">185</span>));<br><br>         String names = students.stream()<br>             .map(Student::getName).collect(Collectors.joining(<span class="hljs-string">&quot;,&quot;</span>,<span class="hljs-string">&quot;[&quot;</span>,<span class="hljs-string">&quot;]&quot;</span>));<br>        System.out.println(names);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出结果</span><br><span class="hljs-comment">//[路飞,红发,白胡子]</span><br></code></pre></div></td></tr></table></figure>
+
+<p>joining接收三个参数，第一个是分界符，第二个是前缀符，第三个是结束符。也可以不传入参数Collectors.joining()，这样就是直接拼接。</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a><strong>四、总结</strong></h2><p>本篇主要从实际使用讲述了常用的方法及流，使用java8可以很清晰表达你要做什么，代码也很简洁。本篇例子主要是为了讲解较为简单，大家可以去使用java8重构自己现有的代码，自行领会lambda的奥妙。</p>
+<p>本文说的Stream要组合使用才会发挥更大的功能，链式调用很迷人，根据自己的业务去做吧。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%B9%B2%E6%8E%89%20if%20else%20%EF%BC%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">干掉 if else ！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%A4%8D%E7%8E%B0%20Log4j2%20%E6%BC%8F%E6%B4%9E/">
+                        <span class="hidden-mobile">复现 Log4j2 漏洞</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

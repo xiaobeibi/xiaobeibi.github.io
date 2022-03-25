@@ -203,53 +203,29 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/IDEA%20%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%AE%BE%E7%BD%AE/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108102114583.png" srcset="/img/loading.gif" lazyload alt="IDEA 有哪些常用的优化设置">
+        <a href="/2022/03/25/Java%20%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83%EF%BC%88%E9%9D%9E%E5%B8%B8%E5%85%A8%EF%BC%89/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301631038.webp" srcset="/img/loading.gif" lazyload alt="Java 命名规范（非常全）">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/IDEA%20%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%AE%BE%E7%BD%AE/" target="_self">
-          IDEA 有哪些常用的优化设置
+        <a href="/2022/03/25/Java%20%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83%EF%BC%88%E9%9D%9E%E5%B8%B8%E5%85%A8%EF%BC%89/" target="_self">
+          Java 命名规范（非常全）
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/IDEA%20%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96%E8%AE%BE%E7%BD%AE/" target="_self">
+        <a href="/2022/03/25/Java%20%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83%EF%BC%88%E9%9D%9E%E5%B8%B8%E5%85%A8%EF%BC%89/" target="_self">
           
           
             
           
-          IDEA 有哪些常用的优化设置
+          Java 命名规范（非常全）
 
-显示工具条
-效果图
-
-
-
-设置方法
-
-
-标注1：View–&gt;Toolbar
-标注2：View–&gt;Tool Buttons
-
-设置鼠标悬浮提示
-效果图
-
-
-
-设置方法File–&gt;settings–&gt;Editor–&gt;General–&gt;勾选Show quick documentation…
-
-
-显示方法分隔符
-效果图
-
-
-
-设置方法
-
+在本文中，将从大到小，从外到内，总结Java编程中的命名规范。文中将会涉及到日常工作中常见的命名示例，如包命名，类命名，接口命名，方法命名，变量命名，常类命名，抽象类命名，异常类命名以及扩展类命名等。我将按照项目工程目录结构，从包，类(接口，抽象类，异常类)，方法，变量和常量的顺序展开介绍。
+本文是 Java 命名规范的介绍，建议收藏转发。更多文章可以关注公众号「J
         </a>
       </p>
 
@@ -257,8 +233,333 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%20%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210609135633.webp" srcset="/img/loading.gif" lazyload alt="Java 高级特性">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%20%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" target="_self">
+          Java 高级特性
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%20%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" target="_self">
+          
+          
+            
+          
+          Java 高级特性
+
+泛型是 Java 的高级特性之一，如果想写出优雅而高扩展性的代码，或是想读得懂一些优秀的源码，泛型是绕不开的槛。本文介绍了什么是泛型、类型擦除的概念及其实现，最后总结了泛型使用的最佳实践。
+前言
+想写一下关于 Java 一些高级特性的文章，虽然这些特性在平常实现普通业务时不必使用，但如果想写出优雅而高扩展性的代码，或是想读得懂一些优秀的源码，这些特性又是不可避免的。
+如果对这
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          <img src="/img/Substitute6.jfif" srcset="/img/loading.gif" lazyload alt="Java 常用代码汇总">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          Java 常用代码汇总
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%20%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB/" target="_self">
+          
+          
+            
+          
+          Java 常用代码汇总
+
+1. 字符串有整型的相互转换12String a = String.valueOf(2); //integer to numeric stringint i = Integer.parseInt(a); //numeric string to an int
+
+
+
+2. 向文件末尾添加内容1234567891011BufferedWriter out = null;try 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%208%20%E4%B8%AD%E7%9A%84%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142118898.webp" srcset="/img/loading.gif" lazyload alt="Java 8 中的这个接口真好用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%208%20%E4%B8%AD%E7%9A%84%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
+          Java 8 中的这个接口真好用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%208%20%E4%B8%AD%E7%9A%84%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
+          
+          
+            
+          
+          Java 8 中的这个接口真好用
+
+在开发过程中经常会使用if...else...进行判断抛出异常、分支处理等操作。这些if...else...充斥在代码中严重影响了代码代码的美观，这时我们可以利用Java 8的Function接口来消灭if...else...。
+123456789if (...)&#123;    throw new RuntimeException(&quot;出现异常了&q
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%208%20%E5%BC%80%E5%8F%91%E7%9A%84%204%20%E5%A4%A7%E6%8A%80%E5%B7%A7/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301321720.webp" srcset="/img/loading.gif" lazyload alt="Java 8 开发的 4 大技巧">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%208%20%E5%BC%80%E5%8F%91%E7%9A%84%204%20%E5%A4%A7%E6%8A%80%E5%B7%A7/" target="_self">
+          Java 8 开发的 4 大技巧
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%208%20%E5%BC%80%E5%8F%91%E7%9A%84%204%20%E5%A4%A7%E6%8A%80%E5%B7%A7/" target="_self">
+          
+          
+            
+          
+          Java 8 开发的 4 大技巧
+
+我使用 Java 8编码已经有些年头，既用于新的应用程序，也用来迁移现有的应用，感觉是时候写一些我发现的非常有用的“最佳实践”。我个人并不喜欢“最佳实践”这个说法，因为它意味着“一刀切”的解决方案，而编码不可能是这样的工作方式——我们需要亲自去发现什么样的解决方案才是有效的。但是我发现了一些Java 8代码中可以帮助我们的一些选择，让我们一起来看看吧。
+1.Op
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%E5%9B%BE%E8%A7%A3/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112152043306.png" srcset="/img/loading.gif" lazyload alt="IntelliJ IDEA 详细配置图解">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%E5%9B%BE%E8%A7%A3/" target="_self">
+          IntelliJ IDEA 详细配置图解
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE%E5%9B%BE%E8%A7%A3/" target="_self">
+          
+          
+            
+          
+          IntelliJ IDEA 详细配置图解
+
+本系列 IDEA 版本为: IntelliJ IDEA 2021.1.1 x64
+Appearance(外观)1. 设置IDEA主题与字体
+勾选 Sync with OS 会同步系统更改
+勾选Use custom font 选择代码字体，Size选择字号
+2. Accessibility(无障碍)辅助功能
+
+Support screen readers:
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -290,31 +591,35 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/IDEA%20%E5%BF%AB%E6%8D%B7%E9%94%AE%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
-          <img src="/img/Substitute5.jfif" srcset="/img/loading.gif" lazyload alt="IDEA 快捷键速查手册">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E4%B8%8B%E7%8E%A9%E8%BD%AC%20Git%20%EF%BC%81/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112152115395.webp" srcset="/img/loading.gif" lazyload alt="IntelliJ IDEA 下玩转 Git ！">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/IDEA%20%E5%BF%AB%E6%8D%B7%E9%94%AE%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
-          IDEA 快捷键速查手册
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E4%B8%8B%E7%8E%A9%E8%BD%AC%20Git%20%EF%BC%81/" target="_self">
+          IntelliJ IDEA 下玩转 Git ！
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/IDEA%20%E5%BF%AB%E6%8D%B7%E9%94%AE%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E4%B8%8B%E7%8E%A9%E8%BD%AC%20Git%20%EF%BC%81/" target="_self">
           
           
             
           
-          IDEA 快捷键速查手册
+          IntelliJ IDEA 下玩转 Git ！
 
-1IntelliJ IDEA 2021 Win 和 Mac 快捷键大全，IDEA 基本所有功能都可以通过快捷键来完成。
 
-如果你掌握了所有IDEA的快捷键使用，那么你完全可以丢掉鼠标，而且不影响开发效率。
-1 .快捷键大全 - Win 版一、Ctrl 快捷键Ctrl + F 在当前文件进行文本查找 （必备）Ctrl + R 在当前文件进行文本替换 （必备）Ctrl + 
+我自己感觉 Idea 的版本管理挺好用的，但是在工作中，除了我自己，我还没有看见其他人使用过。
+不过工具本来就没有最好的，只有最适合你自己的，我个人使用 Idea 下的版本管理比较顺手一点，就在这里简单介绍一下。
+查看这行代码是谁改的
+在编辑器左侧右键，选择 Annotate with Git Blame
+
+
+点击 左侧时间会在弹出的子窗口中显示
         </a>
       </p>
 
@@ -322,275 +627,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/IDEA/">IDEA</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/IDEA/">IDEA</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%20debug%20%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210524121057.png" srcset="/img/loading.gif" lazyload alt="IDEA的debug怎么实现？">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%20debug%20%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
-          IDEA的debug怎么实现？
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%20debug%20%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          IDEA 的 debug 怎么实现？
-
-初学 Java 时，我对 IDEA 的 Debug 非常好奇，不止是它能查看断点的上下文环境，更神奇的是我可以在断点处使用它的 Evaluate 功能直接执行某些命令，进行一些计算或改变当前变量。
-刚开始语法不熟经常写错代码，重新打包部署一次代码耗时很长，我就直接面向 Debug 开发。在要编写的方法开始处打一个断点，在 Evaluate 框内一次次地执行方
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/IDEA/">IDEA</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/IDEA/">IDEA</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%205%20%E5%A4%A7%E8%B0%83%E8%AF%95%E6%8A%80/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109232040014.webp" srcset="/img/loading.gif" lazyload alt="IDEA 的 5 大调试技">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%205%20%E5%A4%A7%E8%B0%83%E8%AF%95%E6%8A%80/" target="_self">
-          IDEA 的 5 大调试技
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/13/IDEA%20%E7%9A%84%205%20%E5%A4%A7%E8%B0%83%E8%AF%95%E6%8A%80/" target="_self">
-          
-          
-            
-          
-          IDEA 的 5 大调试技
-
-在项目开发的时候我发现很多小伙伴能非常熟练的使用 IDEA 编写代码，但是对于IDEA调试的技巧掌握的不是很好，只会F7、F8、F9等这些基本调试功能。
-而像一些复杂的调试场景就无从下手，如：在for循环中调试某个特定值；多线程、Reactor调试；修改变量的运行值等。
-下面我们就来分场景介绍一下IDEA的调试技巧，看完掌握后调试bug的效率一定大大提升
-1. 条件断
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/IDEA/">IDEA</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/IDEA/">IDEA</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/IDEA%20REST%20Client%20%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109121536156.webp" srcset="/img/loading.gif" lazyload alt="IDEA REST Client 真好用">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/13/IDEA%20REST%20Client%20%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
-          IDEA REST Client 真好用
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/13/IDEA%20REST%20Client%20%E7%9C%9F%E5%A5%BD%E7%94%A8/" target="_self">
-          
-          
-            
-          
-          IDEA REST Client 真好用
-
-接口调试是每个软件开发从业者必不可少的一项技能，一个项目的的完成，可能接口测试调试的时间比真正开发写代码的时间还要多，几乎是每个开发的日常工作项。
-所谓工欲善其事必先利其器，在没有尝到IDEA REST真香之前，postman（chrome的一款插件）确实是一个非常不错的选择，具有完备的REST Client功能和请求历史记录功能。
-但是当使用了IDEA
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/IDEA/">IDEA</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/IDEA/">IDEA</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202110021328914.webp" srcset="/img/loading.gif" lazyload alt="Git常用命令速查表">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/13/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
-          Git常用命令速查表
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/13/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
-          
-          
-            
-          
-          Git 常用命令速查表
-
-名词
-
-master: 默认开发分支
-origin: 默认远程版本库
-Index / Stage：暂存区
-Workspace：工作区
-Repository：仓库区（或本地仓库）
-Remote：远程仓库
-
-一、新建代码库
-二、配置Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
-
-三、增加/删除/修改文件
-四、代码提
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -622,60 +660,29 @@ Remote：远程仓库
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301719065.webp" srcset="/img/loading.gif" lazyload alt="基于ElasticSearch实现站内全文搜索">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%20Spring%20Cloud%20%E6%A1%86%E6%9E%B6/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201202231198.webp" srcset="/img/loading.gif" lazyload alt="IntelliJ IDEA 搭建微服务 Spring Cloud 框架">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
-          基于ElasticSearch实现站内全文搜索
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%20Spring%20Cloud%20%E6%A1%86%E6%9E%B6/" target="_self">
+          IntelliJ IDEA 搭建微服务 Spring Cloud 框架
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
+        <a href="/2022/03/25/IntelliJ%20IDEA%20%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%20Spring%20Cloud%20%E6%A1%86%E6%9E%B6/" target="_self">
           
           
             
           
-          基于 ElasticSearch 实现站内全文搜索
+          IntelliJ IDEA 搭建微服务 Spring Cloud 框架
 
-目录
-摘要
-
-1 技术选型
-
-
-1.1 ElasticSearch
-1.2 springBoot
-1.3 ik分词器
-
-
-2 环境准备
-
-3 项目架构
-
-4 实现效果
-
-
-4.1 搜索页面
-4.2 搜索结果页面
-
-
-5 具体代码实现
-
-
-5.1 全文检索的实现对象
-5.2 客户端配置
-5.3 业务代码编写
-5.4 对外接口
-5.5 页面
-
-
-6
+微服务是一种架构模式，微服务架构一定是分布式架构。一个大型复杂的软件
+应用系统应该由一个或多个微服务组成，服务之间通过一些轻量级交互机制来通信，比如http。系统中的各个微服务可被独立部署，都有自己独立的进程，各个微服务之间是松耦合的，可以有自己的数据库，而且服务可以使用不同的技术加以实现。可以不因为某个模块的升级和bug影
         </a>
       </p>
 
@@ -683,8 +690,8 @@ Remote：远程仓库
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -694,7 +701,7 @@ Remote：远程仓库
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/ElasticStack/">ElasticStack</a>
+              <a href="/categories/Java/SpringCloud/">SpringCloud</a>
             
           </div>
         
@@ -704,7 +711,7 @@ Remote：远程仓库
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/ElasticStack/">ElasticStack</a>
+              <a href="/tags/SpringCloud/">SpringCloud</a>
             
           </div>
         
@@ -716,31 +723,39 @@ Remote：远程仓库
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Elasticsearch%20%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E7%9A%84%E7%A7%98%E5%AF%86/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301611165.webp" srcset="/img/loading.gif" lazyload alt="Elasticsearch如何做到快速检索的秘密">
+        <a href="/2022/03/25/IDEA%20%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%8A%80%E5%B7%A7/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622115227.gif" srcset="/img/loading.gif" lazyload alt="IDEA 自动补全技巧">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/Elasticsearch%20%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E7%9A%84%E7%A7%98%E5%AF%86/" target="_self">
-          Elasticsearch如何做到快速检索的秘密
+        <a href="/2022/03/25/IDEA%20%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%8A%80%E5%B7%A7/" target="_self">
+          IDEA 自动补全技巧
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/Elasticsearch%20%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E7%9A%84%E7%A7%98%E5%AF%86/" target="_self">
+        <a href="/2022/03/25/IDEA%20%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E6%8A%80%E5%B7%A7/" target="_self">
           
           
             
           
-          Elasticsearch 如何做到快速检索的秘密
+          IDEA 自动补全技巧
 
-一、前言最近接触的几个项目都使用到了 Elasticsearch (以下简称 ES ) 来存储数据和对数据进行搜索分析，就对 ES 进行了一些学习。本文整理自我自己的一次技术分享。
-本文不会关注 ES 里面的分布式技术、相关 API 的使用，而是专注分享下 ES 如何快速检索 这个主题上面。这个也是我在学习之前对 ES 最感兴趣的部分。
+IDEA 有个很牛逼的功能，那就是后缀补全（不是自动补全），很多人竟然不知道这个操作，还在手动敲代码。
+这个功能可以使用代码补全来模板式地补全语句.
 
-本文
+遍历循环语句（for、foreach）。
+
+使用 String.format() 包裹一个字符串。
+
+使用类型转化包裹一个表达式。
+
+根据判（非）空或者其它判别语句生成 if 语句。
+
+用 instanceOf 生成分支判
         </a>
       </p>
 
@@ -748,8 +763,8 @@ Remote：远程仓库
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -759,7 +774,7 @@ Remote：远程仓库
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/ElasticStack/">ElasticStack</a>
+              <a href="/categories/Java/IDEA/">IDEA</a>
             
           </div>
         
@@ -769,7 +784,7 @@ Remote：远程仓库
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/ElasticStack/">ElasticStack</a>
+              <a href="/tags/IDEA/">IDEA</a>
             
           </div>
         
@@ -781,47 +796,29 @@ Remote：远程仓库
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/17%20%E4%B8%AA%E5%BF%85%E9%97%AE%20Dubbo%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210609133945.png" srcset="/img/loading.gif" lazyload alt="17个必问Dubbo面试题">
+        <a href="/2022/03/25/IDEA%20%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102204780.png" srcset="/img/loading.gif" lazyload alt="IDEA 注释模板配置">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/17%20%E4%B8%AA%E5%BF%85%E9%97%AE%20Dubbo%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          17个必问Dubbo面试题
+        <a href="/2022/03/25/IDEA%20%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/" target="_self">
+          IDEA 注释模板配置
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/17%20%E4%B8%AA%E5%BF%85%E9%97%AE%20Dubbo%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+        <a href="/2022/03/25/IDEA%20%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF%E9%85%8D%E7%BD%AE/" target="_self">
           
           
             
           
-          17 个必问 Dubbo 面试题
+          IDEA 注释模板配置
 
-
-Dubbo是什么？RPC又是什么？
-
-Dubbo能做什么？
-
-能说下Dubbo的总体的调用过程吗？
-
-说说Dubbo 支持哪些协议，每种协议的应用场景和优缺点
-
-Dubbo中都用到哪些设计模式？
-
-如果Dubbo中provider提供的服务由多个版本怎么办？
-
-服务暴露的流程是怎么样的？
-
-服务引用的流程是怎么样的？
-
-Dubbo的注册中心有哪些？
-
-聊聊Du
+一、类注释打开 IDEA 的 Settings，点击 Editor–&gt;File and Code Templates，点击右边 File 选项卡下面的 Class，在其中添加图中红框内的内容：
+1234/** * @author jitwxs * @date $&#123;YEAR&#125;年$&#123;MONTH&#125;月$&#123;DAY&#125;日
         </a>
       </p>
 
@@ -829,8 +826,8 @@ Dubbo的注册中心有哪些？
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:15" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -840,7 +837,7 @@ Dubbo的注册中心有哪些？
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Dubbo/">Dubbo</a>
+              <a href="/categories/Java/IDEA/">IDEA</a>
             
           </div>
         
@@ -850,76 +847,7 @@ Dubbo的注册中心有哪些？
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Dubbo/">Dubbo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Docker%20%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210715115836.png" srcset="/img/loading.gif" lazyload alt="Docker极简入门指南">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/10/13/Docker%20%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" target="_self">
-          Docker极简入门指南
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/10/13/Docker%20%E6%9E%81%E7%AE%80%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" target="_self">
-          
-          
-            
-          
-          Docker 极简入门指南
-
-富 Web 时代，应用变得越来越强大，与此同时也越来越复杂。集群部署、隔离环境、灰度发布以及动态扩容缺一不可，而容器化则成为中间的必要桥梁。
-本节我们就来探索一下 Docker 的神秘世界，从零到一掌握 Docker 的基本原理与实践操作。别再守着前端那一亩三分地，是时候该开疆扩土了。
-我们将会围绕下面几点展开：
-
-讲个故事
-虚拟机与容器
-认识 Docker
-核心概念
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:14" pubdate>
-              2021-10-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Docker/">Docker</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Docker/">Docker</a>
+              <a href="/tags/IDEA/">IDEA</a>
             
           </div>
         

@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring 的 @Autowire 和 @Resource 注解使用方式推荐   介 绍今天使用Idea写代码的时候，看到之前的项目中显示有warning的提示，去看了下，是如下代码? 12@Autowireprivate JdbcTemplate jdbcTemplate;  提示的警告信息 “Field injection is not recommended Inspection info">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 的 @Autowire 和 @Resource 注解使用方式推荐">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20%E7%9A%84%20@Autowire%20%E5%92%8C%20@Resource%20%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E6%8E%A8%E8%8D%90/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring 的 @Autowire 和 @Resource 注解使用方式推荐   介 绍今天使用Idea写代码的时候，看到之前的项目中显示有warning的提示，去看了下，是如下代码? 12@Autowireprivate JdbcTemplate jdbcTemplate;  提示的警告信息 “Field injection is not recommended Inspection info">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162024246.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162025628.jpeg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162026159.jpeg">
+<meta property="article:published_time" content="2022-03-25T13:46:50.784Z">
+<meta property="article:modified_time" content="2022-03-25T12:42:40.964Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162024246.png">
+  
+  <title>Spring 的 @Autowire 和 @Resource 注解使用方式推荐 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring 的 @Autowire 和 @Resource 注解使用方式推荐">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring 的 @Autowire 和 @Resource 注解使用方式推荐</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring 的 @Autowire 和 @Resource 注解使用方式推荐</h2></center>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162024246.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="介-绍"><a href="#介-绍" class="headerlink" title="介 绍"></a><strong>介 绍</strong></h2><p>今天使用Idea写代码的时候，看到之前的项目中显示有warning的提示，去看了下，是如下代码?</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Autowire</span><br><span class="hljs-keyword">private</span> JdbcTemplate jdbcTemplate;<br></code></pre></div></td></tr></table></figure>
+
+<p>提示的警告信息</p>
+<p><strong>“Field injection is not recommended Inspection info: Spring Team recommends: “Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies”.</strong></p>
+<p>这段是Spring工作组的建议，大致翻译一下：</p>
+<p>属性字段注入的方式不推荐，检查到的问题是：Spring团队建议:”始终在bean中使用基于构造函数的依赖项注入，始终对强制性依赖项使用断言”</p>
+<p>如图</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162025628.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="注入方式"><a href="#注入方式" class="headerlink" title="注入方式"></a><strong>注入方式</strong></h2><p>虽然当前有关Spring Framework（5.0.3）的文档仅定义了两种主要的注入类型，但实际上有三种:</p>
+<h3 id="基于构造函数的依赖注入"><a href="#基于构造函数的依赖注入" class="headerlink" title="基于构造函数的依赖注入"></a><strong>基于构造函数的依赖注入</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-title">implents</span> <span class="hljs-title">UserService</span></span>&#123;<br>    <span class="hljs-keyword">private</span> UserDao userDao;<br><br>    <span class="hljs-meta">@Autowire</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UserServiceImpl</span><span class="hljs-params">(UserDao userDao)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.userDao = userDao;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="基于Setter的依赖注入"><a href="#基于Setter的依赖注入" class="headerlink" title="基于Setter的依赖注入"></a><strong>基于Setter的依赖注入</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-title">implents</span> <span class="hljs-title">UserService</span></span>&#123;<br>     <span class="hljs-keyword">private</span> UserDao userDao;<br><br>     <span class="hljs-meta">@Autowire</span><br>     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">serUserDao</span><span class="hljs-params">(UserDao userDao)</span></span>&#123;<br>         <span class="hljs-keyword">this</span>.userDao = userDao;<br>     &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="基于字段的依赖注入"><a href="#基于字段的依赖注入" class="headerlink" title="基于字段的依赖注入"></a><strong>基于字段的依赖注入</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-title">implents</span> <span class="hljs-title">UserService</span></span>&#123;<br>     <span class="hljs-meta">@Autowire</span><br>     <span class="hljs-keyword">private</span> UserDao userDao;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>基于字段的依赖注入方式会在Idea当中吃到黄牌警告，但是这种使用方式使用的也最广泛，因为简洁方便.您甚至可以在一些Spring指南中看到这种注入方法，尽管在文档中不建议这样做.(有点执法犯法的感觉)。</p>
+<p><strong>如图</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203162026159.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="基于字段的依赖注入缺点"><a href="#基于字段的依赖注入缺点" class="headerlink" title="基于字段的依赖注入缺点"></a><strong>基于字段的依赖注入缺点</strong></h2><h3 id="对于有final修饰的变量不好使"><a href="#对于有final修饰的变量不好使" class="headerlink" title="| 对于有final修饰的变量不好使"></a><strong>| 对于有final修饰的变量不好使</strong></h3><p>Spring的IOC对待属性的注入使用的是set形式，但是final类型的变量在调用class的构造函数的这个过程当中就得初始化完成，这个是基于字段的依赖注入 做不到的地方．只能使用<strong>基于构造函数的依赖注入</strong>的方式</p>
+<h3 id="掩盖单一职责的设计思想"><a href="#掩盖单一职责的设计思想" class="headerlink" title="| 掩盖单一职责的设计思想"></a><strong>| 掩盖单一职责的设计思想</strong></h3><p>我们都知道在OOP的设计当中有一个<strong>单一职责思想</strong>，如果你采用的是<strong>基于构造函数的依赖注入</strong>的方式来使用Spring的IOC的时候，当你注入的太多的时候，这个构造方法的参数就会很庞大，类似于下面。</p>
+<p>当你看到这个类的构造方法那么多参数的时候，你自然而然的会想一下:<strong>这个类是不是违反了单一职责思想</strong>? .但是使用<strong>基于字段的依赖注入</strong>不会让你察觉，你会很沉浸在@Autowire当中。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VerifyServiceImpl</span> <span class="hljs-title">implents</span> <span class="hljs-title">VerifyService</span></span>&#123;<br><br>  <span class="hljs-keyword">private</span> AccountService accountService;<br>  <span class="hljs-keyword">private</span> UserService userService;<br>  <span class="hljs-keyword">private</span> IDService idService;<br>  <span class="hljs-keyword">private</span> RoleService roleService;<br>  <span class="hljs-keyword">private</span> PermissionService permissionService;<br>  <span class="hljs-keyword">private</span> EnterpriseService enterpriseService;<br>  <span class="hljs-keyword">private</span> EmployeeService employService;<br>  <span class="hljs-keyword">private</span> TaskService taskService;<br>  <span class="hljs-keyword">private</span> RedisService redisService;<br>  <span class="hljs-keyword">private</span> MQService mqService;<br><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SystemLogDto</span><span class="hljs-params">(AccountService accountService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      UserService userService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      IDService idService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      RoleService roleService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      PermissionService permissionService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      EnterpriseService enterpriseService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      EmployeeService employService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      TaskService taskService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      RedisService redisService, </span></span><br><span class="hljs-params"><span class="hljs-function">                      MQService mqService)</span> </span>&#123;<br>      <span class="hljs-keyword">this</span>.accountService = accountService;<br>      <span class="hljs-keyword">this</span>.userService = userService;<br>      <span class="hljs-keyword">this</span>.idService = idService;<br>      <span class="hljs-keyword">this</span>.roleService = roleService;<br>      <span class="hljs-keyword">this</span>.permissionService = permissionService;<br>      <span class="hljs-keyword">this</span>.enterpriseService = enterpriseService;<br>      <span class="hljs-keyword">this</span>.employService = employService;<br>      <span class="hljs-keyword">this</span>.taskService = taskService;<br>      <span class="hljs-keyword">this</span>.redisService = redisService;<br>      <span class="hljs-keyword">this</span>.mqService = mqService;<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="与Spring的IOC机制紧密耦合"><a href="#与Spring的IOC机制紧密耦合" class="headerlink" title="| 与Spring的IOC机制紧密耦合"></a><strong>| 与Spring的IOC机制紧密耦合</strong></h3><p>当你使用<strong>基于字段的依赖注入</strong>方式的时候，确实可以省略构造方法和setter这些个模板类型的方法，但是，你把控制权全给Spring的IOC了，别的类想重新设置下你的某个注入属性，没法处理(当然反射可以做到)。</p>
+<p>本身Spring的目的就是解藕和依赖反转，结果通过再次与类注入器（在本例中为Spring）耦合，失去了通过自动装配类字段而实现的对类的解耦，从而使类在Spring容器之外无效。</p>
+<h3 id="隐藏依赖性"><a href="#隐藏依赖性" class="headerlink" title="| 隐藏依赖性"></a><strong>| 隐藏依赖性</strong></h3><p>当你使用Spring的IOC的时候，被注入的类应当使用一些public类型(构造方法，和setter类型方法)的方法来向外界表达:我需要什么依赖.但是<strong>基于字段的依赖注入</strong>的方式，基本都是private形式的，private把属性都给封印到class当中了。</p>
+<h3 id="无法对注入的属性进行安检"><a href="#无法对注入的属性进行安检" class="headerlink" title="| 无法对注入的属性进行安检"></a><strong>| 无法对注入的属性进行安检</strong></h3><p><strong>基于字段的依赖注入</strong>方式，你在程序启动的时候无法拿到这个类，只有在真正的业务使用的时候才会拿到，一般情况下，这个注入的都是非null的，万一要是null怎么办，在业务处理的时候错误才爆出来，时间有点晚了，如果在启动的时候就暴露出来，那么bug就可以很快得到修复(当然你可以加注解校验)。</p>
+<p>如果你想在属性注入的时候，想根据这个注入的对象操作点东西，你无法办到．我碰到过的例子：一些配置信息啊，有些人总是会配错误，等到了自己测试业务阶段才知道配错了，例如线程初始个数不小心配置成了3000，机器真的是狂叫啊!这个时候就需要再某些Value注入的时候做一个检测机制。</p>
+<h2 id="结-论"><a href="#结-论" class="headerlink" title="结 论"></a><strong>结 论</strong></h2><p>通过上面，我们可以看到，<strong>基于字段的依赖注入</strong>方式有很多缺点,我们应当<strong>避免使用基于字段的依赖注入</strong>。推荐的方法是使用<strong>基于构造函数</strong>和<strong>基于setter的依赖注入。</strong>对于必需的依赖项，建议<strong>使用基于构造函数</strong>的注入，以使它们成为不可变的，并防止它们为null。对于可选的依赖项，建议使用<strong>基于Setter的注入。</strong></p>
+<p>文章来源：<a target="_blank" rel="noopener" href="https://sourl.cn/P8S4xx">https://sourl.cn/P8S4xx</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20%E5%AE%98%E6%96%B9%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring 官方为什么建议构造器注入？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20MVC%20%E4%BA%94%E5%A4%A7%E7%BB%84%E4%BB%B6/">
+                        <span class="hidden-mobile">Spring MVC 五大组件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

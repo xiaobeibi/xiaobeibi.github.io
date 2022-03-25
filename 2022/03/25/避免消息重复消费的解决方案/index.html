@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="避免消息重复消费的解决方案  消息中间件是分布式系统常用的组件，无论是异步化、解耦、削峰等都有广泛的应用价值。 我们通常会认为，消息中间件是一个可靠的组件——这里所谓的可靠是指，只要我把消息成功投递到了消息中间件，消息就不会丢。 即消息肯定会至少保证消息能被消费者成功消费一次，这是消息中间件最基本的特性之一。 也就是我们常说的“AT LEAST ONCE”，即消息至少会被“成功消费一遍”。  一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="避免消息重复消费的解决方案">
+<meta property="og:url" content="http://example.com/2022/03/25/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="避免消息重复消费的解决方案  消息中间件是分布式系统常用的组件，无论是异步化、解耦、削峰等都有广泛的应用价值。 我们通常会认为，消息中间件是一个可靠的组件——这里所谓的可靠是指，只要我把消息成功投递到了消息中间件，消息就不会丢。 即消息肯定会至少保证消息能被消费者成功消费一次，这是消息中间件最基本的特性之一。 也就是我们常说的“AT LEAST ONCE”，即消息至少会被“成功消费一遍”。  一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301518646.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301521839.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301521492.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522591.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522418.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522691.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301523936.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.819Z">
+<meta property="article:modified_time" content="2022-03-25T13:27:33.394Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="设计架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301518646.webp">
+  
+  <title>避免消息重复消费的解决方案 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="避免消息重复消费的解决方案">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">避免消息重复消费的解决方案</h1>
+            
+            <div class="markdown-body">
+              <center><h2>避免消息重复消费的解决方案</h2></center>
+
+<p>消息中间件是分布式系统常用的组件，无论是异步化、解耦、削峰等都有广泛的应用价值。</p>
+<p>我们通常会认为，消息中间件是一个可靠的组件——这里所谓的可靠是指，只要我把消息成功投递到了消息中间件，消息就不会丢。</p>
+<p><strong>即消息肯定会至少保证消息能被消费者成功消费一次，这是消息中间件最基本的特性之一。</strong></p>
+<p>也就是我们常说的“AT LEAST ONCE”，即消息至少会被“成功消费一遍”。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301518646.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>一个消息 M 发送到了消息中间件，消息投递到了消费程序 A。A 接受到了消息，然后进行消费。</p>
+<p>但在消费到一半的时候程序重启了，这时候这个消息并没有标记为消费成功，这个消息还会继续投递给这个消费者，直到其消费成功了，消息中间件才会停止投递。</p>
+<p><strong>然而这种可靠的特性会导致消息可能被多次地投递。</strong></p>
+<p>还是刚刚这个例子。</p>
+<p>程序 A 接受到这个消息 M 并完成消费逻辑之后，正想通知消息中间件“我已经消费成功了”的时候，程序就重启了，那么对于消息中间件来说，这个消息并没有成功消费过，所以它还会继续投递。</p>
+<p>这时候对于应用程序 A 来说，看起来就是这个消息明明消费成功了，但是消息中间件还在重复投递。</p>
+<p>这在 RockectMQ 的场景来看，就是同一个 messageId 的消息重复投递下来了。</p>
+<p>基于消息的投递可靠（消息不丢）是优先级更高的，所以消息不重的任务就会转移到应用程序自我实现，这也是为什么 RocketMQ 的文档里强调的，消费逻辑需要自我实现幂等。</p>
+<p>背后的逻辑其实就是：不丢和不重是矛盾的（在分布式场景下），但消息重复是有解决方案的，而消息丢失是很麻烦的。</p>
+<p>关于 RocketMQ 消息重复的场景，官方文档上给出了这三种情况：</p>
+<p><strong>1. 发送时消息重复</strong></p>
+<p>当一条消息已被成功发送到服务端并完成持久化，此时出现了网络闪断或者客户端宕机，导致服务端对客户端应答失败。如果此时生产者意识到消息发送失败并尝试再次发送消息，消费者后续会收到两条内容相同并且Message ID也相同的消息。</p>
+<p><strong>2. 投递时消息重复</strong></p>
+<p>消息消费的场景下，消息已投递到消费者并完成业务处理，当客户端给服务端反馈应答的时候网络闪断。为了保证消息至少被消费一次，消息队列RocketMQ版的服务端将在网络恢复后再次尝试投递之前已被处理过的消息，消费者后续会收到两条内容相同并且Message ID也相同的消息。</p>
+<p><strong>3.负载均衡时消息重复</strong>（包括但不限于网络抖动、Broker重启以及消费者应用重启）</p>
+<p>当消息队列RocketMQ版的Broker或客户端重启、扩容或缩容时，会触发Rebalance，此时消费者可能会收到重复消息。</p>
+<p>那么，有什么解决方案呢？</p>
+<h2 id="简单的消息去重解决方案"><a href="#简单的消息去重解决方案" class="headerlink" title="简单的消息去重解决方案"></a><strong>简单的消息去重解决方案</strong></h2><p>假设我们业务的消息消费逻辑是：插入某张订单表的数据，然后更新库存。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t_order <span class="hljs-keyword">values</span> .....<br>update t_inv <span class="hljs-keyword">set</span> count <span class="hljs-operator">=</span> count<span class="hljs-number">-1</span> <span class="hljs-keyword">where</span> good_id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;good123&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>要实现消息的幂等，我们可能会采取这样的方案：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t_order <span class="hljs-keyword">where</span> order_no <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;order123&#x27;</span><br>if(<span class="hljs-keyword">order</span> <span class="hljs-operator">!=</span> <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">return</span> ;<span class="hljs-operator">/</span><span class="hljs-operator">/</span>消息重复，直接返回<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这对于很多情况下，的确能起到不错的效果，但是在并发场景下，还是会有问题。</p>
+<h2 id="并发重复消息"><a href="#并发重复消息" class="headerlink" title="并发重复消息"></a><strong>并发重复消息</strong></h2><p>假设这个消费的所有代码加起来需要 1 秒，有重复的消息在这 1 秒内（假设 100 毫秒）内到达。</p>
+<p>例如生产者快速重发，Broker 重启等。</p>
+<p>那么很可能，上面去重代码里面会发现，数据依然是空的，因为上一条消息还没消费完，还没成功更新订单状态。</p>
+<p>具体一点就是两个线程在间隔非常短甚至是同时执行这个逻辑：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t_order <span class="hljs-keyword">where</span> order_no <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;order123&#x27;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>然后发现都没有查到数据，于是走入到这个逻辑中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">if(<span class="hljs-keyword">order</span> <span class="hljs-operator">!=</span> <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">return</span> ;<span class="hljs-operator">/</span><span class="hljs-operator">/</span>消息重复，直接返回<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>那么就会穿透掉检查的挡板，最后导致重复的消息消费逻辑进入到非幂等安全的业务代码中，从而引发重复消费的问题，如主键冲突抛出异常、库存被重复扣减而没释放等。</p>
+<p>要解决上面并发场景下的消息幂等问题，一个可取的方案是开启事务把 select 改成 select for update 语句，把记录进行锁定：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t_order <span class="hljs-keyword">where</span> order_no <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;THIS_ORDER_NO&#x27;</span> <span class="hljs-keyword">for</span> update <span class="hljs-operator">/</span><span class="hljs-operator">/</span>开启事务<br>if(order.status <span class="hljs-operator">!=</span> <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">return</span> ;<span class="hljs-operator">/</span><span class="hljs-operator">/</span>消息重复，直接返回<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>但这样消费的逻辑会因为引入了事务包裹而导致整个消息消费可能变长，并发度下降。</p>
+<p>当然还有其他更高级的解决方案，例如更新订单状态采取乐观锁，更新失败则消息重新消费之类的。</p>
+<p>但这需要针对具体业务场景做更复杂和细致的代码开发、库表设计，不在本文讨论的范围。</p>
+<p>但无论是select for update， 还是乐观锁这种解决方案，实际上都是基于业务表本身做去重，这无疑增加了业务开发的复杂度。</p>
+<p>一个业务系统里面很大部分的请求处理都是依赖 MQ 的，如果每个消费逻辑本身都需要基于业务本身而做去重/幂等的开发的话，这是繁琐的工作量。</p>
+<p><strong>本文希望探索出一个通用的消息幂等处理的方法，从而抽象出一定的工具类用以适用各个业务场景。</strong></p>
+<h2 id="Exactly-Once"><a href="#Exactly-Once" class="headerlink" title="Exactly Once"></a><strong>Exactly Once</strong></h2><p>在消息中间件里，有一个投递语义的概念。</p>
+<p><strong>而这个语义里有一个叫 Exactly Once ，即消息肯定会被成功消费，并且只会被消费一次。</strong></p>
+<p>以下是官方文档对 Exactly Once 的解释：</p>
+<blockquote>
+<p>Exactly-Once 是指发送到消息系统的消息只能被消费端处理且仅处理一次，即使生产端重试消息发送导致某消息重复投递，该消息在消费端也只被消费一次。</p>
+</blockquote>
+<p>在我们业务消息幂等处理的领域内，可以认为业务消息的代码肯定会被执行，并且只被执行一次，那么我们可以认为是 Exactly Once。</p>
+<p>但这在分布式的场景下想找一个通用的方案几乎是不可能的。</p>
+<p>不过如果是针对基于数据库事务的消费逻辑，实际上是可行的。</p>
+<p>另外，关于 Exactly-Once 再补充一些下。</p>
+<p>Exactly-Once 语义是消息系统和流式计算系统中消息流转的最理想状态，但是在业界并没有太多理想的实现。</p>
+<p>因为真正意义上的 Exactly-Once 依赖消息系统的服务端、消息系统的客户端和用户消费逻辑这三者状态的协调。</p>
+<p>例如，当您的消费端完成一条消息的消费处理后出现异常宕机，而消费端重启后由于消费的位点没有同步到消息系统的服务端，该消息有可能被重复消费。</p>
+<p>业界对于 Exactly-Once 投递语义存在很大的争议，很多人会拿出“FLP不可能理论”或者其他一致性定律对此议题进行否定，但事实上，特定场景的Exactly-Once语义实现并不是非常复杂，只是因为通常大家没有精确的描述问题的本质。</p>
+<p>如果要实现一条消息的消费结果只能在业务系统中生效一次，需要解决的只是如何保证同一条消息的消费幂等问题。</p>
+<p>消息队列 RocketMQ 版的 Exactly-Once 语义就是解决业务中最常见的一条消息的消费结果（消息在消费端计算处理的结果）在数据库系统中有且仅生效一次的问题。</p>
+<h2 id="基于关系数据库事务插入消息表"><a href="#基于关系数据库事务插入消息表" class="headerlink" title="基于关系数据库事务插入消息表"></a><strong>基于关系数据库事务插入消息表</strong></h2><p>假设我们业务的消息消费逻辑是：更新MySQL数据库的某张订单表的状态。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">update t_order<br><span class="hljs-keyword">set</span> status <span class="hljs-operator">=</span><br><span class="hljs-string">&#x27;SUCCESS&#x27;</span> <span class="hljs-keyword">where</span> order_no<span class="hljs-operator">=</span><br><span class="hljs-string">&#x27;order123&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>要实现 Exaclty Once 即这个消息只被消费一次（并且肯定要保证能消费一次），我们可以这样做。</p>
+<p>在这个数据库中增加一个消息消费记录表，把消息插入到这个表，并且把原来的订单更新和这个插入的动作放到同一个事务中一起提交，就能保证消息只会被消费一遍了。</p>
+<p>流程看起来像是这样的：</p>
+<blockquote>
+<p>1.开启事务<br>2.插入消息表（处理好主键冲突的问题）<br>3.更新订单表（原消费逻辑）<br>4.提交事务</p>
+</blockquote>
+<p>这时候如果消息消费成功并且事务提交了，那么消息表就插入成功了。</p>
+<p>这时候就算 RocketMQ 还没有收到消费位点的更新，从而再次投递，也会插入消息失败而视为已经消费过，后续就直接更新消费位点了。</p>
+<p>这保证我们消费代码只会执行一次。</p>
+<p>如果事务提交之前服务挂了（例如重启），对于本地事务并没有执行所以订单没有更新，消息表也没插入成功。</p>
+<p>而对于RocketMQ服务端来说，消费位点也没更新，所以消息还会继续投递下来，投递下来发现这个消息插入消息表也是成功的，所以可以继续消费。</p>
+<p>这保证了消息不丢失。</p>
+<p>事实上，阿里云的 RocketMQ 的 EXACTLY-ONCE 语义的实现上，就是类似这个方案基于数据库的事务特性实现的：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/102777.html">https://help.aliyun.com/document_detail/102777.html</a></p>
+</blockquote>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301521839.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>基于这种方式，的确这是有能力拓展到不同的应用场景，因为它的实现方案与具体业务本身无关——而是依赖一个消息表。</p>
+<p>但是这里有它的局限性：<strong>消息的消费逻辑必须是依赖于关系型数据库事务。</strong></p>
+<p>如果消费的消费过程中还涉及其他数据的修改，例如 Redis 这种不支持事务特性的数据源，则这些数据是不可回滚的。</p>
+<p>还有，数据库的数据必须是在一个库，跨库无法解决。</p>
+<p>另外，需要特别注意的是：</p>
+<p><strong>在业务上，消息表的设计不应该以消息 ID 作为标识，而应该以业务的业务主键作为标识更为合理，以应对生产者的重发。</strong></p>
+<h2 id="更复杂的业务场景"><a href="#更复杂的业务场景" class="headerlink" title="更复杂的业务场景"></a><strong>更复杂的业务场景</strong></h2><p>如上所述，这种方式 Exactly Once 语义的实现，实际上有很多局限性，这种局限性使得这个方案基本不具备广泛应用的价值。</p>
+<p>且由于基于事务，可能导致锁表时间过长等性能问题。</p>
+<p>例如我们以一个比较常见的一个订单申请的消息来举例，可能有以下几步：</p>
+<ul>
+<li>检查库存（RPC）</li>
+<li>锁库存（RPC）</li>
+<li>开启事务，插入订单表（MySQL）</li>
+<li>调用某些其他下游服务（RPC）</li>
+<li>更新订单状态</li>
+<li>commit 事务（MySQL）</li>
+</ul>
+<p>这种情况下，我们如果采取消息表+本地事务的实现方式，消息消费过程中很多子过程是不支持回滚的，也就是说就算我们加了事务，实际上这背后的操作并不是原子性的。</p>
+<p>怎么说呢？</p>
+<p>就是说有可能第一条消息在经历了第二步锁库存的时候，服务重启了，这时候实际上库存是已经在另外的服务里被锁定了，这并不能被回滚。</p>
+<p>当然消息还会再次投递下来，要保证消息能至少消费一遍，换句话说，锁库存的这个RPC接口本身依旧要支持“幂等”。</p>
+<p>再者，如果在这个比较耗时的长链条场景下加入事务的包裹，将大大的降低系统的并发。</p>
+<p>所以通常情况下，我们处理这种场景的消息去重的方法还是会使用一开始说的业务自己实现去重逻辑的方式，如前面加 select for update，或者使用乐观锁。</p>
+<p><strong>那我们有没有方法抽取出一个公共的解决方案，能兼顾去重、通用、高性能呢？</strong></p>
+<p>我们先拆解一下消息执行过程。</p>
+<p>其中一个思路是把上面的几步，拆解成几个不同的子消息，例如：</p>
+<ul>
+<li>库存系统消费A：检查库存并做锁库存，发送消息B给订单服务</li>
+<li>订单系统消费消息B：插入订单表（MySQL），发送消息C给自己（下游系统）消费</li>
+<li>下游系统消费消息C：处理部分逻辑，发送消息D给订单系统</li>
+<li>订单系统消费消息D：更新订单状态</li>
+</ul>
+<p>上述步骤需要保证本地事务和消息是一个事务的（至少是最终一致性的），这其中涉及到分布式事务消息相关的话题，不在本文论述。</p>
+<p>可以看到这样的处理方法会使得每一步的操作都比较原子，而原子则意味着是小事务，小事务则意味着使用消息表+事务的方案显得可行。</p>
+<p>然而，这太复杂了！</p>
+<p>这把一个本来连续的代码逻辑割裂成多个系统多次消息交互，那还不如业务代码层面上加锁实现呢。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301521492.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="更通用的解决方案"><a href="#更通用的解决方案" class="headerlink" title="更通用的解决方案"></a><strong>更通用的解决方案</strong></h2><p>上面消息表+本地事务的方案之所以有其局限性和并发的短板，究其根本是因为它依赖于关系型数据库的事务，且必须要把事务包裹于整个消息消费的环节。</p>
+<p>如果我们能不依赖事务而实现消息的去重，那么方案就能推广到更复杂的场景例如：RPC、跨库等。</p>
+<p>例如，我们依旧使用消息表，但是不依赖事务，而是针对消息表增加消费状态，是否可以解决问题呢？</p>
+<p><strong>接下来就要祭出基于消息幂等表的非事务方案了。</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522591.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上是去事务化后的消息幂等方案的流程，可以看到，此方案是无事务的。</p>
+<p><strong>关键在于数据的状态，消息表本身做了状态的区分：消费中、消费完成。</strong></p>
+<p>只有消费完成的消息才会被幂等处理掉。</p>
+<p>而对于已有消费中的消息，后面重复的消息会触发延迟消费，比如在 RocketMQ 的场景下就是发送到 RETRY TOPIC。</p>
+<p>之所以触发延迟消费，是为了控制并发场景下，第二条消息在第一条消息没完成的过程中，去延迟消费，而不是去直接幂等，从而去控制消息不丢。</p>
+<p>如果直接幂等了，那么同一个消息 id 或者业务唯一标识，会丢失消息，因为上一条消息如果没有消费完成的时候，第二条消息你已经告诉 broker 成功了，那么第一条消息这时候失败 broker 也不会重新投递了。</p>
+<p>这里我们回头看看我们一开始想解决的问题是否解决了：</p>
+<ul>
+<li>问题一：消息已经消费成功了，第二条消息将被直接幂等处理掉（消费成功）。</li>
+<li>问题二：并发场景下的消息，依旧能满足不会出现消息重复，即穿透幂等挡板的问题。</li>
+<li>问题三：支持上游业务生产者重发的业务重复的消息幂等问题。</li>
+</ul>
+<p>关于第一个问题已经很明显已经解决了，在此就不讨论了。</p>
+<p>关于第二个问题是如何解决的？</p>
+<p>主要是依靠插入消息表的这个动作做控制的，假设我们用 MySQL 作为消息表的存储媒介，设置消息的唯一 ID 为主键，那么插入的动作只有一条消息会成功。</p>
+<p>后面的消息插入会由于主键冲突而失败，走向延迟消费的分支，然后后面延迟消费的时候就会变成上面第一个场景的问题。</p>
+<p>关于第三个问题，只要我们设计去重的消息键让其支持业务的主键（例如订单号、请求流水号等），而不仅仅是 messageId 即可。所以也不是问题。</p>
+<p>那么，<strong>此方案是否有消息丢失的风险？</strong></p>
+<p>如果细心的读者可能会发现这里实际上是有逻辑漏洞的。</p>
+<p>问题出在上面聊到的个问题二，就是并发场景的那个。</p>
+<p>在并发场景下我们依赖于消息状态是做并发控制使得第 2 条消息重复的消息会不断延迟消费，即重试。</p>
+<p>但如果这时候第 1 条消息也由于一些异常原因，例如机器重启了、外部异常导致消费失败，没有消费成功呢？</p>
+<p>也就是说这时候延迟消费实际上每次过来看到的都是消费中的状态，最后消费就会被视为消费失败而被投递到死信 Topic 中，比如 RocketMQ 默认可以重复消费 16 次。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522418.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>对于此，我们解决的方法是，插入的消息表必须要带一个最长消费过期时间，例如 10 分钟。</p>
+<p><strong>意思是如果一个消息处于消费中超过 10 分钟，就需要从消息表中删除，这一点需要程序自行实现。</strong></p>
+<p>所以最后这个消息的流程会是这样的：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522691.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们这个方案实际上没有事务的，只需要一个存储的中心媒介，那么自然我们可以选择更灵活的存储媒介，例如Redis。</p>
+<p>使用Redis有两个好处：</p>
+<ul>
+<li>1.性能上损耗更低</li>
+<li>2.上面我们讲到的超时时间可以直接利用Redis本身的ttl实现</li>
+</ul>
+<p>当然Redis存储的数据可靠性、一致性等方面是不如MySQL的，需要用户自己取舍。</p>
+<h2 id="show-me-code"><a href="#show-me-code" class="headerlink" title="show me code"></a><strong>show me code</strong></h2><p>以上方案针对 RocketMQ 的 Java 实现已经开源放到 Github 中，具体的使用文档可以参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Jaskey/RocketMQDedupListener">https://github.com/Jaskey/RocketMQDedupListener</a> ，</p>
+</blockquote>
+<p>以下仅贴一个 Readme 中利用 Redis 去重的使用样例，用以示意业务中如果使用此工具加入消息去重幂等的是多么简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//利用Redis做幂等表</span><br>DefaultMQPushConsumer consumer = <span class="hljs-keyword">new</span> DefaultMQPushConsumer(<span class="hljs-string">&quot;TEST-APP1&quot;</span>);<br>consumer.subscribe(<span class="hljs-string">&quot;TEST-TOPIC&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>);<br><br>String appName = consumer.getConsumerGroup();<span class="hljs-comment">// 大部分情况下可直接使用consumer group名</span><br>StringRedisTemplate stringRedisTemplate = <span class="hljs-keyword">null</span>;<span class="hljs-comment">// 这里省略获取StringRedisTemplate的过程</span><br>DedupConfig dedupConfig = DedupConfig.enableDedupConsumeConfig(appName, stringRedisTemplate);<br>DedupConcurrentListener messageListener = <span class="hljs-keyword">new</span> SampleListener(dedupConfig);<br><br>consumer.registerMessageListener(messageListener);<br>consumer.start();<br></code></pre></div></td></tr></table></figure>
+
+<p>以上代码大部分是原始 RocketMQ 的必须代码，唯一需要修改的仅仅是创建一个 DedupConcurrentListener 示例，在这个示例中指明你的消费逻辑和去重的业务键，该值默认是messageId。</p>
+<h2 id="这种实现是否一劳永逸？"><a href="#这种实现是否一劳永逸？" class="headerlink" title="这种实现是否一劳永逸？"></a><strong>这种实现是否一劳永逸？</strong></h2><p>实现到这里，似乎方案挺完美的，所有的消息都能快速的接入去重，且与具体业务实现也完全解耦。</p>
+<p>那么这样是否就完美的完成去重的所有任务呢？</p>
+<p>很可惜，其实不是的。原因很简单：</p>
+<p>因为要保证消息至少被成功消费一遍，那么消息就有机会消费到一半的时候失败触发消息重试的可能。还是以上面的订单流程为例：</p>
+<ul>
+<li>步骤1：检查库存（RPC）</li>
+<li>步骤2：锁库存（RPC）</li>
+<li>步骤3：开启事务，插入订单表（MySQL）</li>
+<li>步骤4：调用某些其他下游服务（RPC）</li>
+<li>步骤5：更新订单状态</li>
+<li>步骤6：commit 事务（MySQL）</li>
+</ul>
+<p>当消息消费到步骤 3 的时候，我们假设 MySQL 异常导致失败了，触发消息重试。</p>
+<p>因为在重试前我们会删除幂等表的记录，所以消息重试的时候就会重新进入消费代码，那么步骤 1 和步骤 2 就会重新再执行一遍。</p>
+<p>如果步骤2本身不是幂等的，那么这个业务消息消费依旧没有做好完整的幂等处理。</p>
+<h2 id="本实现方式的价值？"><a href="#本实现方式的价值？" class="headerlink" title="本实现方式的价值？"></a><strong>本实现方式的价值？</strong></h2><p>那么既然这个并不能完整的完成消息幂等，还有什么价值呢？</p>
+<p>价值可就大了！</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301523936.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>虽然这不是解决消息幂等的银弹（事实上，软件工程领域里基本没有银弹），但是他能以便捷的手段解决：</p>
+<ul>
+<li><p>1.各种由于Broker、负载均衡等原因导致的消息重投递的重复问题</p>
+</li>
+<li><p>2.各种上游生产者导致的业务级别消息重复问题</p>
+</li>
+<li><p>3.重复消息并发消费的控制窗口问题，就算重复，重复也不可能同一时间进入消费逻辑</p>
+</li>
+</ul>
+<h2 id="一些其他的消息去重的建议"><a href="#一些其他的消息去重的建议" class="headerlink" title="一些其他的消息去重的建议"></a><strong>一些其他的消息去重的建议</strong></h2><p>也就是说，使用这个方法能保证正常的消费逻辑场景下（无异常，无异常退出），消息的幂等工作全部都能解决，无论是业务重复，还是 RocketMQ 特性带来的重复。</p>
+<p>事实上，这已经能解决 99% 的消息重复问题了，毕竟异常的场景肯定是少数的。</p>
+<p>那么如果希望异常场景下也能处理好幂等的问题，可以做以下工作降低问题率：</p>
+<ul>
+<li>#1. 消息消费失败做好回滚处理。如果消息消费失败本身是带回滚机制的，那么消息重试自然就没有副作用了。</li>
+<li>#2. 消费者做好优雅退出处理。这是为了尽可能避免消息消费到一半程序退出导致的消息重试。</li>
+<li>#3. 一些无法做到幂等的操作，至少要做到终止消费并告警。例如锁库存的操作，如果统一的业务流水锁成功了一次库存，再触发锁库存，如果做不到幂等的处理，至少要做到消息消费触发异常（例如主键冲突导致消费异常等）</li>
+</ul>
+<p>在 #3 做好的前提下，做好消息的消费监控，发现消息重试不断失败的时候，手动做好 #1 的回滚，使得下次重试消费成功。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://jaskey.github.io/blog/2020/06/08/rocketmq-message-dedup/">https://jaskey.github.io/blog/2020/06/08/rocketmq-message-dedup/</a></p>
+<p>作者：薛定谔的风口猪</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E7%BC%96%E5%86%99%20Spring%20MVC%20%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%2014%20%E4%B8%AA%E6%8A%80%E5%B7%A7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编写 Spring MVC 控制器的 14 个技巧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/">
+                        <span class="hidden-mobile">本机号码一键登录原理与应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

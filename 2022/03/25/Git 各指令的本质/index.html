@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Git 各指令的本质  作为当前世界上最强大的代码管理工具Git相信大家都很熟悉，但据我所知有很大一批人停留在clone、commit、pull、push…的阶段，是不是对rebase心里没底只敢用merge？ 碰见版本回退就抓瞎？别问我怎么知道的，问就是：“我曾经就是这样啊～～”。 针对这些问题，今天我就将这几年对Git的认知和理解分享出来，尽可能的从本质去讲解Git，帮助你一步一步去了解Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git各指令的本质">
+<meta property="og:url" content="http://example.com/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Git 各指令的本质  作为当前世界上最强大的代码管理工具Git相信大家都很熟悉，但据我所知有很大一批人停留在clone、commit、pull、push…的阶段，是不是对rebase心里没底只敢用merge？ 碰见版本回退就抓瞎？别问我怎么知道的，问就是：“我曾经就是这样啊～～”。 针对这些问题，今天我就将这几年对Git的认知和理解分享出来，尽可能的从本质去讲解Git，帮助你一步一步去了解Git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131642431.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131644710.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647978.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647438.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647151.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131648442.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131649487.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.581Z">
+<meta property="article:modified_time" content="2022-03-25T12:05:07.947Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131642431.webp">
+  
+  <title>Git各指令的本质 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Git各指令的本质">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Git各指令的本质</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Git 各指令的本质</h2></center>
+
+<p>作为当前世界上最强大的代码管理工具Git相信大家都很熟悉，但据我所知有很大一批人停留在clone、commit、pull、push…的阶段，是不是对rebase心里没底只敢用merge？</p>
+<p>碰见版本回退就抓瞎？别问我怎么知道的，问就是：“我曾经就是这样啊～～”。</p>
+<p>针对这些问题，今天我就将这几年对Git的认知和理解分享出来，尽可能的从本质去讲解Git，帮助你一步一步去了解Git的底层原理，相信读完本篇文章你便可以换种姿态，更加风骚得使用Git各种指令。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a><strong>目录</strong></h2><ul>
+<li><ol>
+<li>基本概念</li>
+</ol>
+</li>
+<li><ul>
+<li>1.1 Git的优势</li>
+<li>1.2 文件状态</li>
+<li>1.3 commit 节点</li>
+<li>1.4 HEAD</li>
+<li>1.5 远程仓库</li>
+</ul>
+</li>
+<li><ol start="2">
+<li>分支</li>
+</ol>
+</li>
+<li><ul>
+<li>2.1 什么是分支？</li>
+</ul>
+</li>
+<li><ol start="3">
+<li>命令详解</li>
+</ol>
+</li>
+<li><ul>
+<li><p>3.1 提交相关</p>
+</li>
+<li><p>3.2 分支相关</p>
+</li>
+<li><p>3.3 合并相关</p>
+</li>
+<li><p>3.4 回退相关</p>
+</li>
+<li><p>3.5 远程相关</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1基本概念"><a href="#1基本概念" class="headerlink" title="1基本概念"></a><strong>1基本概念</strong></h2><h3 id="1-1-Git的优势"><a href="#1-1-Git的优势" class="headerlink" title="1.1 Git的优势"></a><strong>1.1 Git的优势</strong></h3><p>Git是一个分布式代码管理工具，在讨论分布式之前避免不了提及一下什么是中央式代码管理仓库</p>
+<blockquote>
+<ul>
+<li>中央式：所有的代码保存在中央服务器，所以提交必须依赖网络，并且每次提交都会带入到中央仓库，如果是协同开发可能频繁触发代码合并，进而增加提交的成本和代价。最典型的就是svn</li>
+<li>分布式：可以在本地提交，不需要依赖网络，并且会将每次提交自动备份到本地。每个开发者都可以把远程仓库clone一份到本地，并会把提交历史一并拿过来。代表就是Git</li>
+</ul>
+</blockquote>
+<p>那Git相比于svn有什么优势呢？</p>
+<p>打个比方：”巴拉巴拉写了一大堆代码，突然发现写的有问题，我想回到一个小时之前”，对于这种情况Git的优势就很明显了，因为commit的成本比较小并且本地会保存所有的提交记录，随时随刻可以进行回退。</p>
+<p>在这并不是说svn的不能完成这种操作，只是Git的回退会显得更加的优雅。Git相比于中央式工具还有很多优点，就不一一列举了，感兴趣的可自行了解。</p>
+<h3 id="1-2-文件状态"><a href="#1-2-文件状态" class="headerlink" title="1.2 文件状态"></a><strong>1.2 文件状态</strong></h3><p>在Git中文件大概分为三种状态：已修改（modified）、已暂存（staged）、已提交（committed）</p>
+<ul>
+<li><strong>修改</strong>：Git可以感知到工作目录中哪些文件被修改了，然后把修改的文件加入到modified区域</li>
+<li><strong>暂存</strong>：通过add命令将工作目录中修改的文件提交到暂存区，等候被commit</li>
+<li><strong>提交</strong>：将暂存区文件commit至Git目录中永久保存</li>
+</ul>
+<h3 id="1-3-commit节点"><a href="#1-3-commit节点" class="headerlink" title="1.3 commit节点"></a><strong>1.3 commit节点</strong></h3><p>为了便于表述，本篇文章我会通过节点代称commit提交</p>
+<p>在Git中每次提交都会生成一个节点,而每个节点都会有一个哈希值作为唯一标示，多次提交会形成一个线性节点链（不考虑merge的情况），如图1-1</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131642431.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>节点上方是通过 SHA1计算的哈希值</p>
+<p>C2节点包含C1提交内容,同样C3节点包含C1、C2提交内容</p>
+<h3 id="1-4-HEAD"><a href="#1-4-HEAD" class="headerlink" title="1.4 HEAD"></a><strong>1.4 HEAD</strong></h3><p>HEAD是Git中非常重要的一个概念，你可以称它为指针或者引用，它可以指向任意一个节点，并且指向的节点始终为当前工作目录，换句话说就是当前工作目录(也就是你所看到的代码)就是HEAD指向的节点。</p>
+<p>还以图1-1举例，如果HEAD指向C2那工作目录对应的就是C2节点。具体如何移动HEAD指向后面会讲到，此处不要纠结。</p>
+<p>同时HEAD也可以指向一个分支，间接指向分支所指向的节点。</p>
+<h3 id="1-5-远程仓库"><a href="#1-5-远程仓库" class="headerlink" title="1.5 远程仓库"></a><strong>1.5 远程仓库</strong></h3><p>虽然Git会把代码以及历史保存在本地，但最终还是要提交到服务器上的远程仓库。通过clone命令可以把远程仓库的代码下载到本地，同时也会将提交历史、分支、HEAD等状态一并同步到本地，但这些状态并不会实时更新，需要手动从远程仓库去拉取，至于何时拉、怎么拉后面章节会讲到。</p>
+<p>通过远程仓库为中介，你可以和你的同事进行协同开发，开发完新功能后可以申请提交至远程仓库，同时也可以从远程仓库拉取你同事的代码。</p>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a><strong>注意点</strong></h4><blockquote>
+<p>因为你和你的同事都会以远程仓库的代码为基准，所以要时刻保证远程仓库的代码质量，切记不要将未经检验测试的代码提交至远程仓库</p>
+</blockquote>
+<h2 id="2分支"><a href="#2分支" class="headerlink" title="2分支"></a><strong>2分支</strong></h2><h3 id="2-1-什么是分支？"><a href="#2-1-什么是分支？" class="headerlink" title="2.1 什么是分支？"></a><strong>2.1 什么是分支？</strong></h3><p>分支也是Git中相当重要的一个概念，当一个分支指向一个节点时，当前节点的内容即是该分支的内容，它的概念和HEAD非常接近同样也可以视为指针或引用，不同的是分支可以存在多个，而HEAD只有一个。通常会根据功能或版本建立不同的分支。</p>
+<p>那分支有什么用呢？</p>
+<blockquote>
+<ul>
+<li>举个例子：你们的 App 经历了千辛万苦终于发布了v1.0版本，由于需求紧急v1.0上线之后便马不停蹄的开始v1.1，正当你开发的兴起时，QA同学说用户反馈了一些bug，需要修复然后重新发版，修复v1.0肯定要基于v1.0的代码，可是你已经开发了一部分v1.1了，此时怎么搞？</li>
+</ul>
+</blockquote>
+<p>面对上面的问题通过引入分支概念便可优雅的解决，如图2-1</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131644710.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<ul>
+<li>先看左边示意图，假设C2节点既是v1.0版本代码，上线后在C2的基础上新建一个分支ft-1.0</li>
+<li>再看右边示意图，在v1.0上线后可在master分支开发v1.1内容，收到QA同学反馈后提交v1.1代码生成节点C3，随后切换到ft-1.0分支做bug修复，修复完成后提交代码生成节点C4，然后再切换到master分支并合并ft-1.0分支，到此我们就解决了上面提出的问题</li>
+</ul>
+</blockquote>
+<p>除此之外利用分支还可以做很多事情，比如现在有一个需求不确定要不要上线，但是得先做，此时可以单独创建一个分支开发该功能，等到啥时候需要上线直接合并到主分支即可。分支适用的场景很多就不一一列举了。</p>
+<h4 id="注意点-1"><a href="#注意点-1" class="headerlink" title="注意点"></a>注意点</h4><blockquote>
+<p>当在某个节点创建一个分支后，并不会把该节点对应的代码复制一份出来，只是将新分支指向该节点，因此可以很大程度减少空间上的开销。一定要记着不管是HEAD还是分支它们都只是引用而已，量级非常轻</p>
+</blockquote>
+<h2 id="3命令详解"><a href="#3命令详解" class="headerlink" title="3命令详解"></a><strong>3命令详解</strong></h2><h3 id="3-1-提交相关"><a href="#3-1-提交相关" class="headerlink" title="3.1 提交相关"></a><strong>3.1 提交相关</strong></h3><p>前面我们提到过，想要对代码进行提交必须得先加入到暂存区，Git中是通过命令 add 实现</p>
+<h4 id="添加某个文件到暂存区："><a href="#添加某个文件到暂存区：" class="headerlink" title="添加某个文件到暂存区："></a>添加某个文件到暂存区：</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git add 文件路径<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="添加所有文件到暂存区："><a href="#添加所有文件到暂存区：" class="headerlink" title="添加所有文件到暂存区："></a>添加所有文件到暂存区：</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git add .<br><br></code></pre></div></td></tr></table></figure>
+
+<p>同时Git也提供了撤销工作区和暂存区命令</p>
+<h4 id="撤销工作区改动："><a href="#撤销工作区改动：" class="headerlink" title="撤销工作区改动："></a>撤销工作区改动：</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git checkout -- 文件名<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="清空暂存区："><a href="#清空暂存区：" class="headerlink" title="清空暂存区："></a>清空暂存区：</h4><figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git reset HEAD 文件名<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="提交："><a href="#提交：" class="headerlink" title="提交："></a>提交：</h4><p>将改动文件加入到暂存区后就可以进行提交了，提交后会生成一个新的提交节点，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git commit -m <span class="hljs-string">&quot;该节点的描述信息&quot;</span><br><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-2-分支相关"><a href="#3-2-分支相关" class="headerlink" title="3.2 分支相关"></a><strong>3.2 分支相关</strong></h3><h4 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a><strong>创建分支</strong></h4><p>创建一个分支后该分支会与HEAD指向同一节点，说通俗点就是HEAD指向哪创建的新分支就指向哪，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git branch 分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a><strong>切换分支</strong></h4><p>当切换分支后，默认情况下HEAD会指向当前分支，即HEAD间接指向当前分支指向的节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git checkout 分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<p>同时也可以创建一个分支后立即切换，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git checkout -b 分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="删除分支"><a href="#删除分支" class="headerlink" title="**删除分支 **"></a>**删除分支 **</h4><p>为了保证仓库分支的简洁，当某个分支完成了它的使命后应该被删除。比如前面所说的单独开一个分支完成某个功能，当这个功能被合并到主分支后应该将这个分支及时删除。</p>
+<p>删除命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git branch -d 分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-3-合并相关"><a href="#3-3-合并相关" class="headerlink" title="3.3 合并相关"></a><strong>3.3 合并相关</strong></h3><p>关于合并的命令是最难掌握同时也是最重要的。我们常用的合并命令大概有三个merge、rebase、cherry-pick</p>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a><strong>merge</strong></h4><p>merge是最常用的合并命令，它可以将某个分支或者某个节点的代码合并至当前分支。具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git merge 分支名/节点哈希值<br><br></code></pre></div></td></tr></table></figure>
+
+<p>如果需要合并的分支完全领先于当前分支，如图3-1所示</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647978.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>由于分支ft-1完全领先分支ft-2即ft-1完全包含ft-2，所以ft-2执行了“git merge ft-1”后会触发fast forward(快速合并)，此时两个分支指向同一节点，这是最理想的状态。</p>
+<p>但是实际开发中我们往往碰到是是下面这种情况：如图3-2(左)</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647438.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这种情况就不能直接合了，当ft-2执行了“git merge ft-1”后Git会将节点C3、C4合并随后生成一个新节点C5，最后将ft-2指向C5 如图3-2(右)</p>
+<p>注意点：</p>
+<blockquote>
+<p>如果C3、C4同时修改了同一个文件中的同一句代码，这个时候合并会出错，因为Git不知道该以哪个节点为标准，所以这个时候需要我们自己手动合并代码</p>
+</blockquote>
+<h4 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a><strong>rebase</strong></h4><p>rebase也是一种合并指令，命令行如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git rebase 分支名/节点哈希值<br><br></code></pre></div></td></tr></table></figure>
+
+<p>与merge不同的是rebase合并看起来不会产生新的节点(实际上是会产生的，只是做了一次复制)，而是将需要合并的节点直接累加 如图3-3</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131647151.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>当左边示意图的ft-1.0执行了git rebase master后会将C4节点复制一份到C3后面，也就是C4’，C4与C4’相对应，但是哈希值却不一样。</p>
+<p>rebase相比于merge提交历史更加线性、干净，使并行的开发流程看起来像串行，更符合我们的直觉。既然rebase这么好用是不是可以抛弃merge了？其实也不是了，下面我罗列一些merge和rebase的优缺点：</p>
+<p><strong>merge优缺点：</strong></p>
+<blockquote>
+<ul>
+<li>优点：每个节点都是严格按照时间排列。当合并发生冲突时，只需要解决两个分支所指向的节点的冲突即可</li>
+<li>缺点：合并两个分支时大概率会生成新的节点并分叉，久而久之提交历史会变成一团乱麻</li>
+</ul>
+</blockquote>
+<p><strong>rebase优缺点：</strong></p>
+<blockquote>
+<ul>
+<li>优点：会使提交历史看起来更加线性、干净</li>
+<li>缺点：虽然提交看起来像是线性的，但并不是真正的按时间排序，比如图3-3中，不管C4早于或者晚于C3提交它最终都会放在C3后面。并且当合并发生冲突时，理论上来讲有几个节点rebase到目标分支就可能处理几次冲突</li>
+</ul>
+</blockquote>
+<p>对于网络上一些只用rebase的观点，作者表示不太认同，如果不同分支的合并使用rebase可能需要重复解决冲突，这样就得不偿失了。但如果是本地推到远程并对应的是同一条分支可以优先考虑rebase。所以我的观点是 根据不同场景合理搭配使用merge和rebase，如果觉得都行那优先使用rebase</p>
+<h4 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a><strong>cherry-pick</strong></h4><p>cherry-pick的合并不同于merge和rebase，它可以选择某几个节点进行合并，如图3-4</p>
+<p>命令行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git cherry-pick 节点哈希值<br><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131648442.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>假设当前分支是master，执行了git cherry-pick C3(哈希值)，C4(哈希值)命令后会直接将C3、C4节点抓过来放在后面，对应C3’和C4’</p>
+<h3 id="3-4-回退相关"><a href="#3-4-回退相关" class="headerlink" title="3.4 回退相关"></a><strong>3.4 回退相关</strong></h3><h4 id="分离HEAD"><a href="#分离HEAD" class="headerlink" title="分离HEAD"></a><strong>分离HEAD</strong></h4><p>在默认情况下HEAD是指向分支的，但也可以将HEAD从分支上取下来直接指向某个节点，此过程就是分离HEAD，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git checkout 节点哈希值<br>//也可以直接脱离分支指向当前节点<br>git checkout --detach<br><br></code></pre></div></td></tr></table></figure>
+
+<p>由于哈希值是一串很长很长的乱码，在实际操作中使用哈希值分离HEAD很麻烦，所以Git也提供了HEAD基于某一特殊位置(分支/HEAD)直接指向前一个或前N个节点的命令，也即相对引用，如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">//HEAD分离并指向前一个节点<br>git checkout 分支名/HEAD^<br><br>//HEAD分离并指向前N个节点<br>git checkout 分支名～N<br><br></code></pre></div></td></tr></table></figure>
+
+<p>将HEAD分离出来指向节点有什么用呢？举个例子：如果开发过程发现之前的提交有问题，此时可以将HEAD指向对应的节点，修改完毕后再提交，此时你肯定不希望再生成一个新的节点，而你只需在提交时加上–amend即可，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git commit --amend<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="回退"><a href="#回退" class="headerlink" title="回退"></a><strong>回退</strong></h4><p>回退场景在平时开发中还是比较常见的，比如你巴拉巴拉写了一大堆代码然后提交，后面发现写的有问题，于是你想将代码回到前一个提交，这种场景可以通过reset解决，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">//回退N个提交<br>git reset HEAD~N<br><br></code></pre></div></td></tr></table></figure>
+
+<p>reset和相对引用很像，区别是reset会使分支和HEAD一并回退。</p>
+<h3 id="3-5-远程相关"><a href="#3-5-远程相关" class="headerlink" title="3.5 远程相关"></a><strong>3.5 远程相关</strong></h3><p>当我们接触一个新项目时，第一件事情肯定是要把它的代码拿下来，在Git中可以通过clone从远程仓库复制一份代码到本地，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git <span class="hljs-built_in">clone</span> 仓库地址<br><br></code></pre></div></td></tr></table></figure>
+
+<p>前面的章节我也有提到过，clone不仅仅是复制代码，它还会把远程仓库的引用(分支/HEAD)一并取下保存在本地，如图3-5所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131649487.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其中origin/master和origin/ft-1为远程仓库的分支，而远程的这些引用状态是不会实时更新到本地的，比如远程仓库origin/master分支增加了一次提交，此时本地是感知不到的，所以本地的origin/master分支依旧指向C4节点。我们可以通过fetch命令来手动更新远程仓库状态</p>
+<p>小提示：</p>
+<blockquote>
+<p>并不是存在服务器上的才能称作是远程仓库，你也可以clone本地仓库作为远程，当然实际开发中我们不可能把本地仓库当作公有仓库，说这个只是单纯的帮助你更清晰的理解分布式</p>
+</blockquote>
+<h4 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a><strong>fetch</strong></h4><p>说的通俗一点，fetch命令就是一次下载操作，它会将远程新增加的节点以及引用(分支/HEAD)的状态下载到本地，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git fetch 远程仓库地址/分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="pull"><a href="#pull" class="headerlink" title="pull"></a><strong>pull</strong></h4><p>pull命令可以从远程仓库的某个引用拉取代码，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git pull 远程分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<p>其实pull的本质就是fetch+merge，首先更新远程仓库所有状态到本地，随后再进行合并。合并完成后本地分支会指向最新节点</p>
+<p>另外pull命令也可以通过rebase进行合并，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git pull --rebase 远程分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="push"><a href="#push" class="headerlink" title="push"></a><strong>push</strong></h4><p>push命令可以将本地提交推送至远程，具体命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">git push 远程分支名<br><br></code></pre></div></td></tr></table></figure>
+
+<p>如果直接push可能会失败，因为可能存在冲突，所以在push之前往往会先pull一下，如果存在冲突本地解决。push成功后本地的远程分支引用会更新，与本地分支指向同一节点。</p>
+<h2 id="综上所述"><a href="#综上所述" class="headerlink" title="综上所述"></a><strong>综上所述</strong></h2><ul>
+<li>不管是HEAD还是分支，它们都只是引用而已，引用+节点是 Git 构成分布式的关键</li>
+<li>merge相比于rebase有更明确的时间历史，而rebase会使提交更加线性应当优先使用</li>
+<li>通过移动HEAD可以查看每个提交对应的代码</li>
+<li>clone或fetch都会将远程仓库的所有提交、引用保存在本地一份</li>
+<li>pull的本质其实就是fetch+merge，也可以加入–rebase通过rebase方式合并</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Git/">Git</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Git/">Git</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/GNU_C01/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux 内核中的 C 语言语法扩展</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/">
+                        <span class="hidden-mobile">Git常用命令速查表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

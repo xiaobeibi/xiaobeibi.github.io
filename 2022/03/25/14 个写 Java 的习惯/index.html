@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="14 个写 Java 的习惯  1. 定义配置文件信息有时候我们为了统一管理会把一些变量放到 yml 配置文件中 例如  用 @ConfigurationProperties 代替 @Value 使用方法 定义对应字段的实体 1234567891011121314151617181920@Data&#x2F;&#x2F; 指定前缀@ConfigurationProperties(prefix &#x3D; &quot;deve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14 个写 Java 的习惯">
+<meta property="og:url" content="http://example.com/2022/03/25/14%20%E4%B8%AA%E5%86%99%20Java%20%E7%9A%84%E4%B9%A0%E6%83%AF/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="14 个写 Java 的习惯  1. 定义配置文件信息有时候我们为了统一管理会把一些变量放到 yml 配置文件中 例如  用 @ConfigurationProperties 代替 @Value 使用方法 定义对应字段的实体 1234567891011121314151617181920@Data&#x2F;&#x2F; 指定前缀@ConfigurationProperties(prefix &#x3D; &quot;deve">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161737021.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161740214.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161740427.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741134.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741978.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741518.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741000.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741279.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741270.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742125.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742961.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742899.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742565.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.534Z">
+<meta property="article:modified_time" content="2022-03-25T12:15:08.229Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161737021.png">
+  
+  <title>14 个写 Java 的习惯 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="14 个写 Java 的习惯">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">14 个写 Java 的习惯</h1>
+            
+            <div class="markdown-body">
+              <center><h2>14 个写 Java 的习惯</h2></center>
+
+<h2 id="1-定义配置文件信息"><a href="#1-定义配置文件信息" class="headerlink" title="1. 定义配置文件信息"></a><strong>1. 定义配置文件信息</strong></h2><p>有时候我们为了统一管理会把一些变量放到 yml 配置文件中</p>
+<p><strong>例如</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161737021.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>用 @ConfigurationProperties 代替 @Value</p>
+<p><strong>使用方法</strong></p>
+<p>定义对应字段的实体</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-comment">// 指定前缀</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;developer&quot;)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeveloperProperty</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> String website;<br>    <span class="hljs-keyword">private</span> String qq;<br>    <span class="hljs-keyword">private</span> String phoneNumber;<br>&#125;<br><span class="hljs-meta">@Data</span><br><span class="hljs-comment">// 指定前缀</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;developer&quot;)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeveloperProperty</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> String website;<br>    <span class="hljs-keyword">private</span> String qq;<br>    <span class="hljs-keyword">private</span> String phoneNumber;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>使用时注入这个bean</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequiredArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PropertyController</span> </span>&#123;<br> <br>    <span class="hljs-keyword">final</span> DeveloperProperty developerProperty;<br> <br>    <span class="hljs-meta">@GetMapping(&quot;/property&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">index</span><span class="hljs-params">()</span> </span>&#123;<br>       <span class="hljs-keyword">return</span> developerProperty.getName();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="2-用-RequiredArgsConstructor代替-Autowired"><a href="#2-用-RequiredArgsConstructor代替-Autowired" class="headerlink" title="2. 用@RequiredArgsConstructor代替@Autowired"></a><strong>2. 用@RequiredArgsConstructor代替@Autowired</strong></h2><p>我们都知道注入一个 bean 有三种方式哦（set 注入, 构造器注入, 注解注入），Spring 推荐我们使用构造器的方式注入 Bean</p>
+<p>我们来看看上段代码编译完之后的样子</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161740214.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>RequiredArgsConstructor：lombok提供</p>
+<h2 id="3-代码模块化"><a href="#3-代码模块化" class="headerlink" title="3.代码模块化"></a><strong>3.代码模块化</strong></h2><p>阿里巴巴 Java 开发手册中说到每个方法的代码不要超过 50 行（我没记错的话），在实际的开发中我们要善于拆分自己的接口或方法, 做到一个方法只处理一种逻辑, 说不定以后某个功能就用到了, 拿来即用。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161740427.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="4-抛异常而不是返回"><a href="#4-抛异常而不是返回" class="headerlink" title="4. 抛异常而不是返回"></a><strong>4. 抛异常而不是返回</strong></h2><p>在写业务代码的时候，经常会根据不同的结果返回不同的信息，尽量减少返回，会显得代码比较乱</p>
+<p><strong>反例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741134.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>正例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741978.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="5-减少不必要的db"><a href="#5-减少不必要的db" class="headerlink" title="5. 减少不必要的db"></a><strong>5. 减少不必要的db</strong></h2><p>尽可能的减少对数据库的查询</p>
+<p><strong>举例子</strong></p>
+<p>删除一个服务（已下架或未上架的才能删除），之前有看别人写的代码，会先根据id查询该记录，然后做一些判断</p>
+<p><strong>反例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741518.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>正例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741000.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="6-不要返回-null"><a href="#6-不要返回-null" class="headerlink" title="6. 不要返回 null"></a><strong>6. 不要返回 null</strong></h2><p><strong>反例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741279.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>正例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161741270.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>别处调用方法时，避免不必要的空指针</p>
+<h2 id="7-if-else"><a href="#7-if-else" class="headerlink" title="7. if else"></a><strong>7. if else</strong></h2><p>不要太多了if else if，可以试试<strong>策略模式</strong>代替</p>
+<h2 id="8-减少controller业务代码"><a href="#8-减少controller业务代码" class="headerlink" title="8. 减少controller业务代码"></a><strong>8. 减少controller业务代码</strong></h2><p>业务代码尽量放到service层进行处理，后期维护起来也好操作而且美观</p>
+<p><strong>反例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742125.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>正例</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742961.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="9-利用好Idea"><a href="#9-利用好Idea" class="headerlink" title="9. 利用好Idea"></a><strong>9. 利用好Idea</strong></h2><p>目前为止市面上的企业基本都用idea作为开发工具了吧</p>
+<p><strong>举一个小例子</strong></p>
+<p>idea会对我们的代码进行判断，提出合理的建议</p>
+<p><strong>例如：</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742899.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>它推荐我们用lanbda的形式代替，点击replace</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203161742565.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="10-阅读源码"><a href="#10-阅读源码" class="headerlink" title="10. 阅读源码"></a><strong>10. 阅读源码</strong></h2><p>一定要养成阅读源码的好习惯包括优秀的开源项目GitHub上stars:&gt;1000, 会从中学好好多知识包括其对代码的设计思想以及高级API，面试加分（好多面试官习惯问源码相关的知识）</p>
+<h2 id="11-设计模式"><a href="#11-设计模式" class="headerlink" title="11. 设计模式"></a><strong>11. 设计模式</strong></h2><p>23种设计模式，要尝试代码中运用设计模式思想，写出的代码即规范又美观还高大上哈哈。</p>
+<h2 id="12-拥抱新知识"><a href="#12-拥抱新知识" class="headerlink" title="12. 拥抱新知识"></a><strong>12. 拥抱新知识</strong></h2><p>像我们这种工作年限少的程序员，我觉得要多学习自己认知之外的知识，不能每天crud，有机会就多用用有点难度的知识，没有机会（项目较传统），可以自己下班多些相关demo练习</p>
+<h2 id="13-基础问题"><a href="#13-基础问题" class="headerlink" title="13. 基础问题"></a><strong>13. 基础问题</strong></h2><p>map遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">HashMap&lt;String, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>map.put(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;du&quot;</span>);<br><span class="hljs-keyword">for</span> (String key : map.keySet()) &#123;<br>    String value = map.get(key);<br>&#125;<br> <br>map.forEach((k, v) -&gt; &#123;<br> <br>&#125;);<br> <br><span class="hljs-comment">// 推荐</span><br><span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; entry : map.entrySet()) &#123;<br> <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><strong>optional 判空</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//获取子目录列表</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;CatalogueTreeNode&gt; <span class="hljs-title">getChild</span><span class="hljs-params">(String pid)</span> </span>&#123;<br>            <span class="hljs-keyword">if</span> (V.isEmpty(pid)) &#123;<br>            pid = BasicDic.TEMPORARY_DIRECTORY_ROOT;<br>        &#125;<br>        CatalogueTreeNode node = treeNodeMap.get(pid);<br> <br>        <span class="hljs-keyword">return</span> Optional.ofNullable(node)<br>                .map(CatalogueTreeNode::getChild)<br>                .orElse(Collections.emptyList());<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><strong>递归</strong></p>
+<blockquote>
+<p>大数据量的递归时，避免在递归方法里new对象，可以试试把对象当作方法参数进行传递使用</p>
+</blockquote>
+<p><strong>注释</strong></p>
+<blockquote>
+<p>类 接口方法 注解 较复杂的方法 注释都要写而且要写清楚, 有时候写注释不是给别人看的 而是给自己看的</p>
+</blockquote>
+<h2 id="14-判断元素是否存在"><a href="#14-判断元素是否存在" class="headerlink" title="14. 判断元素是否存在"></a><strong>14. 判断元素是否存在</strong></h2><p>hashSet 而不是 list，list 判断一个元素是否存在的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ArrayList&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br> <br><span class="hljs-comment">// 判断a是否在list中</span><br> <br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.size(); i++)<br>   <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;a&quot;</span>.equals(elementData[i]))<br>      <span class="hljs-keyword">return</span> i;<br></code></pre></div></td></tr></table></figure>
+
+<p>由此可见其复杂度为On，而hashSet底层采用hashMap作为数据结构进行存储，元素都放到map的key（即链表中）</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">HashSet&lt;String&gt; set = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br> <br><span class="hljs-comment">// 判断a是否在set中</span><br> <br><span class="hljs-keyword">int</span> index = hash(a);<br> <br><span class="hljs-keyword">return</span> getNode(index) != <span class="hljs-keyword">null</span><br></code></pre></div></td></tr></table></figure>
+
+<p>由此可见其复杂度为O(1)。</p>
+<p>转载自地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44912855/article/details/120866194">https://blog.csdn.net/weixin_44912855/article/details/120866194</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/16%20%E6%9D%A1%20yyds%20%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">16 条 yyds 的代码规范</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

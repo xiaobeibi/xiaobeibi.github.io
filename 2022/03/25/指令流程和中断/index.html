@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="指令流程和中断  一、指令系统1、什么是指令指令是指能让计算机完成某种操作的命令。 2、什么是指令系统指令系统是指一台计算机所能执行的全部指令。 3、指令格式指令可以分为操作码字段和地址码字段  操作码字段负责告诉计算机执行什么操作 地址码字段负责 存放操作数或操作数地址 存放运算结果的地址 给出后继指令地址   操作码和地址码的位数不确定，需要更具具体的指令来决定   可以根据地址码字段结构的不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指令流程和中断">
+<meta property="og:url" content="http://example.com/2022/03/25/%E6%8C%87%E4%BB%A4%E6%B5%81%E7%A8%8B%E5%92%8C%E4%B8%AD%E6%96%AD/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="指令流程和中断  一、指令系统1、什么是指令指令是指能让计算机完成某种操作的命令。 2、什么是指令系统指令系统是指一台计算机所能执行的全部指令。 3、指令格式指令可以分为操作码字段和地址码字段  操作码字段负责告诉计算机执行什么操作 地址码字段负责 存放操作数或操作数地址 存放运算结果的地址 给出后继指令地址   操作码和地址码的位数不确定，需要更具具体的指令来决定   可以根据地址码字段结构的不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921130430.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921143115.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921144737.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921143823.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921145635.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921150628.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921152218.png">
+<meta property="og:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200922093045.png">
+<meta property="article:published_time" content="2022-03-25T13:46:51.020Z">
+<meta property="article:modified_time" content="2022-02-03T06:18:08.996Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921130430.png">
+  
+  <title>指令流程和中断 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="指令流程和中断">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">指令流程和中断</h1>
+            
+            <div class="markdown-body">
+              <center><h2>指令流程和中断</h2></center>
+
+<h1 id="一、指令系统"><a href="#一、指令系统" class="headerlink" title="一、指令系统"></a>一、指令系统</h1><h2 id="1、什么是指令"><a href="#1、什么是指令" class="headerlink" title="1、什么是指令"></a>1、什么是指令</h2><p>指令是指能让计算机完成某种操作的命令。</p>
+<h2 id="2、什么是指令系统"><a href="#2、什么是指令系统" class="headerlink" title="2、什么是指令系统"></a>2、什么是指令系统</h2><p>指令系统是指一台计算机所能执行的全部指令。</p>
+<h2 id="3、指令格式"><a href="#3、指令格式" class="headerlink" title="3、指令格式"></a>3、指令格式</h2><p>指令可以分为<strong>操作码字段</strong>和<strong>地址码字段</strong></p>
+<ul>
+<li><strong>操作码</strong>字段负责告诉计算机执行什么操作</li>
+<li>地址码字段负责<ul>
+<li>存放操作数或操作数地址</li>
+<li>存放运算结果的地址</li>
+<li>给出后继指令地址</li>
+</ul>
+</li>
+<li>操作码和地址码的位数不确定，需要更具具体的指令来决定</li>
+</ul>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921130430.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>可以根据地址码字段结构的不同，分为四地址指令、三地址指令、二地址指令、一地址指令和零地址指令。</p>
+<h2 id="4、寻址方式"><a href="#4、寻址方式" class="headerlink" title="4、寻址方式"></a>4、寻址方式</h2><h3 id="立即寻址"><a href="#立即寻址" class="headerlink" title="立即寻址"></a>立即寻址</h3><p>所需的操作数由指令直接给出的寻址方式，称为立即寻址，如</p>
+<p>把立即数1234H放入R1寄存器中</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs x86asm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, <span class="hljs-number">1234H</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h3><p>地址码为操作数所在主存单元的实际地址的寻址方式，称为直接寻址，如</p>
+<p>把地址为1234H单元中的数据放入到R1寄存器中</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs x86asm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, (<span class="hljs-number">1234H</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="间接寻址"><a href="#间接寻址" class="headerlink" title="间接寻址"></a>间接寻址</h3><p>地址码部分给出的是存放操作数地址的内存单元的地址，这个地址叫做间接地址。通过间接地址来寻址的方式称为间接寻址。如</p>
+<p>把存放在地址为1234H内存单元中的地址取出，然后再通过该地址取找到需要的立即数，然后再将该立即数放入R1寄存器中</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs x86asm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, ((<span class="hljs-number">1234H</span>))<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="寄存器直接寻址"><a href="#寄存器直接寻址" class="headerlink" title="寄存器直接寻址"></a>寄存器直接寻址</h3><p>指令所需的操作数在寄存器中，按指令给出的寄存器地址去获取操作数的寻址方式，称为寄存器直接寻址，如</p>
+<p>把R2寄存器中的数据放入R1寄存器中</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, <span class="hljs-built_in">R2</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h3><p>寄存器中存放了操作数在内存单元中的地址，通过寄存器获得立即数在内存单元中的地址，然后通过地址得到立即数的寻址方式，称为寄存器间接寻址，如</p>
+<p>把BX寄存器中存放的数据取出，通过该数据找到内存单元中对应位置中存放的立即数</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, (<span class="hljs-built_in">R2</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="自增型寄存器间接寻址"><a href="#自增型寄存器间接寻址" class="headerlink" title="自增型寄存器间接寻址"></a>自增型寄存器间接寻址</h3><p>和寄存器间接寻址类似，不过在取出寄存器中存放的地址后，需要该地址的值+1，然后再放回该寄存器中，如</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, (<span class="hljs-built_in">R2</span>)+<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="自减型寄存器间接寻址"><a href="#自减型寄存器间接寻址" class="headerlink" title="自减型寄存器间接寻址"></a>自减型寄存器间接寻址</h3><p>和寄存器间接寻址类似，不过在取出寄存器中存放的地址时，需要将改地址-1，使用后需要将地址放回寄存器中，如</p>
+<figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-keyword">MOV</span> <span class="hljs-built_in">R1</span>, -(<span class="hljs-built_in">R2</span>)<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="自增-自减型寄存器间接寻址的区别"><a href="#自增-自减型寄存器间接寻址的区别" class="headerlink" title="自增/自减型寄存器间接寻址的区别"></a>自增/自减型寄存器间接寻址的区别</h4><p>自增型寄存器间接寻址在取出寄存器中存放的数据后，<strong>直接使用该数据</strong>。使用完毕后，将该数据+1后再放回寄存器中。类似于</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs brainfuck"><span class="hljs-comment">x</span>++<br></code></pre></div></td></tr></table></figure>
+
+<p>自减型寄存器间接寻址在取出寄存器中存放的数据后，<strong>先将数据-1，然后再使用</strong>。使用后将该数据放回到寄存器中。类似于</p>
+<figure class="highlight ada"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ada"><span class="hljs-comment">--x</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="变址寻址"><a href="#变址寻址" class="headerlink" title="变址寻址"></a>变址寻址</h3><p>选用专用寄存器(IX)或通用寄存器(R0)用于存放偏移地址。将寄存器中的值加上基准地址的值(D)来作为最终地址的寻址方式，称为变址寻址。</p>
+<p>如选用<strong>专用寄存器IX</strong>作为变址寄存器，目标地址为</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">EA</span> = (IX) + D<br></code></pre></div></td></tr></table></figure>
+
+<p>选用<strong>通用寄存器R0</strong>作为变址寄存器，目标地址为</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">EA</span> = (R0) + D<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="基址寻址"><a href="#基址寻址" class="headerlink" title="基址寻址"></a>基址寻址</h3><p>基址寻址和变址寻址相反，寄存器中存放的是基准地址，D中存放的是偏移地址。该寻址方式称为基址寻址。如</p>
+<p>选用<strong>专用寄存器BR</strong>作为基址寄存器，目标地址为</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">EA</span> = (BR) + D<br></code></pre></div></td></tr></table></figure>
+
+<p>选用通用寄存器R0作为基址寄存器，目标地址为</p>
+<figure class="highlight ini"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">EA</span> = (R0) + D<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="变址-基址寻址的区别"><a href="#变址-基址寻址的区别" class="headerlink" title="变址/基址寻址的区别"></a>变址/基址寻址的区别</h4><p>无论是变址寻址还是基址寻址，目标地址 = <strong>基准地址 + 偏移地址</strong> ，只不过在不同的寻址方式中，由不同的寄存器和形式地址给出。</p>
+<ul>
+<li><strong>变址寻址</strong>中，由寄存器提供偏移地址，D提供基准地址</li>
+<li><strong>基址寻址</strong>中，由寄存器提供基准地址，D提供偏移地址</li>
+</ul>
+<h3 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h3><p>相对寻址是基于基址寻址的一种寻址方式，是一种由<strong>程序计数器PC给出基准地址，D给出偏移地址</strong>的寻址方式。</p>
+<h3 id="堆栈寻址"><a href="#堆栈寻址" class="headerlink" title="堆栈寻址"></a>堆栈寻址</h3><p><strong>操作数存放在堆栈中</strong>，隐含使用堆栈指针（SP）作为操作数地址。</p>
+<p>堆栈是存储器（或专用寄存器组）中一块特定的按“<strong>后进先出</strong>（LIFO）”原则管理的存储区，该存储区中被读/写单元的地址是用一个特定的寄存器给出的，该寄存器称为<strong>堆栈指针</strong>（SP）。</p>
+<h1 id="二、指令流程"><a href="#二、指令流程" class="headerlink" title="二、指令流程"></a>二、指令流程</h1><h2 id="1、流程中会用到的寄存器"><a href="#1、流程中会用到的寄存器" class="headerlink" title="1、流程中会用到的寄存器"></a>1、流程中会用到的寄存器</h2><p>Ri Rj：通用寄存器，用于存放源操作数或元操作数地址</p>
+<p>C：暂存器C，用于暂存数据</p>
+<p>D：暂存器D，用于暂存数据</p>
+<p>MAR：地址寄存器，用于存放地址</p>
+<p>MDR：数据寄存器，用于存放从主存读取出来的数据数据</p>
+<p>PC：程序计数器，指向下一条指令的地址</p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921143115.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="2、指令流程的划分"><a href="#2、指令流程的划分" class="headerlink" title="2、指令流程的划分"></a>2、指令流程的划分</h2><p>由数据通路可以将指令的执行过程分为4个基本的阶段</p>
+<ul>
+<li>取指令周期FT</li>
+<li>源操作数周期ST</li>
+<li>目的操作数周期DT</li>
+<li>执行周期ET</li>
+</ul>
+<h2 id="3、取指令周期FT"><a href="#3、取指令周期FT" class="headerlink" title="3、取指令周期FT"></a>3、取指令周期FT</h2><p>取指令周期为指令流程的<strong>公操作</strong>。具有两个步骤，在一个时钟周期内完成。</p>
+<p>步骤一：将主存中的指令读取，放入指令寄存器IR中</p>
+<p>步骤二：程序计数器+1，指向下一条指令的地址</p>
+<figure class="highlight clean"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs clean">M-&gt;IR<br>PC+<span class="hljs-number">1</span>-&gt;PC<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="4、源操作数周期ST"><a href="#4、源操作数周期ST" class="headerlink" title="4、源操作数周期ST"></a>4、源操作数周期ST</h2><p>该周期主要是为了得到源操作数的值</p>
+<p><strong>以MOV指令为例</strong></p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921144737.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="寄存器直接寻址-R"><a href="#寄存器直接寻址-R" class="headerlink" title="寄存器直接寻址 R"></a>寄存器直接寻址 R</h3><p>因为寄存器中存放的就是源操作数，所以<strong>直接取出即可</strong></p>
+<h3 id="寄存器间接寻址-R"><a href="#寄存器间接寻址-R" class="headerlink" title="寄存器间接寻址 (R)"></a>寄存器间接寻址 (R)</h3><p>因为寄存器中存放的是源操作数在内存单元中的地址，所以我们需要通过寄存器，访问对应的内存单元，然后获得源操作数。</p>
+<ul>
+<li>先将寄存器中的值放入地址寄存器中 <strong>Ri -&gt; MAR</strong></li>
+<li>通过地址寄存器访问对应的内存单元，将单元中的值放入数据寄存器中 <strong>M-&gt;MDR</strong> ，然后通过数据寄存器中放入暂存器C中 <strong>MDR-&gt;C</strong></li>
+</ul>
+<h3 id="自增-自减型寄存器间接寻址-R-R"><a href="#自增-自减型寄存器间接寻址-R-R" class="headerlink" title="自增/自减型寄存器间接寻址 (R)+/-(R)"></a>自增/自减型寄存器间接寻址 (R)+/-(R)</h3><p>和寄存器间接寻址类似，只不过多了一个自增/自减的步骤</p>
+<p><strong>自增型寄存器间接寻址</strong>在<strong>取出源操作数后</strong>，要将寄存器中存储的值+1，再放回该寄存器中</p>
+<p><strong>自减型寄存器间接寻址</strong>在<strong>取出寄存器中的值前</strong>，要将寄存器中存储的值-1，然后以-1后的值进行寻址操作，获取源操作数</p>
+<h3 id="自增型寄存器双间接寻址-R"><a href="#自增型寄存器双间接寻址-R" class="headerlink" title="自增型寄存器双间接寻址 @(R)+"></a>自增型寄存器双间接寻址 @(R)+</h3><p>这种寻址方式需要两次访问主存，才能获得源操作数的最终地址</p>
+<ul>
+<li><p>先将寄存器中的值放入地址寄存器中 <strong>Ri -&gt; MAR</strong></p>
+</li>
+<li><p>通过地址寄存器访问对应的内存单元，将单元中的值放入数据寄存器中 <strong>M-&gt;MDR</strong> ，然后通过数据寄存器中放入暂存器C中</p>
+<p><strong>MDR-&gt;C</strong>，此时C中存放的是源操作数的地址</p>
+</li>
+<li><p>寄存器中存储的值+1，再放回该寄存器中 <strong>Ri+1 -&gt; Ri</strong></p>
+</li>
+<li><p>再次进行寄存器间接寻址 <strong>C -&gt; MAR</strong></p>
+</li>
+<li><p>通过地址寄存器访问对应的内存单元，将单元中的值放入数据寄存器中 <strong>M-&gt;MDR</strong> ，然后通过数据寄存器中放入暂存器C中 <strong>MDR-&gt;C</strong></p>
+</li>
+</ul>
+<h3 id="变址寻址-X-R"><a href="#变址寻址-X-R" class="headerlink" title="变址寻址 X(R)"></a>变址寻址 X(R)</h3><p>变址寻址需要将<strong>寄存器中的值</strong>加上<strong>基准地址的值(D</strong>)来作为最终地址</p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921143823.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><p>公操作进行了 <strong>PC+1 -&gt; PC</strong>，所以当前PC保存的是寄存地址D的值。先将基准地址取出 <strong>PC -&gt; MAR</strong>，放入到暂存器C中</p>
+<p><strong>M -&gt; MDR -&gt;C</strong></p>
+</li>
+<li><p>PC指向下一条指令的地址 <strong>PC + 1 -&gt; PC</strong></p>
+</li>
+<li><p>偏移地址+基准地址 获得最终地址 <strong>C+R -&gt; MAR</strong></p>
+</li>
+<li><p>将结果放入暂存器C中 M -&gt; MDR -&gt; C</p>
+</li>
+</ul>
+<p><strong>经过源操作数周期ST后，暂存器C中保存了源操作数的值</strong></p>
+<h2 id="5、目的操作数周期DT"><a href="#5、目的操作数周期DT" class="headerlink" title="5、目的操作数周期DT"></a>5、目的操作数周期DT</h2><p>该步骤主要是为了<strong>找到目的操作数的地址</strong></p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921145635.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="寄存器直接寻址-R-1"><a href="#寄存器直接寻址-R-1" class="headerlink" title="寄存器直接寻址 R"></a>寄存器直接寻址 R</h3><p>直接放入寄存器中，无需目的操作数地址</p>
+<h3 id="寄存器间接寻址-R-1"><a href="#寄存器间接寻址-R-1" class="headerlink" title="寄存器间接寻址 (R)"></a>寄存器间接寻址 (R)</h3><p>取出寄存器中存放的目的地址，将该地址放入MAR中 <strong>Rj -&gt; MAR</strong></p>
+<h3 id="自增-自减型寄存器间接寻址-R-R-1"><a href="#自增-自减型寄存器间接寻址-R-R-1" class="headerlink" title="自增/自减型寄存器间接寻址 (R)+/-(R)"></a>自增/自减型寄存器间接寻址 (R)+/-(R)</h3><p>和寄存器间接寻址类似，将地址放入了MAR中，只不过多了自增/自减的步骤</p>
+<h3 id="自增型寄存器双间接寻址-R-1"><a href="#自增型寄存器双间接寻址-R-1" class="headerlink" title="自增型寄存器双间接寻址 @(R)+"></a>自增型寄存器双间接寻址 @(R)+</h3><ul>
+<li>通过寄存器中存放的地址，访问主存单元 <strong>Rj -&gt; MAR</strong></li>
+<li>访问后Rj寄存器中的值+1 <strong>Rj +1 -&gt; Rj</strong></li>
+<li>将主存单元中的值取出，放入到地址寄存器中。 <strong>M-&gt;MDR-&gt;MAR</strong></li>
+</ul>
+<h3 id="变址寻址-X-R-1"><a href="#变址寻址-X-R-1" class="headerlink" title="变址寻址 X(R)"></a>变址寻址 X(R)</h3><ul>
+<li><p>公操作进行了 <strong>PC+1 -&gt; PC</strong>，所以当前PC保存的是寄存地址D的值。先将基准地址取出 <strong>PC -&gt; MAR</strong>，放入到暂存器D中</p>
+<p><strong>M -&gt; MDR -&gt;D</strong></p>
+</li>
+<li><p>PC指向下一条指令的地址 <strong>PC + 1 -&gt; PC</strong></p>
+</li>
+<li><p>偏移地址+基准地址 获得最终地址 <strong>D+R -&gt; MAR</strong></p>
+</li>
+</ul>
+<h2 id="6、执行周期ET"><a href="#6、执行周期ET" class="headerlink" title="6、执行周期ET"></a>6、执行周期ET</h2><p><strong>将源操作数放入目的寄存器或目的主存单元中</strong></p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921150628.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="寄存器直接寻址-1"><a href="#寄存器直接寻址-1" class="headerlink" title="寄存器直接寻址"></a>寄存器直接寻址</h3><p>Ri中的内容直接放入Rj中</p>
+<h3 id="目的间接寻址，源直接寻址"><a href="#目的间接寻址，源直接寻址" class="headerlink" title="目的间接寻址，源直接寻址"></a>目的间接寻址，源直接寻址</h3><p>将源操作数<strong>通过数据寄存器</strong>放入主存中</p>
+<h3 id="目的直接寻址，源间接寻址"><a href="#目的直接寻址，源间接寻址" class="headerlink" title="目的直接寻址，源间接寻址"></a>目的直接寻址，源间接寻址</h3><p>将暂存器C中存放的值放入目的寄存器Rj中</p>
+<h3 id="目的、源都为间接寻址"><a href="#目的、源都为间接寻址" class="headerlink" title="目的、源都为间接寻址"></a>目的、源都为间接寻址</h3><p>将暂存器C中存放的值放入数据寄存器中，通过数据寄存器放入主存单元中</p>
+<h3 id="公操作-PC-gt-MAR"><a href="#公操作-PC-gt-MAR" class="headerlink" title="公操作 PC -&gt; MAR"></a>公操作 PC -&gt; MAR</h3><p>程序计数器寻找下一条指令的地址</p>
+<h1 id="三、中断"><a href="#三、中断" class="headerlink" title="三、中断"></a>三、中断</h1><h2 id="1、什么是中断"><a href="#1、什么是中断" class="headerlink" title="1、什么是中断"></a>1、什么是中断</h2><p>在处理器中，中断是一个过程，即CPU在正在执行程序过程中，遇到外部/内部紧急事件需要处理，暂时中止当前程序执行转而去为事件服务，待服务完毕，再返回到暂停处（断点）继续执行原来的程序。</p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200921152218.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="2、几个概念"><a href="#2、几个概念" class="headerlink" title="2、几个概念"></a>2、几个概念</h2><h3 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h3><p>一个地址，程序在该处中断，转而取执行中断程序的地址</p>
+<h3 id="中断源"><a href="#中断源" class="headerlink" title="中断源"></a>中断源</h3><p>引起中断的信号源</p>
+<h3 id="中断服务程序"><a href="#中断服务程序" class="headerlink" title="中断服务程序"></a>中断服务程序</h3><p>中断后需要去执行的程序</p>
+<h3 id="中断请求"><a href="#中断请求" class="headerlink" title="中断请求"></a>中断请求</h3><p>中断服务程序发出的请求，请求CPU中断正在执行的程序，转而去执行该程序</p>
+<h3 id="中断响应"><a href="#中断响应" class="headerlink" title="中断响应"></a>中断响应</h3><p>CPU做出响应，中断正在执行的程序，转而去执行中断服务程序的过程</p>
+<h3 id="现场保护"><a href="#现场保护" class="headerlink" title="现场保护"></a>现场保护</h3><p>将中断前的现场保存起来，便于执行完中断服务程序后，可以继续执行中断前的程序</p>
+<h3 id="中断处理"><a href="#中断处理" class="headerlink" title="中断处理"></a>中断处理</h3><p>执行中断服务程序</p>
+<h3 id="恢复现场"><a href="#恢复现场" class="headerlink" title="恢复现场"></a>恢复现场</h3><p>恢复到中断前的样子</p>
+<h3 id="中断返回"><a href="#中断返回" class="headerlink" title="中断返回"></a>中断返回</h3><p>继续执行中断前正在执行的程序</p>
+<h2 id="3、中断流程"><a href="#3、中断流程" class="headerlink" title="3、中断流程"></a>3、中断流程</h2><p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200922093045.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<ul>
+<li><strong>关中断</strong><br>进入不可再次响应中断的状态，由硬件自动实现。因为接下去要保存断点，保存现场。<strong>在保存现场过程中，即使有更高级的中断源申请中断，CPU也不应该响应</strong>；否则如果现场保存不完整，在中断服务程序结束之后，也就不能正确地恢复现场并执行现行程序</li>
+<li><strong>保存断点，保存现场</strong><br>为了在中断处理结束后能正确地返回到中断点，在响应中断时，必须把当前的程序计数器PC中的内容（即断点）保存起来</li>
+<li><strong>判别中断源，转入中断服务程序</strong><br>在多个中断源同时请求中断的情况下，本次实际响应的只能是优先权最高的那个中断源。所以需要进一步判别中断源，并转入相应的中断服务程序入口</li>
+<li><strong>开中断</strong><br>因为接下去就要执行中断服务程序，开中断将允许更高级中断请求得到相应，实现中断嵌套</li>
+<li><strong>执行中断服务程序</strong><br>不同中断源的中断服务程序是不同的，实际有效的中断处理工作是在此程序段中实现的</li>
+<li><strong>退出中断</strong><br>在退出时，又应该进入不可中断状态，即关中断，恢复现场，恢复断点，然后开中断，返回原程序执行</li>
+</ul>
+<p>进入中断时执行的关中断，保存断点等操作一般是<strong>由硬件实现</strong>的，它类似于一条指令，但它与一般的指令不同，不能被编写在程序中。因此，常常称为“<strong>中断隐指令</strong>”</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Singlechip/">Singlechip</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Singlechip/Assembly/">Assembly</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/">单片机</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%B1%87%E7%BC%96/">汇编</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E4%B8%AD%E5%9B%BD%E4%BA%92%E8%81%94%E7%BD%91%E5%8F%B2%E5%B0%B1%E6%98%AF%E4%B8%80%E9%83%A8%E6%B5%81%E6%B0%93%E5%8F%B2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">中国互联网史就是一部流氓史</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9E%B6%E6%9E%84%E7%9C%9F%E7%89%9B%E9%80%BC/">
+                        <span class="hidden-mobile">支付宝架构真牛逼</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

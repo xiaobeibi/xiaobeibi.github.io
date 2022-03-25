@@ -1,0 +1,736 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="IDEA + Vim &#x3D; 得劲  本教程并不是单纯的 vim 操作介绍，更多的是与 Intellj Idea 进行配合。需要同时具备 Intellj Idea 和 vim 使用基础的同学学习。 01. 简介Vim 是一个高度可配置的文本编辑器，旨在高效地创建和更改任何类型的文本。它作为“vi”包含在大多数 UNIX 系统和 Apple OS X 中。Vim 非常稳定，并且正在不断开发以变得更好。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA + Vim &#x3D; 得劲">
+<meta property="og:url" content="http://example.com/2022/03/25/IDEA%20+%20Vim%20=%20%E5%BE%97%E5%8A%B2/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="IDEA + Vim &#x3D; 得劲  本教程并不是单纯的 vim 操作介绍，更多的是与 Intellj Idea 进行配合。需要同时具备 Intellj Idea 和 vim 使用基础的同学学习。 01. 简介Vim 是一个高度可配置的文本编辑器，旨在高效地创建和更改任何类型的文本。它作为“vi”包含在大多数 UNIX 系统和 Apple OS X 中。Vim 非常稳定，并且正在不断开发以变得更好。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301448655.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301449135.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301450872.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301450113.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301451052.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452088.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452126.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452714.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301453005.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301453030.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301454885.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301454308.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455489.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455851.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455673.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455414.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455800.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455842.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456450.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456075.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456685.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301457479.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301457005.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301459696.gif">
+<meta property="article:published_time" content="2022-03-25T13:46:50.608Z">
+<meta property="article:modified_time" content="2022-03-25T12:05:39.945Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="IDEA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301448655.webp">
+  
+  <title>IDEA + Vim = 得劲 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IDEA + Vim = 得劲">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IDEA + Vim = 得劲</h1>
+            
+            <div class="markdown-body">
+              <center><h2>IDEA + Vim = 得劲</h2></center>
+
+<p>本教程并不是单纯的 <code>vim</code> 操作介绍，更多的是与 <code>Intellj Idea</code> 进行配合。需要同时具备 <code>Intellj Idea</code> 和 <code>vim</code> 使用基础的同学学习。</p>
+<h2 id="01-简介"><a href="#01-简介" class="headerlink" title="01. 简介"></a><strong>01. 简介</strong></h2><p><code>Vim</code> 是一个高度可配置的文本编辑器，旨在高效地创建和更改任何类型的文本。它作为“<code>vi</code>”包含在大多数 <code>UNIX</code> 系统和 <code>Apple OS X</code> 中。Vim 非常稳定，并且正在不断开发以变得更好。</p>
+<p><strong>它的特点包括：</strong></p>
+<ol>
+<li>持久的、多级撤消树</li>
+<li>广泛的插件系统</li>
+<li>支持数百种编程语言和文件格式</li>
+<li>强大的搜索和替换</li>
+<li>与许多工具集成</li>
+</ol>
+<p>为什么要在 Intellj Idea 中使用 Vim？在我们学习某一项新技能，或者新的编程语言，新的编程模式。我们应该自问让我们做出这样的行为的驱动力是什么？学习完它之后它能解决你什么样的疼点问题。这样我们学习起来会更有动力一些。</p>
+<p>让我尝试学习 <code>Vim</code> 的理由：</p>
+<p><code>Mac</code> 平台下 <code>Intellj Idea</code> 的很多的常用的 <code>action</code> 都是需要 <code>command + option</code> 这个组合键，从我转到 <code>Mac</code> 下，就一直很懊恼，个人感觉这个按键很反人类。</p>
+<p>作为一名服务端开发同学，还是会经常需要在 <code>linux</code> 服务器上去修改服务器的系统配置文件。比如 <code>nginx</code> 配置，这个时候不可避免的需要使用到 <code>vim</code> 编辑器。如果你不熟练 操作起来还是相当的难受的。</p>
+<p>在 <code>Intellj Idea</code> 中安装了 <code>vim</code> 插件之后。是一个互补的状态 利用各自的优势 使得编程更有效率。</p>
+<h2 id="02-安装"><a href="#02-安装" class="headerlink" title="02. 安装"></a><strong>02. 安装</strong></h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301448655.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在 <code>Intellj Idea</code> 中 安装以下三个插件</p>
+<ul>
+<li><p><code>IdeaVim</code></p>
+</li>
+<li><p><code>IdeaVim-EasyMotion</code></p>
+</li>
+<li><p><code>IdeaVimExtension</code></p>
+</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301449135.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>发现图标像上面一样编程一个小方块的时候 就代表插件安装成功</p>
+<h2 id="03-Vim"><a href="#03-Vim" class="headerlink" title="03. Vim"></a><strong>03. Vim</strong></h2><p>不得不说 <code>vim</code> 的学习成本还是有的，典型的入门很难 入门之后就会爱不释手。我这里对一些基础操作进行一些简单的总结和整理。</p>
+<h4 id="练习一：方向键联系-hjkl"><a href="#练习一：方向键联系-hjkl" class="headerlink" title="练习一：方向键联系 hjkl"></a><strong>练习一：方向键联系 hjkl</strong></h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301450872.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>根据我自己的经验总结下来从原生编辑器过度到 <code>Vim</code> 最不习惯的当属方向键的移动从原本的 方向键变成了 <code>hjkl</code></p>
+<p><strong>这个其实没有太多好说的 就是需要克服这一关。多练就行。（下图为 Gif 演示）</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301450113.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="练习二：复制-amp-粘贴"><a href="#练习二：复制-amp-粘贴" class="headerlink" title="练习二：复制 &amp; 粘贴"></a><strong>练习二：复制 &amp; 粘贴</strong></h4><h3 id=""><a href="#" class="headerlink" title=""></a><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301451052.webp" srcset="/img/loading.gif" lazyload alt="图片"></h3><p><code>CV</code> 大法好，毕竟大家有时候自嘲都是 <code>C V</code> 工程师 😈 所以 复制 粘贴 还是需要在第一时间学会，这样才能更好的 <code>coding</code>💩。</p>
+<ul>
+<li><code>yy</code> 复制当前行</li>
+<li><code>p</code> 粘贴</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452088.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="练习三：在学多一点点"><a href="#练习三：在学多一点点" class="headerlink" title="练习三：在学多一点点"></a><strong>练习三：在学多一点点</strong></h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452126.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在学习一些其他的命令 提交效率。</p>
+<h5 id="y-p-f-h-c-i"><a href="#y-p-f-h-c-i" class="headerlink" title="y p f h c i"></a><strong>y p f h c i</strong></h5><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301452714.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>GIF 中步骤如下:</p>
+<ol>
+<li><code>yy</code> 复制当前行 <code>private String username;</code></li>
+<li><code>p</code> 将复制的内容进行粘贴</li>
+<li><code>f;</code> 跳转到字符 <code>;</code> 处，这里其实就是相当于行位。</li>
+<li><code>h</code> 向左移动一个光标</li>
+<li><code>ciw</code> 删除当前处的词，并进入 <code>插入模式</code></li>
+<li><code>password</code> 输入 password 完成</li>
+</ol>
+<h5 id="v-j-d"><a href="#v-j-d" class="headerlink" title="v j d"></a><strong>v j d</strong></h5><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301453005.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>GIF 中步骤如下：</p>
+<ol>
+<li><code>V</code> 进入内容选择模式</li>
+<li><code>kkk</code> 向上移动 3 行，并进行选中</li>
+<li><code>d</code> 删除选中部分</li>
+</ol>
+<h5 id="块级删除「常用」di-da"><a href="#块级删除「常用」di-da" class="headerlink" title="块级删除「常用」di* da*"></a>块级删除「常用」di* da*</h5><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301453030.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs autohotkey">di<span class="hljs-string">&quot;` 删除`&quot;` 内的内容，个人感觉这个还是非常常用了。也是初步在效率上优于传统的 intellj idea 的操作方式。如果想要删除之后马上进入插入模式 可以使用 `ci&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301454885.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs autohotkey">di(` 删除`(` 内的内容，如果想要删除之后马上进入插入模式 可以使用 `ci(<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301454308.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs autohotkey">di&#123;` 删除`&#123;` 内的内容，如果想要删除之后马上进入插入模式 可以使用 `ci&#123;<br></code></pre></div></td></tr></table></figure>
+
+<h5 id="各种进入插入模式"><a href="#各种进入插入模式" class="headerlink" title="各种进入插入模式"></a>各种进入插入模式</h5><ul>
+<li><p><code>i</code>在光标之前，进入插入模式</p>
+</li>
+<li><p><code>I</code>在本行开头，进入插入模式</p>
+</li>
+<li><p><code>a</code>在光标之后，进入插入模式</p>
+</li>
+<li><p><code>A</code>在本行结尾，进入插入模式</p>
+</li>
+<li><p><code>o</code>在本行之后新增一行，并进入插入模式</p>
+</li>
+<li><p><code>O</code>在本行之前新增一行，并进入插入模式</p>
+</li>
+<li><p><code>s</code>删除当前字符，并进入插入模式</p>
+</li>
+<li><p><code>S</code>删除当前行中的所有文本，并进入插入模式</p>
+</li>
+</ul>
+<p>在我最开始的学习 vim 的时候只知道 <code>i</code> 进入插入模式。后面才知道还有这么多种方式。</p>
+<p>如果你真的是切换过来之后 这里所有的方式都能用到。</p>
+<p><strong>下面是 gif 演示 可以直接跳过</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455489.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>a</code>在光标之后，进入插入模式</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455851.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>i</code>在光标之前，进入插入模式</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455673.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>o</code>在本行之后新增一行，并进入插入模式</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455414.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>A</code> 在本行结尾，进入插入模式</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455800.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>I</code> 在本行开头，进入插入模式</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301455842.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>O</code> 在本行之前新增一行，并进入插入模式</li>
+</ul>
+<h4 id="练习四：jump"><a href="#练习四：jump" class="headerlink" title="练习四：jump"></a><strong>练习四：jump</strong></h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456450.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>不得不说我们使用 vim 更多的就是为了减少鼠标操作，因为使用鼠标你的手需要离开键盘。</p>
+<p>一来一回 麻烦！！！所以我们需要了解更多光标移动操作</p>
+<ul>
+<li><p><code>[n]f&#123;word&#125;</code> <code>f</code> 用来查找在<strong>当前行</strong> 当前光标后是否存在某个字符 <code>&#123;word&#125;</code> 如果存在则将光标移动过去</p>
+</li>
+<li><p><code>$ | ^</code> <code>$</code> 跳转到行尾 <code>^</code> 跳转到行首</p>
+</li>
+<li><p><code>%</code> 括号匹配跳转 <code>() [] &#123;&#125;</code></p>
+</li>
+<li><p><code>*</code> 跳转到上一个字符的定位处</p>
+</li>
+<li><p><code>[n]h/j/k/l</code> 数字加上方向键 代表重复运行多少次</p>
+</li>
+<li><ul>
+<li>2jj 向下移动两行</li>
+<li>10l 向右移动 10 个字符</li>
+<li>3kk 向下移动 3 行</li>
+<li>20h 向左移动 20 字符</li>
+</ul>
+</li>
+<li><p><code>G | gg</code></p>
+</li>
+<li><ul>
+<li>G 移动到最后一行</li>
+<li>gg 移动到第一行</li>
+</ul>
+</li>
+<li><p><code>H | M | L</code></p>
+</li>
+<li><ul>
+<li>H 移动到当前页的第一行</li>
+<li>M 移动到编辑器中部</li>
+<li>L 移动到当前页的最后一行</li>
+</ul>
+</li>
+<li><p><code>[n]w</code> 移动到后面 word 的开始位置，前面加上数字 代表重复多少次</p>
+</li>
+<li><p><code>e</code> 移动到下一个词语的末尾</p>
+</li>
+<li><p><code>b</code> 移动到上一个单词的开头</p>
+</li>
+<li><p><code>zz</code> 改变窗口的整体位置，将当前光标所在处 移动到窗口中部</p>
+</li>
+</ul>
+<p><strong>下面是 gif 演示</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456075.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>[n]f&#123;word&#125;</code> <code>f</code> 用来查找在<strong>当前行</strong> 当前光标后是否存在某个字符 <code>&#123;word&#125;</code> 如果存在则将光标移动过去。</li>
+<li>如果将这里的 f 改为 F 则是反向查找</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301456685.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>$ | ^</code> <code>$</code> 跳转到行尾 <code>^</code> 跳转到行首</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301457479.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><code>%</code> 括号匹配跳转 <code>() [] &#123;&#125;</code></li>
+</ul>
+<h4 id="练习五-学习一些通用场景"><a href="#练习五-学习一些通用场景" class="headerlink" title="练习五 学习一些通用场景"></a><strong>练习五 学习一些通用场景</strong></h4><p>其他的比较好用的命令</p>
+<ul>
+<li><code>zo | zc</code></li>
+<li><code>dt&#123;char&#125;</code></li>
+</ul>
+<h2 id="04-配置"><a href="#04-配置" class="headerlink" title="04. 配置"></a><strong>04. 配置</strong></h2><p>在安装了 Vim 之后，其实官方只是给我们了一个基本的架子，能够实现 Vim 的基本操作。如果你想要用的更加顺手，那么你需要对 Vim 进行自己的个性化配置。这是一张白纸，它会被书写成什么样子由你自己决定。</p>
+<p>如何对 Idea 中的 Vim 模块进行配置</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301457005.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在右下角点击 Vim 图标，然后点击 <strong>Open ~/.ideavimrc</strong></p>
+<h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a><strong>基础配置</strong></h3><p>老规矩，个人感觉对于新手对编辑器进行配置，还是参照社区的常用配置进行使用。当自己对 Vim 更加熟练的时候可以在加入自己的东西</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-comment">&quot;语法高亮</span><br><span class="hljs-keyword">syntax</span> <span class="hljs-keyword">on</span><br><span class="hljs-comment">&quot;显示行号</span><br><span class="hljs-keyword">set</span> <span class="hljs-keyword">number</span> relativenumber<br><span class="hljs-comment">&quot;显示光标所在位置的行号和列号</span><br><span class="hljs-keyword">set</span> ruler<br><span class="hljs-keyword">set</span> wrap                      <span class="hljs-comment">&quot;自动折行</span><br><span class="hljs-keyword">set</span> <span class="hljs-built_in">shiftwidth</span>=<span class="hljs-number">4</span><br><span class="hljs-keyword">set</span> tabstop=<span class="hljs-number">4</span><br><span class="hljs-keyword">set</span> softtabstop=<span class="hljs-number">4</span><br><span class="hljs-keyword">set</span> expandtab                  <span class="hljs-comment">&quot;将tab替换为相应数量空格</span><br><span class="hljs-keyword">set</span> smartindent<br><span class="hljs-keyword">set</span> backspace=<span class="hljs-number">2</span><br><span class="hljs-keyword">set</span> <span class="hljs-keyword">co</span>=<span class="hljs-number">5</span><br><span class="hljs-comment">&quot; 设置取消备份 禁止临时文件生成</span><br><span class="hljs-keyword">set</span> nobackup<br><span class="hljs-keyword">set</span> noswapfile<br><span class="hljs-comment">&quot; 为IdeaVim插件增加自动切换为英文输入法的功能,</span><br><span class="hljs-comment">&quot; idea 需要安装 IdeaVimExtension plugin</span><br><span class="hljs-keyword">set</span> keep-english-in-<span class="hljs-keyword">normal</span><br><span class="hljs-comment">&quot; 设置匹配模式 类似当输入一个左括号时会匹配相应的那个右括号</span><br><span class="hljs-keyword">set</span> showmatch<br><span class="hljs-keyword">set</span> clipboard^=unnamed,unnamedplus<br><span class="hljs-keyword">set</span> laststatus=<span class="hljs-number">2</span>   <span class="hljs-comment">&quot;命令行为两行</span><br><span class="hljs-keyword">set</span> fenc=utf-<span class="hljs-number">8</span>     <span class="hljs-comment">&quot;文件编码</span><br><span class="hljs-keyword">set</span> mouse=<span class="hljs-keyword">a</span>        <span class="hljs-comment">&quot;启用鼠标</span><br><span class="hljs-keyword">set</span> ignorecase     <span class="hljs-comment">&quot;忽略大小写</span><br><span class="hljs-keyword">set</span> cursorline     <span class="hljs-comment">&quot;突出显示当前行</span><br><span class="hljs-keyword">set</span> cursorcolumn   <span class="hljs-comment">&quot;突出显示当前列</span><br><span class="hljs-keyword">set</span> fdm=marker<br></code></pre></div></td></tr></table></figure>
+
+<p>上面当中比较特别的配置就是</p>
+<ul>
+<li><p>设置 relativenumber 这样可以看相对行号</p>
+</li>
+<li><p>keep-english-in-normal 这个设置开启之后可以在进入命令模式之后自动将输入法切换为英文。这个还是非常推荐设置的，不然每次从 插入模式 切换到 命令模式的时候 如果这个时候是中文输入法，体验就极差了</p>
+</li>
+<li><p><code>set clipboard^=unamed,unnamedplus</code> 共享剪切板，Vim 的剪切板和系统的剪切板是隔离的。设置之后可以共享。</p>
+</li>
+</ul>
+<h3 id="Action-配置"><a href="#Action-配置" class="headerlink" title="Action 配置"></a><strong>Action 配置</strong></h3><p>在 Idea 中大部分的操作都可以抽象为一个 Action 比如</p>
+<ul>
+<li><p>文件重命名 Rename File</p>
+</li>
+<li><p>重命名变量 或者 类名 RenameElement</p>
+</li>
+<li><p>去到接口实现 GotoImplementation</p>
+</li>
+<li><p>复制 Class 引用 CopyReference</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p>在 Vim 中可以通过插入命令模式 直接调用 action</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301459696.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图中 gif 中演示的就是通过 调用 <code>RenameElement</code> Action 重命名变量。</p>
+<p>初步的介绍完 <code>Intellj Idea</code> 的 <code>action</code> 之后，下面分享我自己目前在用的几个比较常用的配置，通过快捷键 调用 <code>action</code></p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"><span class="hljs-comment">&quot;jk退出insert模式</span><br><span class="hljs-keyword">inoremap</span> jk <span class="hljs-symbol">&lt;ESC&gt;</span><br><br><span class="hljs-keyword">let</span> mapleader = <span class="hljs-string">&#x27;\&lt;space&gt;&#x27;</span><br><span class="hljs-comment">&quot;Idea action 配置</span><br><span class="hljs-comment">&quot; 重命令元素</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span>re :action RenameElement<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span>gi :action GotoImplementation<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span><span class="hljs-keyword">im</span> :action ImplementMethods<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span><span class="hljs-keyword">rv</span> :action IntroduceVariable<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span><span class="hljs-keyword">cr</span> :action CopyReference<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span><span class="hljs-keyword">em</span> :action ExtractMethod<span class="hljs-symbol">&lt;CR&gt;</span><br><span class="hljs-keyword">nnoremap</span> <span class="hljs-symbol">&lt;Leader&gt;</span><span class="hljs-keyword">sw</span> :action SurroundWith<span class="hljs-symbol">&lt;CR&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>action list<code>Intellj Idea</code> 中只是的所有的 <code>action</code> 列表</p>
+<h3 id="插件配置"><a href="#插件配置" class="headerlink" title="插件配置"></a><strong>插件配置</strong></h3><p>其实本来 Vim 中的插件体系是非常强大的，但是因为我们是在 <code>Intellj Idea</code> 中使用 <code>Vim</code> 可以利用很多 <code>Intellj Idea</code> 原本的很多功能。目前我个人还没有发现有很亮眼的插件。所以如果你也正在使用 可以分享一下。</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><p><strong>05. 参考文献</strong></p>
+<p>B 站 vim 入门讲解：bilibili.com/video/BV1Yt411X7mu</p>
+<p>简明 VIM 练级攻略：coolshell.cn/articles/5426.html</p>
+<p>learn-vim：github.com/iggredible/Learn-Vim</p>
+<p>Vim 配置：ruanyifeng.com/blog/2018/09/vimrc.html</p>
+<p>投稿作者：胡川港</p>
+<p>知乎主页：zhihu.com/people/hu-chuan-gang-58</p>
+<p>GitHub主页：<a target="_blank" rel="noopener" href="https://github.com/xiaoxiunique">https://github.com/xiaoxiunique</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/IDEA/">IDEA</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/IDEA/">IDEA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/IDEA%20REST%20Client%20%E7%9C%9F%E5%A5%BD%E7%94%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IDEA REST Client 真好用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Hutool%20Java%20%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%BA%93%E5%AF%BC%E5%87%BA%20Excel/">
+                        <span class="hidden-mobile">Hutool Java 工具类库导出 Excel</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

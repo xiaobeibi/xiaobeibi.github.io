@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Boot 做个埋点监控  Spring-actuator做度量统计收集，使用Prometheus（普罗米修斯）进行数据收集，Grafana（增强ui）进行数据展示，用于监控生成环境机器的性能指标和业务数据指标。一般，我们叫这样的操作为”埋点”。SpringBoot中的依赖spring-actuator中集成的度量统计API使用的框架是Micrometer，官网是Micrometer.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot 做个埋点监控">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20Boot%20%E5%81%9A%E4%B8%AA%E5%9F%8B%E7%82%B9%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Boot 做个埋点监控  Spring-actuator做度量统计收集，使用Prometheus（普罗米修斯）进行数据收集，Grafana（增强ui）进行数据展示，用于监控生成环境机器的性能指标和业务数据指标。一般，我们叫这样的操作为”埋点”。SpringBoot中的依赖spring-actuator中集成的度量统计API使用的框架是Micrometer，官网是Micrometer.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231921913.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231921804.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923337.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923718.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923459.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924446.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924841.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924291.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231925251.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231925332.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.773Z">
+<meta property="article:modified_time" content="2022-03-25T12:54:47.221Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231921913.webp">
+  
+  <title>Spring Boot 做个埋点监控 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Boot 做个埋点监控">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      27k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      83 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Boot 做个埋点监控</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Boot 做个埋点监控</h2></center>
+
+<p>Spring-actuator做度量统计收集，使用Prometheus（普罗米修斯）进行数据收集，Grafana（增强ui）进行数据展示，用于监控生成环境机器的性能指标和业务数据指标。一般，我们叫这样的操作为”埋点”。SpringBoot中的依赖spring-actuator中集成的度量统计API使用的框架是Micrometer，官网是Micrometer.io。</p>
+<p>在实践中发现了业务开发者滥用了Micrometer的度量类型Counter，导致无论什么情况下都只使用计数统计的功能。这篇文章就是基于Micrometer分析其他的度量类型API的作用和适用场景。</p>
+<h3 id="Micrometer提供的度量类库"><a href="#Micrometer提供的度量类库" class="headerlink" title="Micrometer提供的度量类库"></a>Micrometer提供的度量类库</h3><p>Meter是指一组用于收集应用中的度量数据的接口，Meter单词可以翻译为”米”或者”千分尺”，但是显然听起来都不是很合理，因此下文直接叫Meter，理解它为度量接口即可。Meter是由MeterRegistry创建和保存的，可以理解MeterRegistry是Meter的工厂和缓存中心，一般而言每个JVM应用在使用Micrometer的时候必须创建一个MeterRegistry的具体实现。</p>
+<p>Micrometer中，Meter的具体类型包括：Timer，Counter，Gauge，DistributionSummary，LongTaskTimer，FunctionCounter，FunctionTimer和TimeGauge。</p>
+<p>下面分节详细介绍这些类型的使用方法和实战使用场景。而一个Meter具体类型需要通过名字和Tag(这里指的是Micrometer提供的Tag接口)作为它的唯一标识，这样做的好处是可以使用名字进行标记，通过不同的Tag去区分多种维度进行数据统计。</p>
+<h3 id="MeterRegistry"><a href="#MeterRegistry" class="headerlink" title="MeterRegistry"></a>MeterRegistry</h3><p>MeterRegistry在Micrometer是一个抽象类，主要实现包括：</p>
+<ul>
+<li>SimpleMeterRegistry：每个Meter的最新数据可以收集到SimpleMeterRegistry实例中，但是这些数据不会发布到其他系统，也就是数据是位于应用的内存中的。</li>
+<li>CompositeMeterRegistry：多个MeterRegistry聚合，内部维护了一个MeterRegistry的列表。</li>
+<li>全局的MeterRegistry：工厂类io.micrometer.core.instrument.Metrics中持有一个静态final的CompositeMeterRegistry实例globalRegistry。</li>
+</ul>
+<p>当然，使用者也可以自行继承MeterRegistry去实现自定义的MeterRegistry。SimpleMeterRegistry适合做调试的时候使用，它的简单使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br>Counter counter = registry.counter(<span class="hljs-string">&quot;counter&quot;</span>);<br>counter.increment();<br></code></pre></div></td></tr></table></figure>
+
+<p>CompositeMeterRegistry实例初始化的时候，内部持有的MeterRegistry列表是空的，如果此时用它新增一个Meter实例，Meter实例的操作是无效的</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">CompositeMeterRegistry composite = <span class="hljs-keyword">new</span> CompositeMeterRegistry();<br><br>Counter compositeCounter = composite.counter(<span class="hljs-string">&quot;counter&quot;</span>);<br>compositeCounter.increment(); <span class="hljs-comment">// &lt;- 实际上这一步操作是无效的,但是不会报错</span><br><br>SimpleMeterRegistry simple = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br>composite.add(simple); <span class="hljs-comment">// &lt;- 向CompositeMeterRegistry实例中添加SimpleMeterRegistry实例</span><br><br>compositeCounter.increment(); <span class="hljs-comment">// &lt;-计数成功</span><br></code></pre></div></td></tr></table></figure>
+
+<p>全局的MeterRegistry的使用方式更加简单便捷，因为一切只需要操作工厂类Metrics的静态方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Metrics.addRegistry(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<br>Counter counter = Metrics.counter(<span class="hljs-string">&quot;counter&quot;</span>, <span class="hljs-string">&quot;tag-1&quot;</span>, <span class="hljs-string">&quot;tag-2&quot;</span>);<br>counter.increment();<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Tag与Meter的命名"><a href="#Tag与Meter的命名" class="headerlink" title="Tag与Meter的命名"></a>Tag与Meter的命名</h3><p>Micrometer中，Meter的命名约定使用英文逗号(dot，也就是”.”)分隔单词。但是对于不同的监控系统，对命名的规约可能并不相同，如果命名规约不一致，在做监控系统迁移或者切换的时候，可能会对新的系统造成破坏。</p>
+<p>Micrometer中使用英文逗号分隔单词的命名规则，再通过底层的命名转换接口NamingConvention进行转换，最终可以适配不同的监控系统，同时可以消除监控系统不允许的特殊字符的名称和标记等。开发者也可以覆盖NamingConvention实现自定义的命名转换规则：registry.config().namingConvention(myCustomNamingConvention);</p>
+<p>在Micrometer中，对一些主流的监控系统或者存储系统的命名规则提供了默认的转换方式，例如当我们使用下面的命名时候：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>registry.timer(<span class="hljs-string">&quot;http.server.requests&quot;</span>)；<br></code></pre></div></td></tr></table></figure>
+
+<p>对于不同的监控系统或者存储系统，命名会自动转换如下：</p>
+<ul>
+<li>Prometheus - http_server_requests_duration_seconds。</li>
+<li>Atlas - httpServerRequests。</li>
+<li>Graphite - http.server.requests。</li>
+<li>InfluxDB - http_server_requests。</li>
+</ul>
+<p>其实NamingConvention已经提供了5种默认的转换规则：dot、snakeCase、camelCase、upperCamelCase和slashes。</p>
+<p>另外，Tag(标签)是Micrometer的一个重要的功能，严格来说，一个度量框架只有实现了标签的功能，才能真正地多维度进行度量数据收集。Tag的命名一般需要是有意义的，所谓有意义就是可以根据Tag的命名可以推断出它指向的数据到底代表什么维度或者什么类型的度量指标。</p>
+<p>假设我们需要监控数据库的调用和Http请求调用统计，一般推荐的做法是：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>registry.counter(<span class="hljs-string">&quot;database.calls&quot;</span>, <span class="hljs-string">&quot;db&quot;</span>, <span class="hljs-string">&quot;users&quot;</span>)<br>registry.counter(<span class="hljs-string">&quot;http.requests&quot;</span>, <span class="hljs-string">&quot;uri&quot;</span>, <span class="hljs-string">&quot;/api/users&quot;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>这样，当我们选择命名为”database.calls”的计数器，我们可以进一步选择分组”db”或者”users”分别统计不同分组对总调用数的贡献或者组成。一个反例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>registry.counter(<span class="hljs-string">&quot;calls&quot;</span>,<br>    <span class="hljs-string">&quot;class&quot;</span>, <span class="hljs-string">&quot;database&quot;</span>,<br>    <span class="hljs-string">&quot;db&quot;</span>, <span class="hljs-string">&quot;users&quot;</span>);<br><br>registry.counter(<span class="hljs-string">&quot;calls&quot;</span>,<br>    <span class="hljs-string">&quot;class&quot;</span>, <span class="hljs-string">&quot;http&quot;</span>,<br>    <span class="hljs-string">&quot;uri&quot;</span>, <span class="hljs-string">&quot;/api/users&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>通过命名”calls”得到的计数器，由于标签混乱，数据是基本无法分组统计分析，这个时候可以认为得到的时间序列的统计数据是没有意义的。可以定义全局的Tag，也就是全局的Tag定义之后，会附加到所有的使用到的Meter上(只要是使用同一MeterRegistry)，全局的Tag可以这样定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>registry.counter(<span class="hljs-string">&quot;calls&quot;</span>,<br>    <span class="hljs-string">&quot;class&quot;</span>, <span class="hljs-string">&quot;database&quot;</span>,<br>    <span class="hljs-string">&quot;db&quot;</span>, <span class="hljs-string">&quot;users&quot;</span>);<br><br>registry.counter(<span class="hljs-string">&quot;calls&quot;</span>,<br>    <span class="hljs-string">&quot;class&quot;</span>, <span class="hljs-string">&quot;http&quot;</span>,<br>    <span class="hljs-string">&quot;uri&quot;</span>, <span class="hljs-string">&quot;/api/users&quot;</span>);<br><br><br>MeterRegistry registry = ...<br>registry.config().commonTags(<span class="hljs-string">&quot;stack&quot;</span>, <span class="hljs-string">&quot;prod&quot;</span>, <span class="hljs-string">&quot;region&quot;</span>, <span class="hljs-string">&quot;us-east-1&quot;</span>);<br><span class="hljs-comment">// 和上面的意义是一样的</span><br>registry.config().commonTags(Arrays.asList(Tag.of(<span class="hljs-string">&quot;stack&quot;</span>, <span class="hljs-string">&quot;prod&quot;</span>), Tag.of(<span class="hljs-string">&quot;region&quot;</span>, <span class="hljs-string">&quot;us-east-1&quot;</span>)));<br></code></pre></div></td></tr></table></figure>
+
+<p>像上面这样子使用，就能通过主机，实例，区域，堆栈等操作环境进行多维度深入分析。</p>
+<p>还有两点点需要注意：</p>
+<p>1、Tag的值必须不为null。</p>
+<p>2、Micrometer中，Tag必须成对出现，也就是Tag必须设置为偶数个，实际上它们以<code>Key=Value</code>的形式存在，具体可以看<code>io.micrometer.core.instrument.Tag</code>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Tag</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Tag</span>&gt; </span>&#123;<br>    <span class="hljs-function">String <span class="hljs-title">getKey</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-function">String <span class="hljs-title">getValue</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">static</span> Tag <span class="hljs-title">of</span><span class="hljs-params">(String key, String value)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ImmutableTag(key, value);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Tag o)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getKey().compareTo(o.getKey());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当然，有些时候，我们需要过滤一些必要的标签或者名称进行统计，或者为Meter的名称添加白名单，这个时候可以使用MeterFilter。MeterFilter本身提供一些列的静态方法，多个MeterFilter可以叠加或者组成链实现用户最终的过滤策略。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>registry.config()<br>    .meterFilter(MeterFilter.ignoreTags(<span class="hljs-string">&quot;http&quot;</span>))<br>    .meterFilter(MeterFilter.denyNameStartsWith(<span class="hljs-string">&quot;jvm&quot;</span>));<br></code></pre></div></td></tr></table></figure>
+
+<p>表示忽略”http”标签，拒绝名称以”jvm”字符串开头的Meter。更多用法可以参详一下MeterFilter这个类。</p>
+<p>Meter的命名和Meter的Tag相互结合，以命名为轴心，以Tag为多维度要素，可以使度量数据的维度更加丰富，便于统计和分析。</p>
+<h4 id="Meters"><a href="#Meters" class="headerlink" title="Meters"></a>Meters</h4><p>前面提到Meter主要包括：Timer，Counter，Gauge，DistributionSummary，LongTaskTimer，FunctionCounter，FunctionTimer和TimeGauge。下面逐一分析它们的作用和个人理解的实际使用场景(应该说是生产环境)。</p>
+<h4 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h4><p>Counter是一种比较简单的Meter，它是一种单值的度量类型，或者说是一个单值计数器。Counter接口允许使用者使用一个固定值(必须为正数)进行计数。准确来说：Counter就是一个增量为正数的单值计数器。这个举个很简单的使用例子：</p>
+<p><strong>使用场景：</strong></p>
+<p>Counter的作用是记录XXX的总量或者计数值，适用于一些增长类型的统计，例如下单、支付次数、Http请求总量记录等等，通过Tag可以区分不同的场景，对于下单，可以使用不同的Tag标记不同的业务来源或者是按日期划分，对于Http请求总量记录，可以使用Tag区分不同的URL。用下单业务举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//实体</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Order</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> String orderId;<br>    <span class="hljs-keyword">private</span> Integer amount;<br>    <span class="hljs-keyword">private</span> String channel;<br>    <span class="hljs-keyword">private</span> LocalDateTime createTime;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CounterMain</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br><br>    <span class="hljs-keyword">static</span> &#123;<br>            Metrics.addRegistry(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            Order order1 = <span class="hljs-keyword">new</span> Order();<br>            order1.setOrderId(<span class="hljs-string">&quot;ORDER_ID_1&quot;</span>);<br>            order1.setAmount(<span class="hljs-number">100</span>);<br>            order1.setChannel(<span class="hljs-string">&quot;CHANNEL_A&quot;</span>);<br>            order1.setCreateTime(LocalDateTime.now());<br>            createOrder(order1);<br>            Order order2 = <span class="hljs-keyword">new</span> Order();<br>            order2.setOrderId(<span class="hljs-string">&quot;ORDER_ID_2&quot;</span>);<br>            order2.setAmount(<span class="hljs-number">200</span>);<br>            order2.setChannel(<span class="hljs-string">&quot;CHANNEL_B&quot;</span>);<br>            order2.setCreateTime(LocalDateTime.now());<br>            createOrder(order2);<br>            Search.in(Metrics.globalRegistry).meters().forEach(each -&gt; &#123;<br>                StringBuilder builder = <span class="hljs-keyword">new</span> StringBuilder();<br>                builder.append(<span class="hljs-string">&quot;name:&quot;</span>)<br>                        .append(each.getId().getName())<br>                        .append(<span class="hljs-string">&quot;,tags:&quot;</span>)<br>                        .append(each.getId().getTags())<br>                        .append(<span class="hljs-string">&quot;,type:&quot;</span>).append(each.getId().getType())<br>                        .append(<span class="hljs-string">&quot;,value:&quot;</span>).append(each.measure());<br>                System.out.println(builder.toString());<br>            &#125;);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createOrder</span><span class="hljs-params">(Order order)</span> </span>&#123;<br>        <span class="hljs-comment">//忽略订单入库等操作</span><br>        Metrics.counter(<span class="hljs-string">&quot;order.create&quot;</span>,<br>                <span class="hljs-string">&quot;channel&quot;</span>, order.getChannel(),<br>                <span class="hljs-string">&quot;createTime&quot;</span>, FORMATTER.format(order.getCreateTime())).increment();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>控制台输出</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">name:order.create,tags:[tag(<span class="hljs-attribute">channel</span>=CHANNEL_A), tag(<span class="hljs-attribute">createTime</span>=2018-11-10)],type:COUNTER,value:[Measurement&#123;<span class="hljs-attribute">statistic</span>=<span class="hljs-string">&#x27;COUNT&#x27;</span>, <span class="hljs-attribute">value</span>=1.0&#125;]<br>name:order.create,tags:[tag(<span class="hljs-attribute">channel</span>=CHANNEL_B), tag(<span class="hljs-attribute">createTime</span>=2018-11-10)],type:COUNTER,value:[Measurement&#123;<span class="hljs-attribute">statistic</span>=<span class="hljs-string">&#x27;COUNT&#x27;</span>, <span class="hljs-attribute">value</span>=1.0&#125;]<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的例子是使用全局静态方法工厂类Metrics去构造Counter实例，实际上，<code>io.micrometer.core.instrument.Counter</code>接口提供了一个内部建造器类Counter.Builder去实例化Counter，Counter.Builder的使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CounterBuilderMain</span> </span>&#123;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            Counter counter = Counter.builder(<span class="hljs-string">&quot;name&quot;</span>) <span class="hljs-comment">//名称</span><br>                    .baseUnit(<span class="hljs-string">&quot;unit&quot;</span>) <span class="hljs-comment">//基础单位</span><br>                    .description(<span class="hljs-string">&quot;desc&quot;</span>) <span class="hljs-comment">//描述</span><br>                    .tag(<span class="hljs-string">&quot;tagKey&quot;</span>, <span class="hljs-string">&quot;tagValue&quot;</span>) <span class="hljs-comment">//标签</span><br>                    .register(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<span class="hljs-comment">//绑定的MeterRegistry</span><br>            counter.increment();<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="FunctionCounter"><a href="#FunctionCounter" class="headerlink" title="FunctionCounter"></a>FunctionCounter</h4><p>FunctionCounter是Counter的特化类型，它把计数器数值增加的动作抽象成接口类型ToDoubleFunction，这个接口JDK1.8中对于Function的特化类型接口。</p>
+<p>FunctionCounter的使用场景和Counter是一致的，这里介绍一下它的用法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FunctionCounterMain</span> </span>&#123;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            MeterRegistry registry = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br>            AtomicInteger n = <span class="hljs-keyword">new</span> AtomicInteger(<span class="hljs-number">0</span>);<br>            <span class="hljs-comment">//这里ToDoubleFunction匿名实现其实可以使用Lambda表达式简化为AtomicInteger::get</span><br>            FunctionCounter.builder(<span class="hljs-string">&quot;functionCounter&quot;</span>, n, <span class="hljs-keyword">new</span> ToDoubleFunction&lt;AtomicInteger&gt;() &#123;<br>                <span class="hljs-meta">@Override</span><br>                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">applyAsDouble</span><span class="hljs-params">(AtomicInteger value)</span> </span>&#123;<br>                    <span class="hljs-keyword">return</span> value.get();<br>                &#125;<br>            &#125;).baseUnit(<span class="hljs-string">&quot;function&quot;</span>)<br>                    .description(<span class="hljs-string">&quot;functionCounter&quot;</span>)<br>                    .tag(<span class="hljs-string">&quot;createOrder&quot;</span>, <span class="hljs-string">&quot;CHANNEL-A&quot;</span>)<br>                    .register(registry);<br>            <span class="hljs-comment">//下面模拟三次计数</span><br>            n.incrementAndGet();<br>            n.incrementAndGet();<br>            n.incrementAndGet();<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>FunctionCounter使用的一个明显的好处是，我们不需要感知FunctionCounter实例的存在，实际上我们只需要操作作为FunctionCounter实例构建元素之一的AtomicInteger实例即可，这种接口的设计方式在很多框架里面都可以看到。</p>
+<h4 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h4><p>Timer(计时器)适用于记录耗时比较短的事件的执行时间，通过时间分布展示事件的序列和发生频率。所有的Timer的实现至少记录了发生的事件的数量和这些事件的总耗时，从而生成一个时间序列。</p>
+<p>Timer的基本单位基于服务端的指标而定，但是实际上我们不需要过于关注Timer的基本单位，因为Micrometer在存储生成的时间序列的时候会自动选择适当的基本单位。Timer接口提供的常用方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Timer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Meter</span> </span>&#123;<br>    ...<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">record</span><span class="hljs-params">(<span class="hljs-keyword">long</span> var1, TimeUnit var3)</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">record</span><span class="hljs-params">(Duration duration)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.record(duration.toNanos(), TimeUnit.NANOSECONDS);<br>    &#125;<br><br>    &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">record</span><span class="hljs-params">(Supplier&lt;T&gt; var1)</span></span>;<br><br>    &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">recordCallable</span><span class="hljs-params">(Callable&lt;T&gt; var1)</span> <span class="hljs-keyword">throws</span> Exception</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">record</span><span class="hljs-params">(Runnable var1)</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> Runnable <span class="hljs-title">wrap</span><span class="hljs-params">(Runnable f)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> () -&gt; &#123;<br>            <span class="hljs-keyword">this</span>.record(f);<br>        &#125;;<br>    &#125;<br><br>    <span class="hljs-keyword">default</span> &lt;T&gt; <span class="hljs-function">Callable&lt;T&gt; <span class="hljs-title">wrap</span><span class="hljs-params">(Callable&lt;T&gt; f)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> () -&gt; &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.recordCallable(f);<br>        &#125;;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">count</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">totalTime</span><span class="hljs-params">(TimeUnit var1)</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">double</span> <span class="hljs-title">mean</span><span class="hljs-params">(TimeUnit unit)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.count() == <span class="hljs-number">0L</span> ? <span class="hljs-number">0.0D</span> : <span class="hljs-keyword">this</span>.totalTime(unit) / (<span class="hljs-keyword">double</span>)<span class="hljs-keyword">this</span>.count();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">max</span><span class="hljs-params">(TimeUnit var1)</span></span>;<br>    ...<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>实际上，比较常用和方便的方法是几个函数式接口入参的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Timer timer = ...<br>timer.record(() -&gt; dontCareAboutReturnValue());<br>timer.recordCallable(() -&gt; returnValue());<br><br>Runnable r = timer.wrap(() -&gt; dontCareAboutReturnValue());<br>Callable c = timer.wrap(() -&gt; returnValue());<br></code></pre></div></td></tr></table></figure>
+
+<p>使用场景：</p>
+<p>根据个人经验和实践，总结如下：</p>
+<ul>
+<li>记录指定方法的执行时间用于展示。</li>
+<li>记录一些任务的执行时间，从而确定某些数据来源的速率，例如消息队列消息的消费速率等。</li>
+</ul>
+<p>这里举个实际的例子，要对系统做一个功能，记录指定方法的执行时间，还是用下单方法做例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TimerMain</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Random R = <span class="hljs-keyword">new</span> Random();<br><br>        <span class="hljs-keyword">static</span> &#123;<br>            Metrics.addRegistry(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            Order order1 = <span class="hljs-keyword">new</span> Order();<br>            order1.setOrderId(<span class="hljs-string">&quot;ORDER_ID_1&quot;</span>);<br>            order1.setAmount(<span class="hljs-number">100</span>);<br>            order1.setChannel(<span class="hljs-string">&quot;CHANNEL_A&quot;</span>);<br>            order1.setCreateTime(LocalDateTime.now());<br>            Timer timer = Metrics.timer(<span class="hljs-string">&quot;timer&quot;</span>, <span class="hljs-string">&quot;createOrder&quot;</span>, <span class="hljs-string">&quot;cost&quot;</span>);<br>            timer.record(() -&gt; createOrder(order1));<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createOrder</span><span class="hljs-params">(Order order)</span> </span>&#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                TimeUnit.SECONDS.sleep(R.nextInt(<span class="hljs-number">5</span>)); <span class="hljs-comment">//模拟方法耗时</span><br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                <span class="hljs-comment">//no-op</span><br>            &#125;<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在实际生产环境中，可以通过spring-aop把记录方法耗时的逻辑抽象到一个切面中，这样就能减少不必要的冗余的模板代码。上面的例子是通过Mertics构造Timer实例，实际上也可以使用Builder构造：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">MeterRegistry registry = ...<br>Timer timer = Timer<br>    .builder(<span class="hljs-string">&quot;my.timer&quot;</span>)<br>    .description(<span class="hljs-string">&quot;a description of what this timer does&quot;</span>) <span class="hljs-comment">// 可选</span><br>    .tags(<span class="hljs-string">&quot;region&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>) <span class="hljs-comment">// 可选</span><br>    .register(registry);<br></code></pre></div></td></tr></table></figure>
+
+<p>另外，Timer的使用还可以基于它的内部类Timer.Sample，通过start和stop两个方法记录两者之间的逻辑的执行耗时。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Timer.Sample sample = Timer.start(registry);<br><br><span class="hljs-comment">// 这里做业务逻辑</span><br>Response response = ...<br><br>sample.stop(registry.timer(<span class="hljs-string">&quot;my.timer&quot;</span>, <span class="hljs-string">&quot;response&quot;</span>, response.status()));<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>FunctionTimer</strong></p>
+<p>FunctionTimer是Timer的特化类型，它主要提供两个单调递增的函数(其实并不是单调递增，只是在使用中一般需要随着时间最少保持不变或者说不减少)：一个用于计数的函数和一个用于记录总调用耗时的函数，它的建造器的入参如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">FunctionTimer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Meter</span> </span>&#123;<br>    <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">Builder&lt;T&gt; <span class="hljs-title">builder</span><span class="hljs-params">(String name, T obj, ToLongFunction&lt;T&gt; countFunction,</span></span><br><span class="hljs-params"><span class="hljs-function">                                  ToDoubleFunction&lt;T&gt; totalTimeFunction,</span></span><br><span class="hljs-params"><span class="hljs-function">                                  TimeUnit totalTimeFunctionUnit)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Builder&lt;&gt;(name, obj, countFunction, totalTimeFunction, totalTimeFunctionUnit);<br>    &#125;<br>    ...<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>官方文档中的例子如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">IMap&lt;?, ?&gt; cache = ...; <span class="hljs-comment">// 假设使用了Hazelcast缓存</span><br>registry.more().timer(<span class="hljs-string">&quot;cache.gets.latency&quot;</span>, Tags.of(<span class="hljs-string">&quot;name&quot;</span>, cache.getName()), cache,<br>    c -&gt; c.getLocalMapStats().getGetOperationCount(), <span class="hljs-comment">//实际上就是cache的一个方法，记录缓存生命周期初始化的增量(个数)</span><br>    c -&gt; c.getLocalMapStats().getTotalGetLatency(), <span class="hljs-comment">// Get操作的延迟时间总量，可以理解为耗时</span><br>    TimeUnit.NANOSECONDS<br>);<br></code></pre></div></td></tr></table></figure>
+
+<p>按照个人理解，ToDoubleFunction用于统计事件个数，ToDoubleFunction用于记录执行总时间，实际上两个函数都只是Function函数的变体，还有一个比较重要的是总时间的单位totalTimeFunctionUnit。简单的使用方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FunctionTimerMain</span> </span>&#123;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            <span class="hljs-comment">//这个是为了满足参数,暂时不需要理会</span><br>            Object holder = <span class="hljs-keyword">new</span> Object();<br>            AtomicLong totalTimeNanos = <span class="hljs-keyword">new</span> AtomicLong(<span class="hljs-number">0</span>);<br>            AtomicLong totalCount = <span class="hljs-keyword">new</span> AtomicLong(<span class="hljs-number">0</span>);<br>            FunctionTimer.builder(<span class="hljs-string">&quot;functionTimer&quot;</span>, holder, p -&gt; totalCount.get(),<br>                    p -&gt; totalTimeNanos.get(), TimeUnit.NANOSECONDS)<br>                    .register(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<br>            totalTimeNanos.addAndGet(<span class="hljs-number">10000000</span>);<br>            totalCount.incrementAndGet();<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="LongTaskTimer"><a href="#LongTaskTimer" class="headerlink" title="LongTaskTimer"></a>LongTaskTimer</h4><p>LongTaskTimer也是一种Timer的特化类型，主要用于记录长时间执行的任务的持续时间，在任务完成之前，被监测的事件或者任务仍然处于运行状态，任务完成的时候，任务执行的总耗时才会被记录下来。</p>
+<p>LongTaskTimer适合用于长时间持续运行的事件耗时的记录，例如相对耗时的定时任务。在Spring应用中，可以简单地使用@Scheduled和@Timed注解，基于spring-aop完成定时调度任务的总耗时记录：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Timed(value = &quot;aws.scrape&quot;, longTask = true)</span><br><span class="hljs-meta">@Scheduled(fixedDelay = 360000)</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">scrapeResources</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">//这里做相对耗时的业务逻辑</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当然，在非spring体系中也能方便地使用LongTaskTimer：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LongTaskTimerMain</span> </span>&#123;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            MeterRegistry meterRegistry = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br>            LongTaskTimer longTaskTimer = meterRegistry.more().longTaskTimer(<span class="hljs-string">&quot;longTaskTimer&quot;</span>);<br>            longTaskTimer.record(() -&gt; &#123;<br><br>                <span class="hljs-comment">//这里编写Task的逻辑</span><br>            &#125;);<br>            <span class="hljs-comment">//或者这样</span><br>            Metrics.more().longTaskTimer(<span class="hljs-string">&quot;longTaskTimer&quot;</span>).record(()-&gt; &#123;<br>                <span class="hljs-comment">//这里编写Task的逻辑</span><br>            &#125;);<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>Gauge</strong></p>
+<p>Gauge(仪表)是获取当前度量记录值的句柄，也就是它表示一个可以任意上下浮动的单数值度量Meter。Gauge通常用于变动的测量值，测量值用ToDoubleFunction参数的返回值设置，如当前的内存使用情况，同时也可以测量上下移动的”计数”，比如队列中的消息数量。</p>
+<p>官网文档中提到Gauge的典型使用场景是用于测量集合或映射的大小或运行状态中的线程数。Gauge一般用于监测有自然上界的事件或者任务，而Counter一般使用于无自然上界的事件或者任务的监测，所以像Http请求总量计数应该使用Counter而非Gauge。</p>
+<p>MeterRegistry中提供了一些便于构建用于观察数值、函数、集合和映射的Gauge相关的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list = registry.gauge(<span class="hljs-string">&quot;listGauge&quot;</span>, Collections.emptyList(), <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(), List::size);<br>List&lt;String&gt; list2 = registry.gaugeCollectionSize(<span class="hljs-string">&quot;listSize2&quot;</span>, Tags.empty(), <span class="hljs-keyword">new</span> ArrayList&lt;&gt;());<br>Map&lt;String, Integer&gt; map = registry.gaugeMapSize(<span class="hljs-string">&quot;mapGauge&quot;</span>, Tags.empty(), <span class="hljs-keyword">new</span> HashMap&lt;&gt;());<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的三个方法通过MeterRegistry构建Gauge并且返回了集合或者映射实例，使用这些集合或者映射实例就能在其size变化过程中记录这个变更值。更重要的优点是，我们不需要感知Gauge接口的存在，只需要像平时一样使用集合或者映射实例就可以了。</p>
+<p>此外，Gauge还支持<code>java.lang.Number</code>的子类，<code>java.util.concurrent.atomic</code>包中的AtomicInteger和AtomicLong，还有Guava提供的AtomicDouble：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">AtomicInteger n = registry.gauge(<span class="hljs-string">&quot;numberGauge&quot;</span>, <span class="hljs-keyword">new</span> AtomicInteger(<span class="hljs-number">0</span>));<br>n.set(<span class="hljs-number">1</span>);<br>n.set(<span class="hljs-number">2</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>除了使用MeterRegistry创建Gauge之外，还可以使用建造器流式创建：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">AtomicInteger n = registry.gauge(<span class="hljs-string">&quot;numberGauge&quot;</span>, <span class="hljs-keyword">new</span> AtomicInteger(<span class="hljs-number">0</span>));<br>n.set(<span class="hljs-number">1</span>);<br>n.set(<span class="hljs-number">2</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<p>根据个人经验和实践，总结如下：</p>
+<ul>
+<li>有自然(物理)上界的浮动值的监测，例如物理内存、集合、映射、数值等。</li>
+<li>有逻辑上界的浮动值的监测，例如积压的消息、(线程池中)积压的任务等，其实本质也是集合或者映射的监测。</li>
+</ul>
+<p>举个相对实际的例子，假设我们需要对登录后的用户发送一条短信或者推送，做法是消息先投放到一个阻塞队列，再由一个线程消费消息进行其他操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GaugeMain</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> MeterRegistry MR = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> BlockingQueue&lt;Message&gt; QUEUE = <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="hljs-number">500</span>);<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> BlockingQueue&lt;Message&gt; REAL_QUEUE;<br><br>        <span class="hljs-keyword">static</span> &#123;<br>            REAL_QUEUE = MR.gauge(<span class="hljs-string">&quot;messageGauge&quot;</span>, QUEUE, Collection::size);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            consume();<br>            Message message = <span class="hljs-keyword">new</span> Message();<br>            message.setUserId(<span class="hljs-number">1L</span>);<br>            message.setContent(<span class="hljs-string">&quot;content&quot;</span>);<br>            REAL_QUEUE.put(message);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">consume</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            <span class="hljs-keyword">new</span> Thread(() -&gt; &#123;<br>                <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        Message message = REAL_QUEUE.take();<br>                        <span class="hljs-comment">//handle message</span><br>                        System.out.println(message);<br>                    &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                        <span class="hljs-comment">//no-op</span><br>                    &#125;<br>                &#125;<br>            &#125;).start();<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的例子代码写得比较糟糕，只为了演示相关使用方式，切勿用于生产环境。</p>
+<h4 id="TimeGauge"><a href="#TimeGauge" class="headerlink" title="TimeGauge"></a>TimeGauge</h4><p>TimeGauge是Gauge的特化类型，相比Gauge，它的构建器中多了一个TimeUnit类型的参数，用于指定ToDoubleFunction入参的基础时间单位。这里简单举个使用例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TimeGaugeMain</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> SimpleMeterRegistry R = <span class="hljs-keyword">new</span> SimpleMeterRegistry();<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            AtomicInteger count = <span class="hljs-keyword">new</span> AtomicInteger();<br>            TimeGauge.Builder&lt;AtomicInteger&gt; timeGauge = TimeGauge.builder(<span class="hljs-string">&quot;timeGauge&quot;</span>, count,<br>                    TimeUnit.SECONDS, AtomicInteger::get);<br>            timeGauge.register(R);<br>            count.addAndGet(<span class="hljs-number">10086</span>);<br>            print();<br>            count.set(<span class="hljs-number">1</span>);<br>            print();<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span><span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            Search.in(R).meters().forEach(each -&gt; &#123;<br>                StringBuilder builder = <span class="hljs-keyword">new</span> StringBuilder();<br>                builder.append(<span class="hljs-string">&quot;name:&quot;</span>)<br>                        .append(each.getId().getName())<br>                        .append(<span class="hljs-string">&quot;,tags:&quot;</span>)<br>                        .append(each.getId().getTags())<br>                        .append(<span class="hljs-string">&quot;,type:&quot;</span>).append(each.getId().getType())<br>                        .append(<span class="hljs-string">&quot;,value:&quot;</span>).append(each.measure());<br>                System.out.println(builder.toString());<br>            &#125;);<br>        &#125;<br>    &#125;<br><br><span class="hljs-comment">//输出</span><br>name:timeGauge,tags:[],type:GAUGE,value:[Measurement&#123;statistic=<span class="hljs-string">&#x27;VALUE&#x27;</span>, value=<span class="hljs-number">10086.0</span>&#125;]<br>name:timeGauge,tags:[],type:GAUGE,value:[Measurement&#123;statistic=<span class="hljs-string">&#x27;VALUE&#x27;</span>, value=<span class="hljs-number">1.0</span>&#125;]<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>DistributionSummary</strong></p>
+<p>Summary(摘要)主要用于跟踪事件的分布，在Micrometer中，对应的类是DistributionSummary(分发摘要)。它的使用方式和Timer十分相似，但是它的记录值并不依赖于时间单位。</p>
+<p>常见的使用场景：使用DistributionSummary测量命中服务器的请求的有效负载大小。使用MeterRegistry创建DistributionSummary实例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">DistributionSummary summary = registry.summary(<span class="hljs-string">&quot;response.size&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>通过建造器流式创建如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">DistributionSummary summary = DistributionSummary<br>    .builder(<span class="hljs-string">&quot;response.size&quot;</span>)<br>    .description(<span class="hljs-string">&quot;a description of what this summary does&quot;</span>) <span class="hljs-comment">// 可选</span><br>    .baseUnit(<span class="hljs-string">&quot;bytes&quot;</span>) <span class="hljs-comment">// 可选</span><br>    .tags(<span class="hljs-string">&quot;region&quot;</span>, <span class="hljs-string">&quot;test&quot;</span>) <span class="hljs-comment">// 可选</span><br>    .scale(<span class="hljs-number">100</span>) <span class="hljs-comment">// 可选</span><br>    .register(registry);<br></code></pre></div></td></tr></table></figure>
+
+<p>DistributionSummary中有很多构建参数跟缩放和直方图的表示相关，见下一节。</p>
+<p><strong>使用场景：</strong></p>
+<p>根据个人经验和实践，总结如下：</p>
+<p>1、不依赖于时间单位的记录值的测量，例如服务器有效负载值，缓存的命中率等。</p>
+<p>举个相对具体的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DistributionSummaryMain</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> DistributionSummary DS = DistributionSummary.builder(<span class="hljs-string">&quot;cacheHitPercent&quot;</span>)<br>                .register(<span class="hljs-keyword">new</span> SimpleMeterRegistry());<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> LoadingCache&lt;String, String&gt; CACHE = CacheBuilder.newBuilder()<br>                .maximumSize(<span class="hljs-number">1000</span>)<br>                .recordStats()<br>                .expireAfterWrite(<span class="hljs-number">60</span>, TimeUnit.SECONDS)<br>                .build(<span class="hljs-keyword">new</span> CacheLoader&lt;String, String&gt;() &#123;<br>                    <span class="hljs-meta">@Override</span><br>                    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">load</span><span class="hljs-params">(String s)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                        <span class="hljs-keyword">return</span> selectFromDatabase();<br>                    &#125;<br>                &#125;);<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            String key = <span class="hljs-string">&quot;doge&quot;</span>;<br>            String value = CACHE.get(key);<br>            record();<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">record</span><span class="hljs-params">()</span><span class="hljs-keyword">throws</span> Exception</span>&#123;<br>            CacheStats stats = CACHE.stats();<br>            BigDecimal hitCount = <span class="hljs-keyword">new</span> BigDecimal(stats.hitCount());<br>            BigDecimal requestCount = <span class="hljs-keyword">new</span> BigDecimal(stats.requestCount());<br>            DS.record(hitCount.divide(requestCount,<span class="hljs-number">2</span>,BigDecimal.ROUND_HALF_DOWN).doubleValue());<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>直方图和百分数配置</strong></p>
+<p>直方图和百分数配置适用于Summary和Timer，这部分相对复杂，等研究透了再补充。</p>
+<h2 id="基于SpirngBoot、Prometheus、Grafana集成"><a href="#基于SpirngBoot、Prometheus、Grafana集成" class="headerlink" title="基于SpirngBoot、Prometheus、Grafana集成"></a>基于SpirngBoot、Prometheus、Grafana集成</h2><p>集成了Micrometer框架的JVM应用使用到Micrometer的API收集的度量数据位于内存之中，因此，需要额外的存储系统去存储这些度量数据，需要有监控系统负责统一收集和处理这些数据，还需要有一些UI工具去展示数据，一般大佬只喜欢看炫酷的图表或者动画。</p>
+<p>常见的存储系统就是时序数据库，主流的有Influx、Datadog等。比较主流的监控系统(主要是用于数据收集和处理)就是Prometheus(一般叫普罗米修斯，下面就这样叫吧)。而展示的UI目前相对用得比较多的就是Grafana。</p>
+<p>另外，Prometheus已经内置了一个时序数据库的实现，因此，在做一套相对完善的度量数据监控的系统只需要依赖目标JVM应用，Prometheus组件和Grafana组件即可。下面花一点时间从零开始搭建一个这样的系统，使用CentOS7。</p>
+<h3 id="SpirngBoot中使用Micrometer"><a href="#SpirngBoot中使用Micrometer" class="headerlink" title="SpirngBoot中使用Micrometer"></a>SpirngBoot中使用Micrometer</h3><p>SpringBoot中的spring-boot-starter-actuator依赖已经集成了对Micrometer的支持，其中的metrics端点的很多功能就是通过Micrometer实现的，prometheus端点默认也是开启支持的，实际上actuator依赖的spring-boot-actuator-autoconfigure中集成了对很多框架的开箱即用的API。</p>
+<p>其中prometheus包中集成了对Prometheus的支持，使得使用了actuator可以轻易地让项目暴露出prometheus端点，作为Prometheus收集数据的客户端，Prometheus(服务端软件)可以通过此端点收集应用中Micrometer的度量数据。</p>
+<p>我们先引入spring-boot-starter-actuator和spring-boot-starter-web，实现一个Counter和Timer作为示例。依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.0.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>          <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-aop<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.16.22<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.micrometer<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>micrometer-registry-prometheus<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>接着编写一个下单接口和一个消息发送模块，模拟用户下单之后向用户发送消息：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//实体</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> String orderId;<br>        <span class="hljs-keyword">private</span> Long userId;<br>        <span class="hljs-keyword">private</span> String content;<br>    &#125;<br><br>    <span class="hljs-meta">@Data</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Order</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> String orderId;<br>        <span class="hljs-keyword">private</span> Long userId;<br>        <span class="hljs-keyword">private</span> Integer amount;<br>        <span class="hljs-keyword">private</span> LocalDateTime createTime;<br>    &#125;<br><br>    <span class="hljs-comment">//控制器和服务类</span><br>    <span class="hljs-meta">@RestController</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderController</span> </span>&#123;<br><br>        <span class="hljs-meta">@Autowired</span><br>        <span class="hljs-keyword">private</span> OrderService orderService;<br><br>        <span class="hljs-meta">@PostMapping(value = &quot;/order&quot;)</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Boolean&gt; <span class="hljs-title">createOrder</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> Order order)</span></span>&#123;<br>            <span class="hljs-keyword">return</span> ResponseEntity.ok(orderService.createOrder(order));<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Slf4j</span><br>    <span class="hljs-meta">@Service</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderService</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Random R = <span class="hljs-keyword">new</span> Random();<br><br>        <span class="hljs-meta">@Autowired</span><br>        <span class="hljs-keyword">private</span> MessageService messageService;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">createOrder</span><span class="hljs-params">(Order order)</span> </span>&#123;<br>            <span class="hljs-comment">//模拟下单</span><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">int</span> ms = R.nextInt(<span class="hljs-number">50</span>) + <span class="hljs-number">50</span>;<br>                TimeUnit.MILLISECONDS.sleep(ms);<br>                log.info(<span class="hljs-string">&quot;保存订单模拟耗时&#123;&#125;毫秒...&quot;</span>, ms);<br>            &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                <span class="hljs-comment">//no-op</span><br>            &#125;<br>            <span class="hljs-comment">//记录下单总数</span><br>            Metrics.counter(<span class="hljs-string">&quot;order.count&quot;</span>, <span class="hljs-string">&quot;order.channel&quot;</span>, order.getChannel()).increment();<br>            <span class="hljs-comment">//发送消息</span><br>            Message message = <span class="hljs-keyword">new</span> Message();<br>            message.setContent(<span class="hljs-string">&quot;模拟短信...&quot;</span>);<br>            message.setOrderId(order.getOrderId());<br>            message.setUserId(order.getUserId());<br>            messageService.sendMessage(message);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Slf4j</span><br>    <span class="hljs-meta">@Service</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MessageService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InitializingBean</span> </span>&#123;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> BlockingQueue&lt;Message&gt; QUEUE = <span class="hljs-keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="hljs-number">500</span>);<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> BlockingQueue&lt;Message&gt; REAL_QUEUE;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Executor EXECUTOR = Executors.newSingleThreadExecutor();<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Random R = <span class="hljs-keyword">new</span> Random();<br><br>        <span class="hljs-keyword">static</span> &#123;<br>            REAL_QUEUE = Metrics.gauge(<span class="hljs-string">&quot;message.gauge&quot;</span>, Tags.of(<span class="hljs-string">&quot;message.gauge&quot;</span>, <span class="hljs-string">&quot;message.queue.size&quot;</span>), QUEUE, Collection::size);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(Message message)</span> </span>&#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                REAL_QUEUE.put(message);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                <span class="hljs-comment">//no-op</span><br>            &#125;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterPropertiesSet</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>            EXECUTOR.execute(() -&gt; &#123;<br>                <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        Message message = REAL_QUEUE.take();<br>                        log.info(<span class="hljs-string">&quot;模拟发送短信,orderId:&#123;&#125;,userId:&#123;&#125;,内容:&#123;&#125;,耗时:&#123;&#125;毫秒&quot;</span>, message.getOrderId(), message.getUserId(),<br>                                message.getContent(), R.nextInt(<span class="hljs-number">50</span>));<br>                    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(e);<br>                    &#125;<br>                &#125;<br>            &#125;);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">//切面类</span><br>    <span class="hljs-meta">@Component</span><br>    <span class="hljs-meta">@Aspect</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TimerAspect</span> </span>&#123;<br><br>        <span class="hljs-meta">@Around(value = &quot;execution(* club.throwable.smp.service.*Service.*(..))&quot;)</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">around</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>            Signature signature = joinPoint.getSignature();<br>            MethodSignature methodSignature = (MethodSignature) signature;<br>            Method method = methodSignature.getMethod();<br>            Timer timer = Metrics.timer(<span class="hljs-string">&quot;method.cost.time&quot;</span>, <span class="hljs-string">&quot;method.name&quot;</span>, method.getName());<br>            ThrowableHolder holder = <span class="hljs-keyword">new</span> ThrowableHolder();<br>            Object result = timer.recordCallable(() -&gt; &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-keyword">return</span> joinPoint.proceed();<br>                &#125; <span class="hljs-keyword">catch</span> (Throwable e) &#123;<br>                    holder.throwable = e;<br>                &#125;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>            &#125;);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != holder.throwable) &#123;<br>                <span class="hljs-keyword">throw</span> holder.throwable;<br>            &#125;<br>            <span class="hljs-keyword">return</span> result;<br>        &#125;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThrowableHolder</span> </span>&#123;<br><br>            Throwable throwable;<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>yaml的配置如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">9091</span><br><span class="hljs-attr">management:</span><br>  <span class="hljs-attr">server:</span><br>    <span class="hljs-attr">port:</span> <span class="hljs-number">10091</span><br>  <span class="hljs-attr">endpoints:</span><br>    <span class="hljs-attr">web:</span><br>      <span class="hljs-attr">exposure:</span><br>        <span class="hljs-attr">include:</span> <span class="hljs-string">&#x27;*&#x27;</span><br>      <span class="hljs-attr">base-path:</span> <span class="hljs-string">/management</span><br></code></pre></div></td></tr></table></figure>
+
+<p>注意多看spring官方文档关于Actuator的详细描述，在SpringBoot-2.x之后，配置Web端点暴露的权限控制和1.x有很大的不同。</p>
+<p>总结一下就是：除了shutdown端点之外，其他端点默认都是开启支持的这里仅仅是开启支持，并不是暴露为Web端点，端点必须暴露为Web端点才能被访问，禁用或者开启端点支持的配置方式如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">management.endpoint.$&#123;端点ID&#125;.enabled</span>=<span class="hljs-string">true/false可以查</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以查看actuator-api文档查看所有支持的端点的特性，这个是2.1.0.RELEASE版本的官方文档，不知道日后链接会不会挂掉。端点只开启支持，但是不暴露为Web端点，是无法通过<code>http://&#123;host&#125;:&#123;management.port&#125;/&#123;management.endpoints.web.base-path&#125;/&#123;endpointId&#125;</code>访问的。</p>
+<p>暴露监控端点为Web端点的配置是：</p>
+<figure class="highlight properties"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs properties"><span class="hljs-meta">management.endpoints.web.exposure.include</span>=<span class="hljs-string">info,health</span><br><span class="hljs-meta">management.endpoints.web.exposure.exclude</span>=<span class="hljs-string">prometheus</span><br></code></pre></div></td></tr></table></figure>
+
+<p><code>management.endpoints.web.exposure.exclude</code>用于指定不暴露为Web端点的监控端点，指定多个的时候用英文逗号分隔<code>management.endpoints.web.exposure.include</code>默认指定的只有info和health两个端点，我们可以直接指定暴露所有的端点：<code>management.endpoints.web.exposure.include=*</code>，如果采用YAML配置，记得<em>要加单引号’</em>‘。暴露所有Web监控端点是一件比较危险的事情，如果需要在生产环境这样做，请务必先确认<code>http://&#123;host&#125;:&#123;management.port&#125;</code>不能通过公网访问(也就是监控端点访问的端口只能通过内网访问，这样可以方便后面说到的Prometheus服务端通过此端口收集数据)。</p>
+<h3 id="Prometheus的安装和配置"><a href="#Prometheus的安装和配置" class="headerlink" title="Prometheus的安装和配置"></a>Prometheus的安装和配置</h3><p>Prometheus目前的最新版本是2.5，鉴于笔者没深入玩过Docker，这里还是直接下载它的压缩包解压安装。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">wget https://github.com/prometheus/prometheus/releases/download/v2.5.0/prometheus-2.5.0.linux-amd64.tar.gz<br>tar xvfz prometheus-*.tar.gz<br><span class="hljs-built_in">cd</span> prometheus-*<br></code></pre></div></td></tr></table></figure>
+
+<p>先编辑解压出来的目录下的prometheus配置文件prometheus.yml，主要修改scrape_configs节点的属性：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">scrape_configs:</span><br>  <span class="hljs-comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">job_name:</span> <span class="hljs-string">&#x27;prometheus&#x27;</span><br><br>    <span class="hljs-comment"># metrics_path defaults to &#x27;/metrics&#x27;</span><br>    <span class="hljs-comment"># scheme defaults to &#x27;http&#x27;.</span><br>    <span class="hljs-comment"># 这里配置需要拉取度量信息的URL路径，这里选择应用程序的prometheus端点</span><br>    <span class="hljs-attr">metrics_path:</span> <span class="hljs-string">/management/prometheus</span><br>    <span class="hljs-attr">static_configs:</span><br>    <span class="hljs-comment"># 这里配置host和port</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">targets:</span> [<span class="hljs-string">&#x27;localhost:10091&#x27;</span>]<br></code></pre></div></td></tr></table></figure>
+
+<p>配置拉取度量数据的路径为localhost:10091/management/metrics，此前记得把前一节提到的应用在虚拟机中启动。接着启动Prometheus应用：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-comment"># 参数 --storage.tsdb.path=存储数据的路径，默认路径为./data</span><br>./prometheus --config.file=prometheus.yml<br></code></pre></div></td></tr></table></figure>
+
+<p>Prometheus引用的默认启动端口是9090，启动成功后，日志如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231921913.webp" srcset="/img/loading.gif" lazyload alt="图片">此时，访问<code>http://$&#123;虚拟机host&#125;:9090/targets</code>就能看到当前Prometheus中执行的Job</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231921804.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>访问<code>http://$&#123;虚拟机host&#125;:9090/graph</code>以查找到我们定义的度量Meter和spring-boot-starter-actuator中已经定义好的一些关于JVM或者Tomcat的度量Meter。</p>
+<p>我们先对应用的/order接口进行调用，然后查看一下监控前面在应用中定义的<code>rder_count_total</code> <code>ethod_cost_time_seconds_sum</code></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923337.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923718.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到，Meter的信息已经被收集和展示，但是显然不够详细和炫酷，这个时候就需要使用Grafana的UI做一下点缀。</p>
+<h3 id="Grafana的安装和使用"><a href="#Grafana的安装和使用" class="headerlink" title="Grafana的安装和使用"></a>Grafana的安装和使用</h3><p>Grafana的安装过程如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.3.4-1.x86_64.rpm <br>sudo yum localinstall grafana-5.3.4-1.x86_64.rpm<br></code></pre></div></td></tr></table></figure>
+
+<p>安装完成后，通过命令service grafana-server start启动即可，默认的启动端口为3000，通过<code>http://$&#123;host&#125;:3000</code>即可。初始的账号密码都为admin，权限是管理员权限。接着需要在Home面板添加一个数据源，目的是对接Prometheus服务端从而可以拉取它里面的度量数据。数据源添加面板如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231923459.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>其实就是指向Prometheus服务端的端口就可以了。接下来可以天马行空地添加需要的面板，就下单数量统计的指标，可以添加一个Graph的面板</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924446.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>配置面板的时候，需要在基础(General)中指定Title：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924841.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>接着比较重要的是Metrics的配置，需要指定数据源和Prometheus的查询语句：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231924291.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>最好参考一下Prometheus的官方文档，稍微学习一下它的查询语言PromQL的使用方式，一个面板可以支持多个PromQL查询。</p>
+<p>前面提到的两项是基本配置，其他配置项一般是图表展示的辅助或者预警等辅助功能，这里先不展开，可以取Grafana的官网挖掘一下使用方式。然后我们再调用一下下单接口，过一段时间，图表的数据就会自动更新和展示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231925251.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>接着添加一下项目中使用的Timer的Meter，便于监控方法的执行时间，完成之后大致如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231925332.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>作者：云扬四海</p>
+<p>来源：cnblogs.com/rolandlee/p/11343848.html</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20Cloud%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E7%9A%84%E4%BA%94%E8%84%8F%E5%85%AD%E8%85%91%EF%BC%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring Cloud 微服务架构的五脏六腑！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20Boot%20%E6%B3%A8%E8%A7%A3%E5%8E%9F%E7%90%86%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86/">
+                        <span class="hidden-mobile">SpringBoot 注解原理，自动装配原理，图文并茂，万字长文！</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

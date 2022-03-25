@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="干掉大量 if 判断，规则执行器  近日在公司领到一个小需求，需要对之前已有的试用用户申请规则进行拓展。我们的场景大概如下所示: 123456789101112131415if (是否海外用户) &amp;#123; return false;&amp;#125;if (刷单用户) &amp;#123;  return false;&amp;#125;if (未付费用户 &amp;&amp; 不再服务时段) &amp;#123;  re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="干掉大量 if 判断，规则执行器">
+<meta property="og:url" content="http://example.com/2022/03/25/%E5%B9%B2%E6%8E%89%E5%A4%A7%E9%87%8F%20if%20%E5%88%A4%E6%96%AD%EF%BC%8C%E8%A7%84%E5%88%99%E6%89%A7%E8%A1%8C%E5%99%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="干掉大量 if 判断，规则执行器  近日在公司领到一个小需求，需要对之前已有的试用用户申请规则进行拓展。我们的场景大概如下所示: 123456789101112131415if (是否海外用户) &amp;#123; return false;&amp;#125;if (刷单用户) &amp;#123;  return false;&amp;#125;if (未付费用户 &amp;&amp; 不再服务时段) &amp;#123;  re">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042021240.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.855Z">
+<meta property="article:modified_time" content="2022-03-25T12:21:25.570Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042021240.webp">
+  
+  <title>干掉大量 if 判断，规则执行器 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="干掉大量 if 判断，规则执行器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">干掉大量 if 判断，规则执行器</h1>
+            
+            <div class="markdown-body">
+              <center><h2>干掉大量 if 判断，规则执行器</h2></center>
+
+<p>近日在公司领到一个小需求，需要对之前已有的试用用户申请规则进行拓展。我们的场景大概如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (是否海外用户) &#123;<br> <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (刷单用户) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (未付费用户 &amp;&amp; 不再服务时段) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span><br>&#125;<br><br><span class="hljs-keyword">if</span> (转介绍用户 || 付费用户 || 内推用户) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>按照上述的条件我们可以得出的结论是：</p>
+<ol>
+<li><p>咱们的的主要流程主要是基于 <code>and</code> 或者 <code>or</code> 的关系。</p>
+</li>
+<li><p>如果有一个不匹配的话，其实咱们后续的流程是不用执行的，就是需要具备一个<code>短路</code>的功能。</p>
+</li>
+<li><p>对于目前的现状来说，我如果在原有的基础上来该，只要稍微注意一下解决需求不是很大的问题，但是说后面可维护性非常差。</p>
+</li>
+</ol>
+<p>后面进过权衡过后，我还是决定将这个部分进行重构一下。</p>
+<h2 id="规则执行器"><a href="#规则执行器" class="headerlink" title="规则执行器"></a><strong>规则执行器</strong></h2><p>针对这个需求，我首先梳理了一下咱们规则执行器大概的设计， 然后我设计了一个 <code>V1</code> 版本和大家一起分享一下，如果大家也有这样的 case 可以给我分享留言，下面部分主要是设计和实现的流程和 code .</p>
+<h2 id="规则执行器的设计"><a href="#规则执行器的设计" class="headerlink" title="规则执行器的设计"></a><strong>规则执行器的设计</strong></h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042021240.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="对于规则的抽象并实现规则"><a href="#对于规则的抽象并实现规则" class="headerlink" title="对于规则的抽象并实现规则"></a><strong>对于规则的抽象并实现规则</strong></h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 业务数据</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RuleDto</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> String address;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>&#125;<br><br><span class="hljs-comment">// 规则抽象</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BaseRule</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">execute</span><span class="hljs-params">(RuleDto dto)</span></span>;<br>&#125;<br><br><span class="hljs-comment">// 规则模板</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractRule</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BaseRule</span> </span>&#123;<br><br>    <span class="hljs-keyword">protected</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">convert</span><span class="hljs-params">(RuleDto dto)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> (T) dto;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">execute</span><span class="hljs-params">(RuleDto dto)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> executeRule(convert(dto));<br>    &#125;<br>  <br>    <span class="hljs-keyword">protected</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">executeRule</span><span class="hljs-params">(T t)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 具体规则- 例子1</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AddressRule</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractRule</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">execute</span><span class="hljs-params">(RuleDto dto)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;AddressRule invoke!&quot;</span>);<br>        <span class="hljs-keyword">if</span> (dto.getAddress().startsWith(MATCH_ADDRESS_START)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 具体规则- 例子2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NationalityRule</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractRule</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">convert</span><span class="hljs-params">(RuleDto dto)</span> </span>&#123;<br>        NationalityRuleDto nationalityRuleDto = <span class="hljs-keyword">new</span> NationalityRuleDto();<br>        <span class="hljs-keyword">if</span> (dto.getAddress().startsWith(MATCH_ADDRESS_START)) &#123;<br>            nationalityRuleDto.setNationality(MATCH_NATIONALITY_START);<br>        &#125;<br>        <span class="hljs-keyword">return</span> (T) nationalityRuleDto;<br>    &#125;<br><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">executeRule</span><span class="hljs-params">(T t)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;NationalityRule invoke!&quot;</span>);<br>        NationalityRuleDto nationalityRuleDto = (NationalityRuleDto) t;<br>        <span class="hljs-keyword">if</span> (nationalityRuleDto.getNationality().startsWith(MATCH_NATIONALITY_START)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 常量定义</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RuleConstant</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String MATCH_ADDRESS_START= <span class="hljs-string">&quot;北京&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String MATCH_NATIONALITY_START= <span class="hljs-string">&quot;中国&quot;</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="执行器构建"><a href="#执行器构建" class="headerlink" title="执行器构建"></a><strong>执行器构建</strong></h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RuleService</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> Map&lt;Integer, List&lt;BaseRule&gt;&gt; hashMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> AND = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> OR = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> RuleService <span class="hljs-title">create</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RuleService();<br>    &#125;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> RuleService <span class="hljs-title">and</span><span class="hljs-params">(List&lt;BaseRule&gt; ruleList)</span> </span>&#123;<br>        hashMap.put(AND, ruleList);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> RuleService <span class="hljs-title">or</span><span class="hljs-params">(List&lt;BaseRule&gt; ruleList)</span> </span>&#123;<br>        hashMap.put(OR, ruleList);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">execute</span><span class="hljs-params">(RuleDto dto)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span> (Map.Entry&lt;Integer, List&lt;BaseRule&gt;&gt; item : hashMap.entrySet()) &#123;<br>            List&lt;BaseRule&gt; ruleList = item.getValue();<br>            <span class="hljs-keyword">switch</span> (item.getKey()) &#123;<br>                <span class="hljs-keyword">case</span> AND:<br>                    <span class="hljs-comment">// 如果是 and 关系，同步执行</span><br>                    System.out.println(<span class="hljs-string">&quot;execute key = &quot;</span> + <span class="hljs-number">1</span>);<br>                    <span class="hljs-keyword">if</span> (!and(dto, ruleList)) &#123;<br>                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>                    &#125;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">case</span> OR:<br>                    <span class="hljs-comment">// 如果是 or 关系，并行执行</span><br>                    System.out.println(<span class="hljs-string">&quot;execute key = &quot;</span> + <span class="hljs-number">0</span>);<br>                    <span class="hljs-keyword">if</span> (!or(dto, ruleList)) &#123;<br>                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>                    &#125;<br>                    <span class="hljs-keyword">break</span>;<br>                <span class="hljs-keyword">default</span>:<br>                    <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">and</span><span class="hljs-params">(RuleDto dto, List&lt;BaseRule&gt; ruleList)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span> (BaseRule rule : ruleList) &#123;<br>            <span class="hljs-keyword">boolean</span> execute = rule.execute(dto);<br>            <span class="hljs-keyword">if</span> (!execute) &#123;<br>                <span class="hljs-comment">// and 关系匹配失败一次，返回 false</span><br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// and 关系全部匹配成功，返回 true</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">or</span><span class="hljs-params">(RuleDto dto, List&lt;BaseRule&gt; ruleList)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span> (BaseRule rule : ruleList) &#123;<br>            <span class="hljs-keyword">boolean</span> execute = rule.execute(dto);<br>            <span class="hljs-keyword">if</span> (execute) &#123;<br>                <span class="hljs-comment">// or 关系匹配到一个就返回 true</span><br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// or 关系一个都匹配不到就返回 false</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="执行器的调用"><a href="#执行器的调用" class="headerlink" title="执行器的调用"></a><strong>执行器的调用</strong></h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RuleServiceTest</span> </span>&#123;<br><br>    <span class="hljs-meta">@org</span>.junit.<span class="hljs-function">Test</span><br><span class="hljs-function">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">//规则执行器</span><br>        <span class="hljs-comment">//优点：比较简单，每个规则可以独立，将规则，数据，执行器拆分出来，调用方比较规整</span><br>        <span class="hljs-comment">//缺点：数据依赖公共传输对象 dto</span><br><br>        <span class="hljs-comment">//1. 定义规则 init rule</span><br>        AgeRule ageRule = <span class="hljs-keyword">new</span> AgeRule();<br>        NameRule nameRule = <span class="hljs-keyword">new</span> NameRule();<br>        NationalityRule nationalityRule = <span class="hljs-keyword">new</span> NationalityRule();<br>        AddressRule addressRule = <span class="hljs-keyword">new</span> AddressRule();<br>        SubjectRule subjectRule = <span class="hljs-keyword">new</span> SubjectRule();<br><br>        <span class="hljs-comment">//2. 构造需要的数据 create dto</span><br>        RuleDto dto = <span class="hljs-keyword">new</span> RuleDto();<br>        dto.setAge(<span class="hljs-number">5</span>);<br>        dto.setName(<span class="hljs-string">&quot;张三&quot;</span>);<br>        dto.setAddress(<span class="hljs-string">&quot;北京&quot;</span>);<br>        dto.setSubject(<span class="hljs-string">&quot;数学&quot;</span>);;<br><br>        <span class="hljs-comment">//3. 通过以链式调用构建和执行 rule execute</span><br>        <span class="hljs-keyword">boolean</span> ruleResult = RuleService<br>                .create()<br>                .and(Arrays.asList(nationalityRule, nameRule, addressRule))<br>                .or(Arrays.asList(ageRule, subjectRule))<br>                .execute(dto);<br>        System.out.println(<span class="hljs-string">&quot;this student rule execute result :&quot;</span> + ruleResult);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>规则执行器的优点和缺点</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li><p>比较简单，每个规则可以独立，将规则，数据，执行器拆分出来，调用方比较规整；</p>
+</li>
+<li><p>我在 Rule 模板类中定义 convert 方法做参数的转换这样可以能够，为特定 rule 需要的场景数据提供拓展。</p>
+</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<p>上下 rule 有数据依赖性，如果直接修改公共传输对象 dto 这样设计不是很合理，建议提前构建数据。</p>
+<hr>
+<p>地址：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6951764927958745124">https://juejin.cn/post/6951764927958745124</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E9%AB%98%E9%80%BC%E6%A0%BC%E7%9A%84%20SQL%20%E5%86%99%E6%B3%95%EF%BC%9A%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">高逼格的 SQL 写法：行行比较</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%B9%B2%E6%8E%89%20if%20else%EF%BC%812/">
+                        <span class="hidden-mobile">干掉 if else！——2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

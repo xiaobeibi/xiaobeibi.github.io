@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="用 Nginx 禁止国外 IP 访问我的网站  想要实现这个功能有很多方法，下面我就来介绍基于 Nginx 的 ngx_http_geoip2 模块来禁止国外 IP 访问网站。 ①安装 geoip2 扩展依赖：1[root@fxkj ~]# yum install libmaxminddb-devel -y  ②下载 ngx_http_geoip2_module 模块：1[root@fxkj tm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Nginx 禁止国外 IP 访问我的网站">
+<meta property="og:url" content="http://example.com/2022/03/25/%E7%94%A8%20Nginx%20%E7%A6%81%E6%AD%A2%E5%9B%BD%E5%A4%96%20IP%20%E8%AE%BF%E9%97%AE%E6%88%91%E7%9A%84%E7%BD%91%E7%AB%99/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="用 Nginx 禁止国外 IP 访问我的网站  想要实现这个功能有很多方法，下面我就来介绍基于 Nginx 的 ngx_http_geoip2 模块来禁止国外 IP 访问网站。 ①安装 geoip2 扩展依赖：1[root@fxkj ~]# yum install libmaxminddb-devel -y  ②下载 ngx_http_geoip2_module 模块：1[root@fxkj tm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154007.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154018.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154135.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154150.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154213.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154222.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154244.png">
+<meta property="article:published_time" content="2022-03-25T13:46:51.000Z">
+<meta property="article:modified_time" content="2022-03-25T12:40:22.674Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154007.webp">
+  
+  <title>用 Nginx 禁止国外 IP 访问我的网站 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="用 Nginx 禁止国外 IP 访问我的网站">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">用 Nginx 禁止国外 IP 访问我的网站</h1>
+            
+            <div class="markdown-body">
+              <center><h2>用 Nginx 禁止国外 IP 访问我的网站</h2></center>
+
+<p>想要实现这个功能有很多方法，下面我就来介绍基于 Nginx 的 ngx_http_geoip2 模块来禁止国外 IP 访问网站。</p>
+<h2 id="①安装-geoip2-扩展依赖："><a href="#①安装-geoip2-扩展依赖：" class="headerlink" title="①安装 geoip2 扩展依赖："></a>①安装 geoip2 扩展依赖：</h2><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj ~]# yum install libmaxminddb-devel -y<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="②下载-ngx-http-geoip2-module-模块："><a href="#②下载-ngx-http-geoip2-module-模块：" class="headerlink" title="②下载 ngx_http_geoip2_module 模块："></a>②下载 ngx_http_geoip2_module 模块：</h2><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj tmp]#  git clone https://github.com/leev/ngx_http_geoip2_module.git<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="③解压模块到指定路径"><a href="#③解压模块到指定路径" class="headerlink" title="③解压模块到指定路径"></a>③解压模块到指定路径</h2><p>我这里解压到 /usr/local 目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj tmp]# mv ngx_http_geoip2_module/ /usr/local/<br>[root@fxkj local]# ll ngx_http_geoip2_module/<br>total 60<br>-rw-r--r-- 1 root root  1199 Aug 13 17:20 config<br>-rw-r--r-- 1 root root  1311 Aug 13 17:20 LICENSE<br>-rw-r--r-- 1 root root 23525 Aug 13 17:20 ngx_http_geoip2_module.c<br>-rw-r--r-- 1 root root 21029 Aug 13 17:20 ngx_stream_geoip2_module.c<br>-rw-r--r-- 1 root root  3640 Aug 13 17:20 README.md<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="④安装-nginx-模块"><a href="#④安装-nginx-模块" class="headerlink" title="④安装 nginx 模块"></a>④安装 nginx 模块</h2><p>首先说明下环境，我的 nginx 版本是 1.16，在网上查了下安装 ngx_http_geoip2 模块至少需要 1.18 版本及以上，因此此次安装我是升级 nginx1.18，添加 ngx_http_geoip2 模块。</p>
+<p>下载 nginx 1.18 版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj ~]# yum install libmaxminddb-devel -y<br></code></pre></div></td></tr></table></figure>
+
+<p>解压 nginx1.18 软件包，并升级为 nginx1.18，添加 ngx_http_geoip2 模块。</p>
+<p>需要注意：</p>
+<ul>
+<li>升级 nginx，添加 nginx 模块，只需要编译，然后 make。不需要 make instll，不然线上的 nginx 会被新版本 nginx 完完整整的替换掉。</li>
+<li>编译前需要看下 nginx 当前安装了哪些模块。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj tmp]# /usr/local/nginx/sbin/nginx -V<br><br>nginx version: nginx/1.16.0<br><br>built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC)<br><br>built with OpenSSL 1.0.2k-fips 26 Jan 2017<br><br>TLS SNI support enabled<br><br>configure arguments: –with-http_stub_status_module –prefix=/usr/local/nginx –user=nginx –group=nginx –with-http_ssl_module –with-stream<br></code></pre></div></td></tr></table></figure>
+
+<p>编译安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj tmp]# tar -xf nginx-1.18.0.tar.gz<br>[root@fxkj tmp]# cd nginx-1.18.0/<br>[root@fxkj nginx-1.18.0]# ./configure --with-http_stub_status_module \<br>--prefix=/usr/local/nginx \<br>--user=nginx --group=nginx --with-http_ssl_module --with-stream \<br>--add-module=/usr/local/ngx_http_geoip2_module<br>[root@fxkj nginx-1.18.0]# make<br>[root@fxkj nginx-1.18.0]# cp /usr/loca/nginx/sbin/nginx /usr/loca/nginx/sbin/nginx1.16    #备份<br>[root@fxkj nginx-1.18.0]# cp objs/nginx /usr/local/nginx/sbin/    #用新的去覆盖旧的<br>[root@fxkj nginx-1.18.0]# pkill nginx     #杀死nginx<br>[root@fxkj nginx-1.18.0]# /usr/local/nginx/sbin/nginx    #再次启动Nginx<br></code></pre></div></td></tr></table></figure>
+
+<p>查看 nginx 版本，以及安装的模块：</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">[root@fxkj nginx-1.18.0]# /usr/local/nginx/sbin/nginx -V<br><br>nginx version: nginx/1.18.0<br><br>built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC)<br><br>built with OpenSSL 1.0.2k-fips 26 Jan 2017<br><br>TLS SNI support enabled<br><br>configure arguments: –with-http_stub_status_module –prefix=/usr/local/nginx –user=nginx –group=nginx –with-http_ssl_module –with-stream –add-module=/usr/local/ngx_http_geoip2_module<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="⑤下载最新的-IP-地址数据库文件"><a href="#⑤下载最新的-IP-地址数据库文件" class="headerlink" title="⑤下载最新的 IP 地址数据库文件"></a>⑤下载最新的 IP 地址数据库文件</h2><p>模块安装成功后，还要在 Nginx 里指定数据库，在安装运行库时默认安装了两个，位于 /usr/share/GeoIP/ 目录下，一个只有 IPv4，一个包含 IPv4 和 IPv6。</p>
+<p>登录 <a target="_blank" rel="noopener" href="http://www.maxmind.com/">www.maxmind.com</a> 网址，创建账户，下载最新的库文件。（账户创建就不演示了）点击左侧，Download Files：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154007.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>选择 GeoLite2 Country，点击 Download GZIP 下载即可：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154018.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上传到 /usr/share/GeoIP/ 下并解压：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@fxkj <span class="hljs-built_in">local</span>]<span class="hljs-comment"># cd /usr/share/GeoIP/</span><br>[root@fxkj GeoIP]<span class="hljs-comment"># ll</span><br>total 69612<br>lrwxrwxrwx. 1 root root       17 Mar  7  2019 GeoIP.dat -&gt; GeoIP-initial.dat<br>-rw-r--r--. 1 root root  1242574 Oct 30  2018 GeoIP-initial.dat<br>lrwxrwxrwx. 1 root root       19 Mar  7  2019 GeoIPv6.dat -&gt; GeoIPv6-initial.dat<br>-rw-r--r--. 1 root root  2322773 Oct 30  2018 GeoIPv6-initial.dat<br>-rw-r--r--  1 root root  3981623 Aug 12 02:37 GeoLite2-Country.mmdb<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>⑥配置 nginx 配置文件</strong></p>
+<p>修改前先备份配置文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@fxkj ~]<span class="hljs-comment"># cp /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf-bak</span><br>[root@fxkj ~]<span class="hljs-comment"># vim /usr/local/nginx/conf/nginx.conf</span><br></code></pre></div></td></tr></table></figure>
+
+<p>在 http 中添加几行，定义数据库文件位置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">geoip2 /usr/share/GeoIP/GeoLite2-City.mmdb &#123;<br>	auto_reload 5m;<br>	<span class="hljs-variable">$geoip2_data_country_code</span> country iso_code;<br>&#125;<br>map <span class="hljs-variable">$geoip2_data_country_code</span> <span class="hljs-variable">$allowed_country</span> &#123;<br>	default yes;<br>     CN no;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154135.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在 server 中的 location 下添加条件，如果满足 IP 是国外 IP，就执行下面的 return 动作，我这里定义了 3 种，注释了其中两个。</p>
+<p>当访问 IP 是国外 IP，直接返回 404：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span> ($allowed_country = yes) &#123;<br>        # <span class="hljs-keyword">return</span> https:<span class="hljs-comment">//www.baidu.com;</span><br>        # <span class="hljs-keyword">return</span> /home/japan;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">404</span>;<br>        &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154150.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>修改完毕后，检测下配置文件，重新加载下 nginx：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">[root@fxkj ~]<span class="hljs-comment"># /usr/local/nginx/sbin/nginx -t</span><br>nginx: the configuration file /usr/<span class="hljs-built_in">local</span>/nginx/conf/nginx.conf syntax is ok<br>nginx: configuration file /usr/<span class="hljs-built_in">local</span>/nginx/conf/nginx.conf <span class="hljs-built_in">test</span> is successful<br>[roo@fxkj ~]<span class="hljs-comment"># /usr/local/nginx/sbin/nginx -s reload</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="⑦模拟测试验证"><a href="#⑦模拟测试验证" class="headerlink" title="⑦模拟测试验证"></a>⑦模拟测试验证</h2><p>使用海外节点的服务器去访问网站，这里我的 IP 是来自于韩国：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154213.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到访问网站报错 404 Not Found：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154222.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们再来看下 nginx 的访问日志：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">“13.125.1.194 – – [14/Aug/2020:16:15:51 +0800] “GET /favicon.ico HTTP/1.1” 404 548 “https://www.fxkjnj.com/” “Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36”<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705154244.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>至此，我们通过 Nginx 来实现禁止国外 IP 访问网站就结束了~</p>
+<hr>
+<p>转载自@芋道源码</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Nginx/">Nginx</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Nginx/">Nginx</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E7%94%A8Optional%E8%A7%A3%E5%86%B3%E7%A9%BA%E6%8C%87%E9%92%88%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">用 Optional 解决空指针问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E7%94%A8%20Java%20%E7%88%AC%E5%B0%8F%E5%A7%90%E5%A7%90%E5%9B%BE%E7%89%87/">
+                        <span class="hidden-mobile">用 Java 爬小姐姐图片</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

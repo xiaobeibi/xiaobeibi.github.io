@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="如何自己实现 Spring AOP?  代理与装饰器场景描述代理，即替代之意，可替代所有功能，即和原类实现相同的规范。 代理模式和装饰器模式很像，之前的装饰器讲的不是很好，这里换个例子再讲一遍。  宁静的午后，来到咖啡馆，想喝一杯咖啡。  基础实现给你一个咖啡接口： 123456public interface Coffee &amp;#123;    &#x2F;**     * 打印当前咖啡的原材料，即咖啡里有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何自己实现 Spring AOP?">
+<meta property="og:url" content="http://example.com/2022/03/25/%E5%A6%82%E4%BD%95%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%20Spring%20AOP/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="如何自己实现 Spring AOP?  代理与装饰器场景描述代理，即替代之意，可替代所有功能，即和原类实现相同的规范。 代理模式和装饰器模式很像，之前的装饰器讲的不是很好，这里换个例子再讲一遍。  宁静的午后，来到咖啡馆，想喝一杯咖啡。  基础实现给你一个咖啡接口： 123456public interface Coffee &amp;#123;    &#x2F;**     * 打印当前咖啡的原材料，即咖啡里有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232202340.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232204707.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232205810.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232206043.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232209570.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232209284.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.924Z">
+<meta property="article:modified_time" content="2022-03-25T12:46:05.271Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232202340.webp">
+  
+  <title>如何自己实现 Spring AOP? - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="如何自己实现 Spring AOP?">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">如何自己实现 Spring AOP?</h1>
+            
+            <div class="markdown-body">
+              <center><h2>如何自己实现 Spring AOP?</h2></center>
+
+<h1 id="代理与装饰器"><a href="#代理与装饰器" class="headerlink" title="代理与装饰器"></a><strong>代理与装饰器</strong></h1><h2 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a><strong>场景描述</strong></h2><p>代理，即替代之意，可替代所有功能，即和原类实现相同的<strong>规范</strong>。</p>
+<p>代理模式和装饰器模式很像，之前的装饰器讲的不是很好，这里换个例子再讲一遍。</p>
+<blockquote>
+<p><strong>宁静的午后，来到咖啡馆，想喝一杯咖啡。</strong></p>
+</blockquote>
+<h2 id="基础实现"><a href="#基础实现" class="headerlink" title="基础实现"></a><strong>基础实现</strong></h2><p>给你一个咖啡接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Coffee</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 打印当前咖啡的原材料，即咖啡里有什么</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">printMaterial</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>一个默认的苦咖啡的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BitterCoffee</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Coffee</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMaterial</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;咖啡&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>默认的点餐逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Coffee coffee = <span class="hljs-keyword">new</span> BitterCoffee();<br>        coffee.printMaterial();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>点一杯咖啡。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232202340.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a><strong>装饰器模式</strong></h2><p>优雅的服务生把咖啡端了上来，抿了一口，有些苦。想加点糖，对服务生说：“您好，请为我的咖啡加些糖”。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 糖装饰器，用来给咖啡加糖</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SugarDecorator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Coffee</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 持有的咖啡对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Coffee coffee;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SugarDecorator</span><span class="hljs-params">(Coffee coffee)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.coffee = coffee;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMaterial</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;糖&quot;</span>);<br>        <span class="hljs-keyword">this</span>.coffee.printMaterial();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后服务生就拿走了我的咖啡，去使用<code>SugarDecorator</code>为咖啡加糖，最后把加好糖的咖啡给我。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Coffee coffee = <span class="hljs-keyword">new</span> BitterCoffee();<br>        coffee = <span class="hljs-keyword">new</span> SugarDecorator(coffee);<br>        coffee.printMaterial();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>看一看咖啡的成分，对的，确实加上了糖！</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232204707.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>注意看这两行：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Coffee coffee = <span class="hljs-keyword">new</span> BitterCoffee();        <span class="hljs-comment">// 点了一杯苦咖啡</span><br>coffee = <span class="hljs-keyword">new</span> SugarDecorator(coffee);       <span class="hljs-comment">// 给咖啡加了点糖</span><br></code></pre></div></td></tr></table></figure>
+
+<p>装饰器模式适合什么场景，我有一个对象，但是这个对象的功能不能令我满意，我就拿装饰器给他装饰一下。</p>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a><strong>代理模式</strong></h2><p>周末了，又抱着<code>iPad</code>来到了咖啡馆，准备享受一个宁静的下午。</p>
+<p>“先生，请问您要喝点什么？”一旁礼貌的服务生上前问道。</p>
+<p>上次点的咖啡太苦了，这次直接要个加糖的吧。</p>
+<p>“我要一杯加糖咖啡。”</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CoffeeWithSugar</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Coffee</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Coffee coffee;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CoffeeWithSugar</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.coffee = <span class="hljs-keyword">new</span> BitterCoffee();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMaterial</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;糖&quot;</span>);<br>        <span class="hljs-keyword">this</span>.coffee.printMaterial();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这是加糖咖啡，其实内部仍然是咖啡，只是加了些配方，就产生了一种新类，一种新的可以在菜单上呈现的饮品。</p>
+<p>点咖啡：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Coffee coffee = <span class="hljs-keyword">new</span> CoffeeWithSugar();<br>        coffee.printMaterial();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>正合我意，在咖啡的陪伴下度过了一个美好的下午。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232205810.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="差别"><a href="#差别" class="headerlink" title="差别"></a><strong>差别</strong></h2><p>故事讲完了，两者实现的都是对原对象的包装，持有原对象的实例，差别在于对外的表现。</p>
+<p>装饰器模式：点了咖啡，发现太苦了，不是自己想要的，然后用装饰器加了点糖。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Coffee coffee = <span class="hljs-keyword">new</span> BitterCoffee();<br>coffee = <span class="hljs-keyword">new</span> SugarDecorator(coffee);<br></code></pre></div></td></tr></table></figure>
+
+<p>代理模式：直接就点的加糖咖啡。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Coffee coffee = <span class="hljs-keyword">new</span> CoffeeWithSugar();<br></code></pre></div></td></tr></table></figure>
+
+<p>很细微的差别，希望大家不要弄混。</p>
+<h2 id="批评"><a href="#批评" class="headerlink" title="批评"></a><strong>批评</strong></h2><p>去看代理模式相关的资料，五花八门，怎么理解的都有。</p>
+<p>我觉得菜鸟教程的代理模式解释的最为正宗：在代理模式中，我们创建具有现有对象的对象，以便向外界提供功能接口。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232206043.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>还有，网上许多设计模式的文章都是你抄我、我抄你，一个错了，全都错了。</p>
+<p>我觉得我需要纠正一下。谁说代理模式一定要用接口的啊？代理模式是设计模式，设计模式不分语言，假如一门语言中没有接口，那它就不能代理模式了吗？只是<code>Java</code>中的接口可以让我们符合依赖倒置原则进行开发，降低耦合。用抽象类可以吗？可以。用类继承可以吗？也可以。</p>
+<p>思想明白了，用什么写还不是像玩一样？</p>
+<h1 id="AOP"><a href="#AOP" class="headerlink" title="| AOP"></a><strong>| AOP</strong></h1><p>设计模式是思想，所以我上面说的代理模式不是仅适用于接口便与<code>Spring AOP</code>息息相关。</p>
+<p><code>AOP</code>：<code>Aspect Oriented Programming</code>，面向切面编程，是面向对象编程的补充。如果你不明白这句话，好好去学学面向对象就知道为什么了。</p>
+<p>我们会声明切面，即切在某方法之前、之后或前后都执行。而<code>Spring AOP</code>的实现就是代理模式。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a><strong>场景</strong></h2><p>正好最近写过短信验证码，就拿这个来当例子吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SMSService</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">()</span></span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SMSServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SMSService</span> </span>&#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;【梦云智】您正在执行重置密码操作，您的验证码为：1234，5分钟内有效。&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>主函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SMSService smsService = <span class="hljs-keyword">new</span> SMSServiceImpl();<br>        smsService.sendMessage();<br>        smsService.sendMessage();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="费用统计"><a href="#费用统计" class="headerlink" title="费用统计"></a><strong>费用统计</strong></h2><p>老板改需求了，发验证码要花钱，老板想看看一共在短信上花了多少钱。</p>
+<p>正常按<code>Spring</code>的思路，肯定是声明一个切面，来切发短信的方法，然后在切面内统计短信费用。</p>
+<p>只是现在没有框架，也就是这道题：抛开<code>Spring</code>来说，如何自己实现<code>Spring AOP</code>？</p>
+<p>写框架考虑的自然多些，我上文讲的代理是静态代理，编译期间就决定好的。而框架实现却是动态代理，需要在运行时生成代理对象，因为需要进行类扫描，看看哪些个类有切面需要生成代理对象。</p>
+<h2 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a><strong>JDK动态代理</strong></h2><p>编写一个统计短信费用的类实现<code>InvocationHandler</code>接口。</p>
+<p>写到这，终于明白为什么每次后台<code>Debug</code>的时候都会跳转到<code>invoke</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MoneyCountInvocationHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 被代理的目标</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Object target;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 内部存储钱的总数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Double moneyCount;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MoneyCountInvocationHandler</span><span class="hljs-params">(Object target)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.target = target;<br>        <span class="hljs-keyword">this</span>.moneyCount = <span class="hljs-number">0.0</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;<br>        Object result = method.invoke(target, args);<br>        moneyCount += <span class="hljs-number">0.07</span>;<br>        System.out.println(<span class="hljs-string">&quot;发送短信成功，共花了：&quot;</span> + moneyCount + <span class="hljs-string">&quot;元&quot;</span>);<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>将主函数里的<code>smsService</code>替换为使用<code>MoneyCountInvocationHandler</code>处理的代理对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SMSService smsService = <span class="hljs-keyword">new</span> SMSServiceImpl();<br>        smsService = (SMSService) Proxy.newProxyInstance(Main.class.getClassLoader(),<br>                                            <span class="hljs-keyword">new</span> Class[]&#123;SMSService.class&#125;,<br>                                            <span class="hljs-keyword">new</span> MoneyCountInvocationHandler(smsService));<br>        smsService.sendMessage();<br>        smsService.sendMessage();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232209570.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>根据<code>InvocationHandler</code>中的<code>invoke</code>方法动态生成一个类，该类实现<code>SMSService</code>接口，代理对象，就是用这个类实例化的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232209284.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="AOP实现"><a href="#AOP实现" class="headerlink" title="AOP实现"></a><strong>AOP实现</strong></h2><p>上面的都实现了？写一个<code>AOP</code>是不是也不是难事？</p>
+<p>主函数的代码，应该放在<code>IOC</code>容器初始化中，扫描包，去看看哪些个类需要生成代理对象，然后构造代理对象到容器中。</p>
+<p>然后在<code>invoke</code>方法里，把统计费用的逻辑改成切面的逻辑不就好了吗？</p>
+<h2 id="不足分析"><a href="#不足分析" class="headerlink" title="不足分析"></a><strong>不足分析</strong></h2><p>结束了吗？当然没有，上面的方法实现仅对接口有效。</p>
+<p>因为<code>JDK</code>的动态代理，是生成一个实现相应接口的代理类。但是<code>Spring</code>又不是只能通过接口注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> Type xxxxx;<br></code></pre></div></td></tr></table></figure>
+
+<p><code>Spring</code>的<code>@Autowired</code>是通过声明的类型去容器里找符合的对象然后注进来的，接口是类型，类不也是类型吗？</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> SMSService smsService;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样能注进来。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> SMSServiceImpl smsService;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样呢？也能注进来。</p>
+<p>所以，<code>JDK</code>动态代理针对直接注入类类型的，就代理不了。</p>
+<h2 id="cglib动态代理"><a href="#cglib动态代理" class="headerlink" title="cglib动态代理"></a><strong>cglib动态代理</strong></h2><p>自古以来，从来都是时势造英雄，而不是英雄创造了时代。</p>
+<p>出现了问题，自然会有英雄出来解决。拯救世界的就是<code>cglib</code>。</p>
+<p><code>JDK</code>动态代理解决不了的，统统交给<code>cglib</code>。</p>
+<p>就这个来说：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> SMSServiceImpl smsService;<br></code></pre></div></td></tr></table></figure>
+
+<p>不是使用接口注入的，<code>JDK</code>动态代理解决不了。<code>cglib</code>怎么解决的呢？它会根据当前的类，动态生成一个子类，在子类中织入切面逻辑。</p>
+<p>然后使用子类对象代理父类对象。这就是为什么我上面说：代理模式，不要拘泥于接口。</p>
+<p>所以织入成功的，都是子类能把父类覆盖的方法。</p>
+<p>所以<code>cglib</code>也不是万能的，方法是<code>final</code>的，子类重写不了，它当然也无计可施了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="| 总结"></a><strong>| 总结</strong></h1><blockquote>
+<p>读书读的是什么？是真正理解作者的思想，明白作者想歌颂什么、批判什么。</p>
+<p>框架学的是什么？不只是为了提高开发效率，而是在使用的时候，就像与设计者交流一样，能真正明白框架设计者的思想，才算用明白一款框架。</p>
+<p>如果我们都能做到这般，又何愁设计不出一款真正属于自己的框架呢？</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%B0%91%E4%BE%A0%EF%BC%81%E5%A6%82%E4%BD%95%E5%86%99%E4%B8%80%E6%89%8B%E5%A5%BD%20SQL%20%EF%BC%9F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">少侠！如何写一手好 SQL ？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/">
+                        <span class="hidden-mobile">如何优雅处理重复请求/并发请求？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

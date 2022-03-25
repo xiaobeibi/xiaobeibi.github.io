@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="MySQL + JSON &#x3D; 王炸！！  关系型的结构化存储存在一定的弊端，因为它需要预先定义好所有的列以及列对应的类型。但是业务在发展过程中，或许需要扩展单个列的描述功能，这时，如果能用好 JSON 数据类型，那就能打通关系型和非关系型数据的存储之间的界限，为业务提供更好的架构选择。 当然，很多同学在用 JSON 数据类型时会遇到各种各样的问题，其中最容易犯的误区就是将类型 JSON 简单理解成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL + JSON &#x3D; 王炸！！">
+<meta property="og:url" content="http://example.com/2022/03/25/MySQL%20+%20JSON%20=%20%E7%8E%8B%E7%82%B8%EF%BC%81%EF%BC%81/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="MySQL + JSON &#x3D; 王炸！！  关系型的结构化存储存在一定的弊端，因为它需要预先定义好所有的列以及列对应的类型。但是业务在发展过程中，或许需要扩展单个列的描述功能，这时，如果能用好 JSON 数据类型，那就能打通关系型和非关系型数据的存储之间的界限，为业务提供更好的架构选择。 当然，很多同学在用 JSON 数据类型时会遇到各种各样的问题，其中最容易犯的误区就是将类型 JSON 简单理解成">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-25T13:46:50.676Z">
+<meta property="article:modified_time" content="2022-03-25T10:09:45.913Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>MySQL + JSON = 王炸！！ - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL + JSON = 王炸！！">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL + JSON = 王炸！！</h1>
+            
+            <div class="markdown-body">
+              <center><h2>MySQL + JSON = 王炸！！</h2></center>
+
+<p>关系型的结构化存储存在一定的弊端，因为它需要预先定义好所有的列以及列对应的类型。但是业务在发展过程中，或许需要扩展单个列的描述功能，这时，如果能用好 JSON 数据类型，那就能打通关系型和非关系型数据的存储之间的界限，为业务提供更好的架构选择。</p>
+<p>当然，很多同学在用 JSON 数据类型时会遇到各种各样的问题，<strong>其中最容易犯的误区就是将类型 JSON 简单理解成字符串类型</strong>。但当你看完这篇文章后，会真正认识到 JSON 数据类型的威力，从而在实际工作中更好地存储非结构化的数据。</p>
+<h2 id="JSON-数据类型"><a href="#JSON-数据类型" class="headerlink" title="JSON 数据类型"></a>JSON 数据类型</h2><p>JSON（JavaScript Object Notation）主要用于互联网应用服务之间的数据交换。MySQL 支持RFC 7159定义的 JSON 规范，主要有 <strong>JSON 对象</strong> 和 <strong>JSON 数组</strong> 两种类型。下面就是 JSON 对象，主要用来存储图片的相关信息：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json">&#123;<br> <span class="hljs-attr">&quot;Image&quot;</span>: &#123;<br>   <span class="hljs-attr">&quot;Width&quot;</span>: <span class="hljs-number">800</span>,<br>   <span class="hljs-attr">&quot;Height&quot;</span>: <span class="hljs-number">600</span>,<br>   <span class="hljs-attr">&quot;Title&quot;</span>: <span class="hljs-string">&quot;View from 15th Floor&quot;</span>,<br>   <span class="hljs-attr">&quot;Thumbnail&quot;</span>: &#123;<br>     <span class="hljs-attr">&quot;Url&quot;</span>: <span class="hljs-string">&quot;http://www.example.com/image/481989943&quot;</span>,<br>     <span class="hljs-attr">&quot;Height&quot;</span>: <span class="hljs-number">125</span>,<br>     <span class="hljs-attr">&quot;Width&quot;</span>: <span class="hljs-number">100</span><br>   &#125;,<br> <span class="hljs-attr">&quot;IDs&quot;</span>: [<span class="hljs-number">116</span>, <span class="hljs-number">943</span>, <span class="hljs-number">234</span>, <span class="hljs-number">38793</span>]<br> &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>从中你可以看到， JSON 类型可以很好地描述数据的相关内容，比如这张图片的宽度、高度、标题等（这里使用到的类型有整型、字符串类型）。</p>
+<p>JSON对象除了支持字符串、整型、日期类型，JSON 内嵌的字段也支持数组类型，如上代码中的 IDs 字段。</p>
+<p>另一种 JSON 数据类型是数组类型，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs json">[<br>   &#123;<br>     <span class="hljs-attr">&quot;precision&quot;</span>: <span class="hljs-string">&quot;zip&quot;</span>,<br>     <span class="hljs-attr">&quot;Latitude&quot;</span>: <span class="hljs-number">37.7668</span>,<br>     <span class="hljs-attr">&quot;Longitude&quot;</span>: <span class="hljs-number">-122.3959</span>,<br>     <span class="hljs-attr">&quot;Address&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>     <span class="hljs-attr">&quot;City&quot;</span>: <span class="hljs-string">&quot;SAN FRANCISCO&quot;</span>,<br>     <span class="hljs-attr">&quot;State&quot;</span>: <span class="hljs-string">&quot;CA&quot;</span>,<br>     <span class="hljs-attr">&quot;Zip&quot;</span>: <span class="hljs-string">&quot;94107&quot;</span>,<br>     <span class="hljs-attr">&quot;Country&quot;</span>: <span class="hljs-string">&quot;US&quot;</span><br>   &#125;,<br>   &#123;<br>     <span class="hljs-attr">&quot;precision&quot;</span>: <span class="hljs-string">&quot;zip&quot;</span>,<br>     <span class="hljs-attr">&quot;Latitude&quot;</span>: <span class="hljs-number">37.371991</span>,<br>     <span class="hljs-attr">&quot;Longitude&quot;</span>: <span class="hljs-number">-122.026020</span>,<br>     <span class="hljs-attr">&quot;Address&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>     <span class="hljs-attr">&quot;City&quot;</span>: <span class="hljs-string">&quot;SUNNYVALE&quot;</span>,<br>     <span class="hljs-attr">&quot;State&quot;</span>: <span class="hljs-string">&quot;CA&quot;</span>,<br>     <span class="hljs-attr">&quot;Zip&quot;</span>: <span class="hljs-string">&quot;94085&quot;</span>,<br>     <span class="hljs-attr">&quot;Country&quot;</span>: <span class="hljs-string">&quot;US&quot;</span><br>   &#125;<br> ]<br></code></pre></div></td></tr></table></figure>
+
+<p>上面的示例演示的是一个 JSON 数组，其中有 2 个 JSON 对象。</p>
+<p>到目前为止，可能很多同学会把 JSON 当作一个很大的字段串类型，从表面上来看，没有错。但本质上，JSON 是一种新的类型，有自己的存储格式，还能在每个对应的字段上创建索引，做特定的优化，这是传统字段串无法实现的。JSON 类型的另一个好处是<strong>无须预定义字段</strong>，字段可以无限扩展。而传统关系型数据库的列都需预先定义，想要扩展需要执行 ALTER TABLE … ADD COLUMN … 这样比较重的操作。</p>
+<p>需要注意是，JSON 类型是从 MySQL 5.7 版本开始支持的功能，而 8.0 版本解决了更新 JSON 的日志性能瓶颈。如果要在生产环境中使用 JSON 数据类型，强烈推荐使用 MySQL 8.0 版本。</p>
+<p>讲到这儿，你已经对 JSON 类型的基本概念有所了解了，接下来，我们进入实战环节：如何在业务中用好JSON类型？</p>
+<h2 id="业务表结构设计实战"><a href="#业务表结构设计实战" class="headerlink" title="业务表结构设计实战"></a>业务表结构设计实战</h2><h3 id="用户登录设计"><a href="#用户登录设计" class="headerlink" title="用户登录设计"></a>用户登录设计</h3><p>在数据库中，<strong>JSON 类型比较适合存储一些修改较少、相对静态的数据</strong>，比如用户登录信息的存储如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> UserLogin;<br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> UserLogin (<br>    userId <span class="hljs-type">BIGINT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    loginInfo JSON,<br>    <span class="hljs-keyword">PRIMARY</span> KEY(userId)<br>);<br></code></pre></div></td></tr></table></figure>
+
+<p>由于当前业务的登录方式越来越多样化，如同一账户支持手机、微信、QQ 账号登录，所以这里可以用 JSON 类型存储登录的信息。</p>
+<p>接着，插入下面的数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> <span class="hljs-variable">@a</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;</span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string">   &quot;cellphone&quot; : &quot;13918888888&quot;,</span><br><span class="hljs-string">   &quot;wxchat&quot; : &quot;破产码农&quot;,</span><br><span class="hljs-string">   &quot;QQ&quot; : &quot;82946772&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">&#x27;</span>;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> UserLogin <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>,<span class="hljs-variable">@a</span>);<br><br><span class="hljs-keyword">SET</span> <span class="hljs-variable">@b</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;</span><br><span class="hljs-string">&#123;  </span><br><span class="hljs-string">  &quot;cellphone&quot; : &quot;15026888888&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">&#x27;</span>;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> UserLogin <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>,<span class="hljs-variable">@b</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>从上面的例子中可以看到，用户 1 登录有三种方式：手机验证码登录、微信登录、QQ 登录，而用户 2 只有手机验证码登录。</p>
+<p>而如果不采用 JSON 数据类型，就要用下面的方式建表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span><br>    userId,<br>    JSON_UNQUOTE(JSON_EXTRACT(loginInfo,&quot;$.cellphone&quot;)) cellphone,<br>    JSON_UNQUOTE(JSON_EXTRACT(loginInfo,&quot;$.wxchat&quot;)) wxchat<br><span class="hljs-keyword">FROM</span> UserLogin;<br><span class="hljs-operator">+</span><span class="hljs-comment">--------+-------------+--------------+</span><br><span class="hljs-operator">|</span> userId <span class="hljs-operator">|</span> cellphone   <span class="hljs-operator">|</span> wxchat       <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+-------------+--------------+</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">1</span> <span class="hljs-operator">|</span> <span class="hljs-number">13918888888</span> <span class="hljs-operator">|</span> 破产码农     <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">2</span> <span class="hljs-operator">|</span> <span class="hljs-number">15026888888</span> <span class="hljs-operator">|</span> <span class="hljs-keyword">NULL</span>         <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+-------------+--------------+</span><br><span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.01</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>当然了，每次写 JSON_EXTRACT、JSON_UNQUOTE 非常麻烦，MySQL 还提供了 -&gt;&gt; 表达式，和上述 SQL 效果完全一样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <br>    userId,<br>    loginInfo<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span>&quot;$.cellphone&quot; cellphone,<br>    loginInfo<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span>&quot;$.wxchat&quot; wxchat<br><span class="hljs-keyword">FROM</span> UserLogin;<br></code></pre></div></td></tr></table></figure>
+
+<p>当 JSON 数据量非常大，用户希望对 JSON 数据进行有效检索时，可以利用 MySQL 的 <strong>函数索引</strong> 功能对 JSON 中的某个字段进行索引。</p>
+<p>比如在上面的用户登录示例中，假设用户必须绑定唯一手机号，且希望未来能用手机号码进行用户检索时，可以创建下面的索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> UserLogin <span class="hljs-keyword">ADD</span> <span class="hljs-keyword">COLUMN</span> cellphone <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">AS</span> (loginInfo<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span>&quot;$.cellphone&quot;);<br><br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> UserLogin <span class="hljs-keyword">ADD</span> <span class="hljs-keyword">UNIQUE</span> INDEX idx_cellphone(cellphone);<br></code></pre></div></td></tr></table></figure>
+
+<p>上述 SQL 首先创建了一个虚拟列 cellphone，这个列是由函数 loginInfo-&gt;&gt;”$.cellphone” 计算得到的。然后在这个虚拟列上创建一个唯一索引 idx_cellphone。这时再通过虚拟列 cellphone 进行查询，就可以看到优化器会使用到新创建的 idx_cellphone 索引：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span>  <span class="hljs-operator">*</span>  <span class="hljs-keyword">FROM</span> UserLogin <br><span class="hljs-keyword">WHERE</span> cellphone <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;13918888888&#x27;</span>\G<br><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span> <span class="hljs-number">1.</span> <span class="hljs-type">row</span> <span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><br>           id: <span class="hljs-number">1</span><br>  select_type: SIMPLE<br>        <span class="hljs-keyword">table</span>: UserLogin<br>   partitions: <span class="hljs-keyword">NULL</span><br>         type: const<br>possible_keys: idx_cellphone<br>          key: idx_cellphone<br>      key_len: <span class="hljs-number">1023</span><br>          <span class="hljs-keyword">ref</span>: const<br>         <span class="hljs-keyword">rows</span>: <span class="hljs-number">1</span><br>     filtered: <span class="hljs-number">100.00</span><br>        Extra: <span class="hljs-keyword">NULL</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span>, <span class="hljs-number">1</span> warning (<span class="hljs-number">0.00</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>当然，我们可以在一开始创建表的时候，就完成虚拟列及函数索引的创建。如下表创建的列 cellphone 对应的就是 JSON 中的内容，是个虚拟列；uk_idx_cellphone 就是在虚拟列 cellphone 上所创建的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> UserLogin (<br>    userId <span class="hljs-type">BIGINT</span>,<br>    loginInfo JSON,<br>    cellphone <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">AS</span> (loginInfo<span class="hljs-operator">-</span><span class="hljs-operator">&gt;&gt;</span>&quot;$.cellphone&quot;),<br>    <span class="hljs-keyword">PRIMARY</span> KEY(userId),<br>    <span class="hljs-keyword">UNIQUE</span> KEY uk_idx_cellphone(cellphone)<br>);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="用户画像设计"><a href="#用户画像设计" class="headerlink" title="用户画像设计"></a>用户画像设计</h3><p>某些业务需要做用户画像（也就是对用户打标签），然后根据用户的标签，通过数据挖掘技术，进行相应的产品推荐。比如：</p>
+<ul>
+<li>在电商行业中，根据用户的穿搭喜好，推荐相应的商品；</li>
+<li>在音乐行业中，根据用户喜欢的音乐风格和常听的歌手，推荐相应的歌曲；</li>
+<li>在金融行业，根据用户的风险喜好和投资经验，推荐相应的理财产品。</li>
+</ul>
+<p>在这，我强烈推荐你用 JSON 类型在数据库中存储用户画像信息，并结合 JSON 数组类型和多值索引的特点进行高效查询。假设有张画像定义表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Tags (<br>    tagId <span class="hljs-type">bigint</span> auto_increment,<br>    tagName <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    <span class="hljs-keyword">primary</span> key(tagId)<br>);<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> Tags;<br><span class="hljs-operator">+</span><span class="hljs-comment">-------+--------------+</span><br><span class="hljs-operator">|</span> tagId <span class="hljs-operator">|</span> tagName      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-------+--------------+</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">1</span> <span class="hljs-operator">|</span> <span class="hljs-number">70</span>后         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">2</span> <span class="hljs-operator">|</span> <span class="hljs-number">80</span>后         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">3</span> <span class="hljs-operator">|</span> <span class="hljs-number">90</span>后         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">4</span> <span class="hljs-operator">|</span> <span class="hljs-number">00</span>后         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">5</span> <span class="hljs-operator">|</span> 爱运动       <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">6</span> <span class="hljs-operator">|</span> 高学历       <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">7</span> <span class="hljs-operator">|</span> 小资         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">8</span> <span class="hljs-operator">|</span> 有房         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>     <span class="hljs-number">9</span> <span class="hljs-operator">|</span> 有车         <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>    <span class="hljs-number">10</span> <span class="hljs-operator">|</span> 常看电影     <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>    <span class="hljs-number">11</span> <span class="hljs-operator">|</span> 爱网购       <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>    <span class="hljs-number">12</span> <span class="hljs-operator">|</span> 爱外卖       <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-------+--------------+</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以看到，表 Tags 是一张画像定义表，用于描述当前定义有多少个标签，接着给每个用户打标签，比如用户 David，他的标签是 80 后、高学历、小资、有房、常看电影；用户 Tom，90 后、常看电影、爱外卖。</p>
+<p>若不用 JSON 数据类型进行标签存储，通常会将用户标签通过字符串，加上分割符的方式，在一个字段中存取用户所有的标签：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-operator">+</span><span class="hljs-comment">-------+---------------------------------------+</span><br><span class="hljs-operator">|</span>用户    <span class="hljs-operator">|</span>标签                                   <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-------+---------------------------------------+</span><br><span class="hljs-operator">|</span>David  <span class="hljs-operator">|</span><span class="hljs-number">80</span>后 ； 高学历 ； 小资 ； 有房 ；常看电影 <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>Tom    <span class="hljs-operator">|</span><span class="hljs-number">90</span>后 ；常看电影 ； 爱外卖                <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">-------+---------------------------------------+</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>这样做的缺点是</strong>：不好搜索特定画像的用户，另外分隔符也是一种自我约定，在数据库中其实可以任意存储其他数据，最终产生脏数据。</p>
+<p>用 JSON 数据类型就能很好解决这个问题：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> UserTag;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> UserTag (<br>    userId <span class="hljs-type">bigint</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    userTags JSON,<br>    <span class="hljs-keyword">PRIMARY</span> KEY (userId)<br>);<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> UserTag <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;[2,6,8,10]&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> UserTag <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;[3,10,12]&#x27;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>其中，userTags 存储的标签就是表 Tags 已定义的那些标签值，只是使用 JSON 数组类型进行存储。</p>
+<p>MySQL 8.0.17 版本开始支持 Multi-Valued Indexes，用于在 JSON 数组上创建索引，并通过函数 member of、json_contains、json_overlaps 来快速检索索引数据。所以你可以在表 UserTag 上创建 Multi-Valued Indexes：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> UserTag<br><span class="hljs-keyword">ADD</span> INDEX idx_user_tags ((<span class="hljs-built_in">cast</span>((userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;) <span class="hljs-keyword">as</span> unsigned <span class="hljs-keyword">array</span>)));<br></code></pre></div></td></tr></table></figure>
+
+<p>如果想要查询用户画像为常看电影的用户，可以使用函数 MEMBER OF：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> <span class="hljs-number">10</span> <span class="hljs-keyword">MEMBER</span> <span class="hljs-keyword">OF</span>(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;)\G<br><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span> <span class="hljs-number">1.</span> <span class="hljs-type">row</span> <span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><br>           id: <span class="hljs-number">1</span><br>  select_type: SIMPLE<br>        <span class="hljs-keyword">table</span>: UserTag<br>   partitions: <span class="hljs-keyword">NULL</span><br>         type: <span class="hljs-keyword">ref</span><br>possible_keys: idx_user_tags<br>          key: idx_user_tags<br>      key_len: <span class="hljs-number">9</span><br>          <span class="hljs-keyword">ref</span>: const<br>         <span class="hljs-keyword">rows</span>: <span class="hljs-number">1</span><br>     filtered: <span class="hljs-number">100.00</span><br>        Extra: <span class="hljs-keyword">Using</span> <span class="hljs-keyword">where</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span>, <span class="hljs-number">1</span> warning (<span class="hljs-number">0.00</span> sec)<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> <span class="hljs-number">10</span> <span class="hljs-keyword">MEMBER</span> <span class="hljs-keyword">OF</span>(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;);<br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span> userId <span class="hljs-operator">|</span> userTags      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">1</span> <span class="hljs-operator">|</span> [<span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>] <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">2</span> <span class="hljs-operator">|</span> [<span class="hljs-number">3</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>]   <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>如果想要查询画像为 80 后，且常看电影的用户，可以使用函数 JSON_CONTAINS：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> JSON_CONTAINS(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;, <span class="hljs-string">&#x27;[2,10]&#x27;</span>)\G<br><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span> <span class="hljs-number">1.</span> <span class="hljs-type">row</span> <span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><br>           id: <span class="hljs-number">1</span><br>  select_type: SIMPLE<br>        <span class="hljs-keyword">table</span>: UserTag<br>   partitions: <span class="hljs-keyword">NULL</span><br>         type: <span class="hljs-keyword">range</span><br>possible_keys: idx_user_tags<br>          key: idx_user_tags<br>      key_len: <span class="hljs-number">9</span><br>          <span class="hljs-keyword">ref</span>: <span class="hljs-keyword">NULL</span><br>         <span class="hljs-keyword">rows</span>: <span class="hljs-number">3</span><br>     filtered: <span class="hljs-number">100.00</span><br>        Extra: <span class="hljs-keyword">Using</span> <span class="hljs-keyword">where</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span>, <span class="hljs-number">1</span> warning (<span class="hljs-number">0.00</span> sec)<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> JSON_CONTAINS(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;, <span class="hljs-string">&#x27;[2,10]&#x27;</span>);<br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span> userId <span class="hljs-operator">|</span> userTags      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">1</span> <span class="hljs-operator">|</span> [<span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>] <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<p>如果想要查询画像为 80 后、90 后，且常看电影的用户，则可以使用函数 JSON_OVERLAP：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> JSON_OVERLAPS(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;, <span class="hljs-string">&#x27;[2,3,10]&#x27;</span>)\G<br><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span> <span class="hljs-number">1.</span> <span class="hljs-type">row</span> <span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><span class="hljs-operator">*</span><br>           id: <span class="hljs-number">1</span><br>  select_type: SIMPLE<br>        <span class="hljs-keyword">table</span>: UserTag<br>   partitions: <span class="hljs-keyword">NULL</span><br>         type: <span class="hljs-keyword">range</span><br>possible_keys: idx_user_tags<br>          key: idx_user_tags<br>      key_len: <span class="hljs-number">9</span><br>          <span class="hljs-keyword">ref</span>: <span class="hljs-keyword">NULL</span><br>         <span class="hljs-keyword">rows</span>: <span class="hljs-number">4</span><br>     filtered: <span class="hljs-number">100.00</span><br>        Extra: <span class="hljs-keyword">Using</span> <span class="hljs-keyword">where</span><br><span class="hljs-number">1</span> <span class="hljs-type">row</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span>, <span class="hljs-number">1</span> warning (<span class="hljs-number">0.00</span> sec)<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> UserTag <br><span class="hljs-keyword">WHERE</span> JSON_OVERLAPS(userTags<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>&quot;$&quot;, <span class="hljs-string">&#x27;[2,3,10]&#x27;</span>);<br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span> userId <span class="hljs-operator">|</span> userTags      <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">1</span> <span class="hljs-operator">|</span> [<span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>] <span class="hljs-operator">|</span><br><span class="hljs-operator">|</span>      <span class="hljs-number">2</span> <span class="hljs-operator">|</span> [<span class="hljs-number">3</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>]   <span class="hljs-operator">|</span><br><span class="hljs-operator">+</span><span class="hljs-comment">--------+---------------+</span><br><span class="hljs-number">2</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.01</span> sec)<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JSON 类型是 MySQL 5.7 版本新增的数据类型，用好 JSON 数据类型可以有效解决很多业务中实际问题。</p>
+<p>最后，我总结下今天的重点内容：</p>
+<ul>
+<li>使用 JSON 数据类型，推荐用 MySQL 8.0.17 以上的版本，性能更好，同时也支持 Multi-Valued Indexes；</li>
+<li>JSON 数据类型的好处是无须预先定义列，数据本身就具有很好的描述性；</li>
+<li>不要将有明显关系型的数据用 JSON 存储，如用户余额、用户姓名、用户身份证等，这些都是每个用户必须包含的数据；</li>
+<li>JSON 数据类型推荐使用在不经常更新的静态数据存储。</li>
+</ul>
+<blockquote>
+<p>来源：blog.csdn.net/java_pfx/article/details/11659465</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/">Database</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Database/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL 8.0 新特性：直方图</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/MyBatis-Plus%20%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/">
+                        <span class="hidden-mobile">MyBatis-Plus 看这篇就够了</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

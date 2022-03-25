@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="优雅的实现 Excel 导入导出  日常在做后台系统的时候会很频繁的遇到Excel导入导出的问题，正好这次在做一个后台系统，就想着写一个公用工具来进行Excel的导入导出。 一般我们在导出的时候都是导出的前端表格，而前端表格同时也会对应的在后台有一个映射类。 所以在写这个工具的时候我们先理一下我们需要实现的效果：  导出方法接收一个list集合，和一个Class类型，和HttpServletRes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅的实现 Excel 导入导出">
+<meta property="og:url" content="http://example.com/2022/03/25/%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0%20Excel%20%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="优雅的实现 Excel 导入导出  日常在做后台系统的时候会很频繁的遇到Excel导入导出的问题，正好这次在做一个后台系统，就想着写一个公用工具来进行Excel的导入导出。 一般我们在导出的时候都是导出的前端表格，而前端表格同时也会对应的在后台有一个映射类。 所以在写这个工具的时候我们先理一下我们需要实现的效果：  导出方法接收一个list集合，和一个Class类型，和HttpServletRes">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102043918.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046730.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046976.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046134.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046702.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047504.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047057.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047011.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102048482.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102048942.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:51.006Z">
+<meta property="article:modified_time" content="2022-03-25T12:26:14.122Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102043918.webp">
+  
+  <title>优雅的实现 Excel 导入导出 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="优雅的实现 Excel 导入导出">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">优雅的实现 Excel 导入导出</h1>
+            
+            <div class="markdown-body">
+              <center><h2>优雅的实现 Excel 导入导出</h2></center>
+
+<p>日常在做后台系统的时候会很频繁的遇到Excel导入导出的问题，正好这次在做一个后台系统，就想着写一个公用工具来进行Excel的导入导出。</p>
+<p>一般我们在导出的时候都是导出的前端表格，而前端表格同时也会对应的在后台有一个映射类。</p>
+<p>所以在写这个工具的时候我们先理一下我们需要实现的效果：</p>
+<ul>
+<li>导出方法接收一个list集合，和一个Class类型，和HttpServletResponse 对象</li>
+<li>导出是可能会有下拉列表，所以需要一个map存储下拉列表数据源，传入参数后只需一行代码即可导出</li>
+<li>导入方法需要传入file文件，以及一个Class类型，导入之后将会返回一个list集合，里面的对象就是传入类型的对象，传入参数后只需一行代码即可导入</li>
+</ul>
+<h3 id="实现过程："><a href="#实现过程：" class="headerlink" title="实现过程："></a><strong>实现过程：</strong></h3><p>首先需要创建三个注解</p>
+<p>一个是EnableExport ，必须有这个注解才能导出</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 设置允许导出</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableExport &#123;<br>     <span class="hljs-function">String <span class="hljs-title">fileName</span><span class="hljs-params">()</span></span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后就是EnableExportField，有这个注解的字段才会导出到Excel里面，并且可以设置列宽</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 设置该字段允许导出</span><br><span class="hljs-comment"> * 并且可以设置宽度</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(ElementType.FIELD)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableExportField &#123;<br>     <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">colWidth</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span>  100</span>;<br>     <span class="hljs-function">String <span class="hljs-title">colName</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>再就是ImportIndex，导入的时候设置Excel中的列对应的序号</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 导入时索引</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(ElementType.FIELD)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ImportIndex &#123;<br>     <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">index</span><span class="hljs-params">()</span> </span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>注解使用示例</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102043918.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="三个注解创建好之后就需要开始操作Excel了"><a href="#三个注解创建好之后就需要开始操作Excel了" class="headerlink" title="三个注解创建好之后就需要开始操作Excel了"></a><strong>三个注解创建好之后就需要开始操作Excel了</strong></h3><p>首先，导入方法。在后台接收到前端上传的Excel文件之后，使用poi来读取Excel文件</p>
+<p>我们根据传入的类型上面的字段注解的顺序来分别为不同的字段赋值，然后存入集合中，再返回</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 将Excel转换为对象集合</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> excel Excel 文件</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> clazz pojo类型</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;Object&gt; <span class="hljs-title">parseExcelToList</span><span class="hljs-params">(File excel,Class clazz)</span></span>&#123;<br>    List&lt;Object&gt; res = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    <span class="hljs-comment">// 创建输入流，读取Excel</span><br>    InputStream is = <span class="hljs-keyword">null</span>;<br>    Sheet sheet = <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        is = <span class="hljs-keyword">new</span> FileInputStream(excel.getAbsolutePath());<br>        <span class="hljs-keyword">if</span> (is != <span class="hljs-keyword">null</span>) &#123;<br>            Workbook workbook = WorkbookFactory.create(is);<br>            <span class="hljs-comment">//默认只获取第一个工作表</span><br>            sheet = workbook.getSheetAt(<span class="hljs-number">0</span>);<br>            <span class="hljs-keyword">if</span> (sheet != <span class="hljs-keyword">null</span>) &#123;<br>             <span class="hljs-comment">//前两行是标题</span><br>                <span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>;<br>                String values[] ;<br>                Row row = sheet.getRow(i);<br>                <span class="hljs-keyword">while</span> (row != <span class="hljs-keyword">null</span>) &#123;<br>                    <span class="hljs-comment">//获取单元格数目</span><br>                    <span class="hljs-keyword">int</span> cellNum = row.getPhysicalNumberOfCells();<br>                    values = <span class="hljs-keyword">new</span> String[cellNum];<br>                    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= cellNum; j++) &#123;<br>                        Cell cell = row.getCell(j);<br>                        <span class="hljs-keyword">if</span> (cell != <span class="hljs-keyword">null</span>) &#123;<br>                            <span class="hljs-comment">//设置单元格内容类型</span><br>                            cell.setCellType(Cell.CELL_TYPE_STRING);<br>                            <span class="hljs-comment">//获取单元格值</span><br>                            String value = cell.getStringCellValue() == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : cell.getStringCellValue();<br>                            values[j]=value;<br>                        &#125;<br>                    &#125;<br>                    Field[] fields = clazz.getDeclaredFields();<br>                    Object obj = clazz.newInstance();<br>                    <span class="hljs-keyword">for</span>(Field f : fields)&#123;<br>                        <span class="hljs-keyword">if</span>(f.isAnnotationPresent(ImportIndex.class))&#123;<br>                            ImportIndex annotation = f.getDeclaredAnnotation(ImportIndex.class);<br>                            <span class="hljs-keyword">int</span> index = annotation.index();<br>                            f.setAccessible(<span class="hljs-keyword">true</span>);<br>                            <span class="hljs-comment">//此处使用了阿里巴巴的fastjson包里面的一个类型转换工具类</span><br>                            Object val =TypeUtils.cast(values[index],f.getType(),<span class="hljs-keyword">null</span>);<br>                            f.set(obj,val);<br>                        &#125;<br>                    &#125;<br>                    res.add(obj);<br>                    i++;<br>                    row=sheet.getRow(i);<br>                &#125;<br><br>            &#125;<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>接下来就是导出方法。</p>
+<p>导出分为几个步骤：</p>
+<ol>
+<li>建立一个工作簿，也就是类型新建一个Excel文件</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046730.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>建立一张sheet表</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046976.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>设置标的行高和列宽</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046134.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>绘制标题和表头</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102046702.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这两个方法是自定义方法，代码会贴在后面</p>
+<ol>
+<li>写入数据到Excel</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047504.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>创建下拉列表</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047057.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol>
+<li>写入文件到response</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102047011.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>到这里导出工作就完成了</p>
+<h3 id="下面是一些自定义方法的代码"><a href="#下面是一些自定义方法的代码" class="headerlink" title="下面是一些自定义方法的代码"></a><strong>下面是一些自定义方法的代码</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取一个基本的带边框的单元格</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> workbook</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> HSSFCellStyle <span class="hljs-title">getBasicCellStyle</span><span class="hljs-params">(HSSFWorkbook workbook)</span></span>&#123;<br>    HSSFCellStyle hssfcellstyle = workbook.createCellStyle();<br>    hssfcellstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);<br>    hssfcellstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);<br>    hssfcellstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);<br>    hssfcellstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);<br>    hssfcellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);<br>    hssfcellstyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);<br>    hssfcellstyle.setWrapText(<span class="hljs-keyword">true</span>);<br>    <span class="hljs-keyword">return</span> hssfcellstyle;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 获取带有背景色的标题单元格</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> workbook</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> HSSFCellStyle <span class="hljs-title">getTitleCellStyle</span><span class="hljs-params">(HSSFWorkbook workbook)</span></span>&#123;<br>    HSSFCellStyle hssfcellstyle =  getBasicCellStyle(workbook);<br>    hssfcellstyle.setFillForegroundColor((<span class="hljs-keyword">short</span>) HSSFColor.CORNFLOWER_BLUE.index); <span class="hljs-comment">// 设置背景色</span><br>    hssfcellstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);<br>    <span class="hljs-keyword">return</span> hssfcellstyle;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 创建一个跨列的标题行</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> workbook</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfRow</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfcell</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfsheet</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> allColNum</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> title</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createTitle</span><span class="hljs-params">(HSSFWorkbook workbook, HSSFRow hssfRow , HSSFCell hssfcell, HSSFSheet hssfsheet,<span class="hljs-keyword">int</span> allColNum,String title)</span></span>&#123;<br>    <span class="hljs-comment">//在sheet里增加合并单元格</span><br>    CellRangeAddress cra = <span class="hljs-keyword">new</span> CellRangeAddress(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, allColNum);<br>    hssfsheet.addMergedRegion(cra);<br>    <span class="hljs-comment">// 使用RegionUtil类为合并后的单元格添加边框</span><br>    RegionUtil.setBorderBottom(<span class="hljs-number">1</span>, cra, hssfsheet, workbook); <span class="hljs-comment">// 下边框</span><br>    RegionUtil.setBorderLeft(<span class="hljs-number">1</span>, cra, hssfsheet, workbook); <span class="hljs-comment">// 左边框</span><br>    RegionUtil.setBorderRight(<span class="hljs-number">1</span>, cra, hssfsheet, workbook); <span class="hljs-comment">// 有边框</span><br>    RegionUtil.setBorderTop(<span class="hljs-number">1</span>, cra, hssfsheet, workbook); <span class="hljs-comment">// 上边框</span><br><br>    <span class="hljs-comment">//设置表头</span><br>    hssfRow = hssfsheet.getRow(<span class="hljs-number">0</span>);<br>    hssfcell = hssfRow.getCell(<span class="hljs-number">0</span>);<br>    hssfcell.setCellStyle( getTitleCellStyle(workbook));<br>    hssfcell.setCellType(HSSFCell.CELL_TYPE_STRING);<br>    hssfcell.setCellValue(title);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 设置表头标题栏以及表格高度</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> workbook</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfRow</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfcell</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> hssfsheet</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> colNames</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createHeadRow</span><span class="hljs-params">(HSSFWorkbook workbook,HSSFRow hssfRow , HSSFCell hssfcell,HSSFSheet hssfsheet,List&lt;String&gt; colNames)</span></span>&#123;<br>    <span class="hljs-comment">//插入标题行</span><br>    hssfRow = hssfsheet.createRow(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; colNames.size(); i++) &#123;<br>        hssfcell = hssfRow.createCell(i);<br>        hssfcell.setCellStyle(getTitleCellStyle(workbook));<br>        hssfcell.setCellType(HSSFCell.CELL_TYPE_STRING);<br>        hssfcell.setCellValue(colNames.get(i));<br>    &#125;<br>&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * excel添加下拉数据校验</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> sheet 哪个 sheet 页添加校验</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createDataValidation</span><span class="hljs-params">(Sheet sheet,Map&lt;Integer,String[]&gt; selectListMap)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(selectListMap!=<span class="hljs-keyword">null</span>) &#123;<br>        selectListMap.forEach(<br>                <span class="hljs-comment">// 第几列校验（0开始）key 数据源数组value</span><br>                (key, value) -&gt; &#123;<br>                    <span class="hljs-keyword">if</span>(value.length&gt;<span class="hljs-number">0</span>) &#123;<br>                        CellRangeAddressList cellRangeAddressList = <span class="hljs-keyword">new</span> CellRangeAddressList(<span class="hljs-number">2</span>, <span class="hljs-number">65535</span>, key, key);<br>                        DataValidationHelper helper = sheet.getDataValidationHelper();<br>                        DataValidationConstraint constraint = helper.createExplicitListConstraint(value);<br>                        DataValidation dataValidation = helper.createValidation(constraint, cellRangeAddressList);<br>                        <span class="hljs-comment">//处理Excel兼容性问题</span><br>                        <span class="hljs-keyword">if</span> (dataValidation <span class="hljs-keyword">instanceof</span> XSSFDataValidation) &#123;<br>                            dataValidation.setSuppressDropDownArrow(<span class="hljs-keyword">true</span>);<br>                            dataValidation.setShowErrorBox(<span class="hljs-keyword">true</span>);<br>                        &#125; <span class="hljs-keyword">else</span> &#123;<br>                            dataValidation.setSuppressDropDownArrow(<span class="hljs-keyword">false</span>);<br>                        &#125;<br>                        dataValidation.setEmptyCellAllowed(<span class="hljs-keyword">true</span>);<br>                        dataValidation.setShowPromptBox(<span class="hljs-keyword">true</span>);<br>                        dataValidation.createPromptBox(<span class="hljs-string">&quot;提示&quot;</span>, <span class="hljs-string">&quot;只能选择下拉框里面的数据&quot;</span>);<br>                        sheet.addValidationData(dataValidation);<br>                    &#125;<br>                &#125;<br>        );<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>使用实例</strong></p>
+<p>导出数据</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102048482.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>导入数据（返回对象List）</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102048942.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>源码地址：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xyz0101/excelutils">https://github.com/xyz0101/excelutils</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%20ThreadLocal/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">优雅的使用 ThreadLocal</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E4%BC%98%E9%9B%85%E5%9C%B0%E5%A4%84%E7%90%86%E4%BD%A0%E7%9A%84%20Java%20%E5%BC%82%E5%B8%B8/">
+                        <span class="hidden-mobile">优雅地处理你的 Java 异常</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

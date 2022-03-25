@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Java 日常开发的 21 个坑  1. 六类典型空指针问题 包装类型的空指针问题 级联调用的空指针问题 Equals方法左边的空指针问题 ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。 集合，数组直接获取元素 对象直接获取属性  1.1包装类型的空指针问题12345678910public class NullPointTest &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 日常开发的 21 个坑">
+<meta property="og:url" content="http://example.com/2022/03/25/Java%20%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E7%9A%84%2021%20%E4%B8%AA%E5%9D%91/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Java 日常开发的 21 个坑  1. 六类典型空指针问题 包装类型的空指针问题 级联调用的空指针问题 Equals方法左边的空指针问题 ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。 集合，数组直接获取元素 对象直接获取属性  1.1包装类型的空指针问题12345678910public class NullPointTest &amp;#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143029.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143228.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143240.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143523.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143534.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143710.png">
+<meta property="article:published_time" content="2022-03-25T13:46:50.637Z">
+<meta property="article:modified_time" content="2022-03-25T12:17:58.072Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143029.png">
+  
+  <title>Java 日常开发的 21 个坑 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java 日常开发的 21 个坑">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      19k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      58 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java 日常开发的 21 个坑</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Java 日常开发的 21 个坑</h2></center>
+
+<h3 id="1-六类典型空指针问题"><a href="#1-六类典型空指针问题" class="headerlink" title="1. 六类典型空指针问题"></a>1. 六类典型空指针问题</h3><ul>
+<li>包装类型的空指针问题</li>
+<li>级联调用的空指针问题</li>
+<li>Equals方法左边的空指针问题</li>
+<li>ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。</li>
+<li>集合，数组直接获取元素</li>
+<li>对象直接获取属性</li>
+</ul>
+<h4 id="1-1包装类型的空指针问题"><a href="#1-1包装类型的空指针问题" class="headerlink" title="1.1包装类型的空指针问题"></a>1.1包装类型的空指针问题</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        System.out.println(testInteger(<span class="hljs-keyword">null</span>));<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">testInteger</span><span class="hljs-params">(Integer i)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> i + <span class="hljs-number">1</span>;  <span class="hljs-comment">//包装类型，传参可能为null，直接计算，则会导致空指针问题</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="1-2-级联调用的空指针问题"><a href="#1-2-级联调用的空指针问题" class="headerlink" title="1.2 级联调用的空指针问题"></a>1.2 级联调用的空指针问题</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>       <span class="hljs-comment">//fruitService.getAppleService() 可能为空，会导致空指针问题</span><br>        fruitService.getAppleService().getWeight().equals(<span class="hljs-string">&quot;OK&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="1-3-Equals方法左边的空指针问题"><a href="#1-3-Equals方法左边的空指针问题" class="headerlink" title="1.3 Equals方法左边的空指针问题"></a>1.3 Equals方法左边的空指针问题</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        String s = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">if</span> (s.equals(<span class="hljs-string">&quot;公众号：666&quot;</span>)) &#123; <span class="hljs-comment">//s可能为空，会导致空指针问题</span><br>            System.out.println(<span class="hljs-string">&quot;666&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="1-4-ConcurrentHashMap-这样的容器不支持-Key，Value-为-null。"><a href="#1-4-ConcurrentHashMap-这样的容器不支持-Key，Value-为-null。" class="headerlink" title="1.4 ConcurrentHashMap 这样的容器不支持 Key，Value 为 null。"></a>1.4 ConcurrentHashMap 这样的容器不支持 Key，Value 为 null。</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Map map = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br>        String key = <span class="hljs-keyword">null</span>;<br>        String value = <span class="hljs-keyword">null</span>;<br>        map.put(key, value);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="1-5-集合，数组直接获取元素"><a href="#1-5-集合，数组直接获取元素" class="headerlink" title="1.5  集合，数组直接获取元素"></a>1.5  集合，数组直接获取元素</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> [] array=<span class="hljs-keyword">null</span>;<br>        List list = <span class="hljs-keyword">null</span>;<br>        System.out.println(array[<span class="hljs-number">0</span>]); <span class="hljs-comment">//空指针异常</span><br>        System.out.println(list.get(<span class="hljs-number">0</span>)); <span class="hljs-comment">//空指针一场</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="1-6-对象直接获取属性"><a href="#1-6-对象直接获取属性" class="headerlink" title="1.6 对象直接获取属性"></a>1.6 对象直接获取属性</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullPointTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        User user=<span class="hljs-keyword">null</span>;<br>        System.out.println(user.getAge()); <span class="hljs-comment">//空指针异常</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="2-日期YYYY格式设置的坑"><a href="#2-日期YYYY格式设置的坑" class="headerlink" title="2. 日期YYYY格式设置的坑"></a>2. 日期YYYY格式设置的坑</h3><p>日常开发，经常需要对日期格式化，但是呢，年份设置为YYYY大写的时候，是有坑的哦。</p>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;YYYY-MM-dd&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 YYYY-MM-dd 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">2019</span>-<span class="hljs-number">12</span>-<span class="hljs-number">31</span> 转 YYYY-MM-dd 格式后 <span class="hljs-number">2020</span>-<span class="hljs-number">12</span>-<span class="hljs-number">31</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>「解析：」</strong></p>
+<p>为什么明明是2019年12月31号，就转了一下格式，就变成了2020年12月31号了？因为YYYY是基于周来计算年的，它指向当天所在周属于的年份，一周从周日开始算起，周六结束，只要本周跨年，那么这一周就算下一年的了。正确姿势是使用yyyy格式。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143029.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>正例：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 yyyy-MM-dd 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="3-金额数值计算精度的坑"><a href="#3-金额数值计算精度的坑" class="headerlink" title="3.金额数值计算精度的坑"></a>3.金额数值计算精度的坑</h3><p>看下这个浮点数计算的例子吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DoubleTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        System.out.println(<span class="hljs-number">0.1</span>+<span class="hljs-number">0.2</span>);<br>        System.out.println(<span class="hljs-number">1.0</span>-<span class="hljs-number">0.8</span>);<br>        System.out.println(<span class="hljs-number">4.015</span>*<span class="hljs-number">100</span>);<br>        System.out.println(<span class="hljs-number">123.3</span>/<span class="hljs-number">100</span>);<br><br>        <span class="hljs-keyword">double</span> amount1 = <span class="hljs-number">3.15</span>;<br>        <span class="hljs-keyword">double</span> amount2 = <span class="hljs-number">2.10</span>;<br>        <span class="hljs-keyword">if</span> (amount1 - amount2 == <span class="hljs-number">1.05</span>)&#123;<br>            System.out.println(<span class="hljs-string">&quot;OK&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">0.30000000000000004</span><br><span class="hljs-number">0.19999999999999996</span><br><span class="hljs-number">401.49999999999994</span><br><span class="hljs-number">1.2329999999999999</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以发现，结算结果跟我们预期不一致，其实是因为计算机是以二进制存储数值的，对于浮点数也是。对于计算机而言，0.1无法精确表达，这就是为什么浮点数会导致精确度缺失的。因此，<strong>「金额计算，一般都是用BigDecimal 类型」</strong></p>
+<p>对于以上例子，我们改为BigDecimal，再看看运行效果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">0.1</span>).add(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">0.2</span>)));<br>System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">1.0</span>).subtract(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">0.8</span>)));<br>System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">4.015</span>).multiply(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));<br>System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">123.3</span>).divide(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">0.3000000000000000166533453693773481063544750213623046875</span><br><span class="hljs-number">0.1999999999999999555910790149937383830547332763671875</span><br><span class="hljs-number">401.49999999999996802557689079549163579940795898437500</span><br><span class="hljs-number">1.232999999999999971578290569595992565155029296875</span><br></code></pre></div></td></tr></table></figure>
+
+<p>发现结果还是不对，<strong>「其实」</strong>，使用 BigDecimal 表示和计算浮点数，必须使用<strong>「字符串的构造方法」</strong>来初始化 BigDecimal，正例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DoubleTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;0.1&quot;</span>).add(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;0.2&quot;</span>)));<br>        System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;1.0&quot;</span>).subtract(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;0.8&quot;</span>)));<br>        System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;4.015&quot;</span>).multiply(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;100&quot;</span>)));<br>        System.out.println(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;123.3&quot;</span>).divide(<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-string">&quot;100&quot;</span>)));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在进行金额计算，使用BigDecimal的时候，我们还需要<strong>「注意BigDecimal的几位小数点，还有它的八种舍入模式哈」</strong>。</p>
+<h3 id="4-FileReader默认编码导致乱码问题"><a href="#4-FileReader默认编码导致乱码问题" class="headerlink" title="4. FileReader默认编码导致乱码问题"></a>4. FileReader默认编码导致乱码问题</h3><p>看下这个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileReaderTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br><br>        Files.deleteIfExists(Paths.get(<span class="hljs-string">&quot;jay.txt&quot;</span>));<br>        Files.write(Paths.get(<span class="hljs-string">&quot;jay.txt&quot;</span>), <span class="hljs-string">&quot;你好,捡田螺的小男孩&quot;</span>.getBytes(Charset.forName(<span class="hljs-string">&quot;GBK&quot;</span>)));<br>        System.out.println(<span class="hljs-string">&quot;系统默认编码：&quot;</span>+Charset.defaultCharset());<br><br>        <span class="hljs-keyword">char</span>[] chars = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">10</span>];<br>        String content = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">try</span> (FileReader fileReader = <span class="hljs-keyword">new</span> FileReader(<span class="hljs-string">&quot;jay.txt&quot;</span>)) &#123;<br>            <span class="hljs-keyword">int</span> count;<br>            <span class="hljs-keyword">while</span> ((count = fileReader.read(chars)) != -<span class="hljs-number">1</span>) &#123;<br>                content += <span class="hljs-keyword">new</span> String(chars, <span class="hljs-number">0</span>, count);<br>            &#125;<br>        &#125;<br>        System.out.println(content);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">系统默认编码：UTF-<span class="hljs-number">8</span><br>���,�����ݵ�С�к�<br></code></pre></div></td></tr></table></figure>
+
+<p>从运行结果，可以知道，系统默认编码是utf8，demo中读取出来，出现乱码了。为什么呢？</p>
+<blockquote>
+<p>❝</p>
+<p>FileReader 是以当<strong>「前机器的默认字符集」</strong>来读取文件的，如果希望指定字符集的话，需要直接使用 InputStreamReader 和 FileInputStream。</p>
+<p>❞</p>
+</blockquote>
+<p>正例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileReaderTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br><br>        Files.deleteIfExists(Paths.get(<span class="hljs-string">&quot;jay.txt&quot;</span>));<br>        Files.write(Paths.get(<span class="hljs-string">&quot;jay.txt&quot;</span>), <span class="hljs-string">&quot;你好,捡田螺的小男孩&quot;</span>.getBytes(Charset.forName(<span class="hljs-string">&quot;GBK&quot;</span>)));<br>        System.out.println(<span class="hljs-string">&quot;系统默认编码：&quot;</span>+Charset.defaultCharset());<br><br>        <span class="hljs-keyword">char</span>[] chars = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">10</span>];<br>        String content = <span class="hljs-string">&quot;&quot;</span>;<br>        <span class="hljs-keyword">try</span> (FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;jay.txt&quot;</span>);<br>             InputStreamReader inputStreamReader = <span class="hljs-keyword">new</span> InputStreamReader(fileInputStream, Charset.forName(<span class="hljs-string">&quot;GBK&quot;</span>))) &#123;<br>            <span class="hljs-keyword">int</span> count;<br>            <span class="hljs-keyword">while</span> ((count = inputStreamReader.read(chars)) != -<span class="hljs-number">1</span>) &#123;<br>                content += <span class="hljs-keyword">new</span> String(chars, <span class="hljs-number">0</span>, count);<br>            &#125;<br>        &#125;<br>        System.out.println(content);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="5-Integer缓存的坑"><a href="#5-Integer缓存的坑" class="headerlink" title="5. Integer缓存的坑"></a>5. Integer缓存的坑</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IntegerTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Integer a = <span class="hljs-number">127</span>;<br>        Integer b = <span class="hljs-number">127</span>;<br>        System.out.println(<span class="hljs-string">&quot;a==b:&quot;</span>+ (a == b));<br>        <br>        Integer c = <span class="hljs-number">128</span>;<br>        Integer d = <span class="hljs-number">128</span>;<br>        System.out.println(<span class="hljs-string">&quot;c==d:&quot;</span>+ (c == d));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">a==b:<span class="hljs-keyword">true</span><br>c==d:<span class="hljs-keyword">false</span><br></code></pre></div></td></tr></table></figure>
+
+<p>为什么Integer值如果是128就不相等了呢？<strong>「编译器会把 Integer a = 127 转换为 Integer.valueOf(127)。」</strong> 我们看下源码。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">valueOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;<br>      <span class="hljs-keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)<br>          <span class="hljs-keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(i);<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>可以发现，i在一定范围内，是会返回缓存的。</p>
+<blockquote>
+<p>❝</p>
+<p>默认情况下呢，这个缓存区间就是[-128, 127]，所以我们业务日常开发中，如果涉及Integer值的比较，需要注意这个坑哈。还有呢，设置 JVM 参数加上 -XX:AutoBoxCacheMax=1000，是可以调整这个区间参数的，大家可以自己试一下哈</p>
+<p>❞</p>
+</blockquote>
+<h3 id="6-static静态变量依赖spring实例化变量，可能导致初始化出错"><a href="#6-static静态变量依赖spring实例化变量，可能导致初始化出错" class="headerlink" title="6. static静态变量依赖spring实例化变量，可能导致初始化出错"></a>6. static静态变量依赖spring实例化变量，可能导致初始化出错</h3><p>之前看到过类似的代码。静态变量依赖于spring容器的bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SmsService smsService = SpringContextUtils.getBean(SmsService.class);<br></code></pre></div></td></tr></table></figure>
+
+<p>这个静态的smsService有可能获取不到的，因为类加载顺序不是确定的，正确的写法可以这样，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SmsService  smsService =<span class="hljs-keyword">null</span>;<br><br><span class="hljs-comment">//使用到的时候采取获取</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> SmsService <span class="hljs-title">getSmsService</span><span class="hljs-params">()</span></span>&#123;<br>  <span class="hljs-keyword">if</span>(smsService==<span class="hljs-keyword">null</span>)&#123;<br>     smsService = SpringContextUtils.getBean(SmsService.class);<br>  &#125;<br>  <span class="hljs-keyword">return</span> smsService;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="7-使用ThreadLocal，线程重用导致信息错乱的坑"><a href="#7-使用ThreadLocal，线程重用导致信息错乱的坑" class="headerlink" title="7. 使用ThreadLocal，线程重用导致信息错乱的坑"></a>7. 使用ThreadLocal，线程重用导致信息错乱的坑</h3><p>使用ThreadLocal缓存信息，有可能出现信息错乱的情况。看下下面这个例子吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;Integer&gt; currentUser = ThreadLocal.withInitial(() -&gt; <span class="hljs-keyword">null</span>);<br><br><span class="hljs-meta">@GetMapping(&quot;wrong&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Map <span class="hljs-title">wrong</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Integer userId)</span> </span>&#123;<br>    <span class="hljs-comment">//设置用户信息之前先查询一次ThreadLocal中的用户信息</span><br>    String before  = Thread.currentThread().getName() + <span class="hljs-string">&quot;:&quot;</span> + currentUser.get();<br>    <span class="hljs-comment">//设置用户信息到ThreadLocal</span><br>    currentUser.set(userId);<br>    <span class="hljs-comment">//设置用户信息之后再查询一次ThreadLocal中的用户信息</span><br>    String after  = Thread.currentThread().getName() + <span class="hljs-string">&quot;:&quot;</span> + currentUser.get();<br>    <span class="hljs-comment">//汇总输出两次查询结果</span><br>    Map result = <span class="hljs-keyword">new</span> HashMap();<br>    result.put(<span class="hljs-string">&quot;before&quot;</span>, before);<br>    result.put(<span class="hljs-string">&quot;after&quot;</span>, after);<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>按理说，每次获取的before应该都是null，但是呢，程序运行在 Tomcat 中，执行程序的线程是 Tomcat 的工作线程，而 Tomcat 的工作线程是基于线程池的。</p>
+<blockquote>
+<p>❝</p>
+<p>线程池会重用固定的几个线程，一旦线程重用，那么很可能首次从 ThreadLocal 获取的值是之前其他用户的请求遗留的值。这时，ThreadLocal 中的用户信息就是其他用户的信息。</p>
+<p>❞</p>
+</blockquote>
+<p>把tomcat的工作线程设置为1</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">server.tomcat.max-threads=<span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure>
+
+<p>用户1，请求过来，会有以下结果，符合预期：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143228.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>用户2请求过来，会有以下结果，<strong>「不符合预期」</strong>：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143240.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>因此，使用类似 ThreadLocal 工具来存放一些数据时，需要特别注意在代码运行完后，显式地去清空设置的数据，正例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;right&quot;)</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Map <span class="hljs-title">right</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;userId&quot;)</span> Integer userId)</span> </span>&#123;<br>    String before  = Thread.currentThread().getName() + <span class="hljs-string">&quot;:&quot;</span> + currentUser.get();<br>    currentUser.set(userId);<br>    <span class="hljs-keyword">try</span> &#123;<br>        String after = Thread.currentThread().getName() + <span class="hljs-string">&quot;:&quot;</span> + currentUser.get();<br>        Map result = <span class="hljs-keyword">new</span> HashMap();<br>        result.put(<span class="hljs-string">&quot;before&quot;</span>, before);<br>        result.put(<span class="hljs-string">&quot;after&quot;</span>, after);<br>        <span class="hljs-keyword">return</span> result;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        <span class="hljs-comment">//在finally代码块中删除ThreadLocal中的数据，确保数据不串</span><br>        currentUser.remove();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="8-疏忽switch的return和break"><a href="#8-疏忽switch的return和break" class="headerlink" title="8. 疏忽switch的return和break"></a>8. 疏忽switch的return和break</h3><p>这一点严格来说，应该不算坑，但是呢，大家写代码的时候，有些朋友容易疏忽了。直接看例子吧</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwitchTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;testSwitch结果是：&quot;</span>+testSwitch(<span class="hljs-string">&quot;1&quot;</span>));<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">testSwitch</span><span class="hljs-params">(String key)</span> </span>&#123;<br>        <span class="hljs-keyword">switch</span> (key) &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;1&quot;</span>:<br>                System.out.println(<span class="hljs-string">&quot;1&quot;</span>);<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;2&quot;</span>:<br>                System.out.println(<span class="hljs-number">2</span>);<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;2&quot;</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;3&quot;</span>:<br>                System.out.println(<span class="hljs-string">&quot;3&quot;</span>);<br>            <span class="hljs-keyword">default</span>:<br>                System.out.println(<span class="hljs-string">&quot;返回默认值&quot;</span>);<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;4&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">测试<span class="hljs-keyword">switch</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br>testSwitch结果是：<span class="hljs-number">2</span><br></code></pre></div></td></tr></table></figure>
+
+<p>switch 是会<strong>「沿着case一直往下匹配的，知道遇到return或者break。」</strong> 所以，在写代码的时候留意一下，是不是你要的结果。</p>
+<h3 id="9-Arrays-asList的几个坑"><a href="#9-Arrays-asList的几个坑" class="headerlink" title="9. Arrays.asList的几个坑"></a>9. Arrays.asList的几个坑</h3><h4 id="9-1-基本类型不能作为-Arrays-asList方法的参数，否则会被当做一个参数。"><a href="#9-1-基本类型不能作为-Arrays-asList方法的参数，否则会被当做一个参数。" class="headerlink" title="9.1 基本类型不能作为 Arrays.asList方法的参数，否则会被当做一个参数。"></a>9.1 基本类型不能作为 Arrays.asList方法的参数，否则会被当做一个参数。</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayAsListTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;;<br>        List list = Arrays.asList(array);<br>        System.out.println(list.size());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">1</span><br></code></pre></div></td></tr></table></figure>
+
+<p>Arrays.asList源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">List&lt;T&gt; <span class="hljs-title">asList</span><span class="hljs-params">(T... a)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(a);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="9-2-Arrays-asList-返回的-List-不支持增删操作。"><a href="#9-2-Arrays-asList-返回的-List-不支持增删操作。" class="headerlink" title="9.2 Arrays.asList 返回的 List 不支持增删操作。"></a>9.2 Arrays.asList 返回的 List 不支持增删操作。</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayAsListTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        String[] array = &#123;<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>&#125;;<br>        List list = Arrays.asList(array);<br>        list.add(<span class="hljs-string">&quot;5&quot;</span>);<br>        System.out.println(list.size());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.lang.UnsupportedOperationException<br> at java.util.AbstractList.add(AbstractList.java:<span class="hljs-number">148</span>)<br> at java.util.AbstractList.add(AbstractList.java:<span class="hljs-number">108</span>)<br> at object.ArrayAsListTest.main(ArrayAsListTest.java:<span class="hljs-number">11</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>Arrays.asList 返回的 List 并不是我们期望的 java.util.ArrayList，而是 Arrays 的内部类 ArrayList。内部类的ArrayList没有实现add方法，而是父类的add方法的实现，是会抛出异常的呢。</p>
+<h4 id="9-3-使用Arrays-asLis的时候，对原始数组的修改会影响到我们获得的那个List"><a href="#9-3-使用Arrays-asLis的时候，对原始数组的修改会影响到我们获得的那个List" class="headerlink" title="9.3 使用Arrays.asLis的时候，对原始数组的修改会影响到我们获得的那个List"></a>9.3 使用Arrays.asLis的时候，对原始数组的修改会影响到我们获得的那个List</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayAsListTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        String[] arr = &#123;<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>&#125;;<br>        List list = Arrays.asList(arr);<br>        arr[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;4&quot;</span>;<br>        System.out.println(<span class="hljs-string">&quot;原始数组&quot;</span>+Arrays.toString(arr));<br>        System.out.println(<span class="hljs-string">&quot;list数组&quot;</span> + list);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">原始数组[<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>]<br>list数组[<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>]<br></code></pre></div></td></tr></table></figure>
+
+<p>从运行结果可以看到，原数组改变，Arrays.asList转化来的list也跟着改变啦，大家使用的时候要注意一下哦，可以用new ArrayList(Arrays.asList(arr))包一下的。</p>
+<h4 id="10-ArrayList-toArray-强转的坑"><a href="#10-ArrayList-toArray-强转的坑" class="headerlink" title="10. ArrayList.toArray() 强转的坑"></a>10. ArrayList.toArray() 强转的坑</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayListTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        List&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;(<span class="hljs-number">1</span>);<br>        list.add(<span class="hljs-string">&quot;公众号：Java技术栈&quot;</span>);<br>        String[] array21 = (String[])list.toArray();<span class="hljs-comment">//类型转换异常</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>因为返回的是Object类型，Object类型数组强转String数组，会发生ClassCastException。解决方案是，使用toArray()重载方法toArray(T[] a)</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String[] array1 = list.toArray(<span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>]);<span class="hljs-comment">//可以正常运行</span><br></code></pre></div></td></tr></table></figure>
+
+<h3 id="11-异常使用的几个坑"><a href="#11-异常使用的几个坑" class="headerlink" title="11. 异常使用的几个坑"></a>11. 异常使用的几个坑</h3><h4 id="11-1-不要弄丢了你的堆栈异常信息"><a href="#11-1-不要弄丢了你的堆栈异常信息" class="headerlink" title="11.1 不要弄丢了你的堆栈异常信息"></a>11.1 不要弄丢了你的堆栈异常信息</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">wrong1</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        readFile();<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        <span class="hljs-comment">//没有把异常e取出来，原始异常信息丢失  </span><br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;系统忙请稍后再试&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">wrong2</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        readFile();<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        <span class="hljs-comment">//只保留了异常消息，栈没有记录啦</span><br>        log.error(<span class="hljs-string">&quot;文件读取错误, &#123;&#125;&quot;</span>, e.getMessage());<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;系统忙请稍后再试&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>正确的打印方式，应该酱紫</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">right</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        readFile();<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>        <span class="hljs-comment">//把整个IO异常都记录下来，而不是只打印消息</span><br>        log.error(<span class="hljs-string">&quot;文件读取错误&quot;</span>, e);<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;系统忙请稍后再试&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="11-2-不要把异常定义为静态变量"><a href="#11-2-不要把异常定义为静态变量" class="headerlink" title="11.2 不要把异常定义为静态变量"></a>11.2 不要把异常定义为静态变量</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> testStaticExeceptionOne&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        exceptionOne();<br>    &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;<br>        log.error(<span class="hljs-string">&quot;exception one error&quot;</span>, ex);<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>        exceptionTwo();<br>    &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;<br>        log.error(<span class="hljs-string">&quot;exception two error&quot;</span>, ex);<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionOne</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">//这里有问题</span><br>    <span class="hljs-keyword">throw</span> Exceptions.ONEORTWO;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionTwo</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">//这里有问题</span><br>    <span class="hljs-keyword">throw</span> Exceptions.ONEORTWO;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>exceptionTwo抛出的异常，很可能是 exceptionOne的异常哦。正确使用方法，应该是new 一个出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exceptionTwo</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BusinessException(<span class="hljs-string">&quot;业务异常&quot;</span>, <span class="hljs-number">0001</span>);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="11-3-生产环境不要使用e-printStackTrace"><a href="#11-3-生产环境不要使用e-printStackTrace" class="headerlink" title="11.3 生产环境不要使用e.printStackTrace();"></a>11.3 生产环境不要使用e.printStackTrace();</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">wrong</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        readFile();<br>    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>       <span class="hljs-comment">//生产环境别用它</span><br>        e.printStackTrace();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>因为它占用太多内存，造成锁死，并且，日志交错混合，也不易读。正确使用如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">log.error(<span class="hljs-string">&quot;异常日志正常打印方式&quot;</span>,e);<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="11-4-线程池提交过程中，出现异常怎么办？"><a href="#11-4-线程池提交过程中，出现异常怎么办？" class="headerlink" title="11.4 线程池提交过程中，出现异常怎么办？"></a>11.4 线程池提交过程中，出现异常怎么办？</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadExceptionTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">10</span>);<br><br>        IntStream.rangeClosed(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>).forEach(i -&gt; executorService.submit(()-&gt; &#123;<br>                    <span class="hljs-keyword">if</span> (i == <span class="hljs-number">5</span>) &#123;<br>                        System.out.println(<span class="hljs-string">&quot;发生异常啦&quot;</span>);<br>                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;error&quot;</span>);<br>                    &#125;<br>                    System.out.println(<span class="hljs-string">&quot;当前执行第几:&quot;</span> + Thread.currentThread().getName() );<br>                &#125;<br>        ));<br>        executorService.shutdown();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">1</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">2</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">3</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">4</span><br>发生异常啦<br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">6</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">7</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">8</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">9</span><br>当前执行第几:pool-<span class="hljs-number">1</span>-thread-<span class="hljs-number">10</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以发现，如果是使用submit方法提交到线程池的异步任务，异常会被吞掉的，所以在日常发现中，如果会有可预见的异常，可以采取这几种方案处理：</p>
+<ul>
+<li>1.在任务代码try/catch捕获异常</li>
+<li>2.通过Future对象的get方法接收抛出的异常，再处理</li>
+<li>3.为工作者线程设置UncaughtExceptionHandler，在uncaughtException方法中处理异常</li>
+<li>4.重写ThreadPoolExecutor的afterExecute方法，处理传递的异常引用</li>
+</ul>
+<h4 id="11-5-finally重新抛出的异常也要注意啦"><a href="#11-5-finally重新抛出的异常也要注意啦" class="headerlink" title="11.5 finally重新抛出的异常也要注意啦"></a>11.5 finally重新抛出的异常也要注意啦</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">wrong</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        log.info(<span class="hljs-string">&quot;try&quot;</span>);<br>        <span class="hljs-comment">//异常丢失</span><br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;try&quot;</span>);<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        log.info(<span class="hljs-string">&quot;finally&quot;</span>);<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;finally&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>一个方法是不会出现两个异常的呢，所以finally的异常会把try的<strong>「异常覆盖」</strong>。正确的使用方式应该是，finally 代码块<strong>「负责自己的异常捕获和处理」</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">right</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        log.info(<span class="hljs-string">&quot;try&quot;</span>);<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;try&quot;</span>);<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        log.info(<span class="hljs-string">&quot;finally&quot;</span>);<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;finally&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception ex) &#123;<br>            log.error(<span class="hljs-string">&quot;finally&quot;</span>, ex);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="12-JSON序列化-Long类型被转成Integer类型！"><a href="#12-JSON序列化-Long类型被转成Integer类型！" class="headerlink" title="12.JSON序列化,Long类型被转成Integer类型！"></a>12.JSON序列化,Long类型被转成Integer类型！</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JSONTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br><br>        Long idValue = <span class="hljs-number">3000L</span>;<br>        Map&lt;String, Object&gt; data = <span class="hljs-keyword">new</span> HashMap&lt;&gt;(<span class="hljs-number">2</span>);<br>        data.put(<span class="hljs-string">&quot;id&quot;</span>, idValue);<br>        data.put(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;捡田螺的小男孩&quot;</span>);<br><br>        Assert.assertEquals(idValue, (Long) data.get(<span class="hljs-string">&quot;id&quot;</span>));<br>        String jsonString = JSON.toJSONString(data);<br><br>        <span class="hljs-comment">// 反序列化时Long被转为了Integer</span><br>        Map map = JSON.parseObject(jsonString, Map.class);<br>        Object idObj = map.get(<span class="hljs-string">&quot;id&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;反序列化的类型是否为Integer：&quot;</span>+(idObj <span class="hljs-keyword">instanceof</span> Integer));<br>        Assert.assertEquals(idValue, (Long) idObj);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>「运行结果：」</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> 反序列化的类型是否为Integer：<span class="hljs-keyword">true</span><br>java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Long<br> at object.JSONTest.main(JSONTest.java:<span class="hljs-number">24</span>)<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>❝</p>
+<p><strong>「注意啦」</strong>，序列化为Json串后，Josn串是没有Long类型呢。而且反序列化回来如果也是Object接收，数字小于Interger最大值的话，给转成Integer啦！</p>
+<p>❞</p>
+</blockquote>
+<h3 id="13-使用Executors声明线程池，newFixedThreadPool的OOM问题"><a href="#13-使用Executors声明线程池，newFixedThreadPool的OOM问题" class="headerlink" title="13. 使用Executors声明线程池，newFixedThreadPool的OOM问题"></a>13. 使用Executors声明线程池，newFixedThreadPool的OOM问题</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">ExecutorService executor = Executors.newFixedThreadPool(<span class="hljs-number">10</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; Integer.MAX_VALUE; i++) &#123;<br>            executor.execute(() -&gt; &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    Thread.sleep(<span class="hljs-number">10000</span>);<br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    <span class="hljs-comment">//do nothing</span><br>                &#125;<br>            &#125;);<br>        &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>「IDE指定JVM参数：-Xmx8m -Xms8m :」</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143523.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>运行结果：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143534.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们看下源码，其实newFixedThreadPool使用的是无界队列！</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ExecutorService <span class="hljs-title">newFixedThreadPool</span><span class="hljs-params">(<span class="hljs-keyword">int</span> nThreads)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,<br>                                  <span class="hljs-number">0L</span>, TimeUnit.MILLISECONDS,<br>                                  <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LinkedBlockingQueue</span>&lt;<span class="hljs-title">E</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractQueue</span>&lt;<span class="hljs-title">E</span>&gt;</span><br><span class="hljs-class">        <span class="hljs-keyword">implements</span> <span class="hljs-title">BlockingQueue</span>&lt;<span class="hljs-title">E</span>&gt;, <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span> </span>&#123;<br>    ...<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Creates a &#123;<span class="hljs-doctag">@code</span> LinkedBlockingQueue&#125; with a capacity of</span><br><span class="hljs-comment">     * &#123;<span class="hljs-doctag">@link</span> Integer#MAX_VALUE&#125;.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LinkedBlockingQueue</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>(Integer.MAX_VALUE);<br>    &#125;<br>...<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>❝</p>
+<p>newFixedThreadPool线程池的核心线程数是固定的，它使用了近乎于无界的LinkedBlockingQueue阻塞队列。当核心线程用完后，任务会入队到阻塞队列，如果任务执行的时间比较长，没有释放，会导致越来越多的任务堆积到阻塞队列，最后导致机器的内存使用不停的飙升，造成JVM OOM。</p>
+<p>❞</p>
+</blockquote>
+<h3 id="14-直接大文件或者一次性从数据库读取太多数据到内存，可能导致OOM问题"><a href="#14-直接大文件或者一次性从数据库读取太多数据到内存，可能导致OOM问题" class="headerlink" title="14. 直接大文件或者一次性从数据库读取太多数据到内存，可能导致OOM问题"></a>14. 直接大文件或者一次性从数据库读取太多数据到内存，可能导致OOM问题</h3><p>如果一次性把大文件或者数据库太多数据达到内存，是会导致OOM的。所以，为什么查询DB数据库，一般都建议分批。</p>
+<p>读取文件的话，一般问文件不会太大，才使用<code>Files.readAllLines()</code>。为什么呢？因为它是直接把文件都读到内存的，预估下不会OOM才使用这个吧，可以看下它的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;String&gt; <span class="hljs-title">readAllLines</span><span class="hljs-params">(Path path, Charset cs)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>    <span class="hljs-keyword">try</span> (BufferedReader reader = newBufferedReader(path, cs)) &#123;<br>        List&lt;String&gt; result = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (;;) &#123;<br>            String line = reader.readLine();<br>            <span class="hljs-keyword">if</span> (line == <span class="hljs-keyword">null</span>)<br>                <span class="hljs-keyword">break</span>;<br>            result.add(line);<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>如果是太大的文件，可以使用Files.line()按需读取，当时读取文件这些，一般是使用完需要<strong>「关闭资源流」</strong>的哈</p>
+<h3 id="15-先查询，再更新-删除的并发一致性问题"><a href="#15-先查询，再更新-删除的并发一致性问题" class="headerlink" title="15. 先查询，再更新/删除的并发一致性问题"></a>15. 先查询，再更新/删除的并发一致性问题</h3><p>再日常开发中，这种代码实现经常可见：先查询是否有剩余可用的票，再去更新票余量。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(selectIsAvailable(ticketId)&#123; <br>    <span class="hljs-number">1</span>、deleteTicketById(ticketId) <br>    <span class="hljs-number">2</span>、给现金增加操作 <br>&#125;<span class="hljs-keyword">else</span>&#123; <br>    <span class="hljs-keyword">return</span> “没有可用现金券” <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>如果是并发执行，很可能有问题的，应该利用数据库的更新/删除的原子性，正解如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(deleteAvailableTicketById(ticketId) == <span class="hljs-number">1</span>)&#123; <br>    <span class="hljs-number">1</span>、给现金增加操作 <br>&#125;<span class="hljs-keyword">else</span>&#123; <br>    <span class="hljs-keyword">return</span> “没有可用现金券” <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="16-数据库使用utf-8存储，-插入表情异常的坑"><a href="#16-数据库使用utf-8存储，-插入表情异常的坑" class="headerlink" title="16. 数据库使用utf-8存储， 插入表情异常的坑"></a>16. 数据库使用utf-8存储， 插入表情异常的坑</h3><p>低版本的MySQL支持的utf8编码，最大字符长度为 3 字节，但是呢，存储表情需要4个字节，因此如果用utf8存储表情的话，会报<code>SQLException: Incorrect string value: &#39;\xF0\x9F\x98\x84&#39; for column</code>，所以一般用utf8mb4编码去存储表情。</p>
+<h3 id="17-事务未生效的坑"><a href="#17-事务未生效的坑" class="headerlink" title="17. 事务未生效的坑"></a>17. 事务未生效的坑</h3><p>日常业务开发中，我们经常跟事务打交道，<strong>「事务失效」</strong>主要有以下几个场景：</p>
+<ul>
+<li>底层数据库引擎不支持事务</li>
+<li>在非public修饰的方法使用</li>
+<li>rollbackFor属性设置错误</li>
+<li>本类方法直接调用</li>
+<li>异常被try…catch吃了，导致事务失效。</li>
+</ul>
+<p>其中，最容易踩的坑就是后面两个，<strong>「注解的事务方法给本类方法直接调用」</strong>，伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TransactionTest</span></span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">A</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//插入一条数据</span><br>    <span class="hljs-comment">//调用方法B (本地的类调用，事务失效了)</span><br>    B();<br>  &#125;<br>  <br>  <span class="hljs-meta">@Transactional</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">B</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//插入数据</span><br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>如果异常被catch住，<strong>「那事务也是会失效呢」</strong>~，伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Transactional</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;<br>  <span class="hljs-keyword">try</span>&#123;<br>    <span class="hljs-comment">//插入一条数据</span><br>    insertA();<br>    <span class="hljs-comment">//更改一条数据</span><br>    updateB();<br>  &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;<br>    logger.error(<span class="hljs-string">&quot;异常被捕获了，那你的事务就失效咯&quot;</span>,e);<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="18-当反射遇到方法重载的坑"><a href="#18-当反射遇到方法重载的坑" class="headerlink" title="18. 当反射遇到方法重载的坑"></a>18. 当反射遇到方法重载的坑</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  反射demo</span><br><span class="hljs-comment"> *  <span class="hljs-doctag">@author</span> 捡田螺的小男孩</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReflectionTest</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">score</span><span class="hljs-params">(<span class="hljs-keyword">int</span> score)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;int grade =&quot;</span> + score);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">score</span><span class="hljs-params">(Integer score)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;Integer grade =&quot;</span> + score);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        ReflectionTest reflectionTest = <span class="hljs-keyword">new</span> ReflectionTest();<br>        reflectionTest.score(<span class="hljs-number">100</span>);<br>        reflectionTest.score(Integer.valueOf(<span class="hljs-number">100</span>));<br><br>        reflectionTest.getClass().getDeclaredMethod(<span class="hljs-string">&quot;score&quot;</span>, Integer.TYPE).invoke(reflectionTest, Integer.valueOf(<span class="hljs-string">&quot;60&quot;</span>));<br>        reflectionTest.getClass().getDeclaredMethod(<span class="hljs-string">&quot;score&quot;</span>, Integer.class).invoke(reflectionTest, Integer.valueOf(<span class="hljs-string">&quot;60&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">int</span> grade =<span class="hljs-number">100</span><br>Integer grade =<span class="hljs-number">100</span><br><span class="hljs-keyword">int</span> grade =<span class="hljs-number">60</span><br>Integer grade =<span class="hljs-number">60</span><br></code></pre></div></td></tr></table></figure>
+
+<p>如果<strong>「不通过反射」</strong>，传入<code>Integer.valueOf(100)</code>，走的是Integer重载。但是呢，反射不是根据入参类型确定方法重载的，而是<strong>「以反射获取方法时传入的方法名称和参数类型来确定」</strong>的</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">getClass().getDeclaredMethod(<span class="hljs-string">&quot;score&quot;</span>, Integer.class)<br>getClass().getDeclaredMethod(<span class="hljs-string">&quot;score&quot;</span>, Integer.TYPE)<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="19-mysql-时间-timestamp的坑"><a href="#19-mysql-时间-timestamp的坑" class="headerlink" title="19. mysql 时间 timestamp的坑"></a>19. mysql 时间 timestamp的坑</h3><p>有更新语句的时候，timestamp可能会自动更新为当前时间，看个demo</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">CREATE TABLE `t` (<br>  `a` <span class="hljs-keyword">int</span>(<span class="hljs-number">11</span>) DEFAULT NULL,<br>  `b` timestamp  NOT NULL,<br>  `c` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8<br></code></pre></div></td></tr></table></figure>
+
+<p>我们可以发现 <strong>「c列」</strong> 是有<code>CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</code>，所以c列会随着记录更新而<strong>「更新为当前时间」</strong>。但是b列也会随着有记录更新为而<strong>「更新为当前时间」</strong>。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143710.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以使用datetime代替它,需要更新为当前时间，就把<code>now()</code>赋值进来，或者修改mysql的这个参数<code>explicit_defaults_for_timestamp</code>。</p>
+<h3 id="20-mysql8数据库的时区坑"><a href="#20-mysql8数据库的时区坑" class="headerlink" title="20. mysql8数据库的时区坑"></a>20. mysql8数据库的时区坑</h3><p>之前我们对mysql数据库进行升级，新版本为8.0.12。但是升级完之后，发现now()函数，获取到的时间比北京时间晚8小时，原来是因为mysql8默认为美国那边的时间，需要指定下时区</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">jdbc:mysql:<span class="hljs-comment">//localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;</span><br>serverTimezone=Asia/Shanghai<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><p>本文授权转自公众号：捡田螺的小男孩。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java 日志框架冲突解决方案</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Java%20%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83%EF%BC%88%E9%9D%9E%E5%B8%B8%E5%85%A8%EF%BC%89/">
+                        <span class="hidden-mobile">Java 命名规范（非常全）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

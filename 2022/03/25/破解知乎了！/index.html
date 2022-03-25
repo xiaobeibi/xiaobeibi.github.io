@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="破解知乎了！  最近在新公司学习 Golang，心血来潮想写一个脚手架，脚手架的简单的功能就是 输入 关键词，然后工具帮我自动的去搜索比如 掘金 知乎 CSDN 的热门博客返回给我。 但是在调用知乎的接口发现 知乎的接口有签名不能修改参数。修改了参数就让提示升级客户端了。这怎么能忍，岂能因为一个小小的知乎搜索阻挠我学习 Golang 的脚步呢「手动狗头」，今天就来逆向破解知乎。  现象先用 Chr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="破解知乎了！">
+<meta property="og:url" content="http://example.com/2022/03/25/%E7%A0%B4%E8%A7%A3%E7%9F%A5%E4%B9%8E%E4%BA%86%EF%BC%81/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="破解知乎了！  最近在新公司学习 Golang，心血来潮想写一个脚手架，脚手架的简单的功能就是 输入 关键词，然后工具帮我自动的去搜索比如 掘金 知乎 CSDN 的热门博客返回给我。 但是在调用知乎的接口发现 知乎的接口有签名不能修改参数。修改了参数就让提示升级客户端了。这怎么能忍，岂能因为一个小小的知乎搜索阻挠我学习 Golang 的脚步呢「手动狗头」，今天就来逆向破解知乎。  现象先用 Chr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201943302.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944987.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944388.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944358.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944628.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944041.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944790.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944054.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945118.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945158.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945595.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945922.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945334.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945834.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945347.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945451.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945317.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945868.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946126.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946840.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946029.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947435.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947790.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947842.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947346.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947382.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947256.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947699.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.909Z">
+<meta property="article:modified_time" content="2022-03-25T10:48:08.210Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Demo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201943302.webp">
+  
+  <title>破解知乎了！ - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="破解知乎了！">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      37 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">破解知乎了！</h1>
+            
+            <div class="markdown-body">
+              <center><h2>破解知乎了！</h2></center>
+
+<p>最近在新公司学习 Golang，心血来潮想写一个脚手架，脚手架的简单的功能就是 输入 关键词，然后工具帮我自动的去搜索比如 掘金 知乎 CSDN 的热门博客返回给我。</p>
+<p>但是在调用知乎的接口发现 知乎的接口有签名不能修改参数。修改了参数就让提示升级客户端了。这怎么能忍，岂能因为一个小小的知乎搜索阻挠我学习 Golang 的脚步呢「手动狗头」，今天就来逆向破解知乎。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201943302.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p><strong>先用 Chrome 将 知乎的搜索 API 导出为 cURL</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944987.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>并将导出的 cURL 导入到 postman 中</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944388.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在 postman 这里直接发送请求是可以的</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944358.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>但是如果我们一旦尝试修改查询参数的时候就会报错</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944628.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="分析原因"><a href="#分析原因" class="headerlink" title="分析原因"></a>分析原因</h3><p>其实到这里很明显的知道肯定是因为参数<strong>加签</strong>导致的，但是我们需要知道具体是哪个<strong>参数</strong>导致，才好解决问题</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944041.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>咋一看 url 里面的这些参数 都很标准 应该没有动过什么手脚，我们把目标转向 <strong>header</strong></p>
+<hr>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944790.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>请求头里面这么多参数感觉是有问题的</p>
+<p>测试方法也很简单，依次去除 单个字段，然后请求接口看是否可行即可，最后发现在没有修改请求参数 的情况下 去除 请求头里面的 x-zse-96 就会出现同样的问题，问题复现</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201944054.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>定位加密文件</strong></p>
+<p>在分析问题环节我们已经找到了加签后的验证字段 x-zse-96，最后其实我们值需要找到这个字段对应的加签规则即可。</p>
+<p>基本的思路为：<strong>通过 Chrome 中的 JS 栈调用为入口</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945118.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如上图所示，在 Network 中 搜索 API 请求记录中有一项属性 Initiator [发起者]，将鼠标移动上去就会显示 JS 的调用栈情况</p>
+<p>JS call stack</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945158.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>有一点可以明确下来就是 针对参数 x-zse-96 这个参数的加签肯定是在这个调用栈中完成的，我的思路就是一次在这些调用过的 js 文件中搜索这个字段，先定位到在哪个 JS 文件中的，好巧不巧的事知乎 的js 应该是打包后的 所有的 js 文件都在一个代码文件中。</p>
+<p>我直接在这个文件中进行搜索就行了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945595.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>代码位置已找到，开始表演😈</strong></p>
+<h3 id="还原加密过程"><a href="#还原加密过程" class="headerlink" title="还原加密过程"></a>还原加密过程</h3><p>接下来就是分析加密代码的时候了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945922.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从图中可以看出，<code>x-zse-96</code> 是由 <code>2.0_ + signature</code> 组成的</p>
+<p>然后我们就需要查看组成 <code>signature</code> 代码的 <code>a()(l()(s))</code>的组成</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945334.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在 signature 上方打上一个断点， 再次点击搜索，让断点停在此处</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945834.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>a() 直接在控制台中打印一下 a 方法，a 方法返回的一个方法为 __g._encrypt(encodeURIComponent(e))</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945347.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这里我们先将 a 方法放置在这里，先看里面的方法 l()(s)，先看参数 s 基本上就是查询参数拼接成一个字符串， 暂时先可以不看</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945451.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>l(), 我现在带入几个参数对这个加密算法进行了尝试，我实在感觉这个有点像 MD5</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945317.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201945868.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>抱着试一试的心态找了一个在线的 Md5 加密网站测试了一下 1，卧槽 🐂🍺 还真的是，我直呼 666</p>
+<p>回顾下加密算法</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946126.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>现在我们只需要展开 外层的 a()() 方法就 OK 了，在展开一点点__g._encrypt(encodeURIComponent(md5(s)))</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946840.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201946029.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>接下其实就去找这个 __g._encrypt 这个方法就可以了，打上断点在执行一下，尝试运行，看到这个玩意确实是没啥思路，而且在整个 JS 文件中 __g._encrypt 这个方法就只出现了这一次，就在没有出现过了, 所以通过猜测加密算法的方式就不太可行了</p>
+<p>思路就是直接将加密算法模块的 JS 文件提取出来 然后 用 golang 的 otto 包来直接调用 JS 代码即可</p>
+<p>提取出来的加密 JS 文件为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> jsdom = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;jsdom&quot;</span>);<br><span class="hljs-keyword">const</span> &#123; JSDOM &#125; = jsdom;<br><span class="hljs-keyword">const</span> dom = <span class="hljs-keyword">new</span> JSDOM(<span class="hljs-string">`&lt;!DOCTYPE html&gt;&lt;p&gt;Hello world&lt;/p&gt;`</span>);<br><span class="hljs-built_in">window</span> = dom.window;<br><span class="hljs-built_in">document</span> = <span class="hljs-built_in">window</span>.document;<br>XMLHttpRequest = <span class="hljs-built_in">window</span>.XMLHttpRequest;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">t</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> (t = <span class="hljs-string">&quot;function&quot;</span> == <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span> &amp;&amp; <span class="hljs-string">&quot;symbol&quot;</span> == <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span>.A ? <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> e<br>        &#125;<br>        : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>            <span class="hljs-keyword">return</span> e &amp;&amp; <span class="hljs-string">&quot;function&quot;</span> == <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Symbol</span> &amp;&amp; e.constructor === <span class="hljs-built_in">Symbol</span> &amp;&amp; e !== <span class="hljs-built_in">Symbol</span>.prototype ? <span class="hljs-string">&quot;symbol&quot;</span> : <span class="hljs-keyword">typeof</span> e<br>        &#125;<br>    )(e)<br>&#125;<br><span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-built_in">exports</span>, <span class="hljs-string">&quot;__esModule&quot;</span>, &#123;<br>    <span class="hljs-attr">value</span>: !<span class="hljs-number">0</span><br>&#125;);<br><span class="hljs-keyword">var</span> A = <span class="hljs-string">&quot;2.0&quot;</span><br>  , __g = &#123;&#125;;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">s</span>(<span class="hljs-params"></span>) </span>&#123;&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">i</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.t = (<span class="hljs-number">2048</span> &amp; e) &gt;&gt; <span class="hljs-number">11</span>,<br>      <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">1536</span> &amp; e) &gt;&gt; <span class="hljs-number">9</span>,<br>      <span class="hljs-built_in">this</span>.i = <span class="hljs-number">511</span> &amp; e,<br>      <span class="hljs-built_in">this</span>.h = <span class="hljs-number">511</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">h</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">3072</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.h = <span class="hljs-number">1023</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">a</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = (<span class="hljs-number">3072</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.c = (<span class="hljs-number">768</span> &amp; e) &gt;&gt; <span class="hljs-number">8</span>,<br>      <span class="hljs-built_in">this</span>.n = (<span class="hljs-number">192</span> &amp; e) &gt;&gt; <span class="hljs-number">6</span>,<br>      <span class="hljs-built_in">this</span>.t = <span class="hljs-number">63</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">c</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.s = e &gt;&gt; <span class="hljs-number">10</span> &amp; <span class="hljs-number">3</span>,<br>      <span class="hljs-built_in">this</span>.i = <span class="hljs-number">1023</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">n</span>(<span class="hljs-params"></span>) </span>&#123;&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">e</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.a = (<span class="hljs-number">3072</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.c = (<span class="hljs-number">768</span> &amp; e) &gt;&gt; <span class="hljs-number">8</span>,<br>      <span class="hljs-built_in">this</span>.n = (<span class="hljs-number">192</span> &amp; e) &gt;&gt; <span class="hljs-number">6</span>,<br>      <span class="hljs-built_in">this</span>.t = <span class="hljs-number">63</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">o</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.h = (<span class="hljs-number">4095</span> &amp; e) &gt;&gt; <span class="hljs-number">2</span>,<br>      <span class="hljs-built_in">this</span>.t = <span class="hljs-number">3</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">r</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.s = e &gt;&gt; <span class="hljs-number">10</span> &amp; <span class="hljs-number">3</span>,<br>      <span class="hljs-built_in">this</span>.i = e &gt;&gt; <span class="hljs-number">2</span> &amp; <span class="hljs-number">255</span>,<br>      <span class="hljs-built_in">this</span>.t = <span class="hljs-number">3</span> &amp; e<br>&#125;<br>s.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    e.o = !<span class="hljs-number">1</span><br>&#125;<br>  ,<br>  i.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              e.r[<span class="hljs-built_in">this</span>.s] = <span class="hljs-built_in">this</span>.i;<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              e.r[<span class="hljs-built_in">this</span>.s] = e.k[<span class="hljs-built_in">this</span>.h]<br>      &#125;<br>  &#125;<br>  ,<br>  h.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      e.k[<span class="hljs-built_in">this</span>.h] = e.r[<span class="hljs-built_in">this</span>.s]<br>  &#125;<br>  ,<br>  a.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] + e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] - e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] * e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] / e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] % e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] == e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &gt;= e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] || e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">8</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &amp;&amp; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] !== e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = t(e.r[<span class="hljs-built_in">this</span>.c]);<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">11</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c]<span class="hljs-keyword">in</span> e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">12</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &gt; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">13</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = -e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">14</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &lt; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">15</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &amp; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">16</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] ^ e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">17</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &lt;&lt; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">18</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] &gt;&gt;&gt; e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">19</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = e.r[<span class="hljs-built_in">this</span>.c] | e.r[<span class="hljs-built_in">this</span>.n];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">20</span>:<br>              e.r[<span class="hljs-built_in">this</span>.a] = !e.r[<span class="hljs-built_in">this</span>.c]<br>      &#125;<br>  &#125;<br>  ,<br>  c.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      e.Q.push(e.C),<br>        e.B.push(e.k),<br>        e.C = e.r[<span class="hljs-built_in">this</span>.s],<br>        e.k = [];<br>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> t = <span class="hljs-number">0</span>; t &lt; <span class="hljs-built_in">this</span>.i; t++)<br>          e.k.unshift(e.f.pop());<br>      e.g.push(e.f),<br>        e.f = []<br>  &#125;<br>  ,<br>  n.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      e.C = e.Q.pop(),<br>        e.k = e.B.pop(),<br>        e.f = e.g.pop()<br>  &#125;<br>  ,<br>  e.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] &gt;= e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] &lt;= e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] &gt; e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] &lt; e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] == e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a] != e.r[<span class="hljs-built_in">this</span>.c];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>              e.u = e.r[<span class="hljs-built_in">this</span>.a];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>              e.u = !e.r[<span class="hljs-built_in">this</span>.a]<br>      &#125;<br>  &#125;<br>  ,<br>  o.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              e.C = <span class="hljs-built_in">this</span>.h;<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              e.u &amp;&amp; (e.C = <span class="hljs-built_in">this</span>.h);<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>              e.u || (e.C = <span class="hljs-built_in">this</span>.h);<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>              e.C = <span class="hljs-built_in">this</span>.h,<br>                e.w = <span class="hljs-literal">null</span><br>      &#125;<br>      e.u = !<span class="hljs-number">1</span><br>  &#125;<br>  ,<br>  r.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> t = [], n = <span class="hljs-number">0</span>; n &lt; <span class="hljs-built_in">this</span>.i; n++)<br>                  t.unshift(e.f.pop());<br>              e.r[<span class="hljs-number">3</span>] = e.r[<span class="hljs-built_in">this</span>.s](t[<span class="hljs-number">0</span>], t[<span class="hljs-number">1</span>]);<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> r = e.f.pop(), i = [], o = <span class="hljs-number">0</span>; o &lt; <span class="hljs-built_in">this</span>.i; o++)<br>                  i.unshift(e.f.pop());<br>              e.r[<span class="hljs-number">3</span>] = e.r[<span class="hljs-built_in">this</span>.s][r](i[<span class="hljs-number">0</span>], i[<span class="hljs-number">1</span>]);<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> a = [], c = <span class="hljs-number">0</span>; c &lt; <span class="hljs-built_in">this</span>.i; c++)<br>                  a.unshift(e.f.pop());<br>              e.r[<span class="hljs-number">3</span>] = <span class="hljs-keyword">new</span> e.r[<span class="hljs-built_in">this</span>.s](a[<span class="hljs-number">0</span>],a[<span class="hljs-number">1</span>])<br>      &#125;<br>  &#125;<br>;<br><span class="hljs-keyword">var</span> k = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> t = <span class="hljs-number">66</span>, n = [], r = <span class="hljs-number">0</span>; r &lt; e.length; r++) &#123;<br>        <span class="hljs-keyword">var</span> i = <span class="hljs-number">24</span> ^ e.charCodeAt(r) ^ t;<br>        n.push(<span class="hljs-built_in">String</span>.fromCharCode(i)),<br>          t = i<br>    &#125;<br>    <span class="hljs-keyword">return</span> n.join(<span class="hljs-string">&quot;&quot;</span>)<br>&#125;;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Q</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.t = (<span class="hljs-number">4095</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">1023</span> &amp; e) &gt;&gt; <span class="hljs-number">8</span>,<br>      <span class="hljs-built_in">this</span>.i = <span class="hljs-number">1023</span> &amp; e,<br>      <span class="hljs-built_in">this</span>.h = <span class="hljs-number">63</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">C</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.t = (<span class="hljs-number">4095</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.a = (<span class="hljs-number">1023</span> &amp; e) &gt;&gt; <span class="hljs-number">8</span>,<br>      <span class="hljs-built_in">this</span>.c = (<span class="hljs-number">255</span> &amp; e) &gt;&gt; <span class="hljs-number">6</span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">B</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">3072</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span>,<br>      <span class="hljs-built_in">this</span>.h = <span class="hljs-number">1023</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.h = <span class="hljs-number">4095</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">g</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">3072</span> &amp; e) &gt;&gt; <span class="hljs-number">10</span><br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">u</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.h = <span class="hljs-number">4095</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">w</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.t = (<span class="hljs-number">3840</span> &amp; e) &gt;&gt; <span class="hljs-number">8</span>,<br>      <span class="hljs-built_in">this</span>.s = (<span class="hljs-number">192</span> &amp; e) &gt;&gt; <span class="hljs-number">6</span>,<br>      <span class="hljs-built_in">this</span>.i = <span class="hljs-number">63</span> &amp; e<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">G</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.r = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>      <span class="hljs-built_in">this</span>.C = <span class="hljs-number">0</span>,<br>      <span class="hljs-built_in">this</span>.Q = [],<br>      <span class="hljs-built_in">this</span>.k = [],<br>      <span class="hljs-built_in">this</span>.B = [],<br>      <span class="hljs-built_in">this</span>.f = [],<br>      <span class="hljs-built_in">this</span>.g = [],<br>      <span class="hljs-built_in">this</span>.u = !<span class="hljs-number">1</span>,<br>      <span class="hljs-built_in">this</span>.G = [],<br>      <span class="hljs-built_in">this</span>.b = [],<br>      <span class="hljs-built_in">this</span>.o = !<span class="hljs-number">1</span>,<br>      <span class="hljs-built_in">this</span>.w = <span class="hljs-literal">null</span>,<br>      <span class="hljs-built_in">this</span>.U = <span class="hljs-literal">null</span>,<br>      <span class="hljs-built_in">this</span>.F = [],<br>      <span class="hljs-built_in">this</span>.R = <span class="hljs-number">0</span>,<br>      <span class="hljs-built_in">this</span>.J = &#123;<br>          <span class="hljs-number">0</span>: s,<br>          <span class="hljs-number">1</span>: i,<br>          <span class="hljs-number">2</span>: h,<br>          <span class="hljs-number">3</span>: a,<br>          <span class="hljs-number">4</span>: c,<br>          <span class="hljs-number">5</span>: n,<br>          <span class="hljs-number">6</span>: e,<br>          <span class="hljs-number">7</span>: o,<br>          <span class="hljs-number">8</span>: r,<br>          <span class="hljs-number">9</span>: Q,<br>          <span class="hljs-number">10</span>: C,<br>          <span class="hljs-number">11</span>: B,<br>          <span class="hljs-number">12</span>: f,<br>          <span class="hljs-number">13</span>: g,<br>          <span class="hljs-number">14</span>: u,<br>          <span class="hljs-number">15</span>: w<br>      &#125;<br>&#125;<br>Q.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>            e.f.push(e.r[<span class="hljs-built_in">this</span>.s]);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>            e.f.push(<span class="hljs-built_in">this</span>.i);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>            e.f.push(e.k[<span class="hljs-built_in">this</span>.h]);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>            e.f.push(k(e.b[<span class="hljs-built_in">this</span>.h]))<br>    &#125;<br>&#125;<br>  ,<br>  C.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">A</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              <span class="hljs-keyword">var</span> t = A.f.pop();<br>              A.r[<span class="hljs-built_in">this</span>.a] = A.r[<span class="hljs-built_in">this</span>.c][t];<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              <span class="hljs-keyword">var</span> s = A.f.pop()<br>                , i = A.f.pop();<br>              A.r[<span class="hljs-built_in">this</span>.c][s] = i;<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>              <span class="hljs-keyword">var</span> h = A.f.pop();<br>              A.r[<span class="hljs-built_in">this</span>.a] = <span class="hljs-built_in">eval</span>(h)<br>      &#125;<br>  &#125;<br>  ,<br>  B.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      e.r[<span class="hljs-built_in">this</span>.s] = k(e.b[<span class="hljs-built_in">this</span>.h])<br>  &#125;<br>  ,<br>  f.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      e.w = <span class="hljs-built_in">this</span>.h<br>  &#125;<br>  ,<br>  g.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">throw</span> e.r[<span class="hljs-built_in">this</span>.s]<br>  &#125;<br>  ,<br>  u.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">var</span> t = <span class="hljs-built_in">this</span><br>        , n = [<span class="hljs-number">0</span>];<br>      e.k.forEach((<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>            n.push(e)<br>        &#125;<br>      ));<br>      <span class="hljs-keyword">var</span> r = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">r</span>) </span>&#123;<br>          <span class="hljs-keyword">var</span> i = <span class="hljs-keyword">new</span> G;<br>          <span class="hljs-keyword">return</span> i.k = n,<br>            i.k[<span class="hljs-number">0</span>] = r,<br>            i.v(e.G, t.h, e.b, e.F),<br>            i.r[<span class="hljs-number">3</span>]<br>      &#125;;<br>      r.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>          <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;() &#123; [native code] &#125;&quot;</span><br>      &#125;<br>        ,<br>        e.r[<span class="hljs-number">3</span>] = r<br>  &#125;<br>  ,<br>  w.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">this</span>.t) &#123;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> t = &#123;&#125;, n = <span class="hljs-number">0</span>; n &lt; <span class="hljs-built_in">this</span>.i; n++) &#123;<br>                  <span class="hljs-keyword">var</span> r = e.f.pop();<br>                  t[e.f.pop()] = r<br>              &#125;<br>              e.r[<span class="hljs-built_in">this</span>.s] = t;<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = [], o = <span class="hljs-number">0</span>; o &lt; <span class="hljs-built_in">this</span>.i; o++)<br>                  i.unshift(e.f.pop());<br>              e.r[<span class="hljs-built_in">this</span>.s] = i<br>      &#125;<br>  &#125;<br>  ,<br>  G.prototype.D = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> t = <span class="hljs-built_in">window</span>.atob(e), n = t.charCodeAt(<span class="hljs-number">0</span>) &lt;&lt; <span class="hljs-number">8</span> | t.charCodeAt(<span class="hljs-number">1</span>), r = [], i = <span class="hljs-number">2</span>; i &lt; n + <span class="hljs-number">2</span>; i += <span class="hljs-number">2</span>)<br>          r.push(t.charCodeAt(i) &lt;&lt; <span class="hljs-number">8</span> | t.charCodeAt(i + <span class="hljs-number">1</span>));<br>      <span class="hljs-built_in">this</span>.G = r;<br>      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> o = [], a = n + <span class="hljs-number">2</span>; a &lt; t.length; ) &#123;<br>          <span class="hljs-keyword">var</span> c = t.charCodeAt(a) &lt;&lt; <span class="hljs-number">8</span> | t.charCodeAt(a + <span class="hljs-number">1</span>)<br>            , u = t.slice(a + <span class="hljs-number">2</span>, a + <span class="hljs-number">2</span> + c);<br>          o.push(u),<br>            a += c + <span class="hljs-number">2</span><br>      &#125;<br>      <span class="hljs-built_in">this</span>.b = o<br>  &#125;<br>  ,<br>  G.prototype.v = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e, t, n</span>) </span>&#123;<br>      <span class="hljs-keyword">for</span> (t = t || <span class="hljs-number">0</span>,<br>             n = n || [],<br>             <span class="hljs-built_in">this</span>.C = t,<br>             <span class="hljs-string">&quot;string&quot;</span> == <span class="hljs-keyword">typeof</span> e ? <span class="hljs-built_in">this</span>.D(e) : (<span class="hljs-built_in">this</span>.G = e,<br>               <span class="hljs-built_in">this</span>.b = n),<br>             <span class="hljs-built_in">this</span>.o = !<span class="hljs-number">0</span>,<br>             <span class="hljs-built_in">this</span>.R = <span class="hljs-built_in">Date</span>.now(); <span class="hljs-built_in">this</span>.o; ) &#123;<br>          <span class="hljs-keyword">var</span> r = <span class="hljs-built_in">this</span>.G[<span class="hljs-built_in">this</span>.C++];<br>          <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;number&quot;</span> != <span class="hljs-keyword">typeof</span> r)<br>              <span class="hljs-keyword">break</span>;<br>          <span class="hljs-keyword">var</span> i = <span class="hljs-built_in">Date</span>.now();<br>          <span class="hljs-keyword">if</span> (<span class="hljs-number">500</span> &lt; i - <span class="hljs-built_in">this</span>.R)<br>              <span class="hljs-keyword">return</span>;<br>          <span class="hljs-built_in">this</span>.R = i;<br>          <span class="hljs-keyword">try</span> &#123;<br>              <span class="hljs-built_in">this</span>.e(r)<br>          &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>              <span class="hljs-built_in">this</span>.U = e,<br>              <span class="hljs-built_in">this</span>.w &amp;&amp; (<span class="hljs-built_in">this</span>.C = <span class="hljs-built_in">this</span>.w)<br>          &#125;<br>      &#125;<br>  &#125;<br>  ,<br>  G.prototype.e = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>      <span class="hljs-keyword">var</span> t = (<span class="hljs-number">61440</span> &amp; e) &gt;&gt; <span class="hljs-number">12</span>;<br>      <span class="hljs-keyword">new</span> <span class="hljs-built_in">this</span>.J[t](e).e(<span class="hljs-built_in">this</span>)<br>  &#125;<br>  ,<br><span class="hljs-number">1</span>  &amp;&amp; (<span class="hljs-keyword">new</span> G).v(<span class="hljs-string">&quot;AxjgB5MAnACoAJwBpAAAABAAIAKcAqgAMAq0AzRJZAZwUpwCqACQACACGAKcBKAAIAOcBagAIAQYAjAUGgKcBqFAuAc5hTSHZAZwqrAIGgA0QJEAJAAYAzAUGgOcCaFANRQ0R2QGcOKwChoANECRACQAsAuQABgDnAmgAJwMgAGcDYwFEAAzBmAGcSqwDhoANECRACQAGAKcD6AAGgKcEKFANEcYApwRoAAxB2AGcXKwEhoANECRACQAGAKcE6AAGgKcFKFANEdkBnGqsBUaADRAkQAkABgCnBagAGAGcdKwFxoANECRACQAGAKcGKAAYAZx+rAZGgA0QJEAJAAYA5waoABgBnIisBsaADRAkQAkABgCnBygABoCnB2hQDRHZAZyWrAeGgA0QJEAJAAYBJwfoAAwFGAGcoawIBoANECRACQAGAOQALAJkAAYBJwfgAlsBnK+sCEaADRAkQAkABgDkACwGpAAGAScH4AJbAZy9rAiGgA0QJEAJACwI5AAGAScH6AAkACcJKgAnCWgAJwmoACcJ4AFnA2MBRAAMw5gBnNasCgaADRAkQAkABgBEio0R5EAJAGwKSAFGACcKqAAEgM0RCQGGAYSATRFZAZzshgAtCs0QCQAGAYSAjRFZAZz1hgAtCw0QCQAEAAgB7AtIAgYAJwqoAASATRBJAkYCRIANEZkBnYqEAgaBxQBOYAoBxQEOYQ0giQKGAmQABgAnC6ABRgBGgo0UhD/MQ8zECALEAgaBxQBOYAoBxQEOYQ0gpEAJAoYARoKNFIQ/zEPkAAgChgLGgkUATmBkgAaAJwuhAUaCjdQFAg5kTSTJAsQCBoHFAE5gCgHFAQ5hDSCkQAkChgBGgo0UhD/MQ+QACAKGAsaCRQCOYGSABoAnC6EBRoKN1AUEDmRNJMkCxgFGgsUPzmPkgAaCJwvhAU0wCQFGAUaCxQGOZISPzZPkQAaCJwvhAU0wCQFGAUaCxQMOZISPzZPkQAaCJwvhAU0wCQFGAUaCxQSOZISPzZPkQAaCJwvhAU0wCQFGAkSAzRBJAlz/B4FUAAAAwUYIAAIBSITFQkTERwABi0GHxITAAAJLwMSGRsXHxMZAAk0Fw8HFh4NAwUABhU1EBceDwAENBcUEAAGNBkTGRcBAAFKAAkvHg4PKz4aEwIAAUsACDIVHB0QEQ4YAAsuAzs7AAoPKToKDgAHMx8SGQUvMQABSAALORoVGCQgERcCAxoACAU3ABEXAgMaAAsFGDcAERcCAxoUCgABSQAGOA8LGBsPAAYYLwsYGw8AAU4ABD8QHAUAAU8ABSkbCQ4BAAFMAAktCh8eDgMHCw8AAU0ADT4TGjQsGQMaFA0FHhkAFz4TGjQsGQMaFA0FHhk1NBkCHgUbGBEPAAFCABg9GgkjIAEmOgUHDQ8eFSU5DggJAwEcAwUAAUMAAUAAAUEADQEtFw0FBwtdWxQTGSAACBwrAxUPBR4ZAAkqGgUDAwMVEQ0ACC4DJD8eAx8RAAQ5GhUYAAFGAAAABjYRExELBAACWhgAAVoAQAg/PTw0NxcQPCQ5C3JZEBs9fkcnDRcUAXZia0Q4EhQgXHojMBY3MWVCNT0uDhMXcGQ7AUFPHigkQUwQFkhaAkEACjkTEQspNBMZPC0ABjkTEQsrLQ==&quot;</span>);<br><br><span class="hljs-keyword">var</span> b = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> __g._encrypt(<span class="hljs-built_in">encodeURIComponent</span>(e))<br>&#125;;<br><br><span class="hljs-built_in">module</span>.exports = &#123;<br>    <span class="hljs-attr">Q</span>: b<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947435.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947790.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>最后本地测试一下，对上了 对上了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947842.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947346.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在看一下 s 的值 s=r+c+i， 101_3_3.0+/api/v4/search/suggest?qv=vim+AHCY5gT4iBKPTsBQivYRPUIbDLBctuaZZzs=|1611209467 其他都是固定的 只需要改一下请求的 url query 就可以了</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947382.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在经过测试后 成功 修改参数 起飞</p>
+<h3 id="接入-Go-otto-调用"><a href="#接入-Go-otto-调用" class="headerlink" title="接入 Go otto 调用"></a>接入 Go otto 调用</h3><p>在接入 Go 调用过程中发现一个问题，不知道是 golang otto 包的问题还是怎样，就是在 js 文件里面 如果有 require() 第三包的情况下 就会提示语法错误, 因为这个加密 js 文件中会调用 windows.atob 方法 所以需要借助第三方包 jsdom 来实现</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947256.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>错误表现</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201947699.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在经过冥思苦想不知道怎么解决的时候，去问了下团队里的爬虫老师傅，他说一般遇到这种情况就直接起一个 Node 的服务专门来处理这种解密的事就 OK 了，恍然大悟 原来如此</p>
+<h3 id="ServerLess"><a href="#ServerLess" class="headerlink" title="ServerLess"></a>ServerLess</h3><p>有点偷懒不想自己搞个服务来玩这个了，想直接用云厂商的试用版，看了一下 以前 用过的 LeanCloud 的 感觉不太行，后面选择了腾讯的 ServerLess 直接部署了一个服务器</p>
+<figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>service-denf06ck-<span class="hljs-number">1253616191</span>.gz.apigw.tencentcs.com<span class="hljs-regexp">/release/</span>secret/:content<br></code></pre></div></td></tr></table></figure>
+
+<p>替换掉上面的 content 就可以了，最后 Go 脚手架项目也完成了，项目地址：<a target="_blank" rel="noopener" href="https://github.com/xiaoxiunique/go-cli/tree/master">https://github.com/xiaoxiunique/go-cli/tree/master</a></p>
+<p>投稿作者：胡川港</p>
+<p>知乎主页：zhihu.com/people/hu-chuan-gang-58</p>
+<p>GitHub主页：<a target="_blank" rel="noopener" href="https://github.com/xiaoxiunique">https://github.com/xiaoxiunique</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Demo/">Demo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Demo/">Demo</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">前后端分离的接口规范</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/%E6%89%B9%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6%20Spring%20Batch%20%E8%AF%A6%E8%A7%A3/">
+                        <span class="hidden-mobile">批处理框架 Spring Batch 详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

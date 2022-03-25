@@ -203,33 +203,37 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301332136.webp" srcset="/img/loading.gif" lazyload alt="Redis面试题">
+        <a href="/2022/03/25/GNU_C05/" target="_self">
+          <img src="/img/Substitute4.jpg" srcset="/img/loading.gif" lazyload alt="零长度数组">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          Redis面试题
+        <a href="/2022/03/25/GNU_C05/" target="_self">
+          零长度数组
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+        <a href="/2022/03/25/GNU_C05/" target="_self">
           
           
             
           
-          Redis 面试题
+          零长度数组
 
-1、谈下你对 Redis 的了解？Redis（全称：Remote Dictionary Server 远程字典服务）是一个开源的使用 ANSI C 语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value 数据库，并提供多种语言的 API。
-2、Redis 一般都有哪些使用场景？
-Redis 适合的场景
+5.1 什么是零长度数组顾名思义，零长度数组就是长度为0的数组。
+ANSI C 标准规定：定义一个数组时，数组的长度必须是一个常数，即数组的长度在编译的时候是确定的。在ANSI C 中定义一个数组的方法如下：
+1int  a[10];
 
-缓存：减轻 MySQL 的查询压力，提升系统性能；
-排行榜
+C99 新标准规定：可以定义一个变长数组。
+1int len;
+
+1int a[len];
+
+也就是说，数组的长度在编译时是未确定的，在程序运行的时
         </a>
       </p>
 
@@ -237,8 +241,8 @@ Redis 适合的场景
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -246,9 +250,9 @@ Redis 适合的场景
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/Database/Redis/">Redis</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -256,9 +260,9 @@ Redis 适合的场景
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/Redis/">Redis</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -270,31 +274,29 @@ Redis 适合的场景
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109232004266.webp" srcset="/img/loading.gif" lazyload alt="Redis的拓展方案">
+        <a href="/2022/03/25/GNU_C04/" target="_self">
+          <img src="/img/Substitute3.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核第一宏：container_of">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
-          Redis的拓展方案
+        <a href="/2022/03/25/GNU_C04/" target="_self">
+          Linux 内核第一宏：container_of
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
+        <a href="/2022/03/25/GNU_C04/" target="_self">
           
           
             
           
-          Redis 的拓展方案
+          Linux 内核第一宏：container_of
 
-Redis大家都不陌生，就算是没用过，也都听说过了。作为最广泛使用的KV内存数据库之一，在当今的大流量时代，单机模式略显单薄，免不了要有一些拓展的方案。
-笔者下文会对各种方案进行介绍，并且给出 场景，实现 等等概述，还会提到一些新手常见的误区。
-| 正文先从基础的拓展方式开始，这样更便于理解较高级的模式。
-ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然还
+4.1 typeof 关键字ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。
+通过
         </a>
       </p>
 
@@ -302,8 +304,8 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -311,9 +313,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/Database/Redis/">Redis</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -321,9 +323,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/Redis/">Redis</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -335,28 +337,30 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
-          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="Oracle学习笔记续">
+        <a href="/2022/03/25/GNU_C03/" target="_self">
+          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="宏构造利器：语句表达式">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
-          Oracle学习笔记续
+        <a href="/2022/03/25/GNU_C03/" target="_self">
+          宏构造利器：语句表达式
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
+        <a href="/2022/03/25/GNU_C03/" target="_self">
           
           
             
           
-          Oracle学习笔记续
+          宏构造利器：语句表达式
 
-一:DDL(data definition language)语句管理表12345678910111213141516171819202122232425--  1.创建空间表格式:/*create tablespace 表空间名称datafile 数据文件路径size 100mautoextend onnext 10m;*/ -- 创建itcast001空间表creat
+3.1 基础复习：表达式、语句和代码块表达式表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：
+
+2 
         </a>
       </p>
 
@@ -364,8 +368,8 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -373,9 +377,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/Database/Oracle/">Oracle</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -383,9 +387,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/Oracle/">Oracle</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -397,31 +401,31 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
-          <img src="/img/Substitute9.jpg" srcset="/img/loading.gif" lazyload alt="Oracle学习笔记">
+        <a href="/2022/03/25/GNU_C02/" target="_self">
+          <img src="/img/Substitute1.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核驱动中的指定初始化">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
-          Oracle学习笔记
+        <a href="/2022/03/25/GNU_C02/" target="_self">
+          Linux 内核驱动中的指定初始化
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+        <a href="/2022/03/25/GNU_C02/" target="_self">
           
           
             
           
-          Oracle学习笔记
+          Linux 内核驱动中的指定初始化
 
-一:基本查询​    1.查询1981-1-1到1981-12-31号入职的雇员
-1select * from emp where to_date(&#x27;1981-1-1&#x27;,&#x27;yyyy-MM-dd&#x27;) and to_date(&#x27;1981-12-31&#x27;,&#x27;yyyy-MM-dd&#x27;);
+2.1 什么是指定初始化在标准 C 中，当我们定义并初始化一个数组时，常用方法如下：
+1int a[10] = &#123;0,1,2,3,4,5,6,7,8&#125;;
 
-​    2.查
+按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数
         </a>
       </p>
 
@@ -429,8 +433,8 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -438,9 +442,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/Database/Oracle/">Oracle</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -448,9 +452,9 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/Oracle/">Oracle</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -462,34 +466,31 @@ ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/10%20%E4%B8%AA%20SQL%20%E9%94%99%E8%AF%AF/" target="_self">
-          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="10个SQL错误">
+        <a href="/2022/03/25/GNU_C01/" target="_self">
+          <img src="/img/Substitute.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核中的 C 语言语法扩展">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/10%20%E4%B8%AA%20SQL%20%E9%94%99%E8%AF%AF/" target="_self">
-          10个SQL错误
+        <a href="/2022/03/25/GNU_C01/" target="_self">
+          Linux 内核中的 C 语言语法扩展
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/10%20%E4%B8%AA%20SQL%20%E9%94%99%E8%AF%AF/" target="_self">
+        <a href="/2022/03/25/GNU_C01/" target="_self">
           
           
             
           
-          10 个 SQL 错误
+          Linux 内核中的 C 语言语法扩展
 
-Java 程序员编程时需要混合面向对象思维和一般命令式编程的方法，能否完美的将两者结合起来完全得依靠编程人员的水准：
 
-技能（任何人都能容易学会命令式编程）
-模式（有些人用“模式-模式”,举个例子,模式可以应用到任何地方，而且都可以归为某一类模式）
-心境（首先，要写个好的面向对象程序是比命令式程序难的多，你得花费一些功夫）
 
-但当Java程序员写SQL语句时，一切都不一样
+1.1 Linux 内核驱动中的奇怪语法大家在看一些 GNU 开源软件，或者阅读 Linux 内核、驱动源码时会发现，在 Linux 内核源码中，有大量的 C 程序看起来“怪怪的”。说它是C语言吧，貌似又跟教材中的写法不太一样；说它不是 C 语言呢，但是这些程序确确实实是在一个 C 文件中。此时，你肯定怀疑你看到的是一个“假的 C 语言”！
+比如，下面
         </a>
       </p>
 
@@ -497,8 +498,8 @@ Java 程序员编程时需要混合面向对象思维和一般命令式编程的
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -506,9 +507,9 @@ Java 程序员编程时需要混合面向对象思维和一般命令式编程的
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -516,9 +517,9 @@ Java 程序员编程时需要混合面向对象思维和一般命令式编程的
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -530,33 +531,30 @@ Java 程序员编程时需要混合面向对象思维和一般命令式编程的
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/7%20%E4%B8%AA%20yyds%20%E7%9A%84%E9%AB%98%E9%A2%91%20MySQL%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301302387.png" srcset="/img/loading.gif" lazyload alt="7个yyds的高频MySQL面试题">
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131648442.webp" srcset="/img/loading.gif" lazyload alt="Git各指令的本质">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/7%20%E4%B8%AA%20yyds%20%E7%9A%84%E9%AB%98%E9%A2%91%20MySQL%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          7个yyds的高频MySQL面试题
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
+          Git各指令的本质
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/7%20%E4%B8%AA%20yyds%20%E7%9A%84%E9%AB%98%E9%A2%91%20MySQL%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
           
           
             
           
-          7 个 yyds 的高频 MySQL 面试题
+          Git 各指令的本质
 
-MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
-这个问题，可以在脑子里面先思考一下，如果让你来设计数据库的索引，你会怎么设计？
-我们还是用Why？What？How？三步法来看这个问题。
-为什么会需要索引？索引是什么？索引怎么用的？
-再思考为什么需要B+树？B+树是什么？B+树怎么用？
-答：大部分程序主要的功能都是对数据的处理，写
+作为当前世界上最强大的代码管理工具Git相信大家都很熟悉，但据我所知有很大一批人停留在clone、commit、pull、push…的阶段，是不是对rebase心里没底只敢用merge？
+碰见版本回退就抓瞎？别问我怎么知道的，问就是：“我曾经就是这样啊～～”。
+针对这些问题，今天我就将这几年对Git的认知和理解分享出来，尽可能的从本质去讲解Git，帮助你一步一步去了解Git
         </a>
       </p>
 
@@ -564,8 +562,8 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -573,9 +571,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/Git/">Git</a>
             
           </div>
         
@@ -583,9 +581,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Git/">Git</a>
             
           </div>
         
@@ -597,32 +595,41 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/%E6%80%8E%E4%B9%88%E5%AD%98%20IP%20%E5%9C%B0%E5%9D%80%EF%BC%9F/" target="_self">
-          <img src="/img/Substitute10.jpg" srcset="/img/loading.gif" lazyload alt="怎么存 IP 地址？">
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021328914.webp" srcset="/img/loading.gif" lazyload alt="Git常用命令速查表">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/%E6%80%8E%E4%B9%88%E5%AD%98%20IP%20%E5%9C%B0%E5%9D%80%EF%BC%9F/" target="_self">
-          怎么存 IP 地址？
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
+          Git常用命令速查表
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/%E6%80%8E%E4%B9%88%E5%AD%98%20IP%20%E5%9C%B0%E5%9D%80%EF%BC%9F/" target="_self">
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
           
           
             
           
-          怎么存 IP 地址？
+          Git 常用命令速查表
 
-在看高性能MySQL第3版（4.1.7节）时，作者建议当存储IPv4地址时，应该使用32位的无符号整数（UNSIGNED INT）来存储IP地址，而不是使用字符串。 但是没有给出具体原因。为了搞清楚这个原因，查了一些资料，记录下来。
-相对字符串存储，使用无符号整数来存储有如下的好处：
+名词
 
-节省空间，不管是数据存储空间，还是索引存储空间
-便于使用范围查询（BETWEEN…AND
+master: 默认开发分支
+origin: 默认远程版本库
+Index / Stage：暂存区
+Workspace：工作区
+Repository：仓库区（或本地仓库）
+Remote：远程仓库
+
+一、新建代码库
+二、配置Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
+
+三、增加/删除/修改文件
+四、代码提
         </a>
       </p>
 
@@ -630,8 +637,8 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -639,9 +646,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/Git/">Git</a>
             
           </div>
         
@@ -649,9 +656,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Git/">Git</a>
             
           </div>
         
@@ -663,29 +670,30 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/%E4%B8%80%E6%AC%A1%20SQL%20%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202109232058529.webp" srcset="/img/loading.gif" lazyload alt="一次SQL查询优化原理分析">
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102031350.png" srcset="/img/loading.gif" lazyload alt="Fluent Mybatis 牛逼！">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/%E4%B8%80%E6%AC%A1%20SQL%20%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" target="_self">
-          一次SQL查询优化原理分析
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
+          Fluent Mybatis 牛逼！
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/%E4%B8%80%E6%AC%A1%20SQL%20%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" target="_self">
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
           
           
             
           
-          一次 SQL 查询优化原理分析
+          Fluent Mybatis 牛逼！
 
-有一张财务流水表，未分库分表，目前的数据量为9555695，分页查询使用到了limit，优化之前的查询耗时16 s 938 ms (execution: 16 s 831 ms, fetching: 107 ms)，按照下文的方式调整SQL后，耗时347 ms (execution: 163 ms, fetching: 184 ms)；
-操作： 查询条件放到子查询
+使用fluent mybatis可以不用写具体的xml文件，通过java api可以构造出比较复杂的业务sql语句，做到代码逻辑和sql逻辑的合一。不再需要在Dao中组装查询或更新操作，在xml或mapper中再组装参数。那对比原生Mybatis, Mybatis Plus或者其他框架，FluentMybatis提供了哪些便利呢？
+场景需求设置
+我们通过一个
         </a>
       </p>
 
@@ -693,8 +701,8 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -702,9 +710,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -712,9 +720,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -726,31 +734,42 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/%E7%A5%9E%E5%A5%87%E7%9A%84%20SQL%20%E4%B9%8B%E5%88%AB%E6%A0%B7%E7%9A%84%E5%86%99%E6%B3%95%20%E2%86%92%20%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/202108301559924.webp" srcset="/img/loading.gif" lazyload alt="神奇的 SQL 之别样的写法 → 行行比较">
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507155311.png" srcset="/img/loading.gif" lazyload alt="简易理财管理系统">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/%E7%A5%9E%E5%A5%87%E7%9A%84%20SQL%20%E4%B9%8B%E5%88%AB%E6%A0%B7%E7%9A%84%E5%86%99%E6%B3%95%20%E2%86%92%20%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/" target="_self">
-          神奇的 SQL 之别样的写法 → 行行比较
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
+          简易理财管理系统
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/%E7%A5%9E%E5%A5%87%E7%9A%84%20SQL%20%E4%B9%8B%E5%88%AB%E6%A0%B7%E7%9A%84%E5%86%99%E6%B3%95%20%E2%86%92%20%E8%A1%8C%E8%A1%8C%E6%AF%94%E8%BE%83/" target="_self">
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
           
           
             
           
-          神奇的 SQL 之别样的写法 → 行行比较
+          简易理财管理系统
 
-环境准备数据库版本： MySQL 5.7.20-log 
 
-建表 SQL
-1234567891011121314151617181920DROP TABLE IF EXISTS `t_ware_sale_statistics`;CREATE TABLE `t_ware_sale_statistics` (`id` bigint(20) NOT NULL
+1. 简介1.1 主要技术实现
+Spring Boot
+Thymeleaf
+MyBatis
+MySQL
+
+1.2 相关技术支持
+SpringBoot：实现MVC分层
+MyBatis：采用逆向工程生成 entity 和 mapper
+MySQL：数据库持久化实现
+Shiro：管理权限
+Thymeleaf：前端模板引擎
+Pagehelper：分页插件
+Druid：阿里巴巴数据库连
         </a>
       </p>
 
@@ -758,8 +777,8 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -767,9 +786,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -777,9 +796,9 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -791,33 +810,37 @@ MySQL 索引使用什么数据结构？为什么用 B+做索引？使用B+树。
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2021/10/13/%E8%83%BD%E7%94%A8%20uuid%20%E5%81%9A%20MySQL%20%E7%9A%84%E4%B8%BB%E9%94%AE%E5%90%97%EF%BC%9F/" target="_self">
-          <img src="https://gitee.com/tytokongjian/image/raw/master/images/20210614212532.webp" srcset="/img/loading.gif" lazyload alt="能用 uuid 做 MySQL 的主键吗？">
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210511111816.png" srcset="/img/loading.gif" lazyload alt="疫情数据显示Demo">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/10/13/%E8%83%BD%E7%94%A8%20uuid%20%E5%81%9A%20MySQL%20%E7%9A%84%E4%B8%BB%E9%94%AE%E5%90%97%EF%BC%9F/" target="_self">
-          能用 uuid 做 MySQL 的主键吗？
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
+          疫情数据显示Demo
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/10/13/%E8%83%BD%E7%94%A8%20uuid%20%E5%81%9A%20MySQL%20%E7%9A%84%E4%B8%BB%E9%94%AE%E5%90%97%EF%BC%9F/" target="_self">
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
           
           
             
           
-          能用 uuid 做 MySQL 的主键吗？
+          疫情数据显示Demo
 
-在mysql中设计表的时候,mysql官方推荐不要使用uuid或者不连续不重复的雪花id(long形且唯一，单机递增),而是推荐连续自增的主键id,官方的推荐是auto_increment,那么为什么不建议采用uuid,使用uuid究竟有什么坏处？
-本篇博客我们就来分析这个问题,探讨一下内部的原因。
-本篇博客的目录
+本小Demo使用HttpURLConnection实时的从网站获取最新疫情数据内容，并通过echarts显示在前端，基于SpringBoot + MyBatis Plus + Thymeleaf的疫情数据显示Demo
+1. 使用技术
+SpringBoot
+Mybatis Plus
+MySQL
+Thymeleaf
+Echarts
+Gson
 
-mysql程序实例
-使用uuid和
+1.1 数据库调整数据获取时间，可
         </a>
       </p>
 
@@ -825,8 +848,8 @@ mysql程序实例
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-13 22:13" pubdate>
-              2021-10-13
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
             </time>
           </div>
         
@@ -834,9 +857,9 @@ mysql程序实例
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -844,9 +867,9 @@ mysql程序实例
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         

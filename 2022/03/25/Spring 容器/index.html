@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring 容器  1. Spring 如何根据注解创建容器？我们都知道Spring提供了根据注解和xml文件两种方式来创建容器和管理bean的，而在此我们将使用Spring提供的注解创建出容器，并从容器中获取到bean对象。  创建配置类MySpringContext.java，类上添加Spring提供的ComponentScan注解生命扫描包的路径  123456@ComponentSca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 容器">
+<meta property="og:url" content="http://example.com/2022/03/25/Spring%20%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring 容器  1. Spring 如何根据注解创建容器？我们都知道Spring提供了根据注解和xml文件两种方式来创建容器和管理bean的，而在此我们将使用Spring提供的注解创建出容器，并从容器中获取到bean对象。  创建配置类MySpringContext.java，类上添加Spring提供的ComponentScan注解生命扫描包的路径  123456@ComponentSca">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622105817.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110044.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110101.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110112.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110155.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110235.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110330.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110352.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110709.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110800.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110821.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111043.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111115.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111136.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111147.webp">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111206.webp">
+<meta property="article:published_time" content="2022-03-25T13:46:50.788Z">
+<meta property="article:modified_time" content="2022-03-25T12:44:02.772Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622105817.webp">
+  
+  <title>Spring 容器 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring 容器">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-25 21:46" pubdate>
+        2022年3月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      17k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      53 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring 容器</h1>
+            
+            <div class="markdown-body">
+              <center><h2> Spring 容器</h2></center>
+
+<h3 id="1-Spring-如何根据注解创建容器？"><a href="#1-Spring-如何根据注解创建容器？" class="headerlink" title="1. Spring 如何根据注解创建容器？"></a>1. Spring 如何根据注解创建容器？</h3><p>我们都知道Spring提供了根据注解和xml文件两种方式来创建容器和管理bean的，而在此我们将使用Spring提供的注解创建出容器，并从容器中获取到bean对象。</p>
+<ol>
+<li>创建配置类MySpringContext.java，类上添加Spring提供的ComponentScan注解生命扫描包的路径</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ComponentScan(&#123;&quot;com.it120&quot;&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MySpringContext</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MySpringContext</span><span class="hljs-params">()</span></span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;容器初始化中。。。。&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>注解中的“com.it120”,表示Spring应该把该路径下贴上@Component注解的类加载到容器中</p>
+</blockquote>
+<ol start="2">
+<li>在需要被Spring容器加载的类上贴上@Component注解：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBean</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span>  <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;执行test方法&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>以上代码中我们定义了一个MyBean类，并提供了test()方法，类上我们贴上了@Component注解，表示该类将会被加载到Spring容器中</p>
+</blockquote>
+<ol start="3">
+<li>根据配置类创建一个容器，并根据名称获取某个bean：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(MySpringContext.class);<br>        MyBean myBean = (MyBean) context.getBean(<span class="hljs-string">&quot;myBean&quot;</span>);<br>        myBean.test();<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>以上代码中我们使用了Spring提供的AnnotationConfigApplicationContext类创建了一个容器上下文对象，入参为配置类的Class对象，通过容器上下文getBean(String beanNaem)方法 获取到我们加载到Spring容器中的bean对象，强转之后再调用test()方法，运行结果如图示：</p>
+</blockquote>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622105817.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上就是根据Spring提供的注解和方法创建的容器和从容器中获取Bean的简单案例，我们暂且不深究其中奥妙，因为我们将会通过自己的创建的注解来实现以上的案例。</p>
+<h3 id="2-创建容器类和自定义组件"><a href="#2-创建容器类和自定义组件" class="headerlink" title="2. 创建容器类和自定义组件"></a>2. 创建容器类和自定义组件</h3><p><strong>创建容器类和自定注解</strong></p>
+<blockquote>
+<p>上一篇中我们使用了Spring提供的AnnotationConfigApplicationContext类来创建了一个容器上下文对象，入参为配置类的Class文件对象。并且该容器上下文对象提供了一个getBean(String beanName)的方法</p>
+</blockquote>
+<p>那么我们可以简化思考为 AnnotationConfigApplicationContext类其实就是一个拥有Class类型成员变量和一个参数的构造器再加上一个getBean()方法的类，我们可以依此创建出容器类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationContext</span> </span>&#123;<br><br>    <span class="hljs-comment">// Class类型的成员变量</span><br>    <span class="hljs-keyword">public</span>  Class clazz;<br>   <br>    <span class="hljs-comment">// 构造方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyApplicationContext</span><span class="hljs-params">(Class clazz)</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.clazz=clazz;<br>     <br>    &#125;<br>    <br>    <span class="hljs-comment">// getBean方法,根据名称获取一个bean对象</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getBean</span><span class="hljs-params">(String name)</span></span>&#123;<br>    <span class="hljs-comment">// 先返回null,后续代码补上</span><br>       <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>创建自定义@ComponentScan()和@Component注解，这两个注解里面都拥有一个String类型的属性，前者中的属性表示包扫描的路径，后者的属性代表某个bean在容器中的名称</p>
+<p>@ComponentScan()实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ComponentScan &#123;<br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>@Component实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Component &#123;<br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<blockquote>
+<p>注解中的@Target(ElementType.TYPE)表示这个注解可以使用在 类、接口上，@Retention(RetentionPolicy.RUNTIME)表示注解不仅被保存到class文件中,jvm加载class文件之后,仍然存在</p>
+</blockquote>
+<p>定义一个配置类，类上使用@ComponentScan()注解，并指定包扫描路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@ComponentScan(&quot;com.spring_container.service&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppConfig</span> </span>&#123;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>再定义一个将被加载到容器中的类，类上使用@Component注解，指定该bean在容器中的名称：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> </span>&#123;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>到此我们已经把基本的类结构和注解定义完成可以在main方法中进行一个“假容器”的创建了如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException </span>&#123;<br>        <span class="hljs-comment">//手写实现Spring容器</span><br>        MyApplicationContext myApplicationContext= <span class="hljs-keyword">new</span> MyApplicationContext(AppConfig.class);<br>        System.out.println(myApplicationContext.getBean(<span class="hljs-string">&quot;myService&quot;</span>));<br>       <br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>但是现在我们运行其实也不会返回什么，因为我们还没完成bean对象的创建，所以这是个“空壳容器”</p>
+<h3 id="3-解析注解获取包扫描路径"><a href="#3-解析注解获取包扫描路径" class="headerlink" title="3.  解析注解获取包扫描路径"></a>3.  解析注解获取包扫描路径</h3><p>解析@ComponentScan注解获取注解属性值，获取该路径下所有.class文件</p>
+<blockquote>
+<p>在上文中我们通过自定义注解和自定义容器类搭建了一个“空壳容器”，在本篇内容我们将逐步完成包扫描的过程。包扫描的流程大致可分为如下步骤：</p>
+</blockquote>
+<ol>
+<li>解析注解获取注解的属性值</li>
+<li>根据注解属性值，获取该路径下所有文件</li>
+<li>通过ClassLoader 加载.class文件</li>
+</ol>
+<p>包扫描和bean对象的创建都是需要在容器类中的构造方法进行创建处理的，我们可以把包扫描的步骤定义在一个方法内 名为scan(Class clazz) 之后在构造器中调用此方法即可：构造方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 构造方法</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyApplicationContext</span><span class="hljs-params">(Class aClass)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException </span>&#123;<br>        <span class="hljs-keyword">this</span>.aClass=aClass;<br>        <span class="hljs-comment">// 扫描路径-</span><br>        scan(aClass);<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>scan方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">scan</span><span class="hljs-params">(Class aClass)</span> </span>&#123;<br>            <span class="hljs-comment">//扫描包的逻辑代码</span><br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在Scan方法中我们第一步需要获取到注解中的扫描路径：在scan方法中添加如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//1.获取传入的配置类上的@ComponentScan里面的参数,包的扫描路径</span><br>        ComponentScan componentScan = (ComponentScan)aClass.getDeclaredAnnotation(ComponentScan.class);<br>        String path = componentScan.value();<br>        System.out.println(path);<br></code></pre></div></td></tr></table></figure>
+
+<p>输出的包扫描路径如图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110044.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>获取到包扫描路径后，需要根据该路径获取到该路径下所有的文件</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//1.获取传入的配置类上的@ComponentScan里面的参数,包的扫描路径</span><br>ComponentScan componentScan = (ComponentScan)aClass.getDeclaredAnnotation(ComponentScan.class);<br>String path = componentScan.value();<br>ClassLoader classLoader = MyApplicationContext.class.getClassLoader();<br><span class="hljs-comment">// 获取path下所有资源</span><br>URL resource = classLoader.getResource(path.replace(<span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;/&quot;</span>));<br><span class="hljs-comment">// 获取文件</span><br>File file = <span class="hljs-keyword">new</span> File(resource.getFile());<br><span class="hljs-keyword">if</span>(file.isDirectory())&#123;<br><span class="hljs-comment">// 如果是文件夹</span><br>File[] files = file.listFiles();<br>    <span class="hljs-keyword">for</span> (File f: files) &#123;<br>            <span class="hljs-comment">// 输出每一个文件的地址</span><br>            System.out.println(f.getAbsolutePath());<br>        &#125;<br>   &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果如图所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110101.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>三种类加载器</strong></p>
+<ol>
+<li>启动类加载器(Bootstrap classLoader)，加载的是jre/lib下的文件</li>
+<li>拓展类加载器(Extension classLoader)，加载的是/jre/ext/lib下的文件</li>
+<li>应用类加载器（appclassloader）这个加载器就是加载用户所自定义的类的，加载的是classpath路径下的文件，那classpath路经指的是哪？看下图</li>
+</ol>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110112.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们从idea的启动参数log中看到有一个Classpath对应的参数，而这里的classpath指的是相对于Target/classes/下的文件，所以我们的appclassloader将会加载classes/下面的所有文件</p>
+<p>第三步根据包扫描路径下所有.class文件生成Class对象，这里分两个小步，第一步获取类的全限定类名，第二步通过全限定类名生成Class对象。</p>
+<ol>
+<li>通过字符串的切割和替换最终得到了包下全部类的全限定类名</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (File f: files) &#123;<br>        <span class="hljs-keyword">if</span>(f.getAbsolutePath().endsWith(<span class="hljs-string">&quot;.class&quot;</span>))&#123;<br>           String absolutePath = f.getAbsolutePath();<br>           String filePath = absolutePath.substring(absolutePath.indexOf(<span class="hljs-string">&quot;com&quot;</span>), absolutePath.indexOf(<span class="hljs-string">&quot;.class&quot;</span>));<br>           String className = filePath.replace(<span class="hljs-string">&quot;\\&quot;</span>, <span class="hljs-string">&quot;.&quot;</span>);<br>            System.out.println(className);<br>         &#125;<br><br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110155.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ol start="2">
+<li>通过类加载器获取到Class对象：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 通过类加载器，加载类</span><br>Class&lt;?&gt; clazz = classLoader.loadClass(className);<br>System.out.println(clazz);<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110235.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在上文中我们通过获取注解属性值，并通过该值加载.calss文件，最终通过类加载器获取到了Class对象，获取到类的Class对象之后我们就可以通过反射来创建出类的对象了</p>
+<h3 id="4-单例池和BeanDefinition对象"><a href="#4-单例池和BeanDefinition对象" class="headerlink" title="4. 单例池和BeanDefinition对象"></a>4. 单例池和BeanDefinition对象</h3><blockquote>
+<p>在上文中我们通过获取注解属性值，并通过该值加载.calss文件，最终通过类加载器获取到了Class对象，获取到类的Class对象之后我们就可以通过反射来创建出类的对象了</p>
+</blockquote>
+<p>我们都知道Spirng中Bean的作用域有以下几种：</p>
+<ol>
+<li>原型(prototype):每次通过 Spring 容器获取 prototype 定义的 bean 时，容器都将创建一个新的 Bean 实例，每个 Bean 实例都有自己的属性和状态.</li>
+<li>单例(singleton):Spring IoC 容器中只会存在一个共享的 Bean 实例，无论有多少个Bean 引用它，始终指向同一对象。该模式在多线程下是不安全的。Singleton 作用域是Spring 中的缺省作用域，也可以显示的将 Bean 定义为 singleton 模式.</li>
+<li>request：在一次 Http 请求中，容器会返回该 Bean 的同一实例。而对不同的 Http 请求则会产生新的 Bean，而且该 bean 仅在当前 Http Request 内有效,当前 Http 请求结束，该 bean实例也将会被销毁.</li>
+<li>session：在一次 Http Session 中，容器会返回该 Bean 的同一实例。而对不同的 Session 请求则会创建新的实例，该 bean 实例仅在当前 Session 内有效。同 Http 请求相同，每一次session 请求创建新的实例，而不同的实例之间不共享属性，且实例仅在自己的 session 请求内有效，请求结束，则实例将被销毁.</li>
+<li>global Session：在一个全局的 Http Session 中，容器会返回该 Bean 的同一个实例，仅在使用 portlet context 时有效.</li>
+</ol>
+<p>在本篇文章中我们将讲解原型bean和单例bean的区别和实现，首先我们先来看以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 单例模式</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;<br>    <span class="hljs-keyword">private</span>  <span class="hljs-keyword">static</span> Singleton singleton;<br><br>    <span class="hljs-comment">// 声明为私有之后在其他内就无法使用 该构造器来创建新的对象</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span></span>&#123;&#125;<br>    <span class="hljs-comment">//只提供唯一一个访问此对象的方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getSingleton</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(singleton==<span class="hljs-keyword">null</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Singleton();<br>        &#125;<br>        <span class="hljs-keyword">return</span> singleton;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//调用</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;<br>    System.out.println(Singleton.getSingleton());<br>    System.out.println(Singleton.getSingleton());<br>    System.out.println(Singleton.getSingleton());<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行截图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110330.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上就是一个单例模式的小案例，通过运行我们发现多次调用getSingleton()方法返回的都是通一个对象，正是对应了作用域为单例的Spring bean 如果我们把代码改为以下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getSingleton</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Singleton();<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>则运行结果如图下所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110352.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们修改代码之后每调用一个getSingleton()，就会创建出一个新的对象，所有打印出来的对象自然是不相同的，而这种对象在Spring中称为原型bean</p>
+<p>通过以上代码我们基本了解了什么是单例bean和原型bean的区别了，那Spring容器是如何区分这两bean呢？是不是也像上面一样写了个单例模式呢？</p>
+<p><strong>单例池</strong></p>
+<p>单例池顾名思义 “池”中保存的bean都是单例bean,当你想要获取的bean是存在这个“池”中的，存在即可返回不用再创建，这样也就实现了每次获取都是同一个对象，那这个单例池的是何种数据结构呢? 在此我们使用了ConcurrentHashMap&lt;String,Object&gt; 来作为单例池的存储结构</p>
+<p><strong>BeanDefinition对象</strong></p>
+<p>BeanDefinition对象是bean的定义，而非bean的对象，在beanDefinition对象中我们仅提供了 Class 类型的成员变量和bean作用域的成员变量：如下</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//bean定义对象</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BeanDefinition</span> </span>&#123;<br>    <span class="hljs-comment">// 类型</span><br>    <span class="hljs-keyword">private</span> Class clazz;<br>    <span class="hljs-comment">// bean的作用域</span><br>    <span class="hljs-keyword">private</span> String scope;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们接着上篇文章的进度，上篇文章中我们是通过类加载器加载了指定扫描包路径下的所有Class对象。本文我们将会完成以下内容：</p>
+<ol>
+<li>判断某个bean是否为单例类型，如果为单例类型则将该bean对象存入到单例池中</li>
+<li>在扫描包的过程中将生成bean的定义对象，将bean定义对象存入到一个ConcurrentHashMap中，以供后续创建bean和获取bean时通过bean名称获取Class对象</li>
+</ol>
+<p>第一步：我们需要定义一个注解表示该bean为单例bean还是原型bean</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Scope &#123;<br>    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>注解的定义如上，在使用该注解时定义某个bean为单例时需要，传入bean的类型 如 ：“@Scope(“prototype”)” 则表示该bean的类型为原型bean,如果不用此注解则默认为单例bean 在容器中声明两个map成员如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//单例池</span><br><span class="hljs-keyword">private</span> ConcurrentHashMap&lt;String,Object&gt; singletonMap =<span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br><span class="hljs-comment">// BeanDefinition</span><br><span class="hljs-keyword">private</span> ConcurrentHashMap&lt;String,Object&gt; beanDefinitionMap =<span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;();<br></code></pre></div></td></tr></table></figure>
+
+<p>我们在scan方法中补充以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 通过类加载器，加载类</span><br>    Class&lt;?&gt; clazz = classLoader.loadClass(className);<br>     <span class="hljs-keyword">if</span>(clazz.isAnnotationPresent(Component.class))&#123;<br>            <span class="hljs-comment">// 如果该类上存在@Component注解</span><br>            Component component =clazz.getDeclaredAnnotation(Component.class);<br>            <span class="hljs-comment">// 定义一个beanDefinition对象</span><br>            BeanDefinition beanDefinition = <span class="hljs-keyword">new</span> BeanDefinition();<br>            beanDefinition.setClazz(clazz);<br><br>            <span class="hljs-keyword">if</span>(clazz.isAnnotationPresent(Scope.class) )&#123;<br>                <span class="hljs-comment">//该类上有@Scope注解注释</span><br>                beanDefinition.setScope(clazz.getDeclaredAnnotation(Scope.class).value());<br>                 &#125;<span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-comment">//默认单例bean</span><br>                beanDefinition.setScope(<span class="hljs-string">&quot;singleton&quot;</span>);<br>                      &#125;<br>                String beanName = component.value();<br>                beanDefinitionMap.put(beanName,beanDefinition);<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>再以上代码中我们已经生成好了每个bean的bean定义对象，并以bean的名称作为key,beanDefination对象为value存到了beanDefinitionMap中。</p>
+<p>到此包扫描的过程已经完成了，但是我们还是需要把单例的bean存入到单例池的map中 在构造器中添加以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 构造方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyApplicationContext</span><span class="hljs-params">(Class aClass)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException </span>&#123;<br>        <span class="hljs-keyword">this</span>.aClass=aClass;<br>        <span class="hljs-comment">// 扫描路径-----&gt;beanDefinition----&gt;beanDefinitionMap</span><br>        scan(aClass);<br>        <span class="hljs-comment">// 单例bean处理</span><br>        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, Object&gt; entry : beanDefinitionMap.entrySet()) &#123;<br>            String key = entry.getKey();<br>            BeanDefinition beanDefinition = (BeanDefinition)entry.getValue();<br>            <span class="hljs-keyword">if</span>(beanDefinition.getScope().equals(<span class="hljs-string">&quot;singleton&quot;</span>))&#123;<br>             	Object o= createBean(beanDefinition);<br>             	singletonMap.put(key,o);<br>            &#125;<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>以上代码块中，我们遍历了了beanDefinitionMap，把map中定义为单例bean的bean对象存到单例池中。</p>
+<p>getBean()方法的改造：在getBean()方法中我们首先区判断该bean是否为单例bean如果为单例bean则从单例池中获取即可，如不是单例类型则需要进行bean的创建，补充getBean()方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// getBean方法,根据名称获取一个bean对象</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getBean</span><span class="hljs-params">(String name)</span></span>&#123;<br>        <span class="hljs-comment">// 根据bean名称，获取bean定义</span><br>        <span class="hljs-keyword">if</span>(beanDefinitionMap.containsKey(name))&#123;<br>            BeanDefinition beanDefinition =(BeanDefinition) beanDefinitionMap.get(name);<br>            <span class="hljs-keyword">if</span>(beanDefinition.getScope().equals(<span class="hljs-string">&quot;singleton&quot;</span>))&#123;<br>                <span class="hljs-comment">// 从单例池中获取</span><br>                <span class="hljs-keyword">return</span>  singletonMap.get(name);<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// 创建bean</span><br>                <span class="hljs-keyword">return</span> createBean(beanDefinition);<br>            &#125;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-comment">// 不存在对应的bean</span><br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>创建以上代码中createBean()方法，并补充createBean()代码，在createBean中我们暂且使用反射来创建一个简单的对象如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> Object <span class="hljs-title">createBean</span><span class="hljs-params">(BeanDefinition beanDefinition)</span> </span>&#123; <br>    <span class="hljs-keyword">try</span> &#123; <br>        <span class="hljs-comment">// 根据beanDefinition对象创建bean对象 </span><br>        Class clazz = beanDefinition.getClazz(); <br>        <span class="hljs-comment">//通过反射生成对象 </span><br>        <span class="hljs-keyword">return</span> clazz.newInstance(); <br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123; <br>        e.printStackTrace(); <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>; <br>    &#125; <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>测试单例池是否生效，此时我们的MyService类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> </span>&#123;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们使用了@Scope(“prototype”)表示bean的类型为原型bean，每次调用都会创建一个新的bean</p>
+<p>而另外一个xxxService则只使用了@Component注解，默认为单例bean：如下</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;xxxService&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">xxxService</span> </span>&#123;&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>测试结果如图所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110709.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>看到上图的运行结果，确实是如我们代码所写的单例bean无论多次获取都是返回的是同一个对象，而原型bean则是每次都创建了一个新的对象</p>
+<h3 id="05-简易版-Autowired依赖注入实现"><a href="#05-简易版-Autowired依赖注入实现" class="headerlink" title="05.  简易版@Autowired依赖注入实现"></a>05.  简易版@Autowired依赖注入实现</h3><blockquote>
+<p>在上文中我们主要讲解了bean的单例和原型作用域的区别以及单例池和BeanDefinition对象的作用和使用，将扫描路径下的bean的定义，存入到了map中，也将作用域为单例的bean存入了单例池中。</p>
+</blockquote>
+<p>在本篇文章中我们主要讲解简易版@Autowired依赖注入的实现。</p>
+<p>创建@Autowired注解实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.FIELD,ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Autowired &#123;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>新增一个类并使用@Component注解，表示该类将会被加载到容器中</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;orderService&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderService</span> </span>&#123;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>改造MyService类，引入OrderService 成员变量如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> OrderService orderService;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> OrderService <span class="hljs-title">getOrderService</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> orderService;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在以上代码中我们使用了@Autowired 注入了一个OrderService类，并提供了get方法，修改测试类如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException </span>&#123;<br>        <span class="hljs-comment">//手写实现Spring容器</span><br>        MyApplicationContext myApplicationContext= <span class="hljs-keyword">new</span> MyApplicationContext(AppConfig.class);<br>        MyService myService = (MyService) myApplicationContext.getBean(<span class="hljs-string">&quot;myService&quot;</span>);<br>        System.out.println(myService.getOrderService());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>此时我们运行main方法结果如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110800.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>以上图示我们虽然使用了@Autowired把OrderService 注入到了MyService中，但是其真正本质的代码却还没有写，所有此时我们从MyService对象中取出OrderService自然为空的，接下来我们需要在createBean()方法中，构造其类于类的关系。</p>
+<p>改造createBean()方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> Object <span class="hljs-title">createBean</span><span class="hljs-params">(BeanDefinition beanDefinition)</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">// 根据beanDefinition对象创建bean对象</span><br>        Class clazz = beanDefinition.getClazz();<br>        Object instance = clazz.newInstance();<br>        <span class="hljs-comment">//获取类的所有成员变量</span><br>        Field[] fields = clazz.getDeclaredFields();<br>        <span class="hljs-keyword">for</span> (Field field: fields) &#123;<br>            <span class="hljs-comment">// 如果该成员变量被@Autowired注解标识</span><br>            <span class="hljs-keyword">if</span>(field.isAnnotationPresent(Autowired.class))&#123;<br>                <span class="hljs-comment">// 成员变量名称</span><br>                String name = field.getName();<br>                <span class="hljs-comment">// 根据名称获取bean</span><br>                Object bean = getBean(name);<br>                field.setAccessible(<span class="hljs-keyword">true</span>);<br>                <span class="hljs-comment">// 将获取到的bean设置到类对象中</span><br>                field.set(instance,bean);<br>                &#125;<br>            &#125;<br>         <span class="hljs-keyword">return</span> instance;<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>        e.printStackTrace();<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在以上代码块中我们，通过反射创建了类对象，遍历类中的所有成员变量，如果成员变量被@Autowired注解标识，我们则通过成员变量的名称，创建bean 再把生成的bean设置到类对象中，这样就可以实现一个简单的依赖注入</p>
+<p>此时的运行结果如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622110821.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从运行结果来看我们自定义的简易版依赖注入是成功得到效果的！</p>
+<p><strong>BeanNameAware接口</strong></p>
+<p>在Spirng中提供了一个接口叫做BeanNameAware，这个接口中提供了一个setBeanName()的方法，用来实现让Bean获取自己在BeanFactory配置中的名字（根据情况是id或者name），在此我们创建一个BeanNameAware接口来实现这个功能，让生成的bean知道自己的bean</p>
+<p>创建beanNameAware接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BeanNameAware</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setBeanName</span><span class="hljs-params">(String name)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在Myservice类中添加 成员变量，并实现BeanNameAware接口，重写其方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanNameAware</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> OrderService orderService;<br><br>    <span class="hljs-keyword">private</span> String beanName;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getBeanName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> beanName;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> OrderService <span class="hljs-title">getOrderService</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> orderService;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setBeanName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.beanName=name;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>继续改造createBean()方法添加如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(instance <span class="hljs-keyword">instanceof</span> BeanNameAware)&#123;<br>        <span class="hljs-comment">// 如果instance实现类BeanNameAware接口</span><br>        ((BeanNameAware) instance).setBeanName(beanName);<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>完整的createBean方法为：</p>
+<p>在此需要修改createBean方法，加入一个beanName参数</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> Object <span class="hljs-title">createBean</span><span class="hljs-params">(String beanName,BeanDefinition beanDefinition)</span> </span>&#123; <br>    <span class="hljs-keyword">try</span> &#123; <br>        <span class="hljs-comment">// 根据beanDefinition对象创建bean对象 </span><br>        Class clazz = beanDefinition.getClazz(); <br>        Object instance = clazz.newInstance(); <br>        <span class="hljs-comment">//获取类的所有成员变量 </span><br>        Field[] fields = clazz.getDeclaredFields(); <br>        <span class="hljs-keyword">for</span> (Field field: fields) &#123;<br>            <span class="hljs-comment">// 如果该成员变量被@Autowired注解标识 </span><br>            <span class="hljs-keyword">if</span>(field.isAnnotationPresent(Autowired.class))&#123; <br>                <span class="hljs-comment">// 成员变量名称 </span><br>                String name = field.getName(); <br>                <span class="hljs-comment">// 根据名称获取bean </span><br>                Object bean = getBean(name); <br>                field.setAccessible(<span class="hljs-keyword">true</span>); <br>                <span class="hljs-comment">// 将获取到的bean设置到类对象中 </span><br>                field.set(instance,bean); <br>            &#125; <br>        &#125;<br>        <span class="hljs-keyword">if</span>(instance <span class="hljs-keyword">instanceof</span> BeanNameAware)&#123; <br>            <span class="hljs-comment">// 如果instance实现类BeanNameAware接口 </span><br>            ((BeanNameAware) instance).setBeanName(beanName); <br>        &#125; <br>        <span class="hljs-keyword">return</span> instance; <br>    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123; <br>        e.printStackTrace(); <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>; <br>    &#125; <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>修改测试类，从bean中获取BeanName,运行结果如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111043.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从上图中我们可以看到，通过代码改造我们是可以获取出bean的名称的，本篇文章中我们简易实现了依赖注入和BeanNameAware接口的实现，虽然不及Spring源码级别深奥但是对于我们理解Spring源码还是很有帮助的</p>
+<p><strong>InitializingBean和BeanPostProcessor接口</strong></p>
+<blockquote>
+<p>在上文中我们通过bean实现beanAware接口实现了给类的成员变量回调赋值，在Spring中提供了一个名为InitializingBean的接口，通过实现该接口，可以在bean初始化的时候根据用户的需要实现InitializingBean接口中并重写其中的方法</p>
+</blockquote>
+<p>如下是Spring中提供的InitializingBean接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">InitializingBean</span> </span>&#123;<br><br> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">afterPropertiesSet</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>第一步 同样我们也模拟实现这个接口：首先我们也自定义接口如上接口和抽象方法，修改MyService 实现InitializingBean 并从写其方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanNameAware</span>, <span class="hljs-title">InitializingBean</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> OrderService orderService;<br><br>    <span class="hljs-keyword">private</span> String beanName;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getBeanName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> beanName;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> OrderService <span class="hljs-title">getOrderService</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> orderService;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setBeanName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.beanName=name;<br>    &#125;<br><br>    <span class="hljs-comment">// 重写 InitializingBean 抽象方法</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterPropertiesSet</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;调用了afterPropertiesSet方法&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>以上代码中我们重写InitializingBean接口中的方法时只是简单的打印输出一句话</p>
+<p>第二步 在createBean方法中改造代码，如果当前bean实现了InitializingBean接口，则需要调用其方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 初始化</span><br>    <span class="hljs-keyword">if</span>(instance <span class="hljs-keyword">instanceof</span> InitializingBean)&#123;<br>        <span class="hljs-comment">//如果instance实现类InitializingBean接口,则调用其抽象方法</span><br>        ((InitializingBean) instance).afterPropertiesSet();<br>     &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111115.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>通过以上运行截图来看，我们在createBean()代码中判断，如果当前bean是InitializingBean的子类时我们直接调用了接口中的方法，在此我们仅仅重写了其接口的方法并只是打印出了一句话，在Spirng中提供了一个可扩展性的接口BeanPostProcessor</p>
+<p><strong>BeanPostProcessor</strong></p>
+<p>BeanPostProcessor接口我们可以理解为Spring提供的一个扩展接口，在源码中该接口和抽象方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BeanPostProcessor</span> </span>&#123;<br> <span class="hljs-meta">@Nullable</span><br> <span class="hljs-function"><span class="hljs-keyword">default</span> Object <span class="hljs-title">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;<br>  <span class="hljs-keyword">return</span> bean;<br> &#125;<br> <br>  <span class="hljs-meta">@Nullable</span><br> <span class="hljs-function"><span class="hljs-keyword">default</span> Object <span class="hljs-title">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;<br>  <span class="hljs-keyword">return</span> bean;<br> &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>上文中我们自定义了InitializingBean接口，而在BeanPostProcessor源码我们可以看到其中两个方法，一个是初始化之前执行一个是初始化之后执行的，我们同样自定义一个BeanPostProcessor并提供类似的两个抽象方法，修改扫描包阶段的代码逻辑如果该类是实现了BeanPostProcessor接口则反射创建出该对象实例，放到一个集合里边，当在bean初始化之前调用，修改scan代码如下：</p>
+<p>在容器类中声明一个List集合用于存放bean对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//BeanPostProcessor</span><br>    <span class="hljs-keyword">private</span> List&lt;BeanPostProcessor&gt; beanPostProcessorList=<span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111136.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>修改createBean方法，在初始化之前，和初始化之后分别执行：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111147.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>修改MyService实现BeanPostProcessor接口和重写其中方法</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component(&quot;myService&quot;)</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanNameAware</span>, <span class="hljs-title">InitializingBean</span>,<span class="hljs-title">BeanPostProcessor</span> </span>&#123;<br><br>    ...<br><br>    <span class="hljs-comment">// 重写 InitializingBean 抽象方法</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterPropertiesSet</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;调用了afterPropertiesSet方法&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;初始化之前运行&quot;</span>+beanName);<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;初始化之后运行&quot;</span>+beanName);<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>启动项目运行测试：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622111206.webp" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从上图中我们可以看到并不是只有实现了BeanPostProcessor接口的类会执行执行之前和执行之后的方法，凡是所有的注入容器的bean都会执行初始化之前和初始化之后的方法。</p>
+<p>总结：本文主要讲解了初始化InitializingBean接口和BeanPostProcessor接口，主要的功能就是我们可以在bean创建和扫描的过程加入自定义的处理逻辑，这也是Spring源码提供的扩展性接口。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Spring 为何需要三级缓存解决循环依赖</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/25/Spring%20%E5%AE%98%E6%96%B9%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BB%BA%E8%AE%AE%E6%9E%84%E9%80%A0%E5%99%A8%E6%B3%A8%E5%85%A5%EF%BC%9F/">
+                        <span class="hidden-mobile">Spring 官方为什么建议构造器注入？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
