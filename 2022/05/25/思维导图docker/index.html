@@ -1,0 +1,804 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="思维导图Docker笔记  容器：非常简易的linux环境 介绍Docker是什么是一种容器技术 解决  出现的原因 虚拟机占用资源特别大 启动慢 传统的交换模式：只给程序，不给环境  开发和运维之间的鸿沟 减少运维的工作量   设计理念 解决了什么问题：运行环境和配置的问题，方便持续集成，有助于整体发布 能干什么  docker与传统虚拟机之间的差异 虚拟机：虚拟了整套环境资源占用多，启动慢 d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="思维导图docker笔记">
+<meta property="og:url" content="http://example.com/2022/05/25/%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BEdocker/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="思维导图Docker笔记  容器：非常简易的linux环境 介绍Docker是什么是一种容器技术 解决  出现的原因 虚拟机占用资源特别大 启动慢 传统的交换模式：只给程序，不给环境  开发和运维之间的鸿沟 减少运维的工作量   设计理念 解决了什么问题：运行环境和配置的问题，方便持续集成，有助于整体发布 能干什么  docker与传统虚拟机之间的差异 虚拟机：虚拟了整套环境资源占用多，启动慢 d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-25T02:27:42.112Z">
+<meta property="article:modified_time" content="2022-04-29T12:26:04.792Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>思维导图docker笔记 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="思维导图docker笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:27" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">思维导图docker笔记</h1>
+            
+            <div class="markdown-body">
+              <center><h2>思维导图Docker笔记</h2></center>
+
+<p>容器：非常简易的linux环境</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="Docker是什么"><a href="#Docker是什么" class="headerlink" title="Docker是什么"></a>Docker是什么</h3><p>是一种容器技术</p>
+<p>解决</p>
+<ul>
+<li><p>出现的原因</p>
+<p>虚拟机占用资源特别大 启动慢</p>
+<p>传统的交换模式：只给程序，不给环境</p>
+<ol>
+<li>开发和运维之间的鸿沟</li>
+<li>减少运维的工作量</li>
+</ol>
+</li>
+<li><p>设计理念</p>
+<p>解决了什么问题：<br>运行环境和配置的问题，方便持续集成，有助于整体发布</p>
+<h3 id="能干什么"><a href="#能干什么" class="headerlink" title="能干什么"></a>能干什么</h3></li>
+</ul>
+<p>docker与传统虚拟机之间的差异</p>
+<p>虚拟机：虚拟了整套环境<br>资源占用多，启动慢</p>
+<p>docker轻量：没有Hypervisor和操作系统，只有docker引擎</p>
+<ul>
+<li><p>企业级</p>
+<p>可以作为作为企业级别的容器技术</p>
+<ul>
+<li>美团</li>
+<li>京东</li>
+</ul>
+</li>
+<li><p>开发和运维</p>
+<p>对开发和运维比较简单</p>
+<h3 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h3></li>
+</ul>
+<p>获取docker相关信息</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.docker.com/">www.docker.com</a></p>
+<p>英文官网</p>
+<p>文档地址：<br><a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/">https://docs.docker.com/get-started/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.docker-cn.com/">www.docker-cn.com</a></p>
+<p>中文网站，解决英文网站访问慢的问题</p>
+<h3 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h3></li>
+<li><p>hub.docker.com</p>
+<p>docker 仓库地址: 国内访问速度比较慢，可以使用Ali云加速</p>
+<p>加速方式</p>
+<ol>
+<li><p>请求时制定镜像地址<br>docker pull registry.docker-cn.com/library/ubuntu:16.04</p>
+</li>
+<li><p>启动docker守护进程时，添加–registry-mirror参数</p>
+</li>
+<li><p>修改配置文件/etc/docker/daemon.json<br>{<br>  “registry-mirrors”: [“<a href="https://registry.docker-cn.com&quot;]">https://registry.docker-cn.com&quot;]</a><br>}</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2></li>
+</ol>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/CloudMan6/p/6763789.html">https://www.cnblogs.com/CloudMan6/p/6763789.html</a></p>
+<p>client</p>
+<p>docker服务器 （docker 守护进程）</p>
+<p>docker镜像</p>
+<p>docker容器 镜像运行的实例</p>
+<p>仓库 存放镜像的仓库，包含共有和私有</p>
+<p>运行过程<br>当client 执行命令docker run nginx时，client发送socket消息给docker守护进程，</p>
+<p>docker守护进程先在本地看下有没有这个镜像存在，如果不存在就去远程仓库下载，然后保存到本地；</p>
+<p>然后通过 container run命令把这个镜像做成一个容器然后运行起来</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="参考官方文档"><a href="#参考官方文档" class="headerlink" title="参考官方文档"></a>参考官方文档</h3><p>安装社区版本就行</p>
+<p>centos 安装地址<br><a target="_blank" rel="noopener" href="https://docs.docker.com/install/linux/docker-ce/centos/#os-requirements">https://docs.docker.com/install/linux/docker-ce/centos/#os-requirements</a></p>
+<h3 id="配置仓库地址"><a href="#配置仓库地址" class="headerlink" title="配置仓库地址"></a>配置仓库地址</h3><h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><h3 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h3><h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><h3 id="仓库-1"><a href="#仓库-1" class="headerlink" title="仓库"></a>仓库</h3><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>学习方法</p>
+<p>docker info docker相关的信息</p>
+<p>man docker</p>
+<p>docker –help</p>
+<h3 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h3><ul>
+<li>docker version</li>
+<li>docker info</li>
+<li>docker –help</li>
+</ul>
+<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><p>什么是镜像</p>
+<p>一个文件系统的某个目录</p>
+<p>什么是容器</p>
+<p>容器时镜像的实例，相当于镜像是一个类，容器是一个实例 ；每个镜像之间是隔离的</p>
+<p>容器是动态的，镜像是静态的</p>
+<ul>
+<li><p>docker images</p>
+<p>docker images –help 可以查看</p>
+<ul>
+<li>-a 列出所有镜像</li>
+<li>-q 只显示镜像ID</li>
+<li>–digests：显示摘要信息</li>
+<li>–no-trunc：不截断输出，显示完整的镜像ID</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker-search-镜像名"><a href="#docker-search-镜像名" class="headerlink" title="docker search 镜像名"></a>docker search 镜像名</h3><p>starts 类似github上的stars</p>
+<p>official 是否官方</p>
+<h3 id="docker-rmi-删除镜像"><a href="#docker-rmi-删除镜像" class="headerlink" title="docker rmi 删除镜像"></a>docker rmi 删除镜像</h3><ul>
+<li><p>删除单个 docker rmi&nbsp;镜像id/镜像名称</p>
+</li>
+<li><p>删除多个镜像 docker rmi id1 id2</p>
+</li>
+<li><p>删除全部镜像 docker rmi ${docker images -qa}</p>
+<p>docker rmi <code>docker images -qa</code></p>
+<p>$() ($+小括号)子shell命令</p>
+<h3 id="docker-运行命令"><a href="#docker-运行命令" class="headerlink" title="docker 运行命令"></a>docker 运行命令</h3></li>
+</ul>
+<ul>
+<li>创建容器</li>
+<li>查看容器运行信息</li>
+<li>启动容器</li>
+<li>关闭容器</li>
+<li>新建并运行</li>
+</ul>
+<ul>
+<li><p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]</p>
+<ul>
+<li>OPTIONS –name为容器指定新名称<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -d 后台运行<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -i交换方式运行<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -t伪终端<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -p端口映射<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -P随机端口映射</li>
+</ul>
+</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code>docker ps status列中包含up，标识服务已经起来了
+</code></pre></div>
+<ul>
+<li><p>列出所有运行的容器</p>
+<ul>
+<li><p>docker ps [options]</p>
+<ul>
+<li>-a :所有正在运行和运行过的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>l: 显示最近创建的容器</p>
+</li>
+<li><p>n:显示最近创建的n个容器</p>
+</li>
+<li><p>q:只显示容器id</p>
+</li>
+<li><p>退出容器</p>
+<ul>
+<li><p>exit / ctrl + d：退出并停止容器</p>
+<p>待验证</p>
+</li>
+<li><p>ctrl+p+q:退出不停止容器</p>
+</li>
+</ul>
+</li>
+<li><p>启动容器</p>
+<ul>
+<li><p>docker start 容器id/名称</p>
+<p>启动已经退出的容器</p>
+</li>
+</ul>
+</li>
+<li><p>重启容器</p>
+<ul>
+<li>docker restart 容器id/名称</li>
+</ul>
+</li>
+<li><p>停止容器</p>
+<ul>
+<li>docker stop&nbsp;容器id/名称</li>
+</ul>
+</li>
+<li><p>强制停止所有容器</p>
+<ul>
+<li>docker kill 容器id/名称</li>
+</ul>
+</li>
+<li><p>删除容器</p>
+<ul>
+<li>docker rm 容器id/名称</li>
+</ul>
+</li>
+<li><p>删除所有容器</p>
+<ul>
+<li>docker rm -f $(docker ps -aq)<br>docker ps -a -q | xargs docker rm</li>
+</ul>
+</li>
+<li><p>以后台方式运行容器</p>
+<ul>
+<li><p>docker run -d 容器</p>
+<p>不占用当前终端</p>
+<p>比如tomcat容器，有后台方式运行就不占用当前控制台</p>
+</li>
+</ul>
+</li>
+<li><p>进入正在运行的容器，并以前台方式运行</p>
+<ul>
+<li><p>docker exec -t 容器id/名称 bashshell 产生新的进程</p>
+<p>-t 伪终端<br>docker exec -it c600f5bdd5b0 /bin/bash</p>
+<p>docker exec -it c600f5bdd5b0 bash</p>
+</li>
+<li><p>docker attach 容器id/名称 进入容器不产生新的进程</p>
+</li>
+</ul>
+</li>
+<li><p>容器 &lt;-&gt;拷贝文件&lt;-&gt;主机</p>
+<ul>
+<li><p>docker copy 容器id/名称:容器中路径 主机路径<br>docker copy&nbsp;主机路径 容器id/名称:容器中路径&nbsp;</p>
+<p>docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-</p>
+<p>docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH</p>
+<h2 id="镜像-1"><a href="#镜像-1" class="headerlink" title="镜像"></a>镜像</h2></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>文件和元数据的集合</p>
+</li>
+<li><p>镜像是分层的</p>
+</li>
+<li><p>不同的image可以共享相同的层</p>
+</li>
+<li><p>镜像本身是只读的</p>
+<h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3></li>
+</ul>
+<ul>
+<li>UnionFS(联合文件系统)</li>
+<li>镜像加载原理</li>
+<li>分层镜像</li>
+<li>为什么采用这种设计</li>
+</ul>
+<h3 id="docker-commit-镜像提交"><a href="#docker-commit-镜像提交" class="headerlink" title="docker commit 镜像提交"></a>docker commit 镜像提交</h3><ul>
+<li><p>docker commit -m=”” -a=”作者” 容器id 目标镜像名称:[标签名]</p>
+<p>docker commit –help</p>
+<p>docker commit -m=”create image from current container” -a=”panshen” 3a90f19f1669 “tomcat2:2.0”</p>
+<p>用已经存在的容器做一个新的镜像</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2></li>
+</ul>
+<h3 id="单机"><a href="#单机" class="headerlink" title="单机"></a>单机</h3><ul>
+<li>Bridge Network</li>
+<li>Host Network</li>
+<li>None Network</li>
+</ul>
+<h3 id="多机"><a href="#多机" class="headerlink" title="多机"></a>多机</h3><ul>
+<li>Overlay Network</li>
+</ul>
+<h2 id="Dockerfile介绍"><a href="#Dockerfile介绍" class="headerlink" title="Dockerfile介绍"></a>Dockerfile介绍</h2><p>可以参考仓库中其他dockerfile文件的定义</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/docker-library/tomcat/blob/f58a6b4236cfe10672c9505aab5024100c9e084d/9.0/jre8/Dockerfile">https://github.com/docker-library/tomcat/blob/f58a6b4236cfe10672c9505aab5024100c9e084d/9.0/jre8/Dockerfile</a></p>
+<p>docker build [-f …] 当前目录可以省略-f参数</p>
+<p>docker build -t mytomcat .</p>
+<h3 id="是什么-1"><a href="#是什么-1" class="headerlink" title="是什么"></a>是什么</h3><p>构建Docker镜像的构建文件</p>
+<h3 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h3><h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><ul>
+<li><p>FROM</p>
+<ul>
+<li>基础镜像，当前镜像是基于那个镜像</li>
+</ul>
+</li>
+<li><p>MAINTAINER</p>
+<ul>
+<li>镜像维护者的姓名和邮箱地址</li>
+</ul>
+</li>
+<li><p>RUN</p>
+<ul>
+<li>镜像构建时需要运行的命令</li>
+</ul>
+</li>
+<li><p>WORKDIR</p>
+<ul>
+<li>容器创建后，默认在那个目录</li>
+</ul>
+</li>
+<li><p>EXPOSE</p>
+<ul>
+<li>当前容器对外暴露的接口</li>
+</ul>
+</li>
+<li><p>ENV</p>
+<ul>
+<li>用来构建镜像时设置环境变量</li>
+</ul>
+</li>
+<li><p>ADD</p>
+<ul>
+<li><p>将宿主机目录下的文件copy到镜像且ADD命令会自动解压压缩包</p>
+<p>ADD 不能加压zip包</p>
+</li>
+</ul>
+</li>
+<li><p>COPY</p>
+</li>
+<li><p>VOLUME</p>
+<ul>
+<li>容器数据卷，用来保存和持久化</li>
+</ul>
+</li>
+<li><p>CMD</p>
+<ul>
+<li>指定容器启动时需要运行的命令</li>
+<li>多条CMD命令，只有最后一条生效</li>
+<li>CMD命令会被docker run之后的参数替换</li>
+</ul>
+</li>
+<li><p>ENTRYPOINT</p>
+<ul>
+<li>指定容器启动过程中需要运行的命令</li>
+<li>把docker run命令的参数追加到后面</li>
+</ul>
+</li>
+<li><p>ONBUILD</p>
+</li>
+</ul>
+<h2 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h2><h3 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a>是什么</h3><h3 id="能干什么-1"><a href="#能干什么-1" class="headerlink" title="能干什么"></a>能干什么</h3><h3 id="数据卷-1"><a href="#数据卷-1" class="headerlink" title="数据卷"></a>数据卷</h3><h3 id="数据容器卷"><a href="#数据容器卷" class="headerlink" title="数据容器卷"></a>数据容器卷</h3><p>从其他的容器中那数据卷</p>
+<ul>
+<li><p>是什么</p>
+</li>
+<li><p>能干什么</p>
+<ul>
+<li>日志系统存储（典型场景）</li>
+</ul>
+</li>
+<li><p>使用</p>
+<ul>
+<li>docker run -it –name n1 –volumes-from n0 centos</li>
+</ul>
+</li>
+</ul>
+<h2 id="容器-1"><a href="#容器-1" class="headerlink" title="容器"></a>容器</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/7%20%E7%A7%8D%E6%8F%90%E5%8D%87%20Spring%20Boot%20%E5%90%9E%E5%90%90%E9%87%8F%E7%A5%9E%E6%8A%80/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">7 种提升 Spring Boot 吞吐量神技</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BECAS/">
+                        <span class="hidden-mobile">思维导图CAS</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

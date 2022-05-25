@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Spring Cloud 优雅下线 + 灰度发布  在生产环境中，如何保证在服务升级的时候，不影响用户的体验，这个是一个非常重要的问题。如果在我们升级服务的时候，会造成一段时间内的服务不可用，这就是不够优雅的。那什么是优雅的呢？主要就是指在服务升级的时候，不中断整个服务，让用户无感知，进而不会影响用户的体验，这就是优雅的。 实际上，优雅下线是目标，而不是手段，它是一个相对的概念，例如kill PI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud 优雅下线 + 灰度发布">
+<meta property="og:url" content="http://example.com/2022/05/25/Spring%20Cloud%20%E4%BC%98%E9%9B%85%E4%B8%8B%E7%BA%BF+%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Spring Cloud 优雅下线 + 灰度发布  在生产环境中，如何保证在服务升级的时候，不影响用户的体验，这个是一个非常重要的问题。如果在我们升级服务的时候，会造成一段时间内的服务不可用，这就是不够优雅的。那什么是优雅的呢？主要就是指在服务升级的时候，不中断整个服务，让用户无感知，进而不会影响用户的体验，这就是优雅的。 实际上，优雅下线是目标，而不是手段，它是一个相对的概念，例如kill PI">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241525523.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241525815.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241526465.png">
+<meta property="article:published_time" content="2022-05-25T02:28:43.189Z">
+<meta property="article:modified_time" content="2022-05-24T07:30:12.607Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringCloud">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241525523.png">
+  
+  <title>Spring Cloud 优雅下线 + 灰度发布 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Cloud 优雅下线 + 灰度发布">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:28" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Cloud 优雅下线 + 灰度发布</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Spring Cloud 优雅下线 + 灰度发布</h2></center>
+
+<p>在生产环境中，如何保证在服务升级的时候，不影响用户的体验，这个是一个非常重要的问题。如果在我们升级服务的时候，会造成一段时间内的服务不可用，这就是不够优雅的。那什么是优雅的呢？主要就是指在服务升级的时候，不中断整个服务，让用户无感知，进而不会影响用户的体验，这就是优雅的。</p>
+<p>实际上，优雅下线是目标，而不是手段，它是一个相对的概念，例如<code>kill PID</code>和<code>kill -9 PID</code>都是暴力杀死服务，相对于<code>kill -9 PID</code>来说，<code>kill PID</code>就是优雅的。但如果单独拿<code>kill PID</code>出来说，我们能说它是优雅的下线策略吗？肯定不是啊，就是这个道理。</p>
+<p>因此，本文讲述的优雅下线仅能称之为”相对的优雅下线”，但相对于暴力的杀死服务，已经足够优雅了。常见的优雅解决方案，主要包括优雅下线和灰度发布。而实际上，灰度发布的范围就已经包含优雅下线了。</p>
+<p>最后，在本文中，我们主要讲述基于 Spring Cloud 和 Euraka 的优雅下线以及灰度发布。</p>
+<h2 id="常见的下线方式"><a href="#常见的下线方式" class="headerlink" title="常见的下线方式"></a>常见的下线方式</h2><h3 id="方式一：kill-PID"><a href="#方式一：kill-PID" class="headerlink" title="方式一：kill PID"></a>方式一：kill PID</h3><p>使用方式：kill java进程 ID</p>
+<p>该方式借助的是 Spring Boot 应用的 <code>Shutdown hook</code>，应用本身的下线也是优雅的，但如果你的服务发现组件使用的是 Eureka，那么默认最长会有 90 秒的延迟，其他应用才会感知到该服务下线，这意味着：该实例下线后的 90 秒内，其他服务仍然可能调用到这个已下线的实例。因此，该方式是不够优雅的 。</p>
+<h3 id="方式二：-shutdown-端点"><a href="#方式二：-shutdown-端点" class="headerlink" title="方式二：/shutdown 端点"></a>方式二：/shutdown 端点</h3><p>Spring Boot 提供了<code>/shutdown</code>端点，可以借助它实现优雅停机。</p>
+<p>使用方式：在想下线应用的application.yml中添加如下配置，从而启用并暴露<code>/shutdown</code>端点：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">management:</span><br>  <span class="hljs-attr">endpoint:</span><br>    <span class="hljs-attr">shutdown:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">endpoints:</span><br>    <span class="hljs-attr">web:</span><br>      <span class="hljs-attr">exposure:</span><br>        <span class="hljs-attr">include:</span> <span class="hljs-string">shutdown</span><br></code></pre></div></td></tr></table></figure>
+
+<p>发送 POST 请求到/shutdown端点</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">curl -X http://你想停止的服务地址/actuator/shutdown<br></code></pre></div></td></tr></table></figure>
+
+<p>该方式本质和方式一是一样的，也是借助 Spring Boot 应用的 Shutdown hook 去实现的。</p>
+<h3 id="方式三：-pause端点"><a href="#方式三：-pause端点" class="headerlink" title="方式三：/pause端点"></a>方式三：/pause端点</h3><p>Spring Boot 应用提供了<code>/pause</code>端点，利用该端点可实现优雅下线。</p>
+<p>使用方式：在想下线应用的application.yml中添加配置，从而启用并暴露<code>/pause</code>端点：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">management:</span><br>  <span class="hljs-attr">endpoint:</span><br>    <span class="hljs-comment"># 启用pause端点</span><br>    <span class="hljs-attr">pause:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>    <span class="hljs-comment"># 启用restart端点，之所以要启用restart端点，是因为pause端点的启用依赖restart端点的启用</span><br>    <span class="hljs-attr">restart:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">endpoints:</span><br>    <span class="hljs-attr">web:</span><br>      <span class="hljs-attr">exposure:</span><br>        <span class="hljs-attr">include:</span> <span class="hljs-string">pause,restart</span><br></code></pre></div></td></tr></table></figure>
+
+<p>发送 POST 请求到<code>/actuator/pause</code>端点：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">curl -X POST http://你想停止的服务实例地址/actuator/pause<br></code></pre></div></td></tr></table></figure>
+
+<p>执行后的效果类似下图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241525523.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如图所示，该应用在 Eureka Server 上的状已被标记为DOWN，但是应用本身其实依然是可以正常对外服务的。在 Spring Cloud 中，Ribbon 做负载均衡时，只会负载到标记为UP的实例上。</p>
+<p>利用这两点，你可以：先用<code>/pause</code>端点，将要下线的应用标记为DOWN，但不去真正停止应用；然后过一定的时间（例如 90 秒，或者自己做个监控，看当前实例的流量变成 0 后）再去停止应用，例如<code>kill</code>应用。</p>
+<p><strong>缺点 &amp; 局限</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241525815.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="方式四：-service-registry端点"><a href="#方式四：-service-registry端点" class="headerlink" title="方式四：/service-registry端点"></a>方式四：/service-registry端点</h3><p>使用方式：在想下线应用的application.yml中添加配置，从而暴露<code>/service-registry</code>端点：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">management:</span><br>  <span class="hljs-attr">endpoints:</span><br>    <span class="hljs-attr">web:</span><br>      <span class="hljs-attr">exposure:</span><br>        <span class="hljs-attr">include:</span> <span class="hljs-string">service-registry</span><br></code></pre></div></td></tr></table></figure>
+
+<p>发送 POST 请求到<code>/actuator/service-registry</code>端点：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">curl -X <span class="hljs-string">&quot;POST&quot;</span> <span class="hljs-string">&quot;http://localhost:8000/actuator/service-registry?status=DOWN&quot;</span> \<br>   -H <span class="hljs-string">&quot;Content-Type: application/vnd.spring-boot.actuator.v2+json;charset=UTF-8&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>实行后的效果类似如下图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241526465.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>优雅的下线方式</strong></p>
+<p>在上文中，我们讲述了四种常见的下线方式，对比来看，方式四 是一种比较优雅的下线方式。</p>
+<p>在实际项目中，我们可以先使用<code>/service-registry</code>端点，将服务标记为DOWN，然后监控服务的流量，当流量为 0 时，即可升级该服务。当然，这里假设我们部署了多个服务实例，当一个服务实例DOWN掉之后，其他服务实例仍然是可以提供服务的，如果就部署一台服务的话，那么讨论优不优雅就没那么重要了。</p>
+<p>除了上述的下线方式之外，还有一种利用<code>EurekaAutoServiceRegistration</code>对象达到优雅下线的目标。</p>
+<ul>
+<li>执行<code>eurekaAutoServiceRegistration.start()</code>方法时，当前服务向 Eureka 注册中心注册服务；</li>
+<li>执行<code>eurekaAutoServiceRegistration.stop()</code>方法时，当前服务会向 Eureka 注册中心进行反注册，注册中心收到请求后，会将此服务从注册列表中删除。</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(value = &quot;/graceful/registry-service&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GracefulOffline</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> EurekaAutoServiceRegistration eurekaAutoServiceRegistration;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/online&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">online</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.eurekaAutoServiceRegistration.start();<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;execute online method, online success.&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/offline&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">offline</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.eurekaAutoServiceRegistration.stop();<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;execute offline method, offline success.&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>到这里，我们已经介绍了两种相对优雅的下线方式了。具体如何操作，我们可以根据实际上情况进行包装，或者利用自动化的脚本来实现更加优雅的下线方式。</p>
+<h2 id="灰度发布"><a href="#灰度发布" class="headerlink" title="灰度发布"></a>灰度发布</h2><h3 id="蓝绿部署"><a href="#蓝绿部署" class="headerlink" title="蓝绿部署"></a>蓝绿部署</h3><p>蓝绿部署，英文名为 Blue Green Deployment，<strong>是一种可以保证系统在不间断提供服务的情况下上线的部署方式。</strong></p>
+<p>如何保证系统不间断提供服务呢？那就是同时部署两个集群，但仅对外提供一个集群的服务，当需要升级时，切换集群进行升级。蓝绿部署无需停机，并且风险较小。其大致步骤为：</p>
+<ul>
+<li>部署集群 1 的应用（初始状态），将所有外部请求的流量都打到这个集群上</li>
+<li>部署集群 2 的应用，集群 2 的代码与集群 1 不同，如新功能或者 Bug 修复等</li>
+<li>将流量从集群 1 切换到集群 2</li>
+<li>如集群 2 测试正常，就删除集群 1 正在使用的资源（例如实例），使用集群 2 对外提供服务</li>
+</ul>
+<p>因为在使用蓝绿部署的方式时，我们需要控制流量，所以我们需要借助路由服务，如 Nginx 等。</p>
+<h3 id="滚动部署"><a href="#滚动部署" class="headerlink" title="滚动部署"></a>滚动部署</h3><p>滚动部署，英文名为 Rolling Update，同样是一种可以保证系统在不间断提供服务的情况下上线的部署方式。和蓝绿部署不同的是，滚动部署对外提供服务的版本并不是非此即彼，而是在更细的粒度下平滑完成版本的升级。</p>
+<p>如何做到细粒度平滑升级版本呢？滚动部署只需要一个集群，集群下的不同节点可以独立进行版本升级。比如在一个 12 节点的集群中，我们每次升级 4 个节点，并将升级后的节点重新投入使用，周而复始，直到集群中所有的节点都更新为新版本。</p>
+<p><strong>这种部署方式相对于蓝绿部署，更加节约资源，因为它不需要运行两个集群。</strong>但这种方式也有很多缺点，例如：</p>
+<ul>
+<li><strong>没有一个确定 OK 的环境。</strong>使用蓝绿部署，我们能够清晰地知道老版本是 OK 的，而使用滚动发布，我们无法确定。</li>
+<li><strong>修改了现有的环境。</strong></li>
+<li><strong>如果需要回滚，很困难。</strong>举个例子，在某一次发布中，我们需要更新 100 个实例，每次更新 10 个实例，每次部署需要 5 分钟。当滚动发布到第 80 个实例时，发现了问题，需要回滚。这时，我们估计就要疯了。</li>
+<li>有的时候，我们还可能对系统进行动态伸缩，如果部署期间，<strong>系统自动扩容/缩容了，我们还需判断到底哪个节点使用的是哪个代码。</strong>尽管有一些自动化的运维工具，但是依然令人心惊胆战。</li>
+</ul>
+<p>并不是说滚动发布不好，滚动发布也有它非常合适的场景。</p>
+<h3 id="金丝雀部署"><a href="#金丝雀部署" class="headerlink" title="金丝雀部署"></a>金丝雀部署</h3><p>金丝雀部署又称灰度部署（或者，灰度发布），英文名为 Canary Deployment，<strong>是指在黑与白之间，能够平滑过渡的一种发布方式</strong>。</p>
+<p>金丝雀的名称来源于「矿井中的金丝雀」，早在 17 世纪，英国矿井工人发现，金丝雀对瓦斯这种气体十分敏感，空气中哪怕有极其微量的瓦斯，金丝雀也会停止歌唱；而当瓦斯含量超过一定限度时，虽然鲁钝的人类毫无察觉，金丝雀却早已毒发身亡。当时在采矿设备相对简陋的条件下，工人们每次下井都会带上一只金丝雀作为“瓦斯检测指标”，以便在危险状况下紧急撤离。</p>
+<p>我们来看一下金丝雀部署的步骤：</p>
+<ul>
+<li>准备好部署各个阶段的工件，包括：<strong>构建工件，测试脚本，配置文件和部署清单文件</strong></li>
+<li>从负载均衡列表中移除掉“金丝雀”服务器</li>
+<li>升级“金丝雀”应用（切断原有流量并进行部署）</li>
+<li>对应用进行自动化测试</li>
+<li>将“金丝雀”服务器重新添加到负载均衡列表中（连通性和健康检查）</li>
+<li>如果“金丝雀”在线使用测试成功，升级剩余的其他服务器（否则就回滚）</li>
+</ul>
+<p>在金丝雀部署中，常常按照用户量设置路由权重，例如 90% 的用户维持使用老版本，10% 的用户尝鲜新版本。不同版本应用共存，经常与 A/B 测试一起使用，用于测试选择多种方案。</p>
+<p>金丝雀部署比较典型的例子，就是我们在使用某个应用的时候，该应用邀请我们进行“内测”或者“新版本体验”，如果我们同意了，那么我们就成了金丝雀。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringCloud/">SpringCloud</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringCloud/">SpringCloud</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/SQL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SQL基础知识笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/Nginx%20%E9%9D%A2%E8%AF%95%2040%20%E9%97%AE/">
+                        <span class="hidden-mobile">Nginx 面试 40 问</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

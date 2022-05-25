@@ -203,32 +203,239 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%87%A0%E4%B8%AASpring%20%E9%97%AE%E9%A2%98/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210614205618.webp" srcset="/img/loading.gif" lazyload alt="几个 Spring 问题">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
+          <img src="/img/Substitute6.jfif" srcset="/img/loading.gif" lazyload alt="如何优雅处理重复请求/并发请求？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E5%87%A0%E4%B8%AASpring%20%E9%97%AE%E9%A2%98/" target="_self">
-          几个 Spring 问题
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
+          如何优雅处理重复请求/并发请求？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%87%A0%E4%B8%AASpring%20%E9%97%AE%E9%A2%98/" target="_self">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E8%AF%B7%E6%B1%82%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82/" target="_self">
           
           
             
           
-          几个 Spring 问题
+          如何优雅处理重复请求/并发请求？
 
-本章的内容主要是想探讨我们在进行Spring 开发过程当中，关于依赖注入的几个问题。感兴趣的读者可以先看下以下三点：
+一些用户请求在某些情况下是可能重复发送的，如果是查询类操作并无大碍，但其中有些涉及写入操作，一旦重复了，可能会导致很严重的后果。例如交易接口如果重复请求，可能会重复下单。
+重复的场景有可能是：
 
-@Autowired, @Resource,  @Inject 三个注解的区别
-当你在使用@Autowired时，是否有出现过Field injection is not recommended的警告？你知道这是为什么吗？
-Spring 依赖注入有哪几
+黑客拦截了请求，重放；
+
+前端/客户端因为某些原因请求重复发送了，或者用户在很短的时间内重复点击了；
+
+网关重发；
+
+……
+
+
+本文讨论的是如何在服务端优雅地统一处理这
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          <img src="/img/Substitute5.jfif" srcset="/img/loading.gif" lazyload alt="如何写出一手好的业务代码？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          如何写出一手好的业务代码？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E6%89%8B%E5%A5%BD%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          如何写出一手好的业务代码？
+
+这里举一个非常简单的例子，以案例的业务实现来分析如何写好业务代码。
+本案例只是简单的模拟，可能与真实的情况有出入，这里只是为了举例使用。
+案例：
+用户挑选商品放入购物车，然后下单结算，流程如下：
+
+挑选商品
+下单
+结算
+生成订单
+通知
+
+提交下单的业务逻辑如下：
+
+验证账号是否合法
+调用第三方接口查看商品的打折价格
+钱包金额扣除
+生成订单信息
+通知用户下单成功，等待收
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210711102826.webp" srcset="/img/loading.gif" lazyload alt="如何设计关系型数据库？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F/" target="_self">
+          如何设计关系型数据库？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          如何设计关系型数据库？
+
+本文讨论关系数据库设计相关的一些内容，涉及关系模型，表结构设计等内容，以学生选修课程讲述设计过程，在尽量讲清楚设计要领的前提下，简化设计内容。
+本文基于MySQL数据库为基础，适合有一定关系型数据库基础的人阅读。
+实体-关系模型（E-R）首先搞清楚什么是E-R数据模型？它有什么用？
+E-R模型在将现实世界中事实的含义和相互关联映射到概念模式方面非常有用，因此，许多数据库设
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Transaction/">Transaction</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/%E4%BA%8B%E5%8A%A1/">事务</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%AE%B9%E5%99%A8%E5%B9%B6%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%B8%80%E5%88%87%E9%97%AE%E9%A2%98/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142049494.webp" srcset="/img/loading.gif" lazyload alt="容器并不能解决一切问题">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%AE%B9%E5%99%A8%E5%B9%B6%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%B8%80%E5%88%87%E9%97%AE%E9%A2%98/" target="_self">
+          容器并不能解决一切问题
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%AE%B9%E5%99%A8%E5%B9%B6%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%B8%80%E5%88%87%E9%97%AE%E9%A2%98/" target="_self">
+          
+          
+            
+          
+          容器并不能解决一切问题
+
+我们的行业在过去十年中取得了令人难以置信的进步，这在一定程度上要归功于 Docker、Docker Compose 和 Kubernetes 等技术。然而，我们仍在研究如何在我们所处的多样化环境中进行开发。
+容器化在开发和运维领域掀起了一场风暴。在过去，部署是高度依赖于特定技术的，通常需要对每个项目进行大量不可重复的工程工作。你是否部署到 VPS？你是否在分发虚拟机镜像？
         </a>
       </p>
 
@@ -247,7 +454,7 @@ Spring 依赖注入有哪几
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Spring/">Spring</a>
+              <a href="/categories/Java/Docker/">Docker</a>
             
           </div>
         
@@ -257,7 +464,7 @@ Spring 依赖注入有哪几
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Spring/">Spring</a>
+              <a href="/tags/Docker/">Docker</a>
             
           </div>
         
@@ -269,386 +476,30 @@ Spring 依赖注入有哪几
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200911202214.png" srcset="/img/loading.gif" lazyload alt="Java集合源码">
+        <a href="/2022/03/25/%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%20ElasticSearch%20%E8%BF%98%E6%98%AF%20Solr%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232127294.webp" srcset="/img/loading.gif" lazyload alt="全文搜索引擎 ElasticSearch 还是 Solr？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/" target="_self">
-          Java集合源码
+        <a href="/2022/03/25/%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%20ElasticSearch%20%E8%BF%98%E6%98%AF%20Solr%EF%BC%9F/" target="_self">
+          全文搜索引擎 ElasticSearch 还是 Solr？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/" target="_self">
+        <a href="/2022/03/25/%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%20ElasticSearch%20%E8%BF%98%E6%98%AF%20Solr%EF%BC%9F/" target="_self">
           
           
             
           
-          集合源码
+          全文搜索引擎 ElasticSearch 还是 Solr？
 
-ArrayList一、ArrayList底层数据结构1、ArrayList集合介绍ArrayList是List集合可变大小的数组的实现
-2、数组数组大小一旦确定，就无法改变
-增删慢：每次添加或删除元素，都需要更改数组长度、拷贝以及移动元素位置
-查询快：由于数组在内存中是一块连续空间，因此可以根据地址+索引的方式快速获取对应位置上的元素
-二、ArrayList继承关系
-1、Seriali
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8ENodeJs%E7%9A%84%E4%B8%B2%E5%8F%A3%E8%BD%AC%E7%BD%91%E5%8F%A3%E6%9C%8D%E5%8A%A1%E7%AB%AFDemo/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131026019.png" srcset="/img/loading.gif" lazyload alt="基于NodeJs的串口转网口TCP服务器">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8ENodeJs%E7%9A%84%E4%B8%B2%E5%8F%A3%E8%BD%AC%E7%BD%91%E5%8F%A3%E6%9C%8D%E5%8A%A1%E7%AB%AFDemo/" target="_self">
-          基于NodeJs的串口转网口TCP服务器
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8ENodeJs%E7%9A%84%E4%B8%B2%E5%8F%A3%E8%BD%AC%E7%BD%91%E5%8F%A3%E6%9C%8D%E5%8A%A1%E7%AB%AFDemo/" target="_self">
-          
-          
-            
-          
-          基于NodeJs的串口转网口TCP服务器
-
-一、简介提供一个NodeJs环境下串口数据转网口TCP的转发小demo：
-
-串口：serialport
-网络：net
-
-二、运行图
-三、程序123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/JavaScript/">JavaScript</a>
-            
-              <a href="/categories/JavaScript/NodeJs/">NodeJs</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/JavaScript/">JavaScript</a>
-            
-              <a href="/tags/NodeJs/">NodeJs</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20SpringBoot%20+%20WebMagic%20%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%9A%84%E7%88%AC%E8%99%AB%E6%A1%86%E6%9E%B6/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112132013745.webp" srcset="/img/loading.gif" lazyload alt="基于 SpringBoot + WebMagic 实现一个的爬虫框架">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20SpringBoot%20+%20WebMagic%20%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%9A%84%E7%88%AC%E8%99%AB%E6%A1%86%E6%9E%B6/" target="_self">
-          基于 SpringBoot + WebMagic 实现一个的爬虫框架
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20SpringBoot%20+%20WebMagic%20%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%9A%84%E7%88%AC%E8%99%AB%E6%A1%86%E6%9E%B6/" target="_self">
-          
-          
-            
-          
-          基于 SpringBoot + WebMagic 实现一个的爬虫框架
-
-WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本文的重点.
-具体如何使用请参考官方文档：http://webmagic.io/docs/。
-本文是对spring boot+WebMagic+MyBatis做了整合，使用WebMagic爬取数据，然后通过MyBatis持久化爬取的数据到mysql数
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/SpringBoot/">SpringBoot</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/SpringBoot/">SpringBoot</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Spring%20Boot%20%E7%9A%84%20flowable%20%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232216602.webp" srcset="/img/loading.gif" lazyload alt="基于 Spring Boot 的 flowable 工作流实战">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Spring%20Boot%20%E7%9A%84%20flowable%20%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98/" target="_self">
-          基于 Spring Boot 的 flowable 工作流实战
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Spring%20Boot%20%E7%9A%84%20flowable%20%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98/" target="_self">
-          
-          
-            
-          
-          基于 Spring Boot 的 flowable 工作流实战
-
-使用 flowable 自带的 flowable-ui 制作流程图，使用Spring Boot 开发流程使用的接口完成流程的业务功能
-一、flowable-ui 部署运行flowable-6.6.0 运行 官方demo
-1参考文档：https://flowable.com/open-source/docs/bpmn/ch14-App
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/SpringBoot/">SpringBoot</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/SpringBoot/">SpringBoot</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Netty%20%E6%90%AD%E5%BB%BA%20WebSocket%20%E9%9B%86%E7%BE%A4%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109231844941.webp" srcset="/img/loading.gif" lazyload alt="基于 Netty 搭建 WebSocket 集群实现服务器消息推送">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Netty%20%E6%90%AD%E5%BB%BA%20WebSocket%20%E9%9B%86%E7%BE%A4%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81/" target="_self">
-          基于 Netty 搭建 WebSocket 集群实现服务器消息推送
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20Netty%20%E6%90%AD%E5%BB%BA%20WebSocket%20%E9%9B%86%E7%BE%A4%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81/" target="_self">
-          
-          
-            
-          
-          基于 Netty 搭建 WebSocket 集群实现服务器消息推送
-
-本文内容是构建高性能、高可用消息推送的经典案例，在微服务 Spring Cloud 环境下基于 Netty 搭建 websocket 集群实现的。
-我们在实际的工作开发中，必然会遇到一些需要网页与服务器端保持连接（起码看上去是保持连接）的需求，比如类似微信网页版的聊天类应用，比如需要频繁更新页面数据（实时数据例如天气，电流电压，
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Netty/">Netty</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Netty/">Netty</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301719065.webp" srcset="/img/loading.gif" lazyload alt="基于ElasticSearch实现站内全文搜索">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
-          基于ElasticSearch实现站内全文搜索
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%9F%BA%E4%BA%8E%20ElasticSearch%20%E5%AE%9E%E7%8E%B0%E7%AB%99%E5%86%85%E5%85%A8%E6%96%87%E6%90%9C%E7%B4%A2/" target="_self">
-          
-          
-            
-          
-          基于 ElasticSearch 实现站内全文搜索
-
-目录
-摘要
-
-1 技术选型
-
-
-1.1 ElasticSearch
-1.2 springBoot
-1.3 ik分词器
-
-
-2 环境准备
-
-3 项目架构
-
-4 实现效果
-
-
-4.1 搜索页面
-4.2 搜索结果页面
-
-
-5 具体代码实现
-
-
-5.1 全文检索的实现对象
-5.2 客户端配置
-5.3 业务代码编写
-5.4 对外接口
-5.5 页面
-
-
-6
+前言最近项目组安排了一个任务，项目中用到了基于 Solr 的全文搜索，但是该 Solr 搜索云项目不稳定，经常查询不出来数据，需要手动全量同步。
+而且它还是其他团队在维护，依赖性太强，导致 Solr 服务一出问题，我们的项目也基本瘫痪，因为所有的依赖查询都无结果数据了。
+所以考虑开发一个适配层，如果 Solr 搜索出问题，自动切换到新的
         </a>
       </p>
 
@@ -689,30 +540,29 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E5%BC%80%E6%8C%82%EF%BC%9A3%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%86%99%E5%87%BA%208%20%E4%B8%AA%E6%8E%A5%E5%8F%A3/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112141347429.webp" srcset="/img/loading.gif" lazyload alt="后端开挂：3 行代码写出 8 个接口">
+        <a href="/2022/03/25/%E8%AF%B7%E8%AF%B4%E4%B8%8B%E5%AF%B9%E7%90%86%E8%A7%A3HashMap%E5%8F%8ALinkedHashMap%E7%9A%84%E7%90%86%E8%A7%A3/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110311008769.webp" srcset="/img/loading.gif" lazyload alt="请说下对理解HashMap及LinkedHashMap的理解">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E5%BC%80%E6%8C%82%EF%BC%9A3%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%86%99%E5%87%BA%208%20%E4%B8%AA%E6%8E%A5%E5%8F%A3/" target="_self">
-          后端开挂：3 行代码写出 8 个接口
+        <a href="/2022/03/25/%E8%AF%B7%E8%AF%B4%E4%B8%8B%E5%AF%B9%E7%90%86%E8%A7%A3HashMap%E5%8F%8ALinkedHashMap%E7%9A%84%E7%90%86%E8%A7%A3/" target="_self">
+          请说下对理解HashMap及LinkedHashMap的理解
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E5%BC%80%E6%8C%82%EF%BC%9A3%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%86%99%E5%87%BA%208%20%E4%B8%AA%E6%8E%A5%E5%8F%A3/" target="_self">
+        <a href="/2022/03/25/%E8%AF%B7%E8%AF%B4%E4%B8%8B%E5%AF%B9%E7%90%86%E8%A7%A3HashMap%E5%8F%8ALinkedHashMap%E7%9A%84%E7%90%86%E8%A7%A3/" target="_self">
           
           
             
           
-          后端开挂：3 行代码写出 8 个接口
+          请说下对理解HashMap及LinkedHashMap的理解
 
-肯定有不少人会想：这怎么可能呢？你不会是在吹牛逼吧？
-就算用几乎零配置的 SpringBoot，写一个最简单的接口也得有 3 行代码啊！
-1234@RequestMapping(&quot;test/&#123;request&#125;&quot;)public String test(@PathVariable String request) &#123
+HashMap是Map族中最为常用的一种，也是Java Collection Framework的重要成员。HashMap和双向链表合二为一即是LinkedHashMap。所谓LinkedHashMap，其落脚点在HashMap，因此更准确地说，它是一个将所有Node节点链入一个双向链表的HashMap。
+下面基于JDK 1.8的源码
         </a>
       </p>
 
@@ -731,7 +581,7 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Demo/">Demo</a>
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
             
           </div>
         
@@ -741,7 +591,7 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Demo/">Demo</a>
+              <a href="/tags/JavaSE/">JavaSE</a>
             
           </div>
         
@@ -753,36 +603,94 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E9%83%BD%E6%B5%8B%E8%AF%95%E4%BB%80%E4%B9%88%EF%BC%9F%E6%80%8E%E4%B9%88%E6%B5%8B%EF%BC%9F/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110192159554.webp" srcset="/img/loading.gif" lazyload alt="后端接口都测试什么？怎么测？">
+        <a href="/2022/03/25/%E5%BC%BA%E5%A4%A7%E7%9A%84%20IDEA%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301416815.gif" srcset="/img/loading.gif" lazyload alt="强大的 IDEA 代码生成">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E9%83%BD%E6%B5%8B%E8%AF%95%E4%BB%80%E4%B9%88%EF%BC%9F%E6%80%8E%E4%B9%88%E6%B5%8B%EF%BC%9F/" target="_self">
-          后端接口都测试什么？怎么测？
+        <a href="/2022/03/25/%E5%BC%BA%E5%A4%A7%E7%9A%84%20IDEA%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" target="_self">
+          强大的 IDEA 代码生成
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%90%8E%E7%AB%AF%E6%8E%A5%E5%8F%A3%E9%83%BD%E6%B5%8B%E8%AF%95%E4%BB%80%E4%B9%88%EF%BC%9F%E6%80%8E%E4%B9%88%E6%B5%8B%EF%BC%9F/" target="_self">
+        <a href="/2022/03/25/%E5%BC%BA%E5%A4%A7%E7%9A%84%20IDEA%20%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90/" target="_self">
           
           
             
           
-          后端接口都测试什么？怎么测？
+          强大的 IDEA 代码生成
 
+Java 开发过程经常需要编写有固定格式的代码，例如说声明一个私有变量，logger或者bean等等。对于这种小范围的代码生成，我们可以利用 IDEA 提供的 Live Templates功能。刚开始觉得它只是一个简单的Code Snippet，后来发现它支持变量函数配置，可以支持很复杂的代码生成。
+下面我来介绍一下Live Templates的用法。
+基本使用IDE
+        </a>
+      </p>
 
-本文主要分为两个部分：
-第一部分：主要从问题出发，引入接口测试的相关内容并与前端测试进行简单对比，总结两者之前的区别与联系。但该部分只交代了怎么做和如何做？并没有解释为什么要做？
-第二部分：主要介绍为什么要做接口测试，并简单总结接口持续集成和接口质量评估相关内容。
-第一部分首先，在做接口测试的过程中，经常有后端开发会问：
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/IDEA/">IDEA</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/IDEA/">IDEA</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
-后端接口都测试什么？怎么测的？
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210524120852.png" srcset="/img/loading.gif" lazyload alt="后端：前端，我们分手吧">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          后端：前端，我们分手吧
+        </a>
+      </h1>
 
-后端接
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" target="_self">
+          
+          
+            
+          
+          后端：前端，我们分手吧
+
+1. 背景互联网技术的应用领域已经涉及到人们日常生活的方方面面，复杂的使用场景以及海量的访问用户促使互联网技术快速迭代和发展。系统架构的发展可以概括为三个阶段，即前后端未分离阶段、前后端半分离阶段和前后端完全分离阶段。
+一方面，前后端技术之间的边界逐渐清晰，明确了前后端开发工程师各自的工作职责，前后端开发工作更加专业化和精细化。
+另一方面，前后端分离的开发架构可以有效提高
         </a>
       </p>
 
@@ -819,29 +727,30 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201333428.webp" srcset="/img/loading.gif" lazyload alt="红黑树">
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201222347696.webp" srcset="/img/loading.gif" lazyload alt="前后端分离的接口规范">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
-          红黑树
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83/" target="_self">
+          前后端分离的接口规范
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E7%BA%A2%E9%BB%91%E6%A0%91/" target="_self">
+        <a href="/2022/03/25/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83/" target="_self">
           
           
             
           
-          红黑树
+          前后端分离的接口规范
 
-当在10亿数据中只需要进行10几次比较就能查找到目标时，不禁感叹编程之魅力！人类之伟大呀！—— 学红黑树有感。
-终于，在学习了几天的红黑树相关的知识后，我想把我所学所想和所感分享给大家。红黑树是一种比较难的数据结构，要完全搞懂非常耗时耗力，红黑树怎么自平衡？什么时候需要左旋或右旋？插入和删除破坏了树的平衡后怎么处理？等等一连串的问题在学习前困扰着我。如果你在学习过程中也会存在我的疑问，那
+
+1. 前言随着互联网的高速发展，前端页面的展示、交互体验越来越灵活、炫丽，响应体验也要求越来越高，后端服务的高并发、高可用、高性能、高扩展等特性的要求也愈加苛刻，从而导致前后端研发各自专注于自己擅长的领域深耕细作。
+然而带来的另一个问题：前后端的对接界面双方却关注甚少，没有任何接口约定规范情况下各自撸起袖子就是干，导致我们在产品项目开发过程中，前后端的接口联调对接 工作量
         </a>
       </p>
 
@@ -858,9 +767,7 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%A0%91/">树</a>
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
             
           </div>
         
@@ -868,9 +775,72 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
             
-              <a href="/tags/%E6%A0%91/">树</a>
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E7%A0%B4%E8%A7%A3%E7%9F%A5%E4%B9%8E%E4%BA%86%EF%BC%81/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110201943302.webp" srcset="/img/loading.gif" lazyload alt="破解知乎了！">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E7%A0%B4%E8%A7%A3%E7%9F%A5%E4%B9%8E%E4%BA%86%EF%BC%81/" target="_self">
+          破解知乎了！
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E7%A0%B4%E8%A7%A3%E7%9F%A5%E4%B9%8E%E4%BA%86%EF%BC%81/" target="_self">
+          
+          
+            
+          
+          破解知乎了！
+
+最近在新公司学习 Golang，心血来潮想写一个脚手架，脚手架的简单的功能就是 输入 关键词，然后工具帮我自动的去搜索比如 掘金 知乎 CSDN 的热门博客返回给我。
+但是在调用知乎的接口发现 知乎的接口有签名不能修改参数。修改了参数就让提示升级客户端了。这怎么能忍，岂能因为一个小小的知乎搜索阻挠我学习 Golang 的脚步呢「手动狗头」，今天就来逆向破解知乎。
+
+现象先用 Chr
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Demo/">Demo</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Demo/">Demo</a>
             
           </div>
         
@@ -882,7 +852,7 @@ WebMagic是一个开源的java爬虫框架。WebMagic框架的使用并不是本
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/10/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="page-number" href="/page/10/#board">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/#board">12</a><a class="page-number" href="/page/13/#board">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="extend next" rel="next" href="/page/12/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/10/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#board">9</a><a class="page-number" href="/page/10/#board">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/#board">12</a><a class="page-number" href="/page/13/#board">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/12/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

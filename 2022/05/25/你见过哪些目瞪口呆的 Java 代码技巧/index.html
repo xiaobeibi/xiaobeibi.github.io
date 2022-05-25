@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="你见过哪些目瞪口呆的 Java 代码技巧  本文不是一个吹嘘的文章，不会讲很多高深的架构，相反，会讲解很多基础的问题和写法问题，如果读者自认为基础问题和写法问题都是不是问题，那请忽略这篇文章，节省出时间去做一些有意义的事情。 开发工具不知道有多少”老”程序员还在使用 Eclipse，这些程序员们要不就是因循守旧，要不就是根本就不知道其他好的开发工具的存在，Eclipse 吃内存卡顿的现象以及各种偶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你见过哪些目瞪口呆的 Java 代码技巧">
+<meta property="og:url" content="http://example.com/2022/05/25/%E4%BD%A0%E8%A7%81%E8%BF%87%E5%93%AA%E4%BA%9B%E7%9B%AE%E7%9E%AA%E5%8F%A3%E5%91%86%E7%9A%84%20Java%20%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="你见过哪些目瞪口呆的 Java 代码技巧  本文不是一个吹嘘的文章，不会讲很多高深的架构，相反，会讲解很多基础的问题和写法问题，如果读者自认为基础问题和写法问题都是不是问题，那请忽略这篇文章，节省出时间去做一些有意义的事情。 开发工具不知道有多少”老”程序员还在使用 Eclipse，这些程序员们要不就是因循守旧，要不就是根本就不知道其他好的开发工具的存在，Eclipse 吃内存卡顿的现象以及各种偶">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-25T02:28:43.242Z">
+<meta property="article:modified_time" content="2022-05-25T01:59:58.581Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>你见过哪些目瞪口呆的 Java 代码技巧 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="你见过哪些目瞪口呆的 Java 代码技巧">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:28" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      20k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      62 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">你见过哪些目瞪口呆的 Java 代码技巧</h1>
+            
+            <div class="markdown-body">
+              <center><h2>你见过哪些目瞪口呆的 Java 代码技巧</h2></center>
+
+<p>本文不是一个吹嘘的文章，不会讲很多高深的架构，相反，会讲解很多基础的问题和写法问题，如果读者自认为基础问题和写法问题都是不是问题，那请忽略这篇文章，节省出时间去做一些有意义的事情。</p>
+<h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><p>不知道有多少”老”程序员还在使用 Eclipse，这些程序员们要不就是因循守旧，要不就是根本就不知道其他好的开发工具的存在，Eclipse 吃内存卡顿的现象以及各种偶然莫名异常的出现，都告知我们是时候寻找新的开发工具了。</p>
+<p><strong>更换 IDE</strong></p>
+<p>根本就不想多解释要换什么样的 IDE，如果你想成为一个优秀的 Java 程序员，请更换 IntelliJ IDEA。使用 IDEA 的好处，请搜索谷歌。</p>
+<p><strong>别告诉我快捷键不好用</strong></p>
+<p>更换 IDE 不在我本文的重点内容中，所以不想用太多的篇幅去写为什么更换IDE。在这里，我只能告诉你，更换 IDE 只为了更好、更快的写好 Java 代码。原因略。别告诉我快捷键不好用，请尝试新事物。</p>
+<h2 id="Bean"><a href="#Bean" class="headerlink" title="Bean"></a>Bean</h2><p>bean 使我们使用最多的模型之一，我将以大篇幅去讲解 bean，希望读者好好体会。</p>
+<p><strong>domain 包名</strong></p>
+<p>根据很多 Java 程序员的”经验”来看，一个数据库表则对应着一个 domain 对象，所以很多程序员在写代码时，包名则使用：com.xxx.domain ，这样写好像已经成为了行业的一种约束，数据库映射对象就应该是 domain。但是你错了，domain 是一个领域对象，往往我们再做传统 Java 软件 Web 开发中，这些 domain 都是贫血模型，是没有行为的，或是没有足够的领域模型的行为的，所以，以这个理论来讲，这些 domain 都应该是一个普通的 entity 对象，并非领域对象，所以请把包名改为:com.xxx.entity。</p>
+<p>如果你还不理解我说的话，请看一下 Vaughn Vernon 出的一本叫做《IMPLEMENTING DOMAIN-DRIVEN DESIGN》(实现领域驱动设计)这本书，书中讲解了贫血模型与领域模型的区别，相信你会受益匪浅。</p>
+<p><strong>DTO</strong></p>
+<p>数据传输我们应该使用 DTO 对象作为传输对象，这是我们所约定的，因为很长时间我一直都在做移动端 API 设计的工作，有很多人告诉我，他们认为只有给手机端传输数据的时候(input or output)，这些对象成为 DTO 对象。请注意！这种理解是错误的，只要是用于网络传输的对象，我们都认为他们可以当做是 DTO 对象，比如电商平台中，用户进行下单，下单后的数据，订单会发到 OMS 或者 ERP 系统，这些对接的返回值以及入参也叫 DTO 对象。</p>
+<p>我们约定某对象如果是 DTO 对象，就将名称改为 XXDTO，比如订单下发OMS：OMSOrderInputDTO。</p>
+<p><strong>DTO 转化</strong></p>
+<p>正如我们所知，DTO 为系统与外界交互的模型对象，那么肯定会有一个步骤是将 DTO 对象转化为 BO 对象或者是普通的 entity 对象，让 service 层去处理。</p>
+<p><strong>场景</strong></p>
+<p>比如添加会员操作，由于用于演示，我只考虑用户的一些简单数据，当后台管理员点击添加用户时，只需要传过来用户的姓名和年龄就可以了，后端接受到数据后，将添加创建时间和更新时间和默认密码三个字段，然后保存数据库。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/v1/api/user&quot;)</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserService userService;<br><br>    <span class="hljs-meta">@PostMapping</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">addUser</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        user.setUsername(userInputDTO.getUsername());<br>        user.setAge(userInputDTO.getAge());<br><br>        <span class="hljs-keyword">return</span> userService.addUser(user);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们只关注一下上述代码中的转化代码，其他内容请忽略：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = <span class="hljs-keyword">new</span> User();<br>user.setUsername(userInputDTO.getUsername());<br>user.setAge(userInputDTO.getAge());<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>请使用工具</strong></p>
+<p>上边的代码，从逻辑上讲，是没有问题的，只是这种写法让我很厌烦，例子中只有两个字段，如果有 20 个字段，我们要如何做呢？一个一个进行 set 数据吗？当然，如果你这么做了，肯定不会有什么问题，但是，这肯定不是一个最优的做法。</p>
+<p>网上有很多工具，支持浅拷贝或深拷贝的 Utils。举个例子，我们可以使用 org.springframework.beans.BeanUtils#copyProperties 对代码进行重构和优化：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">addUser</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br>    User user = <span class="hljs-keyword">new</span> User();<br>    BeanUtils.copyProperties(userInputDTO,user);<br><br>    <span class="hljs-keyword">return</span> userService.addUser(user);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>BeanUtils.copyProperties 是一个浅拷贝方法，复制属性时，我们只需要把 DTO 对象和要转化的对象两个的属性值设置为一样的名称，并且保证一样的类型就可以了。如果你在做 DTO 转化的时候一直使用 set 进行属性赋值，那么请尝试这种方式简化代码，让代码更加清晰!</p>
+<p><strong>转化的语义</strong></p>
+<p>上边的转化过程，读者看后肯定觉得优雅很多，但是我们再写 Java 代码时，更多的需要考虑语义的操作，再看上边的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = <span class="hljs-keyword">new</span> User();<br>BeanUtils.copyProperties(userInputDTO,user);<br></code></pre></div></td></tr></table></figure>
+
+<p>虽然这段代码很好的简化和优化了代码，但是他的语义是有问题的，我们需要提现一个转化过程才好，所以代码改成如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">addUser</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br>         User user = convertFor(userInputDTO);<br><br>         <span class="hljs-keyword">return</span> userService.addUser(user);<br> &#125;<br><br> <span class="hljs-function"><span class="hljs-keyword">private</span> User <span class="hljs-title">convertFor</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br><br>         User user = <span class="hljs-keyword">new</span> User();<br>         BeanUtils.copyProperties(userInputDTO,user);<br>         <span class="hljs-keyword">return</span> user;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这是一个更好的语义写法，虽然他麻烦了些，但是可读性大大增加了，在写代码时，我们应该尽量把语义层次差不多的放到一个方法中，比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = convertFor(userInputDTO);<br><span class="hljs-keyword">return</span> userService.addUser(user);<br></code></pre></div></td></tr></table></figure>
+
+<p>这两段代码都没有暴露实现，都是在讲如何在同一个方法中，做一组相同层次的语义操作，而不是暴露具体的实现。</p>
+<p>如上所述，是一种重构方式，读者可以参考 Martin Fowler 的《Refactoring Imporving the Design of Existing Code》(重构 改善既有代码的设计) 这本书中的 Extract Method 重构方式。</p>
+<p><strong>抽象接口定义</strong></p>
+<p>当实际工作中，完成了几个 API 的 DTO 转化时，我们会发现，这样的操作有很多很多，那么应该定义好一个接口，让所有这样的操作都有规则的进行。</p>
+<p>如果接口被定义以后，那么 convertFor 这个方法的语义将产生变化，它将是一个实现类。</p>
+<p>看一下抽象后的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">DTOConvert</span>&lt;<span class="hljs-title">S</span>,<span class="hljs-title">T</span>&gt; </span>&#123;<br>    <span class="hljs-function">T <span class="hljs-title">convert</span><span class="hljs-params">(S s)</span></span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>虽然这个接口很简单，但是这里告诉我们一个事情，要去使用泛型，如果你是一个优秀的 Java 程序员，请为你想做的抽象接口，做好泛型吧。</p>
+<p>我们再来看接口实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInputDTOConvert</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DTOConvert</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convert</span><span class="hljs-params">(UserInputDTO userInputDTO)</span> </span>&#123;<br>        User user = <span class="hljs-keyword">new</span> User();<br>        BeanUtils.copyProperties(userInputDTO,user);<br>        <span class="hljs-keyword">return</span> user;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们这样重构后，我们发现现在的代码是如此的简洁，并且那么的规范：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/v1/api/user&quot;)</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserApi</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserService userService;<br><br>    <span class="hljs-meta">@PostMapping</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">addUser</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br>        User user = <span class="hljs-keyword">new</span> UserInputDTOConvert().convert(userInputDTO);<br><br>        <span class="hljs-keyword">return</span> userService.addUser(user);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>review code</strong></p>
+<p>如果你是一个优秀的 Java 程序员，我相信你应该和我一样，已经数次重复 review 过自己的代码很多次了。</p>
+<p>我们再看这个保存用户的例子，你将发现，API 中返回值是有些问题的，问题就在于不应该直接返回 User 实体，因为如果这样的话，就暴露了太多实体相关的信息，这样的返回值是不安全的，所以我们更应该返回一个 DTO 对象，我们可称它为 UserOutputDTO：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> UserOutputDTO <span class="hljs-title">addUser</span><span class="hljs-params">(UserInputDTO userInputDTO)</span></span>&#123;<br>        User user = <span class="hljs-keyword">new</span> UserInputDTOConvert().convert(userInputDTO);<br>        User saveUserResult = userService.addUser(user);<br>        UserOutputDTO result = <span class="hljs-keyword">new</span> UserOutDTOConvert().convertToUser(saveUserResult);<br>        <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样你的 API 才更健全。</p>
+<p>不知道在看完这段代码之后，读者有是否发现还有其他问题的存在，作为一个优秀的 Java 程序员，请看一下这段我们刚刚抽象完的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = <span class="hljs-keyword">new</span> UserInputDTOConvert().convert(userInputDTO);<br></code></pre></div></td></tr></table></figure>
+
+<p>你会发现，new 这样一个 DTO 转化对象是没有必要的，而且每一个转化对象都是由在遇到 DTO 转化的时候才会出现，那我们应该考虑一下，是否可以将这个类和 DTO 进行聚合呢，看一下我的聚合结果:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInputDTO</span> </span>&#123;<br><span class="hljs-keyword">private</span> String username;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getUsername</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> username;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUsername</span><span class="hljs-params">(String username)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.username = username;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convertToUser</span><span class="hljs-params">()</span></span>&#123;<br>        UserInputDTOConvert userInputDTOConvert = <span class="hljs-keyword">new</span> UserInputDTOConvert();<br>        User convert = userInputDTOConvert.convert(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> convert;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInputDTOConvert</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DTOConvert</span>&lt;<span class="hljs-title">UserInputDTO</span>,<span class="hljs-title">User</span>&gt; </span>&#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convert</span><span class="hljs-params">(UserInputDTO userInputDTO)</span> </span>&#123;<br>            User user = <span class="hljs-keyword">new</span> User();<br>            BeanUtils.copyProperties(userInputDTO,user);<br>            <span class="hljs-keyword">return</span> user;<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后 API 中的转化则由：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = <span class="hljs-keyword">new</span> UserInputDTOConvert().convert(userInputDTO);<br>User saveUserResult = userService.addUser(user);<br></code></pre></div></td></tr></table></figure>
+
+<p>变成了：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">User user = userInputDTO.convertToUser();<br>User saveUserResult = userService.addUser(user);<br></code></pre></div></td></tr></table></figure>
+
+<p>我们再 DTO 对象中添加了转化的行为，我相信这样的操作可以让代码的可读性变得更强，并且是符合语义的。</p>
+<p><strong>再查工具类</strong></p>
+<p>再来看 DTO 内部转化的代码，它实现了我们自己定义的 DTOConvert 接口，但是这样真的就没有问题，不需要再思考了吗？</p>
+<p>我觉得并不是，对于 Convert 这种转化语义来讲，很多工具类中都有这样的定义，这中 Convert 并不是业务级别上的接口定义，它只是用于普通 bean 之间转化属性值的普通意义上的接口定义，所以我们应该更多的去读其他含有 Convert 转化语义的代码。</p>
+<p>我仔细阅读了一下 GUAVA 的源码，发现了 com.google.common.base.Convert 这样的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Converter</span>&lt;<span class="hljs-title">A</span>, <span class="hljs-title">B</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Function</span>&lt;<span class="hljs-title">A</span>, <span class="hljs-title">B</span>&gt; </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> B <span class="hljs-title">doForward</span><span class="hljs-params">(A a)</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> A <span class="hljs-title">doBackward</span><span class="hljs-params">(B b)</span></span>;<br>    <span class="hljs-comment">//其他略</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>从源码可以了解到，GUAVA 中的 Convert 可以完成正向转化和逆向转化，继续修改我们 DTO 中转化的这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInputDTOConvert</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DTOConvert</span>&lt;<span class="hljs-title">UserInputDTO</span>,<span class="hljs-title">User</span>&gt; </span>&#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convert</span><span class="hljs-params">(UserInputDTO userInputDTO)</span> </span>&#123;<br>                User user = <span class="hljs-keyword">new</span> User();<br>                BeanUtils.copyProperties(userInputDTO,user);<br>                <span class="hljs-keyword">return</span> user;<br>        &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>修改后：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInputDTOConvert</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Converter</span>&lt;<span class="hljs-title">UserInputDTO</span>, <span class="hljs-title">User</span>&gt; </span>&#123;<br>         <span class="hljs-meta">@Override</span><br>         <span class="hljs-function"><span class="hljs-keyword">protected</span> User <span class="hljs-title">doForward</span><span class="hljs-params">(UserInputDTO userInputDTO)</span> </span>&#123;<br>                 User user = <span class="hljs-keyword">new</span> User();<br>                 BeanUtils.copyProperties(userInputDTO,user);<br>                 <span class="hljs-keyword">return</span> user;<br>         &#125;<br><br>         <span class="hljs-meta">@Override</span><br>         <span class="hljs-function"><span class="hljs-keyword">protected</span> UserInputDTO <span class="hljs-title">doBackward</span><span class="hljs-params">(User user)</span> </span>&#123;<br>                 UserInputDTO userInputDTO = <span class="hljs-keyword">new</span> UserInputDTO();<br>                 BeanUtils.copyProperties(user,userInputDTO);<br>                 <span class="hljs-keyword">return</span> userInputDTO;<br>         &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>看了这部分代码以后，你可能会问，那逆向转化会有什么用呢？其实我们有很多小的业务需求中，入参和出参是一样的，那么我们变可以轻松的进行转化，我将上边所提到的 UserInputDTO 和 UserOutputDTO 都转成 UserDTO 展示给大家。</p>
+<p>DTO：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTO</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getUsername</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> username;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUsername</span><span class="hljs-params">(String username)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.username = username;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convertToUser</span><span class="hljs-params">()</span></span>&#123;<br>            UserDTOConvert userDTOConvert = <span class="hljs-keyword">new</span> UserDTOConvert();<br>            User convert = userDTOConvert.convert(<span class="hljs-keyword">this</span>);<br>            <span class="hljs-keyword">return</span> convert;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> UserDTO <span class="hljs-title">convertFor</span><span class="hljs-params">(User user)</span></span>&#123;<br>            UserDTOConvert userDTOConvert = <span class="hljs-keyword">new</span> UserDTOConvert();<br>            UserDTO convert = userDTOConvert.reverse().convert(user);<br>            <span class="hljs-keyword">return</span> convert;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTOConvert</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Converter</span>&lt;<span class="hljs-title">UserDTO</span>, <span class="hljs-title">User</span>&gt; </span>&#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">protected</span> User <span class="hljs-title">doForward</span><span class="hljs-params">(UserDTO userDTO)</span> </span>&#123;<br>                    User user = <span class="hljs-keyword">new</span> User();<br>                    BeanUtils.copyProperties(userDTO,user);<br>                    <span class="hljs-keyword">return</span> user;<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">protected</span> UserDTO <span class="hljs-title">doBackward</span><span class="hljs-params">(User user)</span> </span>&#123;<br>                    UserDTO userDTO = <span class="hljs-keyword">new</span> UserDTO();<br>                    BeanUtils.copyProperties(user,userDTO);<br>                    <span class="hljs-keyword">return</span> userDTO;<br>            &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>API：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> UserDTO <span class="hljs-title">addUser</span><span class="hljs-params">(UserDTO userDTO)</span></span>&#123;<br>         User user =  userDTO.convertToUser();<br>         User saveResultUser = userService.addUser(user);<br>         UserDTO result = userDTO.convertFor(saveResultUser);<br>         <span class="hljs-keyword">return</span> result;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>当然，上述只是表明了转化方向的正向或逆向，很多业务需求的出参和入参的 DTO 对象是不同的，那么你需要更明显的告诉程序：逆向是无法调用的：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTOConvert</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Converter</span>&lt;<span class="hljs-title">UserDTO</span>, <span class="hljs-title">User</span>&gt; </span>&#123;<br>         <span class="hljs-meta">@Override</span><br>         <span class="hljs-function"><span class="hljs-keyword">protected</span> User <span class="hljs-title">doForward</span><span class="hljs-params">(UserDTO userDTO)</span> </span>&#123;<br>                 User user = <span class="hljs-keyword">new</span> User();<br>                 BeanUtils.copyProperties(userDTO,user);<br>                 <span class="hljs-keyword">return</span> user;<br>         &#125;<br><br>         <span class="hljs-meta">@Override</span><br>         <span class="hljs-function"><span class="hljs-keyword">protected</span> UserDTO <span class="hljs-title">doBackward</span><span class="hljs-params">(User user)</span> </span>&#123;<br>                 <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AssertionError(<span class="hljs-string">&quot;不支持逆向转化方法!&quot;</span>);<br>         &#125;<br> &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>看一下 doBackward 方法，直接抛出了一个断言异常，而不是业务异常，这段代码告诉代码的调用者，这个方法不是准你调用的，如果你调用，我就”断言”你调用错误了。</p>
+<h2 id="Bean-的验证"><a href="#Bean-的验证" class="headerlink" title="Bean 的验证"></a>Bean 的验证</h2><p>如果你认为我上边写的那个添加用户 API 写的已经非常完美了，那只能说明你还不是一个优秀的程序员。我们应该保证任何数据的入参到方法体内都是合法的。</p>
+<p><strong>为什么要验证</strong></p>
+<p>很多人会告诉我，如果这些 API 是提供给前端进行调用的，前端都会进行验证啊，你为什还要验证？</p>
+<p>其实答案是这样的，我从不相信任何调用我 API 或者方法的人，比如前端验证失败了，或者某些人通过一些特殊的渠道(比如 Charles 进行抓包)，直接将数据传入到我的 API，那我仍然进行正常的业务逻辑处理，那么就有可能产生脏数据！</p>
+<p>“对于脏数据的产生一定是致命”，这句话希望大家牢记在心，再小的脏数据也有可能让你找几个通宵！</p>
+<p><strong>jsr 303验证</strong></p>
+<p>hibernate 提供的 jsr 303 实现，我觉得目前仍然是很优秀的，具体如何使用，我不想讲，因为谷歌上你可以搜索出很多答案!</p>
+<p>再以上班的 API 实例进行说明，我们现在对 DTO 数据进行检查：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTO</span> </span>&#123;<br>    <span class="hljs-meta">@NotNull</span><br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-meta">@NotNull</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>        <span class="hljs-comment">//其他代码略</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>API 验证：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> UserDTO <span class="hljs-title">addUser</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> UserDTO userDTO)</span></span>&#123;<br>            User user =  userDTO.convertToUser();<br>            User saveResultUser = userService.addUser(user);<br>            UserDTO result = userDTO.convertFor(saveResultUser);<br>            <span class="hljs-keyword">return</span> result;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我们需要将验证结果传给前端，这种异常应该转化为一个 api 异常(带有错误码的异常)。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> UserDTO <span class="hljs-title">addUser</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> UserDTO userDTO, BindingResult bindingResult)</span></span>&#123;<br>     checkDTOParams(bindingResult);<br><br>     User user =  userDTO.convertToUser();<br>     User saveResultUser = userService.addUser(user);<br>     UserDTO result = userDTO.convertFor(saveResultUser);<br>     <span class="hljs-keyword">return</span> result;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkDTOParams</span><span class="hljs-params">(BindingResult bindingResult)</span></span>&#123;<br>     <span class="hljs-keyword">if</span>(bindingResult.hasErrors())&#123;<br>             <span class="hljs-comment">//throw new 带验证码的验证错误异常</span><br>     &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>BindingResult 是 Spring MVC 验证 DTO 后的一个结果集，可以参考spring 官方文档（<a target="_blank" rel="noopener" href="http://spring.io/%EF%BC%89%E3%80%82">http://spring.io/）。</a></p>
+<p>检查参数后，可以抛出一个“带验证码的验证错误异常”</p>
+<h2 id="拥抱-lombok"><a href="#拥抱-lombok" class="headerlink" title="拥抱 lombok"></a>拥抱 lombok</h2><p>上边的 DTO 代码，已经让我看的很累了，我相信读者也是一样，看到那么多的 Getter 和 Setter 方法，太烦躁了，那时候有什么方法可以简化这些呢。</p>
+<p>请拥抱 lombok,它会帮助我们解决一些让我们很烦躁的问题</p>
+<p><strong>去掉 Setter 和 Getter</strong></p>
+<p>其实这个标题，我不太想说，因为网上太多，但是因为很多人告诉我，他们根本就不知道 lombok 的存在，所以为了让读者更好的学习，我愿意写这样一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Setter</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTO</span> </span>&#123;<br>    <span class="hljs-meta">@NotNull</span><br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-meta">@NotNull</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">convertToUser</span><span class="hljs-params">()</span></span>&#123;<br>        UserDTOConvert userDTOConvert = <span class="hljs-keyword">new</span> UserDTOConvert();<br>        User convert = userDTOConvert.convert(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> convert;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> UserDTO <span class="hljs-title">convertFor</span><span class="hljs-params">(User user)</span></span>&#123;<br>        UserDTOConvert userDTOConvert = <span class="hljs-keyword">new</span> UserDTOConvert();<br>        UserDTO convert = userDTOConvert.reverse().convert(user);<br>        <span class="hljs-keyword">return</span> convert;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDTOConvert</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Converter</span>&lt;<span class="hljs-title">UserDTO</span>, <span class="hljs-title">User</span>&gt; </span>&#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> User <span class="hljs-title">doForward</span><span class="hljs-params">(UserDTO userDTO)</span> </span>&#123;<br>            User user = <span class="hljs-keyword">new</span> User();<br>            BeanUtils.copyProperties(userDTO,user);<br>            <span class="hljs-keyword">return</span> user;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> UserDTO <span class="hljs-title">doBackward</span><span class="hljs-params">(User user)</span> </span>&#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AssertionError(<span class="hljs-string">&quot;不支持逆向转化方法!&quot;</span>);<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>看到了吧，烦人的 Getter 和 Setter 方法已经去掉了。</p>
+<p>但是上边的例子根本不足以体现 lombok 的强大。我希望写一些网上很难查到，或者很少人进行说明的 lombok 的使用以及在使用时程序语义上的说明。</p>
+<p>比如:@Data,@AllArgsConstructor,@NoArgsConstructor..这些我就不进行一一说明了，请大家自行查询资料。</p>
+<p><strong>bean 中的链式风格</strong></p>
+<p>什么是链式风格？我来举个例子，看下面这个 Student 的 bean：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Student <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.name = name;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Student <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>仔细看一下 set 方法，这样的设置便是 chain 的 style，调用的时候，可以这样使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = <span class="hljs-keyword">new</span> Student()<br>        .setAge(<span class="hljs-number">24</span>)<br>        .setName(<span class="hljs-string">&quot;zs&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>相信合理使用这样的链式代码，会更多的程序带来很好的可读性，那看一下如果使用 lombok 进行改善呢，请使用 @Accessors(chain = true)，看如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Accessors(chain = true)</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这样就完成了一个对于 bean 来讲很友好的链式操作。</p>
+<p><strong>静态构造方法</strong></p>
+<p>静态构造方法的语义和简化程度真的高于直接去 new 一个对象。比如 new 一个 List 对象，过去的使用是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br></code></pre></div></td></tr></table></figure>
+
+<p>看一下 guava 中的创建方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">List&lt;String&gt; list = Lists.newArrayList();<br></code></pre></div></td></tr></table></figure>
+
+<p>Lists 命名是一种约定(俗话说：约定优于配置)，它是指 Lists 是 List 这个类的一个工具类，那么使用 List 的工具类去产生 List，这样的语义是不是要比直接 new 一个子类来的更直接一些呢，答案是肯定的，再比如如果有一个工具类叫做 Maps，那你是否想到了创建 Map 的方法呢：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">HashMap&lt;String, String&gt; objectObjectHashMap = Maps.newHashMap();<br></code></pre></div></td></tr></table></figure>
+
+<p>好了，如果你理解了我说的语义，那么，你已经向成为 Java 程序员更近了一步了。</p>
+<p>再回过头来看刚刚的 Student，很多时候，我们去写 Student 这个 bean 的时候，他会有一些必输字段，比如 Student 中的 name 字段，一般处理的方式是将 name 字段包装成一个构造方法，只有传入 name 这样的构造方法，才能创建一个 Student 对象。</p>
+<p>接上上边的静态构造方法和必传参数的构造方法，使用 lombok 将更改成如下写法（@RequiredArgsConstructor 和 @NonNull）:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Accessors(chain = true)</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-meta">@RequiredArgsConstructor(staticName = &quot;ofName&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = Student.ofName(<span class="hljs-string">&quot;zs&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>这样构建出的 bean 语义是否要比直接 new 一个含参的构造方法(包含  name 的构造方法)要好很多。</p>
+<p>当然，看过很多源码以后，我想相信将静态构造方法 ofName 换成 of 会先的更加简洁：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Accessors(chain = true)</span><br><span class="hljs-meta">@Setter</span><br><span class="hljs-meta">@Getter</span><br><span class="hljs-meta">@RequiredArgsConstructor(staticName = &quot;of&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>        <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">private</span> String name;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = Student.of(<span class="hljs-string">&quot;zs&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>当然他仍然是支持链式调用的：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = Student.of(<span class="hljs-string">&quot;zs&quot;</span>).setAge(<span class="hljs-number">24</span>);<br></code></pre></div></td></tr></table></figure>
+
+<p>这样来写代码，真的很简洁，并且可读性很强。</p>
+<p><strong>使用 builder</strong></p>
+<p>Builder 模式我不想再多解释了，读者可以看一下《Head First》(设计模式) 的建造者模式。</p>
+<p>今天其实要说的是一种变种的 builder 模式，那就是构建 bean 的 builder 模式，其实主要的思想是带着大家一起看一下 lombok 给我们带来了什么。</p>
+<p>看一下 Student 这个类的原始 builder 状态:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getAge</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.age = age;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Builder <span class="hljs-title">builder</span><span class="hljs-params">()</span></span>&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Builder();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Builder</span></span>&#123;<br>            <span class="hljs-keyword">private</span> String name;<br>            <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Builder <span class="hljs-title">name</span><span class="hljs-params">(String name)</span></span>&#123;<br>                    <span class="hljs-keyword">this</span>.name = name;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>            &#125;<br><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Builder <span class="hljs-title">age</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span></span>&#123;<br>                    <span class="hljs-keyword">this</span>.age = age;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;<br>            &#125;<br><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> Student <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;<br>                    Student student = <span class="hljs-keyword">new</span> Student();<br>                    student.setAge(age);<br>                    student.setName(name);<br>                    <span class="hljs-keyword">return</span> student;<br>            &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>调用方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = Student.builder().name(<span class="hljs-string">&quot;zs&quot;</span>).age(<span class="hljs-number">24</span>).build();<br></code></pre></div></td></tr></table></figure>
+
+<p>这样的 builder 代码，让我是在恶心难受，于是我打算用 lombok 重构这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Builder</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>调用方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Student student = Student.builder().name(<span class="hljs-string">&quot;zs&quot;</span>).age(<span class="hljs-number">24</span>).build();<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>代理模式</strong></p>
+<p>正如我们所知的，在程序中调用 rest 接口是一个常见的行为动作，如果你和我一样使用过 spring 的 RestTemplate，我相信你会我和一样，对他抛出的非 http 状态码异常深恶痛绝。</p>
+<p>所以我们考虑将 RestTemplate 最为底层包装器进行包装器模式的设计：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilterRestTemplate</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RestOperations</span> </span>&#123;<br>        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">volatile</span> RestTemplate restTemplate;<br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-title">FilterRestTemplate</span><span class="hljs-params">(RestTemplate restTemplate)</span></span>&#123;<br>                <span class="hljs-keyword">this</span>.restTemplate = restTemplate;<br>        &#125;<br><br>        <span class="hljs-comment">//实现RestOperations所有的接口</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>然后再由扩展类对 FilterRestTemplate 进行包装扩展：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExtractRestTemplate</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">FilterRestTemplate</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> RestTemplate restTemplate;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExtractRestTemplate</span><span class="hljs-params">(RestTemplate restTemplate)</span> </span>&#123;<br>            <span class="hljs-keyword">super</span>(restTemplate);<br>            <span class="hljs-keyword">this</span>.restTemplate = restTemplate;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">RestResponseDTO&lt;T&gt; <span class="hljs-title">postForEntityWithNoException</span><span class="hljs-params">(String url, Object request, Class&lt;T&gt; responseType, Object... uriVariables)</span></span><br><span class="hljs-function">                    <span class="hljs-keyword">throws</span> RestClientException </span>&#123;<br>            RestResponseDTO&lt;T&gt; restResponseDTO = <span class="hljs-keyword">new</span> RestResponseDTO&lt;T&gt;();<br>            ResponseEntity&lt;T&gt; tResponseEntity;<br>            <span class="hljs-keyword">try</span> &#123;<br>                    tResponseEntity = restTemplate.postForEntity(url, request, responseType, uriVariables);<br>                    restResponseDTO.setData(tResponseEntity.getBody());<br>                    restResponseDTO.setMessage(tResponseEntity.getStatusCode().name());<br>                    restResponseDTO.setStatusCode(tResponseEntity.getStatusCodeValue());<br>            &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>                    restResponseDTO.setStatusCode(RestResponseDTO.UNKNOWN_ERROR);<br>                    restResponseDTO.setMessage(e.getMessage());<br>                    restResponseDTO.setData(<span class="hljs-keyword">null</span>);<br>            &#125;<br>            <span class="hljs-keyword">return</span> restResponseDTO;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>包装器 ExtractRestTemplate 很完美的更改了异常抛出的行为，让程序更具有容错性。在这里我们不考虑 ExtractRestTemplate 完成的功能，让我们把焦点放在 FilterRestTemplate 上，“实现 RestOperations 所有的接口”,这个操作绝对不是一时半会可以写完的，当时在重构之前我几乎写了半个小时,如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilterRestTemplate</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RestOperations</span> </span>&#123;<br><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">volatile</span> RestTemplate restTemplate;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-title">FilterRestTemplate</span><span class="hljs-params">(RestTemplate restTemplate)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.restTemplate = restTemplate;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">getForObject</span><span class="hljs-params">(String url, Class&lt;T&gt; responseType, Object... uriVariables)</span> <span class="hljs-keyword">throws</span> RestClientException </span>&#123;<br>            <span class="hljs-keyword">return</span> restTemplate.getForObject(url,responseType,uriVariables);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">getForObject</span><span class="hljs-params">(String url, Class&lt;T&gt; responseType, Map&lt;String, ?&gt; uriVariables)</span> <span class="hljs-keyword">throws</span> RestClientException </span>&#123;<br>            <span class="hljs-keyword">return</span> restTemplate.getForObject(url,responseType,uriVariables);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">getForObject</span><span class="hljs-params">(URI url, Class&lt;T&gt; responseType)</span> <span class="hljs-keyword">throws</span> RestClientException </span>&#123;<br>            <span class="hljs-keyword">return</span> restTemplate.getForObject(url,responseType);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">ResponseEntity&lt;T&gt; <span class="hljs-title">getForEntity</span><span class="hljs-params">(String url, Class&lt;T&gt; responseType, Object... uriVariables)</span> <span class="hljs-keyword">throws</span> RestClientException </span>&#123;<br>            <span class="hljs-keyword">return</span> restTemplate.getForEntity(url,responseType,uriVariables);<br>    &#125;<br>    <span class="hljs-comment">//其他实现代码略。。。</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>我相信你看了以上代码，你会和我一样觉得恶心反胃，后来我用 lombok 提供的代理注解优化了我的代码(@Delegate)：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilterRestTemplate</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RestOperations</span> </span>&#123;<br>    <span class="hljs-meta">@Delegate</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">volatile</span> RestTemplate restTemplate;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>这几行代码完全替代上述那些冗长的代码。</p>
+<p>是不是很简洁，做一个拥抱 lombok 的程序员吧。</p>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p><strong>需求案例</strong></p>
+<p><strong>项目需求</strong></p>
+<p>项目开发阶段，有一个关于下单发货的需求：如果今天下午 3 点前进行下单，那么发货时间是明天，如果今天下午 3 点后进行下单，那么发货时间是后天，如果被确定的时间是周日，那么在此时间上再加 1 天为发货时间。</p>
+<p><strong>思考与重构</strong></p>
+<p>我相信这个需求看似很简单，无论怎么写都可以完成。</p>
+<p>很多人可能看到这个需求，就动手开始写 Calendar 或 Date 进行计算，从而完成需求。</p>
+<p>而我给的建议是，仔细考虑如何写代码，然后再去写，不是说所有的时间操作都用 Calendar 或 Date 去解决，一定要看场景。</p>
+<p>对于时间的计算我们要考虑 joda-time 这种类似的成熟时间计算框架来写代码，它会让代码更加简洁和易读。</p>
+<p>请读者先考虑这个需求如何用 Java 代码完成，或先写一个你觉得完成这个代码的思路，再来看我下边的代码，这样，你的收获会更多一些：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">final</span> DateTime DISTRIBUTION_TIME_SPLIT_TIME = <span class="hljs-keyword">new</span> DateTime().withTime(<span class="hljs-number">15</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);<br><span class="hljs-function"><span class="hljs-keyword">private</span> Date <span class="hljs-title">calculateDistributionTimeByOrderCreateTime</span><span class="hljs-params">(Date orderCreateTime)</span></span>&#123;<br>    DateTime orderCreateDateTime = <span class="hljs-keyword">new</span> DateTime(orderCreateTime);<br>    Date tomorrow = orderCreateDateTime.plusDays(<span class="hljs-number">1</span>).toDate();<br>    Date theDayAfterTomorrow = orderCreateDateTime.plusDays(<span class="hljs-number">2</span>).toDate();<br>    <span class="hljs-keyword">return</span> orderCreateDateTime.isAfter(DISTRIBUTION_TIME_SPLIT_TIME) ? wrapDistributionTime(theDayAfterTomorrow) : wrapDistributionTime(tomorrow);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">private</span> Date <span class="hljs-title">wrapDistributionTime</span><span class="hljs-params">(Date distributionTime)</span></span>&#123;<br>    DateTime currentDistributionDateTime = <span class="hljs-keyword">new</span> DateTime(distributionTime);<br>    DateTime plusOneDay = currentDistributionDateTime.plusDays(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">boolean</span> isSunday = (DateTimeConstants.SUNDAY == currentDistributionDateTime.getDayOfWeek());<br>    <span class="hljs-keyword">return</span> isSunday ? plusOneDay.toDate() : currentDistributionDateTime.toDate() ;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>读这段代码的时候，你会发现，我将判断和有可能出现的不同结果都当做一个变量，最终做一个三目运算符的方式进行返回，这样的优雅和可读性显而易见，当然这样的代码不是一蹴而就的，我优化了 3 遍产生的以上代码。读者可根据自己的代码和我写的代码进行对比。</p>
+<p><strong>提高方法</strong></p>
+<p>如果你做了 3 年+的程序员，我相信像如上这样的需求，你很轻松就能完成，但是如果你想做一个会写 Java 的程序员，就好好的思考和重构代码吧。</p>
+<p>写代码就如同写字一样，同样的字，大家都会写，但是写出来是否好看就不一定了。如果想把程序写好，就要不断的思考和重构，敢于尝试，敢于创新，不要因循守旧，一定要做一个优秀的 Java 程序员。</p>
+<p>提高代码水平最好的方法就是有条理的重构！(注意：是有条理的重构)</p>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><p>设计模式就是工具，而不是提现你是否是高水平程序员的一个指标。</p>
+<p>我经常会看到某一个程序员兴奋的大喊，哪个程序哪个点我用到了设计模式，写的多么多么优秀，多么多么好。我仔细去翻阅的时候，却发现有很多是过度设计的。</p>
+<p><strong>业务驱动技术 or 技术驱动业务</strong></p>
+<p>业务驱动技术 or 技术驱动业务 ？其实这是一个一直在争论的话题，但是很多人不这么认为，我觉得就是大家不愿意承认罢了。我来和大家大概分析一下作为一个 Java 程序员，我们应该如何判断自己所处于的位置.</p>
+<p><strong>业务驱动技术：</strong> 如果你所在的项目是一个收益很小或者甚至没有收益的项目，请不要搞其他创新的东西，不要驱动业务要如何如何做，而是要熟知业务现在的痛点是什么？如何才能帮助业务盈利或者让项目更好，更顺利的进行。</p>
+<p><strong>技术驱动业务：</strong> 如果你所在的项目是一个很牛的项目，比如淘宝这类的项目，我可以在满足业务需求的情况下，和业务沟通，使用什么样的技术能更好的帮助业务创造收益，比如说下单的时候要进队列，可能几分钟之后订单状态才能处理完成，但是会让用户有更流畅的体验，赚取更多的访问流量，那么我相信业务愿意被技术驱动，会同意订单的延迟问题，这样便是技术驱动业务。</p>
+<p>我相信大部分人还都处于业务驱动技术的方向吧。</p>
+<p>所以你既然不能驱动业务，那就请拥抱业务变化吧。</p>
+<p><strong>代码设计</strong></p>
+<p>一直在做 Java 后端的项目，经常会有一些变动，我相信大家也都遇到过。</p>
+<p>比如当我们写一段代码的时候，我们考虑将需求映射成代码的状态模式，突然有一天，状态模式里边又添加了很多行为变化的东西，这时候你就挠头了，你硬生生的将状态模式中添加过多行为和变化。</p>
+<p>慢慢的你会发现这些状态模式，其实更像是一簇算法，应该使用策略模式，这时你应该已经晕头转向了。</p>
+<p>说了这么多，我的意思是，只要你觉得合理，就请将状态模式改为策略模式吧，所有的模式并不是凭空想象出来的，都是基于重构。</p>
+<p>Java 编程中没有银弹，请拥抱业务变化，一直思考重构，你就有一个更好的代码设计!</p>
+<p><strong>你真的优秀吗？</strong></p>
+<p>真不好意思，我取了一个这么无聊的标题。</p>
+<p>国外流行一种编程方式，叫做结对编程，我相信国内很多公司都没有这么做，我就不在讲述结对编程带来的好处了，其实就是一边 code review，一边互相提高的一个过程。既然做不到这个，那如何让自己活在自己的世界中不断提高呢？</p>
+<p>平时开发的时候，做出的代码总认为是正确的，而且写法是完美的。我相信这是大部分人的心声，还回到刚刚的问题，如何在自己的世界中不断提高呢？</p>
+<p>答案就是:</p>
+<ol>
+<li>多看成熟框架的源码</li>
+<li>多回头看自己的代码</li>
+<li>勤于重构</li>
+</ol>
+<p>你真的优秀吗？如果你每周都完成了学习源码，回头看自己代码，然后勤于重构，我认为你就真的很优秀了。</p>
+<p>即使也许你只是刚刚入门，但是一直坚持，你就是一个真的会写java代码的程序员了。</p>
+<h2 id="技能"><a href="#技能" class="headerlink" title="技能"></a>技能</h2><p><strong>UML</strong></p>
+<p>不想多讨论 UML 相关的知识，但是我觉得你如果真的会写 Java，请先学会表达自己，UML 就是你说话的语言，做一名优秀的 Java 程序员，请至少学会这两种 UML 图：</p>
+<ol>
+<li>类图</li>
+<li>时序图</li>
+</ol>
+<p><strong>clean code</strong></p>
+<p>我认为保持代码的简洁和可读性是代码的最基本保证，如果有一天为了程序的效率而降低了这两点，我认为是可以谅解的，除此之外，没有任何理由可以让你任意挥霍你的代码。</p>
+<ol>
+<li>读者可以看一下 Robert C. Martin 出版的《Clean Code》（代码整洁之道） 这本书</li>
+<li>可以参考美团文章聊聊 clean code（<a target="_blank" rel="noopener" href="http://tech.meituan.com/clean-code.html%EF%BC%89%EF%BC%9B">http://tech.meituan.com/clean-code.html）；</a></li>
+<li>也可以看一下阿里的 Java 编码规范（<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/69327?spm=5176.100239.topwz.1.om5dRN%EF%BC%89%E3%80%82">https://yq.aliyun.com/articles/69327?spm=5176.100239.topwz.1.om5dRN）。</a></li>
+</ol>
+<p>无论如何，请保持你的代码的整洁。</p>
+<p><strong>Linux 基础命令</strong></p>
+<p>这点其实和会写 Java 没有关系，但是 Linux 很多时候确实承载运行 Java 的容器，请学好 Linux 的基础命令。</p>
+<ol>
+<li>参考鸟哥的《Linux私房菜》</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Java 是一个大体系，今天讨论并未涉及框架和架构相关知识，只是讨论如何写好代码。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaSE/">JavaSE</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E5%9B%BE%E8%A7%A3%E8%AE%A2%E5%8D%95%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">图解订单系统的设计</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E8%BF%9E%E5%A4%9C%E6%92%B8%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9%E5%AE%A4/">
+                        <span class="hidden-mobile">连夜撸了一个简易聊天室</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

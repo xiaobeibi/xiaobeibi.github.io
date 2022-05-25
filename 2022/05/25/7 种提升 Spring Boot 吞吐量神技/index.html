@@ -1,0 +1,538 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="7 种提升 Spring Boot 吞吐量神技  一、异步执行实现方式二种：  使用异步注解@aysnc、启动类：添加@EnableAsync注解  JDK 8 本身有一个非常好用的Future类——CompletableFuture   1234567891011121314151617181920212223@AllArgsConstructorpublic class AskThread i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7 种提升 Spring Boot 吞吐量神技">
+<meta property="og:url" content="http://example.com/2022/05/25/7%20%E7%A7%8D%E6%8F%90%E5%8D%87%20Spring%20Boot%20%E5%90%9E%E5%90%90%E9%87%8F%E7%A5%9E%E6%8A%80/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="7 种提升 Spring Boot 吞吐量神技  一、异步执行实现方式二种：  使用异步注解@aysnc、启动类：添加@EnableAsync注解  JDK 8 本身有一个非常好用的Future类——CompletableFuture   1234567891011121314151617181920212223@AllArgsConstructorpublic class AskThread i">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-25T02:28:42.876Z">
+<meta property="article:modified_time" content="2022-04-21T04:55:30.746Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>7 种提升 Spring Boot 吞吐量神技 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="7 种提升 Spring Boot 吞吐量神技">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:28" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">7 种提升 Spring Boot 吞吐量神技</h1>
+            
+            <div class="markdown-body">
+              <center><h2>7 种提升 Spring Boot 吞吐量神技</h2></center>
+
+<h2 id="一、异步执行"><a href="#一、异步执行" class="headerlink" title="一、异步执行"></a>一、异步执行</h2><p>实现方式二种：</p>
+<ol>
+<li><p>使用异步注解<code>@aysnc</code>、启动类：添加<code>@EnableAsync</code>注解</p>
+</li>
+<li><p>JDK 8 本身有一个非常好用的Future类——<code>CompletableFuture</code></p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AskThread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span></span>&#123;<br>    <span class="hljs-keyword">private</span> CompletableFuture&lt;Integer&gt; re = <span class="hljs-keyword">null</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> myRe = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            myRe = re.get() * re.get();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        System.out.println(myRe);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        <span class="hljs-keyword">final</span> CompletableFuture&lt;Integer&gt; future = <span class="hljs-keyword">new</span> CompletableFuture&lt;&gt;();<br>        <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> AskThread(future)).start();<br>        <span class="hljs-comment">//模拟长时间的计算过程</span><br>        Thread.sleep(<span class="hljs-number">1000</span>);<br>        <span class="hljs-comment">//告知完成结果</span><br>        future.complete(<span class="hljs-number">60</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>在该示例中，启动一个线程，此时<code>AskThread</code>对象还没有拿到它需要的数据，执行到 <code>myRe = re.get() * re.get()</code>会阻塞。我们用休眠1秒来模拟一个长时间的计算过程，并将计算结果告诉<code>future</code>执行结果，<code>AskThread</code>线程将会继续执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Calc</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">calc</span><span class="hljs-params">(Integer para)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//模拟一个长时间的执行</span><br>            Thread.sleep(<span class="hljs-number">1000</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> para * para;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ExecutionException, InterruptedException </span>&#123;<br>        <span class="hljs-keyword">final</span> CompletableFuture&lt;Void&gt; future = CompletableFuture.supplyAsync(() -&gt; calc(<span class="hljs-number">50</span>))<br>                .thenApply((i) -&gt; Integer.toString(i))<br>                .thenApply((str) -&gt; <span class="hljs-string">&quot;\&quot;&quot;</span> + str + <span class="hljs-string">&quot;\&quot;&quot;</span>)<br>                .thenAccept(System.out::println);<br>        future.get();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p><code>CompletableFuture.supplyAsync</code>方法构造一个<code>CompletableFuture</code>实例，在<code>supplyAsync()</code>方法中，它会在一个新线程中，执行传入的参数。在这里它会执行<code>calc()</code>方法，这个方法可能是比较慢的，但这并不影响<code>CompletableFuture</code>实例的构造速度，<code>supplyAsync()</code>会立即返回。</p>
+<p>而返回的<code>CompletableFuture</code>实例就可以作为这次调用的契约，在将来任何场合，用于获得最终的计算结果</p>
+<p><code>supplyAsync</code>用于提供返回值的情况，<code>CompletableFuture</code>还有一个不需要返回值的异步调用方法<code>runAsync(Runnable runnable)</code>,一般我们在优化<code>Controller</code>时，使用这个方法比较多。这两个方法如果在不指定线程池的情况下，都是在<code>ForkJoinPool.common</code>线程池中执行，而这个线程池中的所有线程都是<code>Daemon</code>（守护）线程，所以，当主线程结束时，这些线程无论执行完毕都会退出系统。</p>
+<p>核心代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">CompletableFuture.runAsync(() -&gt;<br>   <span class="hljs-keyword">this</span>.afterBetProcessor(betRequest,betDetailResult,appUser,id)<br>);<br></code></pre></div></td></tr></table></figure>
+
+<p>异步调用使用Callable来实现</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>  <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br>  <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(HelloController.class);<br>      <br>    <span class="hljs-meta">@Autowired</span>  <br>    <span class="hljs-keyword">private</span> HelloService hello;<br>  <br>    <span class="hljs-meta">@GetMapping(&quot;/helloworld&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">helloWorldController</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> hello.sayHello();<br>    &#125;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 异步调用restful</span><br><span class="hljs-comment">     * 当controller返回值是Callable的时候，springmvc就会启动一个线程将Callable交给TaskExecutor去处理</span><br><span class="hljs-comment">     * 然后DispatcherServlet还有所有的spring拦截器都退出主线程，然后把response保持打开的状态</span><br><span class="hljs-comment">     * 当Callable执行结束之后，springmvc就会重新启动分配一个request请求，然后DispatcherServlet就重新</span><br><span class="hljs-comment">     * 调用和处理Callable异步执行的返回结果， 然后返回视图</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span>  <br>    <span class="hljs-meta">@GetMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Callable&lt;String&gt; <span class="hljs-title">helloController</span><span class="hljs-params">()</span> </span>&#123;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入helloController方法&quot;</span>);<br>        Callable&lt;String&gt; callable = <span class="hljs-keyword">new</span> Callable&lt;String&gt;() &#123;<br>  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入call方法&quot;</span>);<br>                String say = hello.sayHello();<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 从helloService方法返回&quot;</span>);<br>                <span class="hljs-keyword">return</span> say;<br>            &#125;<br>        &#125;;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 从helloController方法返回&quot;</span>);<br>        <span class="hljs-keyword">return</span> callable;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>异步调用的方式 WebAsyncTask</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>  <br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br>  <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(HelloController.class);<br>      <br>    <span class="hljs-meta">@Autowired</span>  <br>    <span class="hljs-keyword">private</span> HelloService hello;<br>  <br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 带超时时间的异步请求 通过WebAsyncTask自定义客户端超时间</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span>  <br>    <span class="hljs-meta">@GetMapping(&quot;/world&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> WebAsyncTask&lt;String&gt; <span class="hljs-title">worldController</span><span class="hljs-params">()</span> </span>&#123;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入helloController方法&quot;</span>);<br>  <br>        <span class="hljs-comment">// 3s钟没返回，则认为超时</span><br>        WebAsyncTask&lt;String&gt; webAsyncTask = <span class="hljs-keyword">new</span> WebAsyncTask&lt;&gt;(<span class="hljs-number">3000</span>, <span class="hljs-keyword">new</span> Callable&lt;String&gt;() &#123;<br>  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入call方法&quot;</span>);<br>                String say = hello.sayHello();<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 从helloService方法返回&quot;</span>);<br>                <span class="hljs-keyword">return</span> say;<br>            &#125;<br>        &#125;);<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 从helloController方法返回&quot;</span>);<br>  <br>        webAsyncTask.onCompletion(<span class="hljs-keyword">new</span> Runnable() &#123;<br>  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 执行完毕&quot;</span>);<br>            &#125;<br>        &#125;);<br>  <br>        webAsyncTask.onTimeout(<span class="hljs-keyword">new</span> Callable&lt;String&gt;() &#123;<br>  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; onTimeout&quot;</span>);<br>                <span class="hljs-comment">// 超时的时候，直接抛异常，让外层统一处理超时异常</span><br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> TimeoutException(<span class="hljs-string">&quot;调用超时&quot;</span>);<br>            &#125;<br>        &#125;);<br>        <span class="hljs-keyword">return</span> webAsyncTask;<br>    &#125;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 异步调用，异常处理，详细的处理流程见MyExceptionHandler类</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span>  <br>    <span class="hljs-meta">@GetMapping(&quot;/exception&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> WebAsyncTask&lt;String&gt; <span class="hljs-title">exceptionController</span><span class="hljs-params">()</span> </span>&#123;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入helloController方法&quot;</span>);<br>        Callable&lt;String&gt; callable = <span class="hljs-keyword">new</span> Callable&lt;String&gt;() &#123;<br>  <br>            <span class="hljs-meta">@Override</span>  <br>            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>                logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入call方法&quot;</span>);<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> TimeoutException(<span class="hljs-string">&quot;调用超时!&quot;</span>);<br>            &#125;<br>        &#125;;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 从helloController方法返回&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> WebAsyncTask&lt;&gt;(<span class="hljs-number">20000</span>, callable);<br>    &#125;<br>  <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="二、增加内嵌Tomcat最大连接数"><a href="#二、增加内嵌Tomcat最大连接数" class="headerlink" title="二、增加内嵌Tomcat最大连接数"></a>二、增加内嵌Tomcat最大连接数</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TomcatConfig</span> </span>&#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ConfigurableServletWebServerFactory <span class="hljs-title">webServerFactory</span><span class="hljs-params">()</span> </span>&#123;<br>        TomcatServletWebServerFactory tomcatFactory = <span class="hljs-keyword">new</span> TomcatServletWebServerFactory();<br>        tomcatFactory.addConnectorCustomizers(<span class="hljs-keyword">new</span> MyTomcatConnectorCustomizer());<br>        tomcatFactory.setPort(<span class="hljs-number">8005</span>);<br>        tomcatFactory.setContextPath(<span class="hljs-string">&quot;/api-g&quot;</span>);<br>        <span class="hljs-keyword">return</span> tomcatFactory;<br>    &#125;<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyTomcatConnectorCustomizer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">TomcatConnectorCustomizer</span> </span>&#123;<br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">customize</span><span class="hljs-params">(Connector connector)</span> </span>&#123;<br>            Http11NioProtocol protocol = (Http11NioProtocol) connector.getProtocolHandler();<br>            <span class="hljs-comment">//设置最大连接数</span><br>            protocol.setMaxConnections(<span class="hljs-number">20000</span>);<br>            <span class="hljs-comment">//设置最大线程数</span><br>            protocol.setMaxThreads(<span class="hljs-number">2000</span>);<br>            protocol.setConnectionTimeout(<span class="hljs-number">30000</span>);<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="三、-ComponentScan"><a href="#三、-ComponentScan" class="headerlink" title="三、@ComponentScan()"></a>三、@ComponentScan()</h2><p>使用@ComponentScan()定位扫包比@SpringBootApplication扫包更快</p>
+<h2 id="四、tomcat容器改为Undertow"><a href="#四、tomcat容器改为Undertow" class="headerlink" title="四、tomcat容器改为Undertow"></a>四、tomcat容器改为Undertow</h2><p>（Jboss下的服务器，Tomcat吞吐量5000，Undertow吞吐量8000）</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">exclusions</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">exclusion</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">exclusion</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">exclusions</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p>改为:</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-undertow<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="五、使用-BufferedWriter-进行缓冲"><a href="#五、使用-BufferedWriter-进行缓冲" class="headerlink" title="五、使用 BufferedWriter 进行缓冲"></a>五、使用 BufferedWriter 进行缓冲</h2><h2 id="六、Deferred方式实现异步调用"><a href="#六、Deferred方式实现异步调用" class="headerlink" title="六、Deferred方式实现异步调用"></a>六、Deferred方式实现异步调用</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncDeferredController</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(<span class="hljs-keyword">this</span>.getClass());<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> LongTimeTask taskService;<br>    <br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AsyncDeferredController</span><span class="hljs-params">(LongTimeTask taskService)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.taskService = taskService;<br>    &#125;<br>    <br>    <span class="hljs-meta">@GetMapping(&quot;/deferred&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DeferredResult&lt;String&gt; <span class="hljs-title">executeSlowTask</span><span class="hljs-params">()</span> </span>&#123;<br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;进入executeSlowTask方法&quot;</span>);<br>        DeferredResult&lt;String&gt; deferredResult = <span class="hljs-keyword">new</span> DeferredResult&lt;&gt;();<br>        <span class="hljs-comment">// 调用长时间执行任务</span><br>        taskService.execute(deferredResult);<br>        <span class="hljs-comment">// 当长时间任务中使用deferred.setResult(&quot;world&quot;);这个方法时，会从长时间任务中返回，继续controller里面的流程</span><br>        logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot;从executeSlowTask方法返回&quot;</span>);<br>        <span class="hljs-comment">// 超时的回调方法</span><br>        deferredResult.onTimeout(<span class="hljs-keyword">new</span> Runnable()&#123;<br>  <br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; onTimeout&quot;</span>);<br>    <span class="hljs-comment">// 返回超时信息</span><br>    deferredResult.setErrorResult(<span class="hljs-string">&quot;time out!&quot;</span>);<br>   &#125;<br>  &#125;);<br>        <br>        <span class="hljs-comment">// 处理完成的回调方法，无论是超时还是处理成功，都会进入这个回调方法</span><br>        deferredResult.onCompletion(<span class="hljs-keyword">new</span> Runnable()&#123;<br>  <br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>    logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; onCompletion&quot;</span>);<br>   &#125;<br>  &#125;);<br>        <br>        <span class="hljs-keyword">return</span> deferredResult;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="七、异步调用可以使用AsyncHandlerInterceptor进行拦截"><a href="#七、异步调用可以使用AsyncHandlerInterceptor进行拦截" class="headerlink" title="七、异步调用可以使用AsyncHandlerInterceptor进行拦截"></a>七、异步调用可以使用AsyncHandlerInterceptor进行拦截</h2><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAsyncHandlerInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AsyncHandlerInterceptor</span> </span>&#123;<br> <br> <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(MyAsyncHandlerInterceptor.class);<br> <br> <span class="hljs-meta">@Override</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span></span><br><span class="hljs-function">   <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br> &#125;<br> <br> <span class="hljs-meta">@Override</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler,</span></span><br><span class="hljs-params"><span class="hljs-function">   ModelAndView modelAndView)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br><span class="hljs-comment">// HandlerMethod handlerMethod = (HandlerMethod) handler;</span><br>  logger.info(Thread.currentThread().getName()+ <span class="hljs-string">&quot;服务调用完成，返回结果给客户端&quot;</span>);<br> &#125;<br> <br> <span class="hljs-meta">@Override</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span></span><br><span class="hljs-function">   <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">null</span> != ex)&#123;<br>   System.out.println(<span class="hljs-string">&quot;发生异常:&quot;</span>+ex.getMessage());<br>  &#125;<br> &#125;<br> <br> <span class="hljs-meta">@Override</span><br> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterConcurrentHandlingStarted</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span></span><br><span class="hljs-function">   <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>  <br>  <span class="hljs-comment">// 拦截之后，重新写回数据，将原来的hello world换成如下字符串</span><br>  String resp = <span class="hljs-string">&quot;my name is chhliu!&quot;</span>;<br>  response.setContentLength(resp.length());<br>  response.getOutputStream().write(resp.getBytes());<br>  <br>  logger.info(Thread.currentThread().getName() + <span class="hljs-string">&quot; 进入afterConcurrentHandlingStarted方法&quot;</span>);<br> &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/45%20%E4%B8%AA%20Git%20%E7%BB%8F%E5%85%B8%E6%93%8D%E4%BD%9C%E5%9C%BA%E6%99%AF/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">45 个 Git 经典操作场景</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BEdocker/">
+                        <span class="hidden-mobile">思维导图docker笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

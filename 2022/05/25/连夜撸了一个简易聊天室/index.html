@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="连夜撸了一个简易聊天室  所谓的”实时推送”，从表面意思上来看是，客户端订阅的内容在发生改变时，服务器能够实时地通知客户端，进而客户端进行相应地反应。客户端不需要主观地发送请求去获取自己关心的内容，而是由服务器端进行”推送”。 注意上面的推送二字打了引号，这就意味着在现有的几种实现方式中，并不是服务器端主动地推送，而是通过一定的手段营造了一种实时的假象。就目前现有的几种技术而言，主要有以下几类：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="连夜撸了一个简易聊天室">
+<meta property="og:url" content="http://example.com/2022/05/25/%E8%BF%9E%E5%A4%9C%E6%92%B8%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9%E5%AE%A4/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="连夜撸了一个简易聊天室  所谓的”实时推送”，从表面意思上来看是，客户端订阅的内容在发生改变时，服务器能够实时地通知客户端，进而客户端进行相应地反应。客户端不需要主观地发送请求去获取自己关心的内容，而是由服务器端进行”推送”。 注意上面的推送二字打了引号，这就意味着在现有的几种实现方式中，并不是服务器端主动地推送，而是通过一定的手段营造了一种实时的假象。就目前现有的几种技术而言，主要有以下几类：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241640293.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641035.jpeg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641290.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641634.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241642272.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241642017.jpeg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241643233.gif">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241643872.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644726.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644693.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644891.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644854.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241645508.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241645360.gif">
+<meta property="article:published_time" content="2022-05-25T02:28:43.214Z">
+<meta property="article:modified_time" content="2022-05-24T08:46:53.494Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="NodeJs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241640293.gif">
+  
+  <title>连夜撸了一个简易聊天室 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="连夜撸了一个简易聊天室">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:28" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">连夜撸了一个简易聊天室</h1>
+            
+            <div class="markdown-body">
+              <center><h2>连夜撸了一个简易聊天室</h2></center>
+
+<p>所谓的”实时推送”，从表面意思上来看是，客户端订阅的内容在发生改变时，服务器能够实时地通知客户端，进而客户端进行相应地反应。客户端不需要主观地发送请求去获取自己关心的内容，而是由服务器端进行”推送”。</p>
+<p>注意上面的推送二字打了引号，这就意味着在现有的几种实现方式中，并不是服务器端主动地推送，而是通过一定的手段营造了一种实时的假象。就目前现有的几种技术而言，主要有以下几类：</p>
+<ul>
+<li>客户端轮询：传统意义上的轮询(Short Polling)</li>
+<li>服务器端轮询：长轮询(Long Polling)</li>
+<li>全双工通信：Websocket</li>
+<li>单向服务器推送：Server-Sent Events(SSE)</li>
+</ul>
+<p>文中会以一个简易聊天室的例子来分别通过上述的四种方式实现</p>
+<p>(存在些许bug，主要是为了做演示用)</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241640293.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="轮询（Short-Polling）"><a href="#轮询（Short-Polling）" class="headerlink" title="轮询（Short Polling）"></a>轮询（Short Polling）</h2><p>轮询的实现原理：客户端向服务器端发送一个请求，服务器返回数据，然后客户端根据服务器端返回的数据进行处理；然后客户端继续向服务器端发送请求，继续重复以上的步骤，如果不想给服务器端太大的压力，一般情况下会设置一个请求的时间间隔。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641035.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>使用轮询明显的优点是基础不需要额外的开发成本，请求数据，解析数据，作出响应，仅此而已，然后不断重复。缺点也显而易见：</p>
+<ul>
+<li>不断的发送和关闭请求，对服务器的压力会比较大，因为本身开启Http连接就是一件比较耗资源的事情</li>
+<li>轮询的时间间隔不好控制。如果要求的实时性比较高，显然使用短轮询会有明显的短板，如果设置interval的间隔过长，会导致消息延迟，而如果太短，会对服务器产生压力。</li>
+</ul>
+<p>代码实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> ShortPollingNotification = &#123;<br>  <span class="hljs-attr">datasInterval</span>: <span class="hljs-literal">null</span>,<br>  <span class="hljs-attr">subscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.datasInterval = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>      Request.getDatas().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>) </span>&#123;<br>        <span class="hljs-built_in">window</span>.ChatroomDOM.renderData(res);<br>      &#125;);<br>    &#125;, TIMEOUT);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.unsubscribe;<br>  &#125;,<br>  <span class="hljs-attr">unsubscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.datasInterval &amp;&amp; <span class="hljs-built_in">clearInterval</span>(<span class="hljs-built_in">this</span>.datasInterval);<br>  &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641290.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>下面是对应的请求，注意左下角的请求数量一直在变化</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241641634.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在上图中，每隔1s就会发送一个请求，看起来效果还不错，但是如果将timeout的值设置成5s，效果将大打折扣，如图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241642272.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="长轮询-Long-Polling"><a href="#长轮询-Long-Polling" class="headerlink" title="长轮询(Long Polling)"></a>长轮询(Long Polling)</h2><p>长轮询的基本原理：客户端发送一个请求，服务器会hold住这个请求，直到监听的内容有改变，才会返回数据，断开连接，客户端继续发送请求，重复以上步骤。或者在一定的时间内，请求还得不到返回，就会因为超时自动断开连接。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241642017.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>长轮询是基于轮询上的改进版本，主要是减少了客户端发起Http连接的开销，改成了在服务器端主动地去判断所关心的内容是否变化，所以其实轮询的本质并没有多大变化，变化的点在于：</p>
+<ul>
+<li>对于内容变化的轮询由客户端改成了服务器端（客户端会在连接中断之后，会再次发送请求，对比短轮询来说，大大减少了发起连接的次数）</li>
+<li>客户端只会在数据改变时去作相应的改变，对比短轮询来说，并不是全盘接收</li>
+</ul>
+<p>代码实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 客户端</span><br><span class="hljs-keyword">var</span> LongPollingNotification = &#123;<br>    <span class="hljs-comment">// ....</span><br>    <span class="hljs-attr">subscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>      <span class="hljs-keyword">var</span> that = <span class="hljs-built_in">this</span>;<br><br>      <span class="hljs-comment">// 设置超时时间</span><br>      Request.getV2Datas(<span class="hljs-built_in">this</span>.getKey(),&#123; <span class="hljs-attr">timeout</span>: <span class="hljs-number">10000</span> &#125;).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>) </span>&#123;<br>        <span class="hljs-keyword">var</span> data = res.data;<br>        <span class="hljs-built_in">window</span>.ChatroomDOM.renderData(res);<br>        <span class="hljs-comment">// 成功获取数据后会再次发送请求</span><br>        that.subscribe();<br>      &#125;).catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>&#123;<br>        <span class="hljs-comment">// timeout 之后也会再次发送请求</span><br>        that.subscribe();<br>      &#125;);<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.unsubscribe;<br>    &#125;<br><br>    <span class="hljs-comment">// ....</span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>笔者采用的是express，默认不支持hold住请求，因此用了一个express-longpoll的库来实现。</p>
+<p>下面是一个原生不用库的实现（这里只是介绍原理），整体的思路是：如果服务器端支持hold住请求的话，那么在一定的时间内会自轮询，然后期间通过比较key值，判断是否返回新数据</p>
+<ul>
+<li>客户端第一次会带一个空的key值，这次会立即返回，获取新内容，服务器端将计算出的contentKey返回给客户端</li>
+<li>然后客户端发送第二次请求，带上第一次返回的contentKey作为key值，然后进行下一轮的比较</li>
+<li>如果两次的key值相同，就会hold请求，进行内部轮询，如果期间有新内容或者客户端timeout，就会断开连接</li>
+<li>重复以上步骤</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 服务器端</span><br><br>router.get(<span class="hljs-string">&#x27;/v2/datas&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> key = _.get(req.query, <span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>);<br>  <span class="hljs-keyword">let</span> contentKey = chatRoom.getContentKey();<br><br>  <span class="hljs-keyword">while</span> (key === contentKey) &#123;<br>    sleep.sleep(<span class="hljs-number">5</span>);<br>    contentKey = chatRoom.getContentKey();<br>  &#125;<br><br>  <span class="hljs-keyword">const</span> connectors = chatRoom.getConnectors();<br>  <span class="hljs-keyword">const</span> messages = chatRoom.getMessages();<br>  res.json(&#123;<br>    <span class="hljs-attr">code</span>: <span class="hljs-number">200</span>,<br>    <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">connectors</span>: connectors, <span class="hljs-attr">messages</span>: messages, <span class="hljs-attr">key</span>: contentKey &#125;,<br>  &#125;);<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>以下是用 express-longpoll 的实现片段</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// mini-chatroom/public/javascripts/server/longPolling.js</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pushDataToClient</span>(<span class="hljs-params">key, longpoll</span>) </span>&#123;<br>  <span class="hljs-keyword">var</span> contentKey = chatRoom.getContentKey();<br><br>  <span class="hljs-keyword">if</span> (key !== contentKey) &#123;<br>    <span class="hljs-keyword">var</span> connectors = chatRoom.getConnectors();<br>    <span class="hljs-keyword">var</span> messages = chatRoom.getMessages();<br><br>    longpoll.publish(<br>      <span class="hljs-string">&#x27;/v2/datas&#x27;</span>,<br>      &#123;<br>        <span class="hljs-attr">code</span>: <span class="hljs-number">200</span>,<br>        <span class="hljs-attr">data</span>: &#123;<span class="hljs-attr">connectors</span>: connectors, <span class="hljs-attr">messages</span>: messages, <span class="hljs-attr">key</span>: contentKey&#125;,<br>      &#125;<br>    );<br>  &#125;<br>&#125;<br><br>longpoll.create(<span class="hljs-string">&quot;/v2/datas&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>&#123;<br>  key = _.get(req.query, <span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>);<br>  pushDataToClient(key, longpoll);<br>  next();<br>&#125;);<br><br>intervalId = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>  pushDataToClient(key, longpoll);<br>&#125;, LONG_POLLING_TIMEOUT);<br></code></pre></div></td></tr></table></figure>
+
+<p>为了方便演示，我将客户端发起请求的timeout改成了4s，注意观察下面的截图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241643233.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>可以看到，断开连接的两种方式，要么是超时，要么是请求有数据返回。</p>
+<p><strong>基于iframe的长轮询模式</strong></p>
+<p>这种模式的具体的原理为：</p>
+<ul>
+<li>在页面中嵌入一个iframe，地址指向轮询的服务器地址，然后在父页面中放置一个执行函数，比如<code>execute(data)</code></li>
+<li>当服务器有内容改变时，会向iframe发送一个脚本<code>&lt;script&gt;parent.execute(JSON.stringify(data))&lt;/script&gt;</code></li>
+<li>通过发送的脚本，主动执行父页面中的方法，达到推送的效果</li>
+</ul>
+<p>具体可以参看这里</p>
+<h2 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h2><blockquote>
+<p>The WebSocket Protocol enables two-way communication between a client running untrusted code in a controlled environment to a remote host that has opted-in to communications from that code.</p>
+<p>The protocol consists of an opening handshake followed by basic message framing, layered over TCP.</p>
+<p>The goal of this technology is to provide a mechanism for browser-based applications that need two-way communication with servers that does not rely on opening multiple HTTP connections (e.g., using XMLHttpRequest or iframe and long polling).</p>
+<p>The WebSocket Protocol attempts to address the goals of existing bidirectional HTTP technologies in the context of the existing HTTP infrastructure; as such, it is designed to work over HTTP ports 80 and 443 as well as to support HTTP proxies and intermediaries, even if this implies some complexity specific to the current environment.</p>
+</blockquote>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ul>
+<li>websocket是双向通信的，设计的目的主要是为了减少传统轮询时http连接数量的开销</li>
+<li>建立在TCP协议之上，握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器</li>
+<li>与HTTP兼容性良好，同样可以使用80和443端口</li>
+<li>没有同源限制，客户端可以与任意服务器通信</li>
+<li>可以发送文本，也可以发送二进制数据。</li>
+<li>协议标识符是<code>ws</code>（如果加密，则为<code>wss</code>），服务器网址就是 URL</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241643872.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>关于Websocket API方面的知识，这里不再作讲解，可以自己查阅Websocket API MDN</p>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>websocket兼容性良好，基本支持所有现代浏览器</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644726.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>笔者这里采用的是socket.io，是基于websocket的封装，提供了客户端以及服务器端的支持</p>
+<figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 客户端</span><br><span class="hljs-keyword">var</span> WebsocketNotification = &#123;<br>  <span class="hljs-comment">// ...</span><br>  <span class="hljs-attr">subscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">args</span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> connector = args[<span class="hljs-number">1</span>];<br>    <span class="hljs-built_in">this</span>.socket = io();<br><br>    <span class="hljs-built_in">this</span>.socket.emit(<span class="hljs-string">&#x27;register&#x27;</span>, connector);<br><br>    <span class="hljs-built_in">this</span>.socket.on(<span class="hljs-string">&#x27;register done&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>      <span class="hljs-built_in">window</span>.ChatroomDOM.renderAfterRegister();<br>    &#125;);<br><br>    <span class="hljs-built_in">this</span>.socket.on(<span class="hljs-string">&#x27;data&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>) </span>&#123;<br>      <span class="hljs-built_in">window</span>.ChatroomDOM.renderData(res);<br>    &#125;);<br><br>    <span class="hljs-built_in">this</span>.socket.on(<span class="hljs-string">&#x27;disconnect&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>      <span class="hljs-built_in">window</span>.ChatroomDOM.renderAfterLogout();<br>    &#125;);<br>  &#125;<br>  <span class="hljs-comment">// ...</span><br>&#125;<br><br><span class="hljs-comment">// 服务器端</span><br><span class="hljs-keyword">var</span> io = socketIo(httpServer);<br><br>io.on(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">socket</span>) =&gt;</span> &#123;<br>  socket.on(<span class="hljs-string">&#x27;register&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">connector</span>) </span>&#123;<br>    chatRoom.onConnect(connector);<br><br>    io.emit(<span class="hljs-string">&#x27;register done&#x27;</span>);<br><br>    <span class="hljs-keyword">var</span> data = chatRoom.getDatas();<br>    io.emit(<span class="hljs-string">&#x27;data&#x27;</span>, &#123; data &#125;);<br>  &#125;);<br><br>  socket.on(<span class="hljs-string">&#x27;chat&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">message</span>) </span>&#123;<br>    chatRoom.receive(message);<br><br>    <span class="hljs-keyword">var</span> data = chatRoom.getDatas();<br>    io.emit(<span class="hljs-string">&#x27;data&#x27;</span>, &#123; data &#125;);<br>  &#125;);<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>响应格式如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644693.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="Server-Sent-Events-SSE"><a href="#Server-Sent-Events-SSE" class="headerlink" title="Server-Sent Events(SSE)"></a>Server-Sent Events(SSE)</h2><p>传统意义上服务器端不会主动推送给客户端消息，一般都是客户端主动去请求服务器端获取最新的数据。SSE就是一种可以主动从服务端推送消息的技术。</p>
+<blockquote>
+<p>SSE的本质其实就是一个HTTP的长连接，只不过它给客户端发送的不是一次性的数据包，而是一个stream流，格式为text/event-stream，所以客户端不会关闭连接，会一直等着服务器发过来的新的数据流，视频播放就是这样的例子。</p>
+<ul>
+<li>SSE 使用 HTTP 协议，现有的服务器软件都支持。WebSocket 是一个独立协议。</li>
+<li>SSE 属于轻量级，使用简单；WebSocket 协议相对复杂。</li>
+<li>SSE 默认支持断线重连，WebSocket 需要自己实现。</li>
+<li>SSE 一般只用来传送文本，二进制数据需要编码后传送，WebSocket 默认支持传送二进制数据。</li>
+<li>SSE 支持自定义发送的消息类型。</li>
+</ul>
+</blockquote>
+<p>基本的使用方法，参看SSE API</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644891.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="兼容性-1"><a href="#兼容性-1" class="headerlink" title="兼容性"></a>兼容性</h3><p>目前除了IE以及低版本的浏览器不支持，基本支持绝大多数的现代浏览器。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241644854.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight javascript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// 客户端</span><br><span class="hljs-keyword">var</span> SSENotification = &#123;<br>  <span class="hljs-attr">source</span>: <span class="hljs-literal">null</span>,<br>  <span class="hljs-attr">subscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;EventSource&#x27;</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">window</span>) &#123;<br>      <span class="hljs-built_in">this</span>.source = <span class="hljs-keyword">new</span> EventSource(<span class="hljs-string">&#x27;/sse&#x27;</span>);<br><br>      <span class="hljs-built_in">this</span>.source.addEventListener(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>) </span>&#123;<br>        <span class="hljs-keyword">const</span> d = res.data;<br>        <span class="hljs-built_in">window</span>.ChatroomDOM.renderData(<span class="hljs-built_in">JSON</span>.parse(d));<br>      &#125;);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.unsubscribe;<br>  &#125;,<br>  <span class="hljs-attr">unsubscribe</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">this</span>.source &amp;&amp; <span class="hljs-built_in">this</span>.source.close();<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">// 服务器端</span><br>router.get(<span class="hljs-string">&#x27;/sse&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>  <span class="hljs-keyword">const</span> connectors = chatRoom.getConnectors();<br>  <span class="hljs-keyword">const</span> messages = chatRoom.getMessages();<br>  <span class="hljs-keyword">const</span> response = &#123; <span class="hljs-attr">code</span>: <span class="hljs-number">200</span>, <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">connectors</span>: connectors, <span class="hljs-attr">messages</span>: messages &#125; &#125;;<br><br>  res.writeHead(<span class="hljs-number">200</span>, &#123;<br>    <span class="hljs-string">&quot;Content-Type&quot;</span>:<span class="hljs-string">&quot;text/event-stream&quot;</span>,<br>    <span class="hljs-string">&quot;Cache-Control&quot;</span>:<span class="hljs-string">&quot;no-cache&quot;</span>,<br>    <span class="hljs-string">&quot;Connection&quot;</span>:<span class="hljs-string">&quot;keep-alive&quot;</span>,<br>    <span class="hljs-string">&quot;Access-Control-Allow-Origin&quot;</span>: <span class="hljs-string">&#x27;*&#x27;</span>,<br>  &#125;);<br><br>  res.write(<span class="hljs-string">&quot;retry: 10000\n&quot;</span>);<br>  res.write(<span class="hljs-string">&quot;data: &quot;</span> + <span class="hljs-built_in">JSON</span>.stringify(response) + <span class="hljs-string">&quot;\n\n&quot;</span>);<br><br>  <span class="hljs-keyword">var</span> unsubscribe = Event.subscribe(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">const</span> connectors = chatRoom.getConnectors();<br>    <span class="hljs-keyword">const</span> messages = chatRoom.getMessages();<br>    <span class="hljs-keyword">const</span> response = &#123; <span class="hljs-attr">code</span>: <span class="hljs-number">200</span>, <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">connectors</span>: connectors, <span class="hljs-attr">messages</span>: messages &#125; &#125;;<br>    res.write(<span class="hljs-string">&quot;data: &quot;</span> + <span class="hljs-built_in">JSON</span>.stringify(response) + <span class="hljs-string">&quot;\n\n&quot;</span>);<br>  &#125;);<br><br>  req.connection.addListener(<span class="hljs-string">&quot;close&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    unsubscribe();<br>  &#125;, <span class="hljs-literal">false</span>);<br>&#125;);<br></code></pre></div></td></tr></table></figure>
+
+<p>下面是控制台的情况，注意观察响应类型</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241645508.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>详情中注意查看请求类型，以及EventStream消息类型</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241645360.gif" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>短轮询、长轮询实现成本相对比较简单，适用于一些实时性要求不高的消息推送，在实时性要求高的场景下，会存在延迟以及会给服务器带来更大的压力</li>
+<li>websocket目前而言实现成本相对较低，适合于双工通信，对于多人在线，要求实时性较高的项目比较实用</li>
+<li>SSE只能是服务器端推送消息，因此对于不需要双向通信的项目比较适用</li>
+</ul>
+<h2 id="参考连接"><a href="#参考连接" class="headerlink" title="参考连接"></a>参考连接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6455">https://tools.ietf.org/html/rfc6455</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket">https://developer.mozilla.org/en-US/docs/Web/API/WebSocket</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events">https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/05/websocket.html">http://www.ruanyifeng.com/blog/2017/05/websocket.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html">https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903955240058893">https://juejin.im/post/6844903955240058893</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/JavaScript/">JavaScript</a>
+                    
+                      <a class="hover-with-bg" href="/categories/JavaScript/NodeJs/">NodeJs</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaScript/">JavaScript</a>
+                    
+                      <a class="hover-with-bg" href="/tags/NodeJs/">NodeJs</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E4%BD%A0%E8%A7%81%E8%BF%87%E5%93%AA%E4%BA%9B%E7%9B%AE%E7%9E%AA%E5%8F%A3%E5%91%86%E7%9A%84%20Java%20%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">你见过哪些目瞪口呆的 Java 代码技巧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/UUID%20%E6%AD%A3%E5%9C%A8%E8%A2%AB%20NanoID%20%E5%8F%96%E4%BB%A3%EF%BC%9F/">
+                        <span class="hidden-mobile">UUID 正在被 NanoID 取代？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

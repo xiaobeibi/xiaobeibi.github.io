@@ -203,30 +203,31 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201156831.png" srcset="/img/loading.gif" lazyload alt="MySQL优化工具AWR">
+        <a href="/2022/03/25/Sharding-Jdbc%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210722112726.webp" srcset="/img/loading.gif" lazyload alt="Sharding-Jdbc实现读写分离、分库分表">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
-          MySQL优化工具AWR
+        <a href="/2022/03/25/Sharding-Jdbc%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" target="_self">
+          Sharding-Jdbc实现读写分离、分库分表
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
+        <a href="/2022/03/25/Sharding-Jdbc%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" target="_self">
           
           
             
           
-          MySQL优化工具AWR
+          Sharding-Jdbc实现读写分离、分库分表
 
-对于正在运行的mysql，性能如何，参数设置的是否合理，账号设置的是否存在安全隐患，你是否了然于胸呢？
-俗话说工欲善其事，必先利其器，定期对你的MYSQL数据库进行一个体检，是保证数据库安全运行的重要手段，因为，好的工具是使你的工作效率倍增！
-今天和大家分享几个mysql 优化的工具，你可以使用它们对你的mysql进行一个体检，生成awr报告，让你从整体上把握你的数据库
+1、概览ShardingSphere-Jdbc定位为轻量级Java框架，在Java的Jdbc层提供的额外服务。它使用客户端直连数据库，以jar包形式提供服务，可理解为增强版的Jdbc驱动，完全兼容Jdbc和各种ORM框架
+
+2、MySQL主从复制1）、docker配置mysql主从复制1）创建主服务器所需目录
+12mkdir -p /usr/lo
         </a>
       </p>
 
@@ -243,9 +244,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Database/">Database</a>
+              <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Java/JDBC/">JDBC</a>
             
           </div>
         
@@ -253,9 +254,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/JDBC/">JDBC</a>
             
           </div>
         
@@ -267,38 +268,275 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200807154719.png" srcset="/img/loading.gif" lazyload alt="MySQL基础学习">
+        <a href="/2022/03/25/Session%20%E5%92%8C%20Cookie/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622120032.png" srcset="/img/loading.gif" lazyload alt="Session 和 Cookie">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
-          MySQL基础学习
+        <a href="/2022/03/25/Session%20%E5%92%8C%20Cookie/" target="_self">
+          Session 和 Cookie
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
+        <a href="/2022/03/25/Session%20%E5%92%8C%20Cookie/" target="_self">
           
           
             
           
-          MySQL基础学习
+          Session 和 Cookie
 
-一、基本操作1、创建数据库和表创建数据库语句
-1CREATE DATABASE database;
+Session和Cookie可是我们的老熟人了，不过这两个老熟人可是不怎么好相处，又熟悉又陌生，又简单又复杂，都非常的令人头疼，就连很多有一定工作经验的人也觉得是块硬骨头；
+说他们熟悉，是因为天天和他们打交道，说陌生是因为根本就不了解他们，就如同天天住在一起但是不怎么说话的邻居，天天见也就是混了个脸熟，可能连人家干啥的都不知道；
+说简单是因为他们本身只是HTTP
+        </a>
+      </p>
 
-展示所有数据库
-1SHOW DATABASES;
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Servlet/">Servlet</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Servlet/">Servlet</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
-使用指定数据库
-1USE database;
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/RPC%20%E5%B0%B1%E5%A5%BD%E5%83%8F%E6%98%AF%E8%B0%88%E4%B8%80%E5%9C%BA%E5%BC%82%E5%9C%B0%E6%81%8B/" target="_self">
+          <img src="/img/Substitute11.jpg" srcset="/img/loading.gif" lazyload alt="RPC 就好像是谈一场异地恋">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/RPC%20%E5%B0%B1%E5%A5%BD%E5%83%8F%E6%98%AF%E8%B0%88%E4%B8%80%E5%9C%BA%E5%BC%82%E5%9C%B0%E6%81%8B/" target="_self">
+          RPC 就好像是谈一场异地恋
+        </a>
+      </h1>
 
-创建表
-1234567CREATE TABLE student(    s_no VARCHAR(20) PRIMARY KEY COMMENT&#x27;学生学号&#x27;
+      <p class="index-excerpt">
+        <a href="/2022/03/25/RPC%20%E5%B0%B1%E5%A5%BD%E5%83%8F%E6%98%AF%E8%B0%88%E4%B8%80%E5%9C%BA%E5%BC%82%E5%9C%B0%E6%81%8B/" target="_self">
+          
+          
+            
+          
+          RPC 就好像是谈一场异地恋
+
+RPC 作为目前的主流技术之一，它打破了某一项任务所需的计算资源只能靠一台计算机来实现的固有想法，对分布式计算、微服务等领域都有着重要而深远的影响。
+从20世纪80年代至今近四十年的时间内，由RPC衍生出来的技术非常多，包括很多现在常见的中间件技术都离不开RPC。网络技术的发展，以及操作系统中的进程间通信技术越发多样化和成熟，这些都为RPC的出现打下了非常好的基础。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/ROS%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98/" target="_self">
+          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="Command &#39;roscore&#39; not found, but can be installed with: sudo apt install python-roslaunch">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/ROS%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98/" target="_self">
+          Command &#39;roscore&#39; not found, but can be installed with: sudo apt install python-roslaunch
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/ROS%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98/" target="_self">
+          
+          
+            
+          
+          “Command ‘roscore’ not found, but can be installed with: sudo apt install python-roslaunch”前言VMware 15虚拟机，Ubuntu 18系统，安装 ROS melodic。安装结束之后，运行指令 “roscore”，弹出 “Command ‘roscore’ not found, but can be i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Embedded/">Embedded</a>
+            
+              <a href="/categories/Embedded/ROS/">ROS</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+            
+              <a href="/tags/ROS/">ROS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/rosdep%20update%20read%20operation%20time%20out/" target="_self">
+          <img src="/img/Substitute1.jpg" srcset="/img/loading.gif" lazyload alt="rosdep update read operation time out 不用翻墙的解决方法">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/rosdep%20update%20read%20operation%20time%20out/" target="_self">
+          rosdep update read operation time out 不用翻墙的解决方法
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/rosdep%20update%20read%20operation%20time%20out/" target="_self">
+          
+          
+            
+          
+          rosdep update read operation time out 不用翻墙的解决方法
+
+在安装ros时，运行 rosdeo update，因为网络原因，一直出现超时错误：
+rosdep updatereading in sources list data from /etc/ros/rosdep/sources.list.dHit https://raw.githubuserconten
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Embedded/">Embedded</a>
+            
+              <a href="/categories/Embedded/ROS/">ROS</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+            
+              <a href="/tags/ROS/">ROS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%E5%AD%A6%E4%B9%A0/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608142425.png" srcset="/img/loading.gif" lazyload alt="Redis学习">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%E5%AD%A6%E4%B9%A0/" target="_self">
+          Redis学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          Redis学习
+
+本博客根据黑马Redis教程学习而做的笔记，链接如下
+一、Redis常用指令12345678910111213141516171819//启动容器docker run -d -p 6379:6379 -it --name=&quot;myredis&quot; redis输入密码:auth密码//进入redis容器docker exec -it myredis  redis-cl
         </a>
       </p>
 
@@ -339,97 +577,35 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
-          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL高性能优化规范建议">
+        <a href="/2022/03/25/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201026211558.png" srcset="/img/loading.gif" lazyload alt="Redis设计与实现">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
-          MySQL高性能优化规范建议
+        <a href="/2022/03/25/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" target="_self">
+          Redis设计与实现
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
+        <a href="/2022/03/25/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" target="_self">
           
           
             
           
-          MySQL高性能优化规范建议
+          Redis设计与实现
 
-数据库命令规范
-所有数据库对象名称必须使用小写字母并用下划线分割
-所有数据库对象名称禁止使用 MySQL 保留关键字（如果表名中包含关键字查询时，需要将其用单引号括起来）
-数据库对象的命名要能做到见名识意，并且最后不要超过 32 个字符
-临时库表必须以 tmp_为前缀并以日期为后缀，备份表必须以 bak_为前缀并以日期 (时间戳) 为后缀
-所有存储相同数据的列名和列
-        </a>
-      </p>
+Redis中的数据结构一、简单动态字符串1、SDS的定义SDS又称为简单动态字符串（Simple Dynamic String），SDS的定义如下图所示
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+如果将一个值为“Redis”的字符串放入SDS中，它的状态如下图所示
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200813170808.png" srcset="/img/loading.gif" lazyload alt="MySQL高级学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          MySQL高级学习
-        </a>
-      </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          MySQL高级学习
-
-一、Mysql逻辑架构1、整体架构
-连接层最上层是一些客服端和连接服务，包括socket通信和大多数基于客服端/服务端工具实现的类似于tcp/ip的通信，主要完成一些类似于连接处理、授权认证及相关安全的方案，在该层上引入了线程池的概念，为通过认证安全接入的客服端提供线程，同样在该层上可以实现基于SSL的安全的连接，服务器也会为安全接入的每个客户端验证它所具有的操作权限
-服务层
+buf相当于C中的字符串，一般被称为字节数组，为一个char类型的数组
+len记录了buf的长度（未记录最后一个’\0’字符）
+该值使得获取字符串
         </a>
       </p>
 
@@ -470,29 +646,31 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210628095555.webp" srcset="/img/loading.gif" lazyload alt="MySQL自增 ID 超大问题查询">
+        <a href="/2022/03/25/RedisJson%20%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96%EF%BC%8C%E6%80%A7%E8%83%BD%E7%A2%BE%E5%8E%8B%20ES%20%E5%92%8C%20Mongo%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201645975.webp" srcset="/img/loading.gif" lazyload alt="RedisJson 横空出世，性能碾压 ES 和 Mongo？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
-          MySQL自增 ID 超大问题查询
+        <a href="/2022/03/25/RedisJson%20%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96%EF%BC%8C%E6%80%A7%E8%83%BD%E7%A2%BE%E5%8E%8B%20ES%20%E5%92%8C%20Mongo%EF%BC%9F/" target="_self">
+          RedisJson 横空出世，性能碾压 ES 和 Mongo？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
+        <a href="/2022/03/25/RedisJson%20%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96%EF%BC%8C%E6%80%A7%E8%83%BD%E7%A2%BE%E5%8E%8B%20ES%20%E5%92%8C%20Mongo%EF%BC%9F/" target="_self">
           
           
             
           
-          MySQL 自增 ID 超大问题查询
+          RedisJson 横空出世，性能碾压 ES 和 Mongo？
 
-引言小A正在balabala写代码呢，DBA小B突然发来了一条消息，“快看看你的用户特定信息表T，里面的主键，也就是自增id，都到16亿了，这才多久，在这样下去过不了多久主键就要超出范围了，插入就会失败，balabala……”
-我记得没有这么多，最多1k多万，count了下，果然是1100万。原来运维是通过 auto_increment那个值看的，就是说，表
+一、概述近期官网给出了RedisJson（RedisSearch）的性能测试报告，可谓碾压其他NoSQL，下面是核心的报告内容，先上结论：
+
+对于隔离写入(isolated writes)，RedisJSON 比 MongoDB 快 5.4 倍，比 ElasticSearch 快 200 倍以上。
+对于隔离读取(isolated r
         </a>
       </p>
 
@@ -511,7 +689,7 @@
             
               <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Database/Redis/">Redis</a>
             
           </div>
         
@@ -521,7 +699,7 @@
             
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
@@ -533,31 +711,33 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705141206.webp" srcset="/img/loading.gif" lazyload alt="MySQL优化原理">
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210614210600.png" srcset="/img/loading.gif" lazyload alt="Redis与MySQL双写一致性如何保证？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
-          MySQL优化原理
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
+          Redis与MySQL双写一致性如何保证？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
           
           
             
           
-          MySQL 优化原理
+          Redis 与 MySQL 双写一致性如何保证？
 
-说起MySQL的查询优化，相信大家收藏了一堆奇技淫巧：
-不能使用SELECT *、不使用NULL字段、合理创建索引、为字段选择合适的数据类型… 
-你是否真的理解这些优化技巧？是否理解其背后的工作原理？在实际场景下性能真有提升吗？我想未必。因而理解这些优化建议背后的原理就尤为重要，希望本文能让你重新审视这些优化建议，并在实际业务场景下合理的运用。
-MySQL逻辑架构如果能在头
+四月份的时候，有位好朋友去美团面试。他说，被问到Redis与MySQL双写一致性如何保证？这道题其实就是在问缓存和数据库在双写场景下，一致性是如何保证的？本文将跟大家一起来探讨如何回答这个问题。
+
+谈谈一致性
+一致性就是数据保持一致，在分布式系统中，可以理解为多个节点中数据的值是一致的。
+
+强一致性：这种一致性级别是最符合用户直觉的，它要求系统写
         </a>
       </p>
 
@@ -576,7 +756,7 @@ MySQL逻辑架构如果能在头
             
               <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Database/Redis/">Redis</a>
             
           </div>
         
@@ -586,7 +766,7 @@ MySQL逻辑架构如果能在头
             
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
@@ -598,28 +778,36 @@ MySQL逻辑架构如果能在头
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL团队开发规范">
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232133402.webp" srcset="/img/loading.gif" lazyload alt="Redis 延时任务">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
-          MySQL团队开发规范
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
+          Redis 延时任务
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
           
           
             
           
-          MySQL 团队开发规范
+          Redis 延时任务
 
-数据库对象命名规范数据库对象数据库对象是数据库的组成部分，常见的有以下几种：表（Table ）、索引（Index）、视图（View）、图表（Diagram）、缺省值（Default）、规则（Rule）、触发器（Trigger）、存储过程（Stored Procedure）、 用户（User）等。命名规范是指数据库对象如数据库（SCHEMA）、表（TABLE）、索引（IN
+引言在开发中，往往会遇到一些关于延时任务的需求。例如
+
+生成订单30分钟未支付，则自动取消
+生成订单60秒后,给用户发短信
+
+对上述的任务，我们给一个专业的名字来形容，那就是延时任务。那么这里就会产生一个问题，这个延时任务和定时任务的区别究竟在哪里呢？一共有如下几点区别
+
+定时任务有明确的触发时间，延时任务没有
+定时任务有执行周期，而延时任务在某事件触发后一段时间内执行，没
         </a>
       </p>
 
@@ -638,7 +826,7 @@ MySQL逻辑架构如果能在头
             
               <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Database/MySQL/">MySQL</a>
+              <a href="/categories/Database/Redis/">Redis</a>
             
           </div>
         
@@ -648,200 +836,7 @@ MySQL逻辑架构如果能在头
             
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL批量插入：如何不插入重复数据？">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          MySQL批量插入：如何不插入重复数据？
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          
-          
-            
-          
-          MySQL 批量插入：如何不插入重复数据？
-
-业务很简单：需要批量插入一些数据，数据来源可能是其他数据库的表，也可能是一个外部excel的导入
-那么问题来了，是不是每次插入之前都要查一遍，看看重不重复，在代码里筛选一下数据，重复的就过滤掉呢？
-向大数据数据库中插入值时，还要判断插入是否重复，然后插入。如何提高效率
-看来这个问题不止我一个人苦恼过。
-解决的办法有很多种，不同的场景解决方案也不一样，数
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232230393.webp" srcset="/img/loading.gif" lazyload alt="MySQL 模糊查询再也用不着 like+% 了！">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
-          MySQL 模糊查询再也用不着 like+% 了！
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
-          
-          
-            
-          
-          MySQL 模糊查询再也用不着 like+% 了！
-
-我们都知道 InnoDB 在模糊查询数据时使用 “%xx“ 会导致索引失效，但有时需求就是如此，类似这样的需求还有很多，例如，搜索引擎需要根基用户数据的关键字进行全文查找，电子商务网站需要根据用户的查询条件，在可能需要在商品的详细介绍中进行查找，这些都不是B+树索引能很好完成的工作。
-通过数值比较，范围过滤等就可以完成绝大多数我们需要的查询了。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021336494.webp" srcset="/img/loading.gif" lazyload alt="MySQL高频100问">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
-          MySQL高频100问
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
-          
-          
-            
-          
-          MySQL 高频 100 问
-
-本文主要受众为开发人员,所以不涉及到MySQL的服务部署等操作,且内容较多,大家准备好耐心和瓜子矿泉水.
-前一阵系统的学习了一下MySQL,也有一些实际操作经验,偶然看到一篇和MySQL相关的面试文章,发现其中的一些问题自己也回答不好,虽然知识点大部分都知道,但是无法将知识串联起来.
-因此决定搞一个MySQL灵魂100问,试着用回答问题的方式,让自己对知识点的理解更
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
@@ -853,7 +848,7 @@ MySQL逻辑架构如果能在头
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/22/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/#board">21</a><a class="page-number" href="/page/22/#board">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="extend next" rel="next" href="/page/24/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/22/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/#board">21</a><a class="page-number" href="/page/22/#board">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/24/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

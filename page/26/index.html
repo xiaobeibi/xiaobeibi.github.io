@@ -203,39 +203,97 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608150440.png" srcset="/img/loading.gif" lazyload alt="JVM学习">
+        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
+          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL高性能优化规范建议">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          JVM学习
+        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
+          MySQL高性能优化规范建议
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
           
           
             
           
-          JVM学习
+          MySQL高性能优化规范建议
 
-本博客是根据解密JVM【黑马程序员出品】教学视频学习时，所做的笔记
-一、什么是JVM定义Java Virtual Machine，JAVA程序的运行环境（JAVA二进制字节码的运行环境）
-好处
-一次编写，到处运行
-自动内存管理，垃圾回收机制
-数组下标越界检查
+数据库命令规范
+所有数据库对象名称必须使用小写字母并用下划线分割
+所有数据库对象名称禁止使用 MySQL 保留关键字（如果表名中包含关键字查询时，需要将其用单引号括起来）
+数据库对象的命名要能做到见名识意，并且最后不要超过 32 个字符
+临时库表必须以 tmp_为前缀并以日期为后缀，备份表必须以 bak_为前缀并以日期 (时间戳) 为后缀
+所有存储相同数据的列名和列
+        </a>
+      </p>
 
-比较JVM JRE JDK的区别
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
-二、内存结构整体架构
-1、程序计数器作用用于保存JVM中下一条所要执行的指令的地址
-特点
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200813170808.png" srcset="/img/loading.gif" lazyload alt="MySQL高级学习">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
+          MySQL高级学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          MySQL高级学习
+
+一、Mysql逻辑架构1、整体架构
+连接层最上层是一些客服端和连接服务，包括socket通信和大多数基于客服端/服务端工具实现的类似于tcp/ip的通信，主要完成一些类似于连接处理、授权认证及相关安全的方案，在该层上引入了线程池的概念，为通过认证安全接入的客服端提供线程，同样在该层上可以实现基于SSL的安全的连接，服务器也会为安全接入的每个客户端验证它所具有的操作权限
+服务层
         </a>
       </p>
 
@@ -276,29 +334,29 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JPA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210416182849.png" srcset="/img/loading.gif" lazyload alt="Spring Data JPA">
+        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210628095555.webp" srcset="/img/loading.gif" lazyload alt="MySQL自增 ID 超大问题查询">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/JPA/" target="_self">
-          Spring Data JPA
+        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
+          MySQL自增 ID 超大问题查询
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/JPA/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
           
           
             
           
-          Spring Data JPA
+          MySQL 自增 ID 超大问题查询
 
-1. ORM概述ORM（Object-Relational Mapping） 表示对象关系映射。在面向对象的软件开发中，通过ORM，就可以把对象映射到关系型数据库中。只要有一套程序能够做到建立对象与数据库的关联，操作对象就可以直接操作数据库数据，就可以说这套程序实现了ORM对象关系映射.
-简单的说：ORM就是建立实体类和数据库表之间的关系，从而达到操作实体类就相当
+引言小A正在balabala写代码呢，DBA小B突然发来了一条消息，“快看看你的用户特定信息表T，里面的主键，也就是自增id，都到16亿了，这才多久，在这样下去过不了多久主键就要超出范围了，插入就会失败，balabala……”
+我记得没有这么多，最多1k多万，count了下，果然是1100万。原来运维是通过 auto_increment那个值看的，就是说，表
         </a>
       </p>
 
@@ -315,9 +373,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/SpringData/">SpringData</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -325,9 +383,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/SpringData/">SpringData</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -339,35 +397,31 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200610224442.png" srcset="/img/loading.gif" lazyload alt="Java数据结构与算法">
+        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705141206.webp" srcset="/img/loading.gif" lazyload alt="MySQL优化原理">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
-          Java数据结构与算法
+        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
+          MySQL优化原理
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
           
           
             
           
-          Java数据结构与算法
+          MySQL 优化原理
 
-该博客是根据Java -韩顺平 图解Java 数据结构 和 算法-尚硅谷学习时，所做的笔记
-一、稀疏数组和队列1、稀疏数组基本功能当一个数组中大部分元素为０，或者为同一个值的数组时，可以使用稀疏数组来保存该数组。
-处理方法
-记录数组一共有几行几列，有多少个不同的值
-把具有不同值的元素的行列及值记录在一个小规模的数组中，从而缩小程序的规模
-
-
-如图，把一个6X7的二维数组变
+说起MySQL的查询优化，相信大家收藏了一堆奇技淫巧：
+不能使用SELECT *、不使用NULL字段、合理创建索引、为字段选择合适的数据类型… 
+你是否真的理解这些优化技巧？是否理解其背后的工作原理？在实际场景下性能真有提升吗？我想未必。因而理解这些优化建议背后的原理就尤为重要，希望本文能让你重新审视这些优化建议，并在实际业务场景下合理的运用。
+MySQL逻辑架构如果能在头
         </a>
       </p>
 
@@ -384,9 +438,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -394,9 +448,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -408,28 +462,28 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
-          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="Java必会的工具库">
+        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
+          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL团队开发规范">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
-          Java必会的工具库
+        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
+          MySQL团队开发规范
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
           
           
             
           
-          Java必会的工具库
+          MySQL 团队开发规范
 
-1. Java自带工具方法1.1 List集合拼接成以逗号分隔的字符串12345678// 如何把list集合拼接成以逗号分隔的字符串 a,b,c  List&lt;String&gt; list = Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);  // 第一种方法，可以用stream流  Strin
+数据库对象命名规范数据库对象数据库对象是数据库的组成部分，常见的有以下几种：表（Table ）、索引（Index）、视图（View）、图表（Diagram）、缺省值（Default）、规则（Rule）、触发器（Trigger）、存储过程（Stored Procedure）、 用户（User）等。命名规范是指数据库对象如数据库（SCHEMA）、表（TABLE）、索引（IN
         </a>
       </p>
 
@@ -446,9 +500,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -456,9 +510,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -470,35 +524,32 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JavaBlog/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203081547166.jpg" srcset="/img/loading.gif" lazyload alt="Java博客项目">
+        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
+          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL批量插入：如何不插入重复数据？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/JavaBlog/" target="_self">
-          Java博客项目
+        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
+          MySQL批量插入：如何不插入重复数据？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/JavaBlog/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
           
           
             
           
-          Java博客项目
+          MySQL 批量插入：如何不插入重复数据？
 
-项目效果：http://obgeqwh.top:8080
-
-
-项目技术后端：Springboot + MybatisPlus + Redis + MySQL
-前端：Vue + Axios
-MySQL表结构
-统一异常处理对加了 @Controller 注解的方法进行拦截处理——AOP 的实现
-12345678910@ControllerAdvicepublic class All
+业务很简单：需要批量插入一些数据，数据来源可能是其他数据库的表，也可能是一个外部excel的导入
+那么问题来了，是不是每次插入之前都要查一遍，看看重不重复，在代码里筛选一下数据，重复的就过滤掉呢？
+向大数据数据库中插入值时，还要判断插入是否重复，然后插入。如何提高效率
+看来这个问题不止我一个人苦恼过。
+解决的办法有很多种，不同的场景解决方案也不一样，数
         </a>
       </p>
 
@@ -515,9 +566,9 @@ MySQL表结构
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -525,9 +576,9 @@ MySQL表结构
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaDemo/">JavaDemo</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -539,41 +590,29 @@ MySQL表结构
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="Java 项目构建基础">
+        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232230393.webp" srcset="/img/loading.gif" lazyload alt="MySQL 模糊查询再也用不着 like+% 了！">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
-          Java 项目构建基础
+        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
+          MySQL 模糊查询再也用不着 like+% 了！
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
+        <a href="/2022/03/25/MySQL%20!%EF%BF%BD%EF%BF%BD%EF%BF%BD_(%0D@%20like+%25%20%EF%BF%BD%01/" target="_self">
           
           
             
           
-          Java 项目构建基础
+          MySQL 模糊查询再也用不着 like+% 了！
 
-统一结果返回
-目前的前后端开发大部分数据的传输格式都是json，因此定义一个统一规范的数据格式有利于前后端的交互与UI的展示。
-
-统一结果的一般形式
-是否响应成功；
-响应状态码；
-状态码描述；
-响应数据
-其他标识符
-
-结果类枚举
-前三者可定义结果枚举，如：success，code，message
-
-1234567891011121314151617181920@Gette
+我们都知道 InnoDB 在模糊查询数据时使用 “%xx“ 会导致索引失效，但有时需求就是如此，类似这样的需求还有很多，例如，搜索引擎需要根基用户数据的关键字进行全文查找，电子商务网站需要根据用户的查询条件，在可能需要在商品的详细介绍中进行查找，这些都不是B+树索引能很好完成的工作。
+通过数值比较，范围过滤等就可以完成绝大多数我们需要的查询了。
         </a>
       </p>
 
@@ -590,9 +629,9 @@ MySQL表结构
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -600,9 +639,9 @@ MySQL表结构
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -614,31 +653,30 @@ MySQL表结构
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715114848.png" srcset="/img/loading.gif" lazyload alt="Java 线程池配置的常见误区">
+        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021336494.webp" srcset="/img/loading.gif" lazyload alt="MySQL高频100问">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
-          Java 线程池配置的常见误区
+        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
+          MySQL高频100问
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E9%AB%98%E9%A2%91%20100%20%E9%97%AE/" target="_self">
           
           
             
           
-          Java 线程池配置的常见误区
+          MySQL 高频 100 问
 
-前言由于线程的创建和销毁对操作系统来说都是比较重量级的操作，所以线程的池化在各种语言内都有实践，当然在 Java 语言中线程池是也非常重要的一部分，有 Doug Lea 大神对线程池的封装，我们使用的时候是非常方便，但也可能会因为不了解其具体实现，对线程池的配置参数存在误解。
-我们经常在一些技术书籍或博客上看到，向线程池提交任务时，线程池的执行逻辑如下：
-
-1、当
+本文主要受众为开发人员,所以不涉及到MySQL的服务部署等操作,且内容较多,大家准备好耐心和瓜子矿泉水.
+前一阵系统的学习了一下MySQL,也有一些实际操作经验,偶然看到一篇和MySQL相关的面试文章,发现其中的一些问题自己也回答不好,虽然知识点大部分都知道,但是无法将知识串联起来.
+因此决定搞一个MySQL灵魂100问,试着用回答问题的方式,让自己对知识点的理解更
         </a>
       </p>
 
@@ -655,9 +693,9 @@ MySQL表结构
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -665,9 +703,9 @@ MySQL表结构
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -679,30 +717,29 @@ MySQL表结构
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006757.webp" srcset="/img/loading.gif" lazyload alt="Java 日志体系详解">
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109121238595.webp" srcset="/img/loading.gif" lazyload alt="MySQL定时备份数据库">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
-          Java 日志体系详解
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+          MySQL定时备份数据库
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
           
           
             
           
-          Java 日志体系详解
+          MySQL 定时备份数据库
 
-本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。
-Log日志体系在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多：
-1`commons-logging.jar`、`lo
+在操作数据过程中，可能会导致数据错误，甚至数据库奔溃，而有效的定时备份能很好地保护数据库。本篇文章主要讲述了几种方法进行 MySQL 定时备份数据库。
+一. mysqldump命令备份数据在MySQL中提供了命令行导出数据库数据以及文件的一种方便的工具mysqldump,我们可以通过命令行直接实现数据库内容的导出dump,首先我们简单了解一下mysqldump命令用法
         </a>
       </p>
 
@@ -719,9 +756,9 @@ Log日志体系在日常工作中我们可能看到项目中依赖的跟日志�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -729,9 +766,9 @@ Log日志体系在日常工作中我们可能看到项目中依赖的跟日志�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -743,29 +780,30 @@ Log日志体系在日常工作中我们可能看到项目中依赖的跟日志�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201522579.jpeg" srcset="/img/loading.gif" lazyload alt="Java 日志框架冲突解决方案">
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622112630.png" srcset="/img/loading.gif" lazyload alt="MySQL调优">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
-          Java 日志框架冲突解决方案
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
+          MySQL调优
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
           
           
             
           
-          Java 日志框架冲突解决方案
+          MySQL 调优
 
-你是否遇到过配置了日志，但打印不出来的情况？你是否遇到过配置了 logback，启动时却提示 log4j 错误的情况？像下面这样：
-123log4j:WARN No appenders could be found for logger (org.example.App).log4j:WARN Please initialize the log4j system 
+一般传统互联网公司很少接触到 SQL 优化问题，其原因是数据量小，大部分厂商的数据库性能能够满足日常的业务需求，所以不需要进行 SQL 优化，但是随着应用程序的不断变大，数据量的激增，数据库自身的性能跟不上了，此时就需要从 SQL 自身角度来进行优化，这也是我们这篇文章所讨论的。
+SQL 优化步骤当面对一个需要优化的 SQL 时，我们有哪几种排查思路呢？
+通过 show sta
         </a>
       </p>
 
@@ -782,79 +820,9 @@ Log日志体系在日常工作中我们可能看到项目中依赖的跟日志�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/Java/">Java</a>
+              <a href="/categories/Database/">Database</a>
             
-              <a href="/categories/Java/Log/">Log</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Log/">Log</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E7%9A%84%2021%20%E4%B8%AA%E5%9D%91/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705143029.png" srcset="/img/loading.gif" lazyload alt="Java 日常开发的 21 个坑">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E7%9A%84%2021%20%E4%B8%AA%E5%9D%91/" target="_self">
-          Java 日常开发的 21 个坑
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E7%9A%84%2021%20%E4%B8%AA%E5%9D%91/" target="_self">
-          
-          
-            
-          
-          Java 日常开发的 21 个坑
-
-1. 六类典型空指针问题
-包装类型的空指针问题
-级联调用的空指针问题
-Equals方法左边的空指针问题
-ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。
-集合，数组直接获取元素
-对象直接获取属性
-
-1.1包装类型的空指针问题12345678910public class NullPointTest &#123;    
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Database/MySQL/">MySQL</a>
             
           </div>
         
@@ -862,9 +830,9 @@ ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">Java</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/MySQL/">MySQL</a>
             
           </div>
         
@@ -876,7 +844,7 @@ ConcurrentHashMap 这样的容器不支持 Key 和 Value 为 null。
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/25/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="extend next" rel="next" href="/page/27/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/25/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/27/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

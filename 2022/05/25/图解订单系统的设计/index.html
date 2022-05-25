@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="图解订单系统的设计  本文主要讲述了在传统电商企业中，订单系统应承载的角色，就订单系统所包含的主要功能模块梳理了设计思路，并对订单系统未来的发展做了一些思考。 1. 订单系统在企业中的角色在搭建企业订单系统之前，需要先梳理企业整体业务系统之间的关系和订单系统上下游关系，只有划分清业务系统边界，才能确定订单系统的职责与功能，进而保证各系统之间高效简洁的工作。 2. 订单系统与各业务系统的关系 （1）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图解订单系统的设计">
+<meta property="og:url" content="http://example.com/2022/05/25/%E5%9B%BE%E8%A7%A3%E8%AE%A2%E5%8D%95%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="图解订单系统的设计  本文主要讲述了在传统电商企业中，订单系统应承载的角色，就订单系统所包含的主要功能模块梳理了设计思路，并对订单系统未来的发展做了一些思考。 1. 订单系统在企业中的角色在搭建企业订单系统之前，需要先梳理企业整体业务系统之间的关系和订单系统上下游关系，只有划分清业务系统边界，才能确定订单系统的职责与功能，进而保证各系统之间高效简洁的工作。 2. 订单系统与各业务系统的关系 （1）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241737999.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241738150.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241738418.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241739153.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740071.jpeg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740814.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740629.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241741820.png">
+<meta property="article:published_time" content="2022-05-25T02:28:43.244Z">
+<meta property="article:modified_time" content="2022-05-24T09:42:32.765Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="设计架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241737999.png">
+  
+  <title>图解订单系统的设计 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="图解订单系统的设计">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-25 10:28" pubdate>
+        2022年5月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">图解订单系统的设计</h1>
+            
+            <div class="markdown-body">
+              <center><h2>图解订单系统的设计</h2></center>
+
+<p>本文主要讲述了在传统电商企业中，订单系统应承载的角色，就订单系统所包含的主要功能模块梳理了设计思路，并对订单系统未来的发展做了一些思考。</p>
+<h2 id="1-订单系统在企业中的角色"><a href="#1-订单系统在企业中的角色" class="headerlink" title="1. 订单系统在企业中的角色"></a>1. 订单系统在企业中的角色</h2><p>在搭建企业订单系统之前，需要先梳理企业整体业务系统之间的关系和订单系统上下游关系，只有划分清业务系统边界，才能确定订单系统的职责与功能，进而保证各系统之间高效简洁的工作。</p>
+<h2 id="2-订单系统与各业务系统的关系"><a href="#2-订单系统与各业务系统的关系" class="headerlink" title="2. 订单系统与各业务系统的关系"></a>2. 订单系统与各业务系统的关系</h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241737999.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="（1）对外系统："><a href="#（1）对外系统：" class="headerlink" title="（1）对外系统："></a>（1）对外系统：</h3><p>所有给企业外部用户使用的系统都在这一层，包括官网、普通用户使用的C端，还包括给商户使用的商家后台和在各个销售渠道进行分销的系统，比如与银行信用卡中心合作、微信合作在合作商的平台露出本企业的产品。这类系统站在与客户接触的最前线，是公司实现商业模式的桥头堡。</p>
+<h3 id="（2）管理中后台："><a href="#（2）管理中后台：" class="headerlink" title="（2）管理中后台："></a>（2）管理中后台：</h3><p>每个C端的业务形态都会有一个对应的系统模块，如负责管理平台交易的订单系统，管理优惠信息的促销系统，管理平台所有产品的产品系统，以及管理所有对外系统显示内容的内容系统等。</p>
+<h3 id="（3）公共服务系统："><a href="#（3）公共服务系统：" class="headerlink" title="（3）公共服务系统："></a>（3）公共服务系统：</h3><p>随着企业的发展，信息化建设到达一定程度后，企业需要将通用功能服务化、平台化，以保证应用架构的合理性，提升服务效率。这类系统主要给其他应用系统提供基础服务能力支持。</p>
+<h2 id="3-订单系统上下游关系"><a href="#3-订单系统上下游关系" class="headerlink" title="3. 订单系统上下游关系"></a>3. 订单系统上下游关系</h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241738150.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>由此可见，订单系统对上接收用户信息，将用户信息转化为产品订单，同时管理并跟踪订单信息和数据，承载了公司整个交易线的重要对客环节。对下则衔接产品系统、促销系统、仓储系统、会员系统、支付系统等，对整个电商平台起着承上启下的作用。</p>
+<h2 id="4-订单系统的业务架构"><a href="#4-订单系统的业务架构" class="headerlink" title="4. 订单系统的业务架构"></a>4. 订单系统的业务架构</h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241738418.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h3 id="（1）订单服务"><a href="#（1）订单服务" class="headerlink" title="（1）订单服务"></a>（1）订单服务</h3><p>该模块的主要功能是用户日常使用的服务和页面，主要有订单列表、订单详情、在线下单等，还包括为公共业务模块提供的多维度订单数据服务。</p>
+<h3 id="（2）订单逻辑"><a href="#（2）订单逻辑" class="headerlink" title="（2）订单逻辑"></a>（2）订单逻辑</h3><p>订单系统的核心，起着至关重要的作用，在订单系统负责管理订单创建、订单支付、订单生产、订单确认、订单完成、取消订单等订单流程。还涉及到复杂的订单状态规则、订单金额计算规则以及增减库存规则等。在4节核心功能设计中会重点来说。</p>
+<h3 id="（3）底层服务"><a href="#（3）底层服务" class="headerlink" title="（3）底层服务"></a>（3）底层服务</h3><p>信息化建设达到一定程度的企业，一般会将公司公共服务模块化，比如：产品，会构建对应的产品系统，代码、数据库，接口等相对独立。但是，这也带来了一个问题，比如：订单创建的场景下需要获取的信息分散在各个系统。</p>
+<p>如果需要从各个公共服务系统调用：一是会花费大量时间，二是代码的维护成本非常高。因此，订单系统接入所需的公共服务模块接口，在订单系统即可完成对接公共系统的服务。</p>
+<h2 id="订单系统核心功能"><a href="#订单系统核心功能" class="headerlink" title="订单系统核心功能"></a>订单系统核心功能</h2><h3 id="1-订单中所包含的内容信息"><a href="#1-订单中所包含的内容信息" class="headerlink" title="1. 订单中所包含的内容信息"></a>1. 订单中所包含的内容信息</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241739153.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>为了使订单系统能够对订单进行高效、精准的管理和跟踪，订单会储存关于产品、优惠、用户、支付信息等一系列的订单实时数据，来和下游系统，如：促销、仓储、物流进行交互。</p>
+<p>以一个通用B2C商城的订单为例，梳理其包含的信息如下：</p>
+<p>这里要注意的是订单类型，随着平台业务的不断发展，品类丰富、交易方式丰富后，需要对订单进行多维度的分类管理，同时订单类型利于订单系统的扩展性。每种订单类型将会对应一套流程及一套状态，便于对订单进行分类管理和复用。</p>
+<h3 id="2-流程引擎"><a href="#2-流程引擎" class="headerlink" title="2. 流程引擎"></a>2. 流程引擎</h3><p>流程是指从平台角度出发，将订单从创建到完成的整个流转过程进行抽象，从而形成了一套标准流程规则。而不同的产品类型或交易类型在系统中的流程会千差万别，因此为了方便对订单流程进行管理，会组建流程引擎模块。</p>
+<p>每套订单流程中会包含正向流程及逆向流程，正向流程可以比作一次顺利的网购体验过程中，后台系统之间的信息流转。逆向流程则是修改订单、取消订单、退款、退货等各种动作引起的后台系统流程，同时每个流程触发的条件又可分为系统触发和人工触发两种场景。</p>
+<h4 id="（1）正向流程"><a href="#（1）正向流程" class="headerlink" title="（1）正向流程"></a>（1）正向流程</h4><p>以一个通用B2C商城的订单系统为例，根据其实际业务场景，其订单流程可抽象为5大步骤：<strong>订单创建&gt;订单支付&gt;订单生产&gt;订单确认&gt;订单完成。</strong></p>
+<p>而每个步骤的背后，订单是如何在多系统之间交互流转的，可概括如下图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740071.jpeg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><strong>订单创建：</strong></p>
+<p>用户下单后，系统需要生成订单，此时需要先获取下单中涉及的商品信息，然后获取该商品所涉及到的优惠信息，如果商品不参与优惠信息，则无此环节。</p>
+<p>接着获取该账户的会员权益，这里要注意的是：优惠信息与会员权益的区别，比如：商品满减是优惠信息，SUPER会员全场9.8折指的是会员权益，一个是针对商品，另一个是针对账户。其次就是优惠活动的叠加规则和优先级规则等。</p>
+<p>增减库存规则是指订单中的商品，何时从仓储系统中对相应商品库存进行扣除，目前主流有两种方式：</p>
+<p><strong>下单减库存——即用户下单成功时减少库存数量</strong></p>
+<ul>
+<li><strong>优势</strong>：用户体验友好，系统逻辑简洁；</li>
+<li><strong>缺点</strong>：会导致恶意下单或下单后却不买，使得真正有需求的用户无法购买，影响真实销量；</li>
+</ul>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>设置订单有效时间，若订单创建成功N分钟不付款，则订单取消，库存回滚；</li>
+<li>限购，用各种条件来限制买家的购买件数，比如一个账号、一个ip，只能买一件；</li>
+<li>风控，从技术角度进行判断，屏蔽恶意账号，禁止恶意账号购买。</li>
+</ol>
+<p><strong>付款减库存——即用户支付完成并反馈给平台后再减少库存数量</strong></p>
+<ul>
+<li><strong>优势</strong>：减少无效订单带来的资源损耗；</li>
+<li><strong>缺点</strong>：因第三方支付返回结果存在时差，同一时间多个用户同时付款成功，会导致下单数目超过库存，商家库存不足容易引发断货和投诉，成本增加。</li>
+</ul>
+<p><strong>解决办法：</strong></p>
+<ol>
+<li>付款前再次校验库存，如确认订单要付款时再验证一次，并友好提示用户库存不足；</li>
+<li>增加提示信息：在商品详情页，订单步骤页面提示不及时付款，不能保证有库存等。</li>
+</ol>
+<p>综上所述，两种方式各有优缺点，因此，需结合实际场景进行考虑，如：秒杀、抢购、促销活动等，可使用下单减库存的方式。而对于产品库存量大，并发流量没有那么强的产品使用付款减库存的方式。</p>
+<p>将两种方式带入到销售场景中，关联商品类型、促销类型、供需关系等，灵活使用，以充分发挥计算机系统的优势。</p>
+<p><strong>订单支付：</strong></p>
+<p>用户支付完订单后，需要获取订单的支付信息，包括支付流水号、支付时间等。支付完订单接着就是等商家发货，但在发货过程中，根据平台业务模式的不同，可能会涉及到订单的拆分。</p>
+<p>订单拆分一般分两种：</p>
+<ul>
+<li>一种是用户挑选的商品来自于不同渠道（自营与商家，商家与商家）；</li>
+<li>另一种是在SKU层面上拆分订单：不同仓库，不同运输要求的SKU，包裹重量体积限制等因素需要将订单拆分。</li>
+</ul>
+<p>订单拆分也是一个相对独立的模块，这里就不详细描述了。</p>
+<p><strong>订单生产</strong>：订单生产，是指产品从企业到用户这一流程的概述。如电商平台中，商家发货过程已有一个标准化的流程，订单内容会发送到仓库，仓库对商品进行打单、拣货、包装、交接快递进行配送。</p>
+<p><strong>订单确认</strong>：收到货后，订单系统需要在快递被签收后提醒用户对商品做评价。这里要注意，确认收到货不代表交易成功，相反是售后服务的开始。</p>
+<p><strong>订单完成</strong>：订单完成是指在收到货X天的状态，此时订单不在售后的支持时间范围内。到此，一个订单的正向流程就算走完了。</p>
+<h4 id="（2）逆向流程"><a href="#（2）逆向流程" class="headerlink" title="（2）逆向流程"></a>（2）逆向流程</h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740814.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上面说到逆向流程是各种修改订单、取消订单、退款、退货等操作，需要梳理清楚这些流程与正向流程的关系，才能理清订单系统完整的订单流程。</p>
+<p><strong>订单修改</strong>：可梳理订单内信息，根据信息关联程度及业务诉求，设定订单的可修改范围是什么，比如：客户下单后，想修改收货人地址及电话。此时只需对相应数据进行更新即可。</p>
+<p><strong>订单取消</strong>：用户提交订单后没有进行支付操作，此时用户原则上属于取消订单，因为还未付款，则比较简单，只需要将原本提交订单时扣减的库存补回，促销优惠中使用的优惠券，权益等视平台规则，进行相应补回。</p>
+<p><strong>退款</strong>：用户支付成功后，客户发出退款的诉求后，需商户进行退款审核，双方达成一致后，系统应以退款单的形式完成退款，关联原订单数据。因商品无变化，所以不需考虑与库存系统的交互，仅需考虑促销系统及支付系统交互即可。</p>
+<p><strong>退货</strong>：用户支付成功后，客户发出退货的诉求后，需商户进行退款审核，双方达成一致后，需对库存系统进行补回，支付系统、促销系统以退款单形式完成退款。最后，在退款/退货流程中，需结合平台业务场景，考虑优惠分摊的逻辑，在发生退款/退货时，优惠该如何退回的处理规则和流程。</p>
+<h4 id="（3）状态机"><a href="#（3）状态机" class="headerlink" title="（3）状态机"></a>（3）状态机</h4><p>状态机是管理订单状态逻辑的工具。状态机可归纳为3个要素，即现态、动作、次态。</p>
+<ol>
+<li><strong>现态</strong>：是指当前所处的状态。</li>
+<li><strong>动作</strong>：动作执行完毕后，可以迁移到新的状态，也可以仍旧保持原状态。</li>
+<li><strong>次态</strong>：动作满足后要迁往的新状态，“次态”是相对于“现态”而言的，“次态”一旦被激活，就转变成新的“现态”了。</li>
+</ol>
+<p>状态机的设计需要结合平台实际业务场景，将状态间的切换细化成了执行了某个动作。</p>
+<p>以一个B2C商城的订单系统举例如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241740629.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>订单系统为了高效的对订单进行跟踪和管理，会对订单流程当中的关键节点，抽象出订单状态。而订单状态从不同用户的角度可分为，系统订单状态、商家订单状态、买家订单状态等。</p>
+<p>对于订单系统来说，订单状态细分的颗粒度越细、越明确，订单系统管理的精度和可靠性就越高，比如：在待付款和待发货两个状态中，订单系统后台会细分为订单超时取消、订单支付失败、订单付款完成等。</p>
+<p>因此，订单状态模块中，通常会维护状态映射表，以不同的用户角色对系统订单状态进行重新划分，以满足不同用户的需求。</p>
+<p>除此以外，随着电商平台的不断发展，不同的业务类型，所对应的订单状态都会有所区别。所以，订单系统中一般会储存多套状态机，以满足不同的订单类型来使用。</p>
+<h2 id="订单系统的发展"><a href="#订单系统的发展" class="headerlink" title="订单系统的发展"></a>订单系统的发展</h2><p>订单系统的主体框架，和主要业务模块已基本讲完，那么随着企业的发展，业务量和业务形式不断变化，企业有可能形成多个订单系统并存以满足不同的业务需要的情况。</p>
+<p>业务系统架构如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205241741820.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这种状况的出现，将会给平台带来非常大的发展瓶颈，如：</p>
+<p>三个订单系统，每个订单系统处理不同类型的订单，没有统一的订单销量、订单状态信息，网站前台对订单的状态展示与控制不统一，只能是在网站前台会员中心硬代码维护一套面向会员的统一订单明细与状态数据。而无线侧上线后，由于不了解前台网站会员中心的订单状态管理逻辑，所以需要把前台网站的订单明细及状态管理再在无线应用侧再实现一遍。</p>
+<p>三套后台订单系统与公共业务系统如会员中心、支付与财务、促销工具、客户分单等系统都需要对接一遍，公共业务处理逻辑不统一，一旦逻辑变更，多个系的同一个接口都要修改一遍，接口的重复维护开发工作量大。</p>
+<p>订单开发目前分到事业部，各个事业部只会考虑自己的逻辑，不会考虑公共架构，只会越走越远。碰到像无线这样的项目，需要对接各个事业部，无线侧应用上线进展慢。</p>
+<p>因此未来的订单系统可拆分为订单中心与业务订单系统两个模块，以管理公司所有订单数据，并为各个模块提供统一服务。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>对于企业订单系统的搭建，并不是要做的大而全、也不是要小而精。而需要结合市场、公司、业务的实际情况来最终制定系统设计方案和产品迭代计划。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E4%B8%80%E4%B8%AA%E6%B3%A8%E8%A7%A3%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%BE%AA%E7%8E%AF%E9%87%8D%E8%AF%95%E5%8A%9F%E8%83%BD/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一个注解优雅的实现循环重试功能</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/25/%E4%BD%A0%E8%A7%81%E8%BF%87%E5%93%AA%E4%BA%9B%E7%9B%AE%E7%9E%AA%E5%8F%A3%E5%91%86%E7%9A%84%20Java%20%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/">
+                        <span class="hidden-mobile">你见过哪些目瞪口呆的 Java 代码技巧</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
