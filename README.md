@@ -62,6 +62,38 @@ SpringBoot + Vue 实现的音乐管理端，详情见： http://obgeqwh.top:8083
 
 
 
+## 仿网易云客户端
+
+Vue 实现的仿网易云Web客户端，调网易云API接口实现，预览见：http://obgeqwh.top:8081/
+
+![20220722151436](https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207221518678.png)
+
+---
+
+
+
+## 吉瑞外卖管理端
+
+SpringBoot + Vue + MySQL + Redis 实现的外卖小demo。详情见：http://obgeqwh.top:8890/backend/page/login/login.html
+
+![20220722150935](https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207221543568.png)
+
+---
+
+
+
+## 吉瑞外卖客户端
+
+SpringBoot + Vue + MySQL + Redis 实现的外卖小demo，客户端真实手机号验证码登录，支付功能待完善。
+
+详情见：http://obgeqwh.top:8890/front/page/login.html
+
+![20220722151217](https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207221545470.png)
+
+---
+
+
+
 ## 北海上位机
 
 北部海湾环境检测上位机软件，详情见：https://gitee.com/tytokongjian/beihai-host-computer
@@ -94,7 +126,7 @@ PCB沉金尺，设计开源。详情见：https://gitee.com/tytokongjian/pcb-rul
 
 ## 生日祝福页
 
-JavaScript小demo：生日祝福专用。详情见：http://obgeqwh.top:8081/
+JavaScript小demo：生日祝福专用。详情见：http://obgeqwh.top:8081/Birthday/
 
 ![20220326113014](https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203261133553.png)
 

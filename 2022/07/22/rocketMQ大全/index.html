@@ -1,0 +1,784 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="RocketMQ入门全集系列  什么是MQ?消息队列：MessageQueue 消息容器 先进先出的数据结构 传输消息内容格式 Json  为什么要用MQ?   解耦 把消息写入消息队列，需要的消息的应用可以直接订阅改队列，不需要代码的藕合    削峰 前端发送大量的请求，我们只需要把消息扔到消息队列，然后按照一定的速度去消费。避免了数据库压垮   异步 发送消息到队列就可以结束。不需要等待下游接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMQ入门全集系列">
+<meta property="og:url" content="http://example.com/2022/07/22/rocketMQ%E5%A4%A7%E5%85%A8/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="RocketMQ入门全集系列  什么是MQ?消息队列：MessageQueue 消息容器 先进先出的数据结构 传输消息内容格式 Json  为什么要用MQ?   解耦 把消息写入消息队列，需要的消息的应用可以直接订阅改队列，不需要代码的藕合    削峰 前端发送大量的请求，我们只需要把消息扔到消息队列，然后按照一定的速度去消费。避免了数据库压垮   异步 发送消息到队列就可以结束。不需要等待下游接">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271002423.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271021460.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271022070.jpg">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271024125.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271025576.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271026303.png">
+<meta property="article:published_time" content="2022-07-22T07:03:13.283Z">
+<meta property="article:modified_time" content="2022-05-27T02:29:49.625Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MQ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271002423.png">
+  
+  <title>RocketMQ入门全集系列 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RocketMQ入门全集系列">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-07-22 15:03" pubdate>
+        2022年7月22日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      21k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      66 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RocketMQ入门全集系列</h1>
+            
+            <div class="markdown-body">
+              <center><h2>RocketMQ入门全集系列</h2></center>
+
+<h2 id="什么是MQ"><a href="#什么是MQ" class="headerlink" title="什么是MQ?"></a>什么是MQ?</h2><p>消息队列：MessageQueue 消息容器 先进先出的数据结构 传输消息内容格式 Json </p>
+<h2 id="为什么要用MQ"><a href="#为什么要用MQ" class="headerlink" title="为什么要用MQ?"></a>为什么要用MQ?</h2><table>
+<thead>
+<tr>
+<th><strong>解耦</strong></th>
+<th><strong>把消息写入消息队列，需要的消息的应用可以直接订阅改队列，不需要代码的藕合</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>削峰</strong></td>
+<td><strong>前端发送大量的请求，我们只需要把消息扔到消息队列，然后按照一定的速度去消费。避免了数据库压垮</strong></td>
+</tr>
+<tr>
+<td><strong>异步</strong></td>
+<td><strong>发送消息到队列就可以结束。不需要等待下游接口同步处理返回结果。</strong></td>
+</tr>
+</tbody></table>
+<h2 id="三大消息队列比较"><a href="#三大消息队列比较" class="headerlink" title="三大消息队列比较"></a>三大消息队列比较</h2><table>
+<thead>
+<tr>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>erlang语言开发 吞吐量万级别 大量消息积压的时性能急剧下降,不方便二次开发 ，路由功能 交换机 负载均衡</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>RocketMQ</strong></td>
+<td><strong>java语言开发 吞吐量是十万级别 借鉴了kafka思想 方便二次开发  分布式结构 支持事务消息 阿里内部</strong></td>
+</tr>
+<tr>
+<td><strong>Kafka</strong></td>
+<td>**scala语言开发 吞吐量超过十万级，吞吐量最强 可以堆积大量消息 大数据方面 **</td>
+</tr>
+</tbody></table>
+<h2 id="MQ缺点"><a href="#MQ缺点" class="headerlink" title="MQ缺点"></a>MQ缺点</h2><ol>
+<li><p><strong>系统可用性降低</strong></p>
+</li>
+<li><p><strong>系统复杂度提高</strong></p>
+</li>
+<li><p><strong>一致性问题</strong></p>
+</li>
+</ol>
+<h2 id="RocketMQ优点"><a href="#RocketMQ优点" class="headerlink" title="RocketMQ优点"></a>RocketMQ优点</h2><ol>
+<li>RocketMQ 低延迟、高并发、高可用、高可靠的分布式消息中间件</li>
+<li>堆积能力非常强大：基于零拷贝的功能 Netty</li>
+<li>灵活容易扩展：[nameServer][Broker][Product][consumer] 横向扩展</li>
+<li>支持顺序消息：保证消息的顺序，往一个队列发送消息，【抢单+订单+结算+支付+短信】</li>
+<li>支持事务消息：目前其他的MQ都不拥有的功能，能解决最终一致性以及任务异常弥补消息来解决分布式事务</li>
+</ol>
+<h2 id="RocketMQ基本介绍【角色-架构图】"><a href="#RocketMQ基本介绍【角色-架构图】" class="headerlink" title="RocketMQ基本介绍【角色+架构图】"></a>RocketMQ基本介绍【角色+架构图】</h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271002423.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Producer生产者</strong></th>
+<th><strong>消息的发送者 提供三种发送消息模式【同步发送 阻塞线程 重试功能 比较重要的场景】【异步发送 不支持重试  然后回调方法】【单项发送 不支持重试 可靠性低 日志收集】</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Consumer消费者</strong></td>
+<td><strong>消费消息【pull模式】批量拉取消息【push模式】收到消息之后Broker会发送消息，便于提高效率</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Broker</strong></td>
+<td>**存储转发消息 往NameServer集群全部节点上报自己的心跳包信息（ip+端口+topic） 收发消息前，先创建 Topic **</td>
+</tr>
+<tr>
+<td align="left"><strong>NameServer</strong></td>
+<td><strong>维护Broker路由信息，路由控制中心，无状态，其他的角色往所有集群NameServer上报信息  超时会剔除  不对客户端上报信息持久化</strong></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>Topic</strong></th>
+<th><strong>消息类别：比如订单类消息，用户信息类消息，支付类消息。【属于消息第一级别】</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Message Queue</strong></td>
+<td><strong>存储消息的队列  Topic物理单位  存储功能</strong></td>
+</tr>
+</tbody></table>
+<h2 id="docker安装RocketMQ"><a href="#docker安装RocketMQ" class="headerlink" title="docker安装RocketMQ"></a>docker安装RocketMQ</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><table>
+<thead>
+<tr>
+<th><strong>Linux</strong></th>
+<th><strong>centos7</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>docker</strong></td>
+<td><strong>Docker version 19.03.12, build 48a66213fe</strong></td>
+</tr>
+<tr>
+<td><strong>rocketmq</strong></td>
+<td><strong>rocketmq:4.4.0</strong></td>
+</tr>
+<tr>
+<td><strong>防火墙状态</strong></td>
+<td><strong>关闭防火墙获取打开相关端口 【9876】【10911】【10909】【8080】</strong></td>
+</tr>
+</tbody></table>
+<h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><ol>
+<li><p><strong>docker pull rocketmqinc/rocketmq:4.4.0</strong></p>
+</li>
+<li><p><strong>在/usr/local 目录下新建文件夹 mq</strong></p>
+</li>
+<li><p><strong>安装NameServer</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">docker run -d <br>    -p 9876:9876 <br>    -v /usr/<span class="hljs-built_in">local</span>/mq/data/namesrv/logs:/root/logs <br>    -v /usr/<span class="hljs-built_in">local</span>/mq/data/namesrv/store:/root/store <br>    --name rmqnamesrv <br>    -e <span class="hljs-string">&quot;MAX_POSSIBLE_HEAP=100000000&quot;</span> rocketmqinc/rocketmq:4.4.0 sh mqnamesrv<br></code></pre></div></td></tr></table></figure></li>
+<li><p><strong>安装broker</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">1. 在绝对路径【默认不存在】 /usr/<span class="hljs-built_in">local</span>/mq/conf 新建 broker.conf文件 完整路径：【/usr/<span class="hljs-built_in">local</span>/mq/conf/broker.conf】<br><br>2. 新建 touch broker.conf文件<br><br>3. 复制下面内容到文件中 broker.conf<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh"><span class="hljs-comment">#所属集群名字</span><br>brokerClusterName = DefaultCluster<br><br>brokerName = broker-a<br><br><span class="hljs-comment">#0 表示 Master，&gt;0 表示 Slave</span><br>brokerId = 0<br><br><span class="hljs-comment">#Broker 对外服务的监听端口 可以在命令时指定端口这里可以去掉</span><br><span class="hljs-comment">#listenPort=10911</span><br><br><span class="hljs-comment">#删除文件时间点，默认凌晨 4点</span><br>deleteWhen = 04<br><br>fileReservedTime = 48<br><br><span class="hljs-comment">#异步复制Master</span><br>brokerRole = ASYNC_MASTER<br><br><span class="hljs-comment">#异步刷盘</span><br>flushDiskType = ASYNC_FLUSH<br><br><span class="hljs-comment">#broker监听的ip nameServer地址。如果不指定默认是内网的ip</span><br>brokerIP1 = &#123;本地公网 IP&#125;<br></code></pre></div></td></tr></table></figure></li>
+<li><p><strong>启动broker</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">docker run -d -p 10911:10911 -p 10909:10909 <br>-v /usr/<span class="hljs-built_in">local</span>/mq/data/broker/logs:/root/logs <br>-v /usr/<span class="hljs-built_in">local</span>/mq/rocketmq/data/broker/store:/root/store <br>-v /usr/<span class="hljs-built_in">local</span>/mq/conf/broker.conf:/opt/rocketmq-4.4.0/conf/broker.conf <br>--name rmqbroker <br>--link rmqnamesrv:namesrv <br>-e <span class="hljs-string">&quot;NAMESRV_ADDR=namesrv:9876&quot;</span> <br>-e <span class="hljs-string">&quot;MAX_POSSIBLE_HEAP=200000000&quot;</span> <br>rocketmqinc/rocketmq:4.4.0 sh mqbroker -c /opt/rocketmq-4.4.0/conf/broker.conf<br></code></pre></div></td></tr></table></figure></li>
+<li><p><strong>安装控制台-admin</strong></p>
+</li>
+<li><p><strong>拉取镜像 docker pull styletang/rocketmq-console-ng</strong> </p>
+</li>
+<li><p><strong>启动rocketmq 控制台</strong>   </p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">docker run -d <br>-e <span class="hljs-string">&quot;JAVA_OPTS=-Drocketmq.namesrv.addr=175.24.125.235:9876:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false&quot;</span> <br>-p 8080:8080 -t styletang/rocketmq-console-ng<br></code></pre></div></td></tr></table></figure></li>
+</ol>
+<p>​        <strong>问题：关闭防火墙 【firewall-cmd –state】–&gt;【not running】</strong></p>
+<h2 id="springboot集成rocketmq"><a href="#springboot集成rocketmq" class="headerlink" title="springboot集成rocketmq"></a>springboot集成rocketmq</h2><p> <strong>springboot版本：2.3.4.RELEASE</strong>        </p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.rocketmq<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>rocketmq-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.4.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//构造生产者</span><br><span class="hljs-keyword">package</span> com.example.rocketmqdemo.jms;<br><br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.config.RocketMQConfig;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQClientException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.producer.DefaultMQProducer;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Producer</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> String producerGroup = <span class="hljs-string">&quot;producer_group&quot;</span>;<br><br>    <span class="hljs-keyword">private</span> DefaultMQProducer producer;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Producer</span><span class="hljs-params">()</span></span>&#123;<br>        producer = <span class="hljs-keyword">new</span> DefaultMQProducer(producerGroup);<br>        <span class="hljs-comment">//指定nameserver地址，多个地址使用,分隔</span><br>        producer.setNamesrvAddr(RocketMQConfig.NAME_SERVER);<br>        start();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultMQProducer <span class="hljs-title">getProducer</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.producer;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">this</span>.producer.start();<br>        &#125; <span class="hljs-keyword">catch</span> (MQClientException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">shutdown</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">this</span>.producer.shutdown();<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.rocketmqdemo.config;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RocketMQConfig</span> </span>&#123;<br><br>    <span class="hljs-comment">//nameserver地址</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NAME_SERVER = <span class="hljs-string">&quot;175.24.125.235:9876&quot;</span>;<br><br>    <span class="hljs-comment">//创建的topic</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TOPIC = <span class="hljs-string">&quot;topic_zhoujielun&quot;</span>;<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="发送普通消息【发送-amp-消费】"><a href="#发送普通消息【发送-amp-消费】" class="headerlink" title="发送普通消息【发送&amp;消费】"></a>发送普通消息【发送&amp;消费】</h2><h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a><strong>生产者</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.rocketmqdemo;<br><br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.config.RocketMQConfig;<br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.jms.Producer;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQBrokerException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQClientException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.producer.SendResult;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.message.Message;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.remoting.exception.RemotingException;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;<br><br><span class="hljs-meta">@SpringBootTest</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RocketmqDemoApplicationTests</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> Producer producer;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, RemotingException, MQClientException, MQBrokerException </span>&#123;<br>        <span class="hljs-comment">// String topic, 一级消息  用户类的消息  注册，登录，注销</span><br>        <span class="hljs-comment">// String tags,  二级分类   注销</span><br>        <span class="hljs-comment">// String keys,   唯一标签  手机号，身份证号</span><br>        <span class="hljs-comment">// byte[] body    内容</span><br>        Message msg = <span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;zhuxiao&quot;</span>, <span class="hljs-string">&quot;17600000000&quot;</span>, <span class="hljs-string">&quot;我要注销手机号&quot;</span>.getBytes());<br><br>        SendResult send = producer.getProducer().send(msg);<br><br>        System.out.println(send);<br><br>        <span class="hljs-comment">// [sendStatus=SEND_OK,  表示发送成功 其他状态都是失败</span><br>        <span class="hljs-comment">// msgId=0A08008A30F818B4AAC22798E44F0000, mq 为我们生成的唯一值，可能重复 查消息轨迹</span><br>        <span class="hljs-comment">// offsetMsgId=AF187DEB00002A9F00000000000007C7,</span><br>        <span class="hljs-comment">// messageQueue=MessageQueue</span><br>        <span class="hljs-comment">// topic=topic_zhoujielun,  主题</span><br>        <span class="hljs-comment">// brokerName=broker-a,  broker名字</span><br>        <span class="hljs-comment">// queueId=3 , 第三个队列</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a><strong>消费者</strong></h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.rocketmqdemo.jms;<br><br><br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.config.RocketMQConfig;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQClientException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.TopicConfig;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.consumer.ConsumeFromWhere;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.message.MessageExt;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Consumer</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> String consumer=<span class="hljs-string">&quot;consumer_group_01&quot;</span>;<br><br>    <span class="hljs-keyword">private</span>  DefaultMQPushConsumer defaultMQPushConsumer;<br><br>    Consumer1() <span class="hljs-keyword">throws</span> MQClientException &#123;<br>        <span class="hljs-comment">//</span><br>        defaultMQPushConsumer = <span class="hljs-keyword">new</span> DefaultMQPushConsumer(consumer);<br>        <span class="hljs-comment">//* 表示topic下队列所有的消息都监听</span><br>        defaultMQPushConsumer.subscribe(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;*&quot;</span>);<br>        <span class="hljs-comment">//消费位置，从队列最后消费</span><br>        defaultMQPushConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);<br>        <span class="hljs-comment">//连接nameServer</span><br>        defaultMQPushConsumer.setNamesrvAddr(RocketMQConfig.NAME_SERVER);<br>        defaultMQPushConsumer.registerMessageListener(<span class="hljs-keyword">new</span> MessageListenerConcurrently() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> ConsumeConcurrentlyStatus <span class="hljs-title">consumeMessage</span><span class="hljs-params">(List&lt;MessageExt&gt; list, ConsumeConcurrentlyContext consumeConcurrentlyContext)</span> </span>&#123;<br><br>                <span class="hljs-keyword">try</span> &#123;<br>                    MessageExt messageExt = list.get(<span class="hljs-number">0</span>);<br>                    String topic = messageExt.getTopic();<br>                    String tags = messageExt.getTags();<br>                    String keys = messageExt.getKeys();<br>                    String body = <span class="hljs-keyword">new</span> String(messageExt.getBody(),<span class="hljs-string">&quot;utf-8&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;线程名&quot;</span>+Thread.currentThread().getName()+<span class="hljs-string">&quot;消息主题：&quot;</span>+topic+<span class="hljs-string">&quot;过滤标签：&quot;</span>+tags+<span class="hljs-string">&quot;唯一值：&quot;</span>+keys+<span class="hljs-string">&quot;内容：&quot;</span>+body);<br>                    <span class="hljs-comment">//Ack应答</span><br>                    <span class="hljs-comment">//ConsumeConcurrentlyStatus.CONSUME_SUCCESS; 表示成功</span><br>                    <span class="hljs-comment">//ConsumeConcurrentlyStatus.RECONSUME_LATER; 消息重试</span><br>                    <span class="hljs-keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;<br>                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                    System.out.println(<span class="hljs-string">&quot;处理失败了=----------&quot;</span>);<br>                    <span class="hljs-keyword">return</span> ConsumeConcurrentlyStatus.RECONSUME_LATER;<br>                &#125;<br>            &#125;<br>        &#125;);<br>        defaultMQPushConsumer1.start();<br>        System.out.println(<span class="hljs-string">&quot;消费者启动启动了&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="发送顺序消息"><a href="#发送顺序消息" class="headerlink" title="发送顺序消息"></a>发送顺序消息</h2><h3 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a><strong>场景分析</strong></h3><p><strong>顺序消费是指消息的产生顺序和消费顺序相同</strong></p>
+<p>有很多场景需要顺序消息,比如先买票再上车;京东买东西时,先下订单-&gt;付款-&gt;发货;等等</p>
+<h3 id="局部顺序消费"><a href="#局部顺序消费" class="headerlink" title="局部顺序消费"></a>局部顺序消费</h3><p>那么在RocketMQ里局部顺序消息又是如何怎么实现的呢？</p>
+<p>要保证消息的顺序消费，有三个关键点</p>
+<ol>
+<li><p>消息顺序发送</p>
+</li>
+<li><p>消息顺序存储</p>
+</li>
+<li><p>消息顺序消费</p>
+<p>发送同一个业务编号【一个订单对应多个运单】【发送到同一个队列】【队列只能被一个消费者消费】   效率就会变低</p>
+</li>
+</ol>
+<h3 id="全局顺序消费"><a href="#全局顺序消费" class="headerlink" title="全局顺序消费"></a>全局顺序消费</h3><p>什么是全局顺序消费？所有发到mq的消息都被顺序消费，类似数据库中的binlog，需要严格保证全局操作的顺序性<br>那么RocketMQ中如何做才能保证全局顺序消费呢？这就需要设置topic下读写队列数量为1<br>性能差，线上不用</p>
+<h3 id="案例："><a href="#案例：" class="headerlink" title="案例："></a>案例：</h3><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testOrder</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, RemotingException, MQClientException, MQBrokerException </span>&#123;<br>    <br>    ExecutorService executorService = Executors.newFixedThreadPool(<span class="hljs-number">2</span>);<br>    executorService.submit(<span class="hljs-keyword">new</span> Runnable() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>             getSendResult(<span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;);<br>    executorService.submit(<span class="hljs-keyword">new</span> Runnable() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>            getSendResult(<span class="hljs-number">2</span>);<br>        &#125;<br>    &#125;);<br><br>    TimeUnit.SECONDS.sleep(<span class="hljs-number">20</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getSendResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> type)</span>  </span>&#123;<br>    <span class="hljs-comment">//DefaultMQProducer  前2步 发送消息和存储消息 是有序的 【发送，存储】 A B C</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;<br>        Message message = <span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;任务类型：&quot;</span> + type + <span class="hljs-string">&quot;；i的位置：&quot;</span> + i + <span class="hljs-string">&quot;位置“” 哎哟不错哦！&quot;</span>, <span class="hljs-string">&quot;15月的肖邦&quot;</span>, <span class="hljs-string">&quot;鞋子特大号&quot;</span>.getBytes());<br>        <span class="hljs-keyword">try</span> &#123;<br>            producer.getProducer().send(message, <span class="hljs-keyword">new</span> MessageQueueSelector() &#123;<br>                <span class="hljs-meta">@Override</span><br>                <span class="hljs-function"><span class="hljs-keyword">public</span> MessageQueue <span class="hljs-title">select</span><span class="hljs-params">(List&lt;MessageQueue&gt; list, Message message1, Object o)</span> </span>&#123;<br>                    <span class="hljs-keyword">int</span> t = (Integer)o;<br>                    <span class="hljs-keyword">int</span> size = list.size();<br>                    <span class="hljs-keyword">int</span> index = t % size;<br>                    <span class="hljs-comment">//把任务投放到topic具体的某一个队列里面</span><br>                    <span class="hljs-keyword">return</span> list.get(index);<br>                &#125;<br>            &#125;,type);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//顺序消费者</span><br>Consumer() <span class="hljs-keyword">throws</span> MQClientException &#123;<br><br>    defaultMQPushConsumer= <span class="hljs-keyword">new</span> DefaultMQPushConsumer(consumerGroup);<br>    defaultMQPushConsumer.subscribe(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;*&quot;</span>);<br>    defaultMQPushConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);<br>    defaultMQPushConsumer.setNamesrvAddr(RocketMQConfig.NAME_SERVER);<br>    defaultMQPushConsumer.setConsumeMessageBatchMaxSize(<span class="hljs-number">10</span>);<br>    defaultMQPushConsumer.registerMessageListener(<span class="hljs-keyword">new</span> MessageListenerOrderly() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> ConsumeOrderlyStatus <span class="hljs-title">consumeMessage</span><span class="hljs-params">(List&lt;MessageExt&gt; list, ConsumeOrderlyContext consumeOrderlyContext)</span> </span>&#123;<br>            <span class="hljs-keyword">int</span> size = list.size();<br>            System.out.println(<span class="hljs-string">&quot;打印的数据是多少&quot;</span>+size);<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.size(); i++) &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    MessageExt messageExt = list.get(i);<br>                    String topic = messageExt.getTopic();<br>                    String tags = messageExt.getTags();<br>                    String keys = messageExt.getKeys();<br>                    TimeUnit.SECONDS.sleep(<span class="hljs-number">2</span>);<br>                    String body = <span class="hljs-keyword">new</span> String(messageExt.getBody(), <span class="hljs-string">&quot;utf-8&quot;</span>);<br>                    System.out.println(Thread.currentThread().getName()+<span class="hljs-string">&quot;&quot;</span>+<span class="hljs-string">&quot;主题:&quot;</span>+topic+<span class="hljs-string">&quot;二级标签：&quot;</span>+tags+<span class="hljs-string">&quot;业务唯一：&quot;</span>+keys+<span class="hljs-string">&quot;内部&quot;</span>+body);<br>                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                    e.printStackTrace();<br>                    <span class="hljs-comment">//ACK应答：再次下发消息 消息失败</span><br>                    <span class="hljs-keyword">return</span> ConsumeOrderlyStatus.ROLLBACK;<br>                &#125;<br>            &#125;<br>            <span class="hljs-comment">//ACK应答：消费成功 删除消息  commitlog日志 进度 删除</span><br>            <span class="hljs-keyword">return</span> ConsumeOrderlyStatus.SUCCESS;<br>        &#125;<br>    &#125;);<br>    defaultMQPushConsumer.start();<br>    System.out.println(<span class="hljs-string">&quot;消费者启动了~~~&quot;</span>);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">defaultMQPushConsumer.setConsumeMessageBatchMaxSize(<span class="hljs-number">10</span>);<br><span class="hljs-comment">//决定了 List&lt;MessageExt&gt; list 数量,</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="Tag标签-过滤消息"><a href="#Tag标签-过滤消息" class="headerlink" title="Tag标签-过滤消息"></a>Tag标签-过滤消息</h2><figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">tag:消息的两级分类：一类消息  用户注册+用户注册：共同属于一个topic 用户类的消息<br>*号：通配符监听所有的Topic消息<br><br>精确匹配：<span class="hljs-keyword">register</span><br><br>|| 符号 ： <span class="hljs-keyword">register</span> || destory  类型<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">defaultMQPushConsumer.subscribe(RocketMQConfig.TOPIC,<span class="hljs-string">&quot;*&quot;</span>);<span class="hljs-comment">//通配符</span><br>defaultMQPushConsumer.subscribe(RocketMQConfig.TOPIC,<span class="hljs-string">&quot;jay&quot;</span>); <span class="hljs-comment">//精确匹配</span><br>defaultMQPushConsumer.subscribe(RocketMQConfig.TOPIC,<span class="hljs-string">&quot;jay || ikun&quot;</span>); <span class="hljs-comment">//多个匹配</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>比如sql 过滤：工作做用处不多，面试也很少问</strong></p>
+<h2 id="rocketmq批量消息投递"><a href="#rocketmq批量消息投递" class="headerlink" title="rocketmq批量消息投递"></a>rocketmq批量消息投递</h2><p><strong>批量发送消息可提高传递小消息的性能。同时也需要满足以下特征</strong></p>
+<ul>
+<li><strong>批量消息要求必要具有同一<code>topic</code>、相同消息配置</strong></li>
+<li><strong><code>不支持延时消息</code></strong></li>
+<li><strong>建议一个批量消息最好不要超过1MB大小</strong></li>
+</ul>
+<p><strong>这一批消息的总大小不应超过4MB。</strong></p>
+<p><strong>场景：</strong></p>
+<ol>
+<li>批量发送营销业务，</li>
+<li>发送推送</li>
+</ol>
+<p>案例</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">java<span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBatch</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, RemotingException, MQClientException, MQBrokerException </span>&#123;<br><br>    <span class="hljs-comment">//String topic, 逻辑分类  一级消息  用户，订单类，支付类</span><br>    <span class="hljs-comment">// String tags, 注册用户，注销用户，修改用户信息发送一个消息 二级分类</span><br>    <span class="hljs-comment">// String keys, 业务上的唯一值 幂等处理 手机号，身份证号</span><br>    <span class="hljs-comment">// byte[] body, 内部</span><br><br>    List&lt;Message&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) &#123;<br>        Message message = <span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;jay&quot;</span>, (i + <span class="hljs-string">&quot;18月的肖邦&quot;</span>), (i+<span class="hljs-string">&quot;鞋子特大号&quot;</span>).getBytes());<br>        list.add(message);<br>    &#125;<br>    <span class="hljs-comment">//DefaultMQProducer   同步返回</span><br>    SendResult send = producer.getProducer().send(list);<br><br>    <span class="hljs-comment">// 发送消息SendResult</span><br>    <span class="hljs-comment">// [sendStatus=SEND_OK, 表示成功，其他的状态收拾失败</span><br>    <span class="hljs-comment">// msgId=C0A801680AA818B4AAC22B44F9EB0000,  唯一的id  mq 内部生产 msgid可能重复 消息轨迹</span><br>    <span class="hljs-comment">// offsetMsgId=AF187DEB00002A9F0000000000000000,</span><br>    <span class="hljs-comment">// messageQueue=MessageQueue</span><br>    <span class="hljs-comment">// [topic=Topic_JAY, 主题 逻辑一集分类</span><br>    <span class="hljs-comment">// brokerName=broker-a, broke名字</span><br>    <span class="hljs-comment">// queueId=3], 发动到队列的位置  4 个</span><br>    <span class="hljs-comment">// queueOffset=0]</span><br>    System.out.println(<span class="hljs-string">&quot;发送消息&quot;</span>+send);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="发送事务消息【发送-amp-消费】"><a href="#发送事务消息【发送-amp-消费】" class="headerlink" title="发送事务消息【发送&amp;消费】"></a>发送事务消息【发送&amp;消费】</h2><h3 id="什么是事务消息"><a href="#什么是事务消息" class="headerlink" title="什么是事务消息"></a>什么是事务消息</h3><p> **@Transactional注解 **<strong><strong>控制本地事务</strong></strong></p>
+<p>通过消息来影响事务在服务端提交或是删除。全不成功，要不全部失败。保证消息发送之前本地事务执行成功 RocketMq 4.3版本中开源了事务消息。最终一致性：临时中间状态最终数据库修改为最终状态值     staus=支付中  status=支付成功<br>事务消息：通过【控制事务的提交或者回滚】</p>
+<h3 id="能解决什么问题？"><a href="#能解决什么问题？" class="headerlink" title="能解决什么问题？"></a>能解决什么问题？</h3><figure class="highlight"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs">分布式事务问题，分布式情况下最终最终一致性问题。<br><br>非原子性操作<br></code></pre></div></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.rocketmqdemo;<br><br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.config.RocketMQConfig;<br><span class="hljs-keyword">import</span> com.example.rocketmqdemo.jms.Producer;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQBrokerException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.exception.MQClientException;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.client.producer.*;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.message.Message;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.common.message.MessageExt;<br><span class="hljs-keyword">import</span> org.apache.rocketmq.remoting.exception.RemotingException;<br><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.GetMapping;<br><br><span class="hljs-keyword">import</span> java.util.HashMap;<br><br><span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> com.example.rocketmqdemo.config.RocketMQConfig.TOPIC_PAY;<br><br><span class="hljs-meta">@SpringBootTest</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RocketmqDemoApplicationTests</span> </span>&#123;<br><br>    HashMap&lt;String,String&gt; hashMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> Producer producer;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, RemotingException, MQClientException, MQBrokerException </span>&#123;<br>        <span class="hljs-comment">// String topic, 一级消息  用户类的消息  注册，登录，注销</span><br>        <span class="hljs-comment">// String tags,  二级分类   注销</span><br>        <span class="hljs-comment">// String keys,   唯一标签  手机号，身份证号</span><br>        <span class="hljs-comment">// byte[] body    内容</span><br>        Message msg = <span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC, <span class="hljs-string">&quot;zhuxiao33&quot;</span>, <span class="hljs-string">&quot;17600000000&quot;</span>, <span class="hljs-string">&quot;我要注销手机号&quot;</span>.getBytes());<br><br>        SendResult send = producer.getProducer().send(msg);<br><br>        System.out.println(send);<br><br>        <span class="hljs-comment">// [sendStatus=SEND_OK,  表示发送成功 其他状态都是失败</span><br>        <span class="hljs-comment">// msgId=0A08008A30F818B4AAC22798E44F0000, mq 为我们生成的唯一值，可能重复 查消息轨迹</span><br>        <span class="hljs-comment">// offsetMsgId=AF187DEB00002A9F00000000000007C7,</span><br>        <span class="hljs-comment">// messageQueue=MessageQueue</span><br>        <span class="hljs-comment">// topic=topic_zhoujielun,  主题</span><br>        <span class="hljs-comment">// brokerName=broker-a,  broker名字</span><br>        <span class="hljs-comment">// queueId=3 , 第三个队列</span><br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testTransaction</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException, RemotingException, MQClientException, MQBrokerException </span>&#123;<br><br>        TransactionMQProducer transactionMQProducer=<span class="hljs-keyword">new</span> TransactionMQProducer(<span class="hljs-string">&quot;pay_transaction_group&quot;</span>);<br>        transactionMQProducer.setNamesrvAddr(RocketMQConfig.NAME_SERVER);<br>        transactionMQProducer.setTransactionListener(<span class="hljs-keyword">new</span> TransactionListener() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTransactionState <span class="hljs-title">executeLocalTransaction</span><span class="hljs-params">(Message message, Object o)</span> </span>&#123;<br>                <span class="hljs-comment">//这里面做实际业务：比如增删改差</span><br>                <span class="hljs-keyword">try</span>&#123;<br>                    <span class="hljs-keyword">int</span> i = (Integer)o;<br>                    <span class="hljs-keyword">byte</span>[] body = message.getBody();<br>                    String s = <span class="hljs-keyword">new</span> String(body, <span class="hljs-string">&quot;utf-8&quot;</span>);<br>                    String keys = message.getKeys();<br>                    System.out.println(<span class="hljs-string">&quot;执行业务代码了----&gt;&quot;</span> + keys);<br>                    <span class="hljs-comment">//broker就会让消费者消费消息</span><br>                    <span class="hljs-keyword">return</span> LocalTransactionState.UNKNOW;<br>                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                    <span class="hljs-comment">//broker 就会 删除消息</span><br>                    <span class="hljs-keyword">return</span> LocalTransactionState.ROLLBACK_MESSAGE;<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * 检查executeLocalTransaction执行的状态</span><br><span class="hljs-comment">             * <span class="hljs-doctag">@param</span> messageExt</span><br><span class="hljs-comment">             * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">             */</span><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTransactionState <span class="hljs-title">checkLocalTransaction</span><span class="hljs-params">(MessageExt messageExt)</span> </span>&#123;<br>                   <span class="hljs-comment">//去查数据库</span><br>                String s = hashMap.get(messageExt.getKeys());<br>                System.out.println(<span class="hljs-string">&quot;开始会查消息&quot;</span>);<br>                <span class="hljs-keyword">if</span>(s != <span class="hljs-keyword">null</span>) &#123;<br>                    <span class="hljs-keyword">return</span> LocalTransactionState.COMMIT_MESSAGE;<br>                &#125; <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-keyword">return</span> LocalTransactionState.ROLLBACK_MESSAGE;<br>                &#125;<br>            &#125;<br>        &#125;);<br>        transactionMQProducer.start();<br>        <br>        Message msg=<span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC_PAY, <span class="hljs-string">&quot;transaction_tag&quot;</span>, <span class="hljs-string">&quot;pay_1992&quot;</span>, <span class="hljs-string">&quot;天青色2&quot;</span>.getBytes());<br>        TransactionSendResult transactionSendResult = transactionMQProducer.sendMessageInTransaction(msg, <span class="hljs-number">2</span>);<br><br>        System.out.println(<span class="hljs-string">&quot;发送事务消息的结果&quot;</span>+transactionSendResult);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="发送事务消息原理"><a href="#发送事务消息原理" class="headerlink" title="发送事务消息原理"></a>发送事务消息原理</h2><p><strong>两个核心概念：两阶段提交、事务状态定时回查</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271021460.png" srcset="/img/loading.gif" lazyload alt="RocetMQ事务消息设计图"></p>
+<ul>
+<li>COMMIT_MESSAGE：提交消息，这个消息由prepared状态进入到commited状态，消费者可以消费这个消息；</li>
+<li>ROLLBACK_MESSAGE：回滚，这个消息将被删除，消费者不能消费这个消息；</li>
+<li>UNKNOW：未知，这个状态有点意思，如果返回这个状态，这个消息既不提交，也不回滚，还是保持prepared状态，而最终决定这个消息命运的，是checkLocalTransaction这个方法</li>
+</ul>
+<p>Half 半消息  broker 消费者看不到  topic 不是消费者订阅的。如果能收到就会给生产者发送一个 回复消息 half    </p>
+<p>执行：executeLocalTransaction  执行本地方法  数据库的增删改  ；根据状态 返回值 </p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// COMMIT_MESSAGE 提交成功 消费者就能收到消息 </span><br><span class="hljs-comment">// LocalTransactionState.ROLLBACK_MESSAGE; 丢弃消息  告诉broker删除half消息 所有的消息都干掉</span><br><span class="hljs-comment">// LocalTransactionState.UNKNOW; 中间状态 不丢消息，也不成功  会查   </span><br><span class="hljs-comment">// 网络中断收不到相应就会执行会查方法checkLocalTransaction</span><br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight mipsasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mipsasm">executeLocalTransaction 执行本地方法，提价本地事务<br>checkLocalTransaction  <span class="hljs-keyword">broker调用会回查，返回值也决定了是否再次会查，如果返回commit也意味着本地事务执行成功 </span> 每隔一段时间会查，超过一定次数就认为失败<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testTransaction</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> MQClientException </span>&#123;<br><br>    TransactionMQProducer transactionMQProducer=<span class="hljs-keyword">new</span> TransactionMQProducer(<span class="hljs-string">&quot;pay_group&quot;</span>);<br>    transactionMQProducer.setNamesrvAddr(RocketMQConfig.NAME_SERVER);<br>    transactionMQProducer.setTransactionListener(<span class="hljs-keyword">new</span> TransactionListener() &#123;<br>        <span class="hljs-comment">//执行本地事务</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTransactionState <span class="hljs-title">executeLocalTransaction</span><span class="hljs-params">(Message message, Object o)</span> </span>&#123;<br>            <span class="hljs-comment">//业务代码的地方 [增删改查，状态 ，修改数据的状态  staus=1 支付中] 用户注册</span><br>            <span class="hljs-comment">//insert</span><br>            System.out.println(<span class="hljs-string">&quot;执行本地方法&quot;</span>);<br>            <span class="hljs-comment">//返回值决定了消费者能不能收到消息</span><br>            <span class="hljs-comment">// COMMIT_MESSAGE 提交成功 消费者就能收到消息</span><br>            <span class="hljs-comment">// LocalTransactionState.ROLLBACK_MESSAGE; 丢弃消息</span><br>            <span class="hljs-comment">// LocalTransactionState.UNKNOW; 中间状态 不丢消息，也不成功  会查</span><br>            <span class="hljs-comment">//status=1   8点整</span><br>            <span class="hljs-keyword">return</span> LocalTransactionState.UNKNOW;<br>        &#125;<br>        <span class="hljs-comment">//消息回查</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> LocalTransactionState <span class="hljs-title">checkLocalTransaction</span><span class="hljs-params">(MessageExt messageExt)</span> </span>&#123;<br>		 <span class="hljs-comment">/* String keys = messageExt.getKeys();</span><br><span class="hljs-comment">            int count= select.byKesy(keys);*/</span><br>            <span class="hljs-comment">//8点5分 会查  查看数据库的状态是不是成功 stateu=1?</span><br>            <span class="hljs-comment">/*if(stateu=1)&#123;</span><br><span class="hljs-comment">                return LocalTransactionState.COMMIT_MESSAGE;</span><br><span class="hljs-comment">            &#125;else&#123;</span><br><span class="hljs-comment">                return LocalTransactionState.ROLLBACK_MESSAGE;</span><br><span class="hljs-comment">            &#125;*/</span><br>            System.out.println(<span class="hljs-string">&quot;是否回查了checkLocalTransaction&quot;</span>);<br>            <span class="hljs-keyword">return</span> LocalTransactionState.UNKNOW;<br>        &#125;<br>    &#125;);<br>    transactionMQProducer.start();<br>    Message msg=<span class="hljs-keyword">new</span> Message(RocketMQConfig.TOPIC_PAY,<span class="hljs-string">&quot;transaction_tag&quot;</span>,<span class="hljs-string">&quot;pay_1992&quot;</span>,<span class="hljs-string">&quot;天青色3&quot;</span>.getBytes());<br>    <span class="hljs-comment">//half 半消息</span><br>    TransactionSendResult transactionSendResult = transactionMQProducer.sendMessageInTransaction(msg, <span class="hljs-number">2</span>);<br><br>    System.out.println(transactionSendResult);<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        TimeUnit.SECONDS.sleep(<span class="hljs-number">73</span>);<br>    &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>        e.printStackTrace();<br>    &#125;<br>    System.out.println(<span class="hljs-string">&quot;测试&quot;</span>);<br><br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="消息数据流转过程"><a href="#消息数据流转过程" class="headerlink" title="消息数据流转过程"></a>消息数据流转过程</h2><p>​     <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271022070.jpg" srcset="/img/loading.gif" lazyload alt="数据流转过程"></p>
+<p>同步：开启先线程  持久化 消息到磁盘 【主线程阻塞等待】把消息返给生产者。内存 - 磁盘<br>异步：不等待子线程执行完成就 返回结果了给生产者。 flushDiskType = ASYNC_FLUSH<br>commitlog：文件大小是一定的，可能有多个。<br>consumeQueue：hash 实体地址<br>消息重试：ConsumeConcurrentlyStatus.RECONSUME_LATER ：重试次数：默认是16 次数可以配置的  1,3,4,20 1分钟 3分钟  大约是 16次4个小时<br>丢到死信队列：消息消费不了，人工处理：3天之后会消息默认删除掉</p>
+<h2 id="RocketMQ丢失消息"><a href="#RocketMQ丢失消息" class="headerlink" title="RocketMQ丢失消息"></a>RocketMQ丢失消息</h2><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271024125.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h3 id="丢失消息原因："><a href="#丢失消息原因：" class="headerlink" title="丢失消息原因："></a>丢失消息原因：</h3><table>
+<thead>
+<tr>
+<th>producer端</th>
+<th>发送消息过程中出现网络问题：producer以为发送成功，但RabbitMQ server没有收到；</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>RabbitMQ server 端</strong></td>
+<td><strong>接收到消息后由于服务器宕机或其他原因（消息默认存在内存中）导致消息丢失；</strong></td>
+</tr>
+<tr>
+<td><strong>Consumer端：</strong></td>
+<td><strong>Consumer端接收到消息后处理消息出错，没有完成消息的处理；</strong></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>生产者</strong></th>
+<th><strong>【同步发送】【异步发送】【单项发送】同步发送等待broker响应结果</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Broker</strong></td>
+<td><strong>双主双从 同步刷盘 把消息发送到broker之后把消息存入到磁盘之后给生产者回复</strong></td>
+</tr>
+<tr>
+<td><strong>消费者</strong></td>
+<td><strong>【先应答然后异步消费】【先消费然后ACK应答】选择消费之后应答避免 new Thread()</strong></td>
+</tr>
+</tbody></table>
+<p><strong>其他的防止丢失的方案</strong></p>
+<p><strong>1. 添加一个业务表：记录所有的业务消息存根到数据库。</strong></p>
+<p>​          需求：A服务有一个user表入库用户信息【用户表全量信息】，且B服务也要插入这个用户信息【冗余信息，是user表的部分】。</p>
+<p>​          A表 用户：周杰伦，40岁，男，身份证，手机号</p>
+<p>​          B表用户：周杰伦，手机号</p>
+<p>​        比如注册用户：在【用户服务A】本地事务插入数据库之后把消息体存到数据库。状态是处理中</p>
+<p>​                                 在【支付服务B】消费端处理完任务之后修改消息体状态为处理成功</p>
+<p>​                                 在 【中台服务C】能操作所有单体，添加一个定时任务：不断扫描这个表：如果是处理中  【就把业务数据插入到数据库中】切把状态成功处理成功。但是注意消费端要做幂等处理。数据如果存在在就不插入数据</p>
+<p><strong>2. 添加一个中间服务：把所有的消息存入到一个第三方服务并且把消息落库</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271025576.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="保持消息幂等"><a href="#保持消息幂等" class="headerlink" title="保持消息幂等"></a>保持消息幂等</h2><p><strong>什么是幂等: 任意多次执行所产生的影响均与一次执行的影响相同。同一条sql更新数据多次结果不变。</strong></p>
+<p><strong>消息被消费者消费完毕后，会发送一个ACK确认信息给消息队列(broker)，表示该消息被消费，然后改消息就从消息队列中删除。</strong></p>
+<p><strong>但是由于Rocketmq设计原则：消息至少投递一次：【生产者发送多次】【broker可能会收到多次】【消费者可能收到多次】，</strong></p>
+<p><strong>本质原因：网络抖动导致应答中断。</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202205271026303.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h4 id="消息重复环节："><a href="#消息重复环节：" class="headerlink" title="消息重复环节："></a>消息重复环节：</h4><ol>
+<li><p>   生产者重复：生产者发送消息后，broker由于网络导致没有应答（生产者没有收到消息）生成者会再次发送消息到broker                  【至少投递一次原则】【broker里面的重复消息messageId是相同的】。</p>
+</li>
+<li><p>   消费端重复:  消费端消费后没有来的及ACK应答。broker会再次投递消息到消费者。注意消费端一定是返回了commit_success</p>
+</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code>【至少投递一次原则】【broker里面的重复消息messageId是相同的】
+</code></pre></div>
+<p>解决方案：通过【业务代码+redis去重】</p>
+<p>messageid由于重复不能作为幂等处理的唯一标记。</p>
+<figure class="highlight xml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.4.1.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></div></td></tr></table></figure>
+
+<p> <strong>消费者处理幂等</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; list.size(); i++)&#123;<br>    MessageExt messageExt = list.get(i);<br>    Boolean isExit = stringRedisTemplate.hasKey(<span class="hljs-string">&quot;消费组&quot;</span> + messageExt.getMsgId() + messageExt.getKeys());<br>    <span class="hljs-comment">//查看是否在redis存在key</span><br>    <span class="hljs-keyword">if</span>(!isExit) &#123;<br>            <span class="hljs-comment">//增删改差  消费操作</span><br>        MessageExt messageExt = list.get(<span class="hljs-number">0</span>);<br>        <span class="hljs-comment">//String topic = messageExt.getTopic();</span><br>        <span class="hljs-comment">//String tags = messageExt.getTags();</span><br>        <span class="hljs-comment">//String keys = messageExt.getKeys();</span><br>        <span class="hljs-comment">//String body = new String(messageExt.getBody(),&quot;utf-8&quot;);</span><br>        <span class="hljs-comment">//System.out.println(&quot;线程名&quot;+Thread.currentThread().getName()+&quot;消息主题：&quot;+topic+&quot;过滤标签：&quot;+tags+&quot;唯一值：&quot;+keys+&quot;内容：&quot;+body);</span><br>        <span class="hljs-comment">//Ack应答</span><br>        <span class="hljs-comment">//ConsumeConcurrentlyStatus.CONSUME_SUCCESS; 表示成功</span><br>        <span class="hljs-comment">//ConsumeConcurrentlyStatus.RECONSUME_LATER; 消息重试</span><br>        <span class="hljs-comment">//修改状态是2</span><br>        <span class="hljs-comment">//存入到redis中存储3天，3天后自动删除</span><br>        stringRedisTemplate.opsForValue().setIfAbsent(<span class="hljs-string">&quot;消费组&quot;</span> + messageExt.getMsgId() + messageExt.getKeys(),<br>                String.valueOf(System.currentTimeMillis()),<span class="hljs-number">3</span>, TimeUnit.DAYS);<br>    &#125;<br>    <span class="hljs-keyword">return</span> ConsumeConcurrentlyStatus.CONSUME_SUCCESS;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h2 id="【进阶一小步】RocketMQ消费者核心参数配置"><a href="#【进阶一小步】RocketMQ消费者核心参数配置" class="headerlink" title="【进阶一小步】RocketMQ消费者核心参数配置"></a>【进阶一小步】RocketMQ消费者核心参数配置</h2><p>简单的聊一下mq消费者配置：</p>
+<p>多少条线程去拉取消息？</p>
+<p>一次拉取多少条消息？</p>
+<p>一次消费多少条消息?</p>
+<p><strong>线程池的配置？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">this</span>.consumeExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<br><span class="hljs-keyword">this</span>.defaultMQPushConsumer.getConsumeThreadMin(),  <span class="hljs-comment">//20条</span><br><span class="hljs-keyword">this</span>.defaultMQPushConsumer.getConsumeThreadMax(),  <span class="hljs-comment">//20条</span><br><span class="hljs-number">1000</span> * <span class="hljs-number">60</span>,                                         <span class="hljs-comment">//60秒</span><br>TimeUnit.MILLISECONDS, <br><span class="hljs-keyword">this</span>.consumeRequestQueue,                          <span class="hljs-comment">//无界队列：Integer.MAX_VALUE     </span><br><span class="hljs-keyword">new</span> ThreadFactoryImpl(<span class="hljs-string">&quot;ConsumeMessageThread_&quot;</span>));    <span class="hljs-comment">//自定义线程工程   </span><br><span class="hljs-comment">//拒绝策略：丢弃任务抛出异常</span><br></code></pre></div></td></tr></table></figure>
+
+<p>总结：有抗：内存溢出。20条线程。最大线程无意义</p>
+<p>工作中：必须自定义这一块。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 最小线程数：拉取的线程数量</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> consumeThreadMin = <span class="hljs-number">20</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 自定义时：永远不会使用到</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> consumeThreadMax = <span class="hljs-number">20</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* Message pull Interval  间隔时间</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> pullInterval = <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* Batch consumption size 配置成批量是：大于1：注意消息返回值，重复消费问题  全部重试，</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> consumeMessageBatchMaxSize = <span class="hljs-number">1</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* Batch pull size 每条线程能拉取32个，可以修改消息数量</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pullBatchSize = <span class="hljs-number">32</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">*阈值就不再拉取消息。1,2001  偏移量大于2000就不拉取消息了</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> consumeConcurrentlyMaxSpan = <span class="hljs-number">2000</span><br></code></pre></div></td></tr></table></figure>
+
+<p>大体：20条线程去拉取消息：无界队列，内存溢出的风险【阈值就不再拉取消息】，</p>
+<p>线程最大值无需配置无意义。一次拉取32个消息。每次消费是默认1个。无间断去拉取</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/MQ/">MQ</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MQ/">MQ</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/22/%E9%80%92%E5%BD%92%E8%AF%A6%E8%A7%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">递归详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/22/if-else%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E7%9A%84%E5%85%AB%E7%A7%8D%E6%96%B9%E6%A1%88/">
+                        <span class="hidden-mobile">if-else代码优化的8种方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

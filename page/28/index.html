@@ -203,6 +203,264 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142142726.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 三种批量插入方式的比较">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
+          MyBatis 三种批量插入方式的比较
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
+          
+          
+            
+          
+          MyBatis 三种批量插入方式的比较
+
+数据库使用的是SQLServer，JDK版本1.8，运行在SpringBoot环境下 对比3种可用的方式
+
+反复执行单条插入语句
+xml拼接sql
+批处理执行
+
+先说结论：少量插入请使用反复插入单条数据，方便。数量较多请使用批处理方式。（可以考虑以有需求的插入数据量20条左右为界吧，在我的测试和数据库环境下耗时都是百毫秒级的，方便最重要）无论何时都不用xm
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210508212520.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 如何找到要执行的 SQL ？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
+          MyBatis 如何找到要执行的 SQL ？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          MyBatis 如何找到要执行的 SQL ？
+
+MyBatis 如何找到要执行的 SQL 语句的？今天展开聊聊。 要回答这个问题，我们需要搭建一个 mybatis 应用案例来深入研究 mybatis 的执行逻辑原理，这样我们就能知道 mybatis 如何找到要对应执行的 sql 语句。 
+1. 案例搭建1.1 使用 idea 快速创建一个 maven 项目，pom.xml 添加如下依赖:
+1234
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112141903809.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 批量插入几千条数据，请慎用foreach">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
+          MyBatis 批量插入几千条数据，请慎用foreach
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
+          
+          
+            
+          
+          MyBatis 批量插入几千条数据，请慎用foreach
+
+近日，项目中有一个耗时较长的Job存在CPU占用过高的问题，经排查发现，主要时间消耗在往MyBatis中批量插入数据。mapper configuration是用foreach循环做的，差不多是这样。（由于项目保密，以下代码均为自己手写的demo代码）
+123456&lt;insert id=&quot;batchInsert&quot;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042016267.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 二级缓存 关联刷新实现">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
+          MyBatis 二级缓存 关联刷新实现
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
+          
+          
+            
+          
+          MyBatis 二级缓存 关联刷新实现
+
+1、MyBatis缓存介绍Mybatis提供对缓存的支持，但是在没有配置的默认情况下，它只开启一级缓存，二级缓存需要手动开启。
+一级缓存只是相对于同一个SqlSession而言。 也就是针对于同一事务，多次执行同一Mapper的相同查询方法，第一查询后，MyBatis会将查询结果放入缓存，在中间不涉及相应Mapper的数据更新（Insert，Update和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/Mybatis/">Mybatis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/25/Mybatis%20Plus%20%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8E%9F%E7%90%86/" target="_self">
           <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042016267.webp" srcset="/img/loading.gif" lazyload alt="Mybatis Plus 实现动态SQL语句的原理">
         </a>
@@ -626,276 +884,6 @@ CSS（了解）
               <a href="/tags/Java/">Java</a>
             
               <a href="/tags/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210609130111.webp" srcset="/img/loading.gif" lazyload alt="超详细 Kafka 入门（最佳实践）">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
-          超详细 Kafka 入门（最佳实践）
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
-          
-          
-            
-          
-          超详细 Kafka 入门（最佳实践）
-
-认识 kafkakafka简介Kafka 是一个分布式流媒体平台，kafka官网：http://kafka.apache.org/
-1）流媒体平台有三个关键功能：
-
-发布和订阅记录流，类似于消息队列或企业消息传递系统。
-以容错的持久方式存储记录流。
-记录发生时处理流。
-
-2）Kafka通常用于两大类应用：
-
-构建可在系统或应用程序之间可靠获取数据的实时流数据
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Kafka/">Kafka</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Kafka/">Kafka</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622120347.webp" srcset="/img/loading.gif" lazyload alt="K8S和Docker什么关系？">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
-          K8S和Docker什么关系？
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
-          
-          
-            
-          
-          K8S 和 Docker 什么关系？
-
-最近项目用到kubernetes（以下简称k8s，k和s之间有8个字母)。虽然之前也有简单使用过，但最近发现k8s概念较多，命令也有些不够用了，故想借此机会写点东西，更全面认识并使用k8s。
-本篇文章目的：让你更全面了解k8s概念，以及学到在工作中常用的操作。整体更偏向于原理和应用。在正式开始k8s之前，我们先看看k8s和Docker的关系，分别从虚拟化角度
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Docker/">Docker</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Docker/">Docker</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608150440.png" srcset="/img/loading.gif" lazyload alt="JVM学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          JVM学习
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          JVM学习
-
-本博客是根据解密JVM【黑马程序员出品】教学视频学习时，所做的笔记
-一、什么是JVM定义Java Virtual Machine，JAVA程序的运行环境（JAVA二进制字节码的运行环境）
-好处
-一次编写，到处运行
-自动内存管理，垃圾回收机制
-数组下标越界检查
-
-比较JVM JRE JDK的区别
-
-二、内存结构整体架构
-1、程序计数器作用用于保存JVM中下一条所要执行的指令的地址
-特点
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JPA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210416182849.png" srcset="/img/loading.gif" lazyload alt="Spring Data JPA">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/JPA/" target="_self">
-          Spring Data JPA
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/JPA/" target="_self">
-          
-          
-            
-          
-          Spring Data JPA
-
-1. ORM概述ORM（Object-Relational Mapping） 表示对象关系映射。在面向对象的软件开发中，通过ORM，就可以把对象映射到关系型数据库中。只要有一套程序能够做到建立对象与数据库的关联，操作对象就可以直接操作数据库数据，就可以说这套程序实现了ORM对象关系映射.
-简单的说：ORM就是建立实体类和数据库表之间的关系，从而达到操作实体类就相当
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/SpringData/">SpringData</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/SpringData/">SpringData</a>
             
           </div>
         
