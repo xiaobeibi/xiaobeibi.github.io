@@ -203,347 +203,6 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112141903809.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 批量插入几千条数据，请慎用foreach">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
-          MyBatis 批量插入几千条数据，请慎用foreach
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MyBatis%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E5%87%A0%E5%8D%83%E6%9D%A1%E6%95%B0%E6%8D%AE%EF%BC%8C%E8%AF%B7%E6%85%8E%E7%94%A8foreach/" target="_self">
-          
-          
-            
-          
-          MyBatis 批量插入几千条数据，请慎用foreach
-
-近日，项目中有一个耗时较长的Job存在CPU占用过高的问题，经排查发现，主要时间消耗在往MyBatis中批量插入数据。mapper configuration是用foreach循环做的，差不多是这样。（由于项目保密，以下代码均为自己手写的demo代码）
-123456&lt;insert id=&quot;batchInsert&quot;
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042016267.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 二级缓存 关联刷新实现">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
-          MyBatis 二级缓存 关联刷新实现
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MyBatis%20%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20%E5%85%B3%E8%81%94%E5%88%B7%E6%96%B0%E5%AE%9E%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          MyBatis 二级缓存 关联刷新实现
-
-1、MyBatis缓存介绍Mybatis提供对缓存的支持，但是在没有配置的默认情况下，它只开启一级缓存，二级缓存需要手动开启。
-一级缓存只是相对于同一个SqlSession而言。 也就是针对于同一事务，多次执行同一Mapper的相同查询方法，第一查询后，MyBatis会将查询结果放入缓存，在中间不涉及相应Mapper的数据更新（Insert，Update和
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Mybatis%20Plus%20%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8E%9F%E7%90%86/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042016267.webp" srcset="/img/loading.gif" lazyload alt="Mybatis Plus 实现动态SQL语句的原理">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Mybatis%20Plus%20%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8E%9F%E7%90%86/" target="_self">
-          Mybatis Plus 实现动态SQL语句的原理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Mybatis%20Plus%20%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%8E%9F%E7%90%86/" target="_self">
-          
-          
-            
-          
-          Mybatis Plus 实现动态SQL语句的原理
-
-Mybatis-Plus（简称MP）是一个 Mybatis 的增强工具,那么它是怎么增强的呢？其实就是它已经封装好了一些crud方法，开发就不需要再写xml了，直接调用这些方法就行，就类似于JPA。那么这篇文章就来阅读以下MP的具体实现，看看是怎样实现这些增强的。
-
-入口类：MybatisSqlSessionFactoryBuilder通过在入
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/music-website/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203122040687.jpeg" srcset="/img/loading.gif" lazyload alt="music-website">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/music-website/" target="_self">
-          music-website
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/music-website/" target="_self">
-          
-          
-            
-          
-          music-website
-
-
-项目说明本音乐网站的客户端和管理端使用 VUE 框架来实现，服务端使用 Spring Boot + MyBatis 来实现，数据库使用了 MySQL。
-项目启动方法看文章末尾。本博主经许可已取得该开源项目部署权限，仅学习使用，详细源码请到该作者仓库下载并给予支持。
-客户端demo地址：http://obgeqwh.top:8082/
-管理端demo地址：http:/
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MusicWebsite/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210513184012.png" srcset="/img/loading.gif" lazyload alt="音乐网站demo">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MusicWebsite/" target="_self">
-          音乐网站demo
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MusicWebsite/" target="_self">
-          
-          
-            
-          
-          音乐网站demo
-
-1. Demo简介本demo基于SpringBoot+MySQL的数据库读取音乐播放的网站。
-
-1.1 技术应用
-MySQL
-SpringBoot
-druid
-
-1.2 数据库数据库中存放一个用户admin：密码：123
-库中音乐一部分存放在本地，一部分存在云端
-2. Demo演示
-
-界面展示
-
-
-
-
-
-
-
-
-播放音乐
-
-
-3. 总结本demo比较简单，大部分是前端图片和htm
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2022/03/25/Linux%20%E8%BF%90%E7%BB%B4%E5%BF%85%E5%A4%87%20150%20%E4%B8%AA%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" target="_self">
           <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210628094741.png" srcset="/img/loading.gif" lazyload alt="Linux 运维必备 150 个命令汇总">
         </a>
@@ -886,6 +545,342 @@ CSS（了解）
               <a href="/tags/Java/">Java</a>
             
               <a href="/tags/Docker/">Docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608150440.png" srcset="/img/loading.gif" lazyload alt="JVM学习">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+          JVM学习
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+          
+          
+            
+          
+          JVM学习
+
+本博客是根据解密JVM【黑马程序员出品】教学视频学习时，所做的笔记
+一、什么是JVM定义Java Virtual Machine，JAVA程序的运行环境（JAVA二进制字节码的运行环境）
+好处
+一次编写，到处运行
+自动内存管理，垃圾回收机制
+数组下标越界检查
+
+比较JVM JRE JDK的区别
+
+二、内存结构整体架构
+1、程序计数器作用用于保存JVM中下一条所要执行的指令的地址
+特点
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/JPA/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210416182849.png" srcset="/img/loading.gif" lazyload alt="Spring Data JPA">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/JPA/" target="_self">
+          Spring Data JPA
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/JPA/" target="_self">
+          
+          
+            
+          
+          Spring Data JPA
+
+1. ORM概述ORM（Object-Relational Mapping） 表示对象关系映射。在面向对象的软件开发中，通过ORM，就可以把对象映射到关系型数据库中。只要有一套程序能够做到建立对象与数据库的关联，操作对象就可以直接操作数据库数据，就可以说这套程序实现了ORM对象关系映射.
+简单的说：ORM就是建立实体类和数据库表之间的关系，从而达到操作实体类就相当
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/SpringData/">SpringData</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/SpringData/">SpringData</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200610224442.png" srcset="/img/loading.gif" lazyload alt="Java数据结构与算法">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
+          Java数据结构与算法
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
+          
+          
+            
+          
+          Java数据结构与算法
+
+该博客是根据Java -韩顺平 图解Java 数据结构 和 算法-尚硅谷学习时，所做的笔记
+一、稀疏数组和队列1、稀疏数组基本功能当一个数组中大部分元素为０，或者为同一个值的数组时，可以使用稀疏数组来保存该数组。
+处理方法
+记录数组一共有几行几列，有多少个不同的值
+把具有不同值的元素的行列及值记录在一个小规模的数组中，从而缩小程序的规模
+
+
+如图，把一个6X7的二维数组变
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
+          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="Java必会的工具库">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
+          Java必会的工具库
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
+          
+          
+            
+          
+          Java必会的工具库
+
+1. Java自带工具方法1.1 List集合拼接成以逗号分隔的字符串12345678// 如何把list集合拼接成以逗号分隔的字符串 a,b,c  List&lt;String&gt; list = Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);  // 第一种方法，可以用stream流  Strin
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaSE/">JavaSE</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/JavaBlog/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203081547166.jpg" srcset="/img/loading.gif" lazyload alt="Java博客项目">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/JavaBlog/" target="_self">
+          Java博客项目
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/JavaBlog/" target="_self">
+          
+          
+            
+          
+          Java博客项目
+
+项目效果：http://obgeqwh.top:8080
+
+
+项目技术后端：Springboot + MybatisPlus + Redis + MySQL
+前端：Vue + Axios
+MySQL表结构
+统一异常处理对加了 @Controller 注解的方法进行拦截处理——AOP 的实现
+12345678910@ControllerAdvicepublic class All
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         
