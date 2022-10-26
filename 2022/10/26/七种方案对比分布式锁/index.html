@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="七种方案对比分布式锁  前言日常开发中，秒杀下单、抢红包等等业务场景，都需要用到分布式锁。而 Redis 非常适合作为分布式锁使用。本文将分七个方案展开，跟大家探讨Redis分布式锁的正确使用方式。如果有不正确的地方，欢迎大家指出哈，一起学习一起进步。  什么是分布式锁 方案一：SETNX + EXPIRE 方案二：SETNX + value值是（系统时间+过期时间） 方案三：使用Lua脚本(包含">
+<meta property="og:type" content="article">
+<meta property="og:title" content="七种方案对比分布式锁">
+<meta property="og:url" content="http://example.com/2022/10/26/%E4%B8%83%E7%A7%8D%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="七种方案对比分布式锁  前言日常开发中，秒杀下单、抢红包等等业务场景，都需要用到分布式锁。而 Redis 非常适合作为分布式锁使用。本文将分七个方案展开，跟大家探讨Redis分布式锁的正确使用方式。如果有不正确的地方，欢迎大家指出哈，一起学习一起进步。  什么是分布式锁 方案一：SETNX + EXPIRE 方案二：SETNX + value值是（系统时间+过期时间） 方案三：使用Lua脚本(包含">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210241951161.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242007379.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242007119.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242008389.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242008448.png">
+<meta property="article:published_time" content="2022-10-26T08:09:02.115Z">
+<meta property="article:modified_time" content="2022-10-24T12:09:19.258Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210241951161.png">
+  
+  <title>七种方案对比分布式锁 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="七种方案对比分布式锁">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">七种方案对比分布式锁</h1>
+            
+            <div class="markdown-body">
+              <center><h2>七种方案对比分布式锁</h2></center>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>日常开发中，秒杀下单、抢红包等等业务场景，都需要用到分布式锁。而 Redis 非常适合作为分布式锁使用。本文将分七个方案展开，跟大家探讨Redis分布式锁的正确使用方式。如果有不正确的地方，欢迎大家指出哈，一起学习一起进步。</p>
+<ul>
+<li>什么是分布式锁</li>
+<li>方案一：SETNX + EXPIRE</li>
+<li>方案二：SETNX + value值是（系统时间+过期时间）</li>
+<li>方案三：使用Lua脚本(包含SETNX + EXPIRE两条指令)</li>
+<li>方案四：SET的扩展命令（SET EX PX NX）</li>
+<li>方案五：SET EX PX NX  + 校验唯一随机值,再释放锁</li>
+<li>方案六: 开源框架：Redisson</li>
+<li>方案七：多机实现的分布式锁 Redlock</li>
+</ul>
+<h3 id="什么是分布式锁"><a href="#什么是分布式锁" class="headerlink" title="什么是分布式锁"></a>什么是分布式锁</h3><blockquote>
+<p>分布式锁其实就是，控制分布式系统不同进程共同访问共享资源的一种锁的实现。如果不同的系统或同一个系统的不同主机之间共享了某个临界资源，往往需要互斥来防止彼此干扰，以保证一致性。</p>
+</blockquote>
+<p>我们先来看下，一把靠谱的分布式锁应该有哪些特征：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210241951161.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>互斥性</strong>: 任意时刻，只有一个客户端能持有锁。</li>
+<li><strong>锁超时释放</strong>：持有锁超时，可以释放，防止不必要的资源浪费，也可以防止死锁。</li>
+<li><strong>可重入性</strong>:一个线程如果获取了锁之后,可以再次对其请求加锁。</li>
+<li><strong>高性能和高可用</strong>：加锁和解锁需要开销尽可能低，同时也要保证高可用，避免分布式锁失效。</li>
+<li><strong>安全性</strong>：锁只能被持有的客户端删除，不能被其他客户端删除</li>
+</ul>
+<h3 id="Redis分布式锁方案一：SETNX-EXPIRE"><a href="#Redis分布式锁方案一：SETNX-EXPIRE" class="headerlink" title="Redis分布式锁方案一：SETNX + EXPIRE"></a>Redis分布式锁方案一：SETNX + EXPIRE</h3><p>提到Redis的分布式锁，很多小伙伴马上就会想到<code>setnx</code>+ <code>expire</code>命令。即先用<code>setnx</code>来抢锁，如果抢到之后，再用<code>expire</code>给锁设置一个过期时间，防止锁忘记了释放。</p>
+<blockquote>
+<p>SETNX 是SET IF NOT EXISTS的简写.日常命令格式是SETNX key value，如果 key不存在，则SETNX成功返回1，如果这个key已经存在了，则返回0。</p>
+</blockquote>
+<p>假设某电商网站的某商品做秒杀活动，key可以设置为key_resource_id, value设置任意值，伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(jedis.setnx(key_resource_id, lock_value) == <span class="hljs-number">1</span>) &#123; <span class="hljs-comment">//加锁</span><br>    expire(key_resource_id, <span class="hljs-number">100</span>); <span class="hljs-comment">//设置过期时间</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">do</span> something  <span class="hljs-comment">//业务请求</span><br>    &#125; <span class="hljs-keyword">catch</span>(Exception e) &#123;<br>        <br>　　&#125; <span class="hljs-keyword">finally</span> &#123;<br>       jedis.del(key_resource_id); <span class="hljs-comment">//释放锁</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>但是这个方案中，<code>setnx</code>和<code>expire</code>两个命令分开了，<strong>不是原子操作</strong>。如果执行完<code>setnx</code>加锁，正要执行<code>expire</code>设置过期时间时，进程crash或者要重启维护了，那么这个锁就“长生不老”了，<strong>别的线程永远获取不到锁啦</strong>。</p>
+<h3 id="Redis分布式锁方案二：SETNX-value值是-系统时间-过期时间"><a href="#Redis分布式锁方案二：SETNX-value值是-系统时间-过期时间" class="headerlink" title="Redis分布式锁方案二：SETNX + value值是(系统时间+过期时间)"></a>Redis分布式锁方案二：SETNX + value值是(系统时间+过期时间)</h3><p>为了解决方案一，<strong>发生异常锁得不到释放的场景</strong>，有小伙伴认为，可以把过期时间放到<code>setnx</code>的value值里面。如果加锁失败，再拿出value值校验一下即可。加锁代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">long</span> expires = System.currentTimeMillis() + expireTime; <span class="hljs-comment">//系统时间+设置的过期时间</span><br>String expiresStr = String.valueOf(expires);<br><br><span class="hljs-comment">// 如果当前锁不存在，返回加锁成功</span><br><span class="hljs-keyword">if</span> (jedis.setnx(key_resource_id, expiresStr) == <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>&#125; <br><span class="hljs-comment">// 如果锁已经存在，获取锁的过期时间</span><br>String currentValueStr = jedis.get(key_resource_id);<br><br><span class="hljs-comment">// 如果获取到的过期时间，小于系统当前时间，表示已经过期</span><br><span class="hljs-keyword">if</span> (currentValueStr != <span class="hljs-keyword">null</span> &amp;&amp; Long.parseLong(currentValueStr) &lt; System.currentTimeMillis()) &#123;<br><br>     <span class="hljs-comment">// 锁已过期，获取上一个锁的过期时间，并设置现在锁的过期时间（不了解redis的getSet命令的小伙伴，可以去官网看下哈）</span><br>    String oldValueStr = jedis.getSet(key_resource_id, expiresStr);<br>    <br>    <span class="hljs-keyword">if</span> (oldValueStr != <span class="hljs-keyword">null</span> &amp;&amp; oldValueStr.equals(currentValueStr)) &#123;<br>         <span class="hljs-comment">// 考虑多线程并发的情况，只有一个线程的设置值和当前值相同，它才可以加锁</span><br>         <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br>&#125;<br>        <br><span class="hljs-comment">//其他情况，均返回加锁失败</span><br><span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>这个方案的优点是，巧妙移除<code>expire</code>单独设置过期时间的操作，把<strong>过期时间放到setnx的value值</strong>里面来。解决了方案一发生异常，锁得不到释放的问题。但是这个方案还有别的缺点：</p>
+<blockquote>
+<ul>
+<li>过期时间是客户端自己生成的（System.currentTimeMillis()是当前系统的时间），必须要求分布式环境下，每个客户端的时间必须同步。</li>
+<li>如果锁过期的时候，并发多个客户端同时请求过来，都执行jedis.getSet()，最终只能有一个客户端加锁成功，但是该客户端锁的过期时间，可能被别的客户端覆盖</li>
+<li>该锁没有保存持有者的唯一标识，可能被别的客户端释放/解锁。</li>
+</ul>
+</blockquote>
+<h3 id="Redis分布式锁方案三：使用Lua脚本-包含SETNX-EXPIRE两条指令"><a href="#Redis分布式锁方案三：使用Lua脚本-包含SETNX-EXPIRE两条指令" class="headerlink" title="Redis分布式锁方案三：使用Lua脚本(包含SETNX + EXPIRE两条指令)"></a>Redis分布式锁方案三：使用Lua脚本(包含SETNX + EXPIRE两条指令)</h3><p>实际上，我们还可以使用Lua脚本来保证原子性（包含setnx和expire两条指令），lua脚本如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lua"><span class="hljs-keyword">if</span> redis.call(<span class="hljs-string">&#x27;setnx&#x27;</span>,KEYS[<span class="hljs-number">1</span>],ARGV[<span class="hljs-number">1</span>]) == <span class="hljs-number">1</span> <span class="hljs-keyword">then</span><br>   redis.call(<span class="hljs-string">&#x27;expire&#x27;</span>,KEYS[<span class="hljs-number">1</span>],ARGV[<span class="hljs-number">2</span>])<br><span class="hljs-keyword">else</span><br>   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><span class="hljs-keyword">end</span>;<br></code></pre></div></td></tr></table></figure>
+<p>加锁代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"> String lua_scripts = <span class="hljs-string">&quot;if redis.call(&#x27;setnx&#x27;,KEYS[1],ARGV[1]) == 1 then&quot;</span> +<br>            <span class="hljs-string">&quot; redis.call(&#x27;expire&#x27;,KEYS[1],ARGV[2]) return 1 else return 0 end&quot;</span>;   <br>Object result = jedis.eval(lua_scripts, Collections.singletonList(key_resource_id), Collections.singletonList(values));<br><span class="hljs-comment">//判断是否成功</span><br><span class="hljs-keyword">return</span> result.equals(<span class="hljs-number">1L</span>);<br></code></pre></div></td></tr></table></figure>
+<p>这个方案还是有缺点的哦，至于哪些缺点，你先思考一下。也可以想下。跟方案二对比，哪个更好？</p>
+<h3 id="Redis分布式锁方案方案四：SET的扩展命令（SET-EX-PX-NX）"><a href="#Redis分布式锁方案方案四：SET的扩展命令（SET-EX-PX-NX）" class="headerlink" title="Redis分布式锁方案方案四：SET的扩展命令（SET EX PX NX）"></a>Redis分布式锁方案方案四：SET的扩展命令（SET EX PX NX）</h3><p>除了使用，使用Lua脚本，保证<code>SETNX + EXPIRE</code>两条指令的原子性，我们还可以巧用Redis的SET指令扩展参数！</p>
+<p>（<code>SET key value[EX seconds][PX milliseconds][NX|XX]</code>），它也是原子性的！</p>
+<blockquote>
+<p>SET key value[EX seconds][PX milliseconds][NX|XX]</p>
+<ul>
+<li>NX :表示key不存在的时候，才能set成功，也即保证只有第一个客户端请求才能获得锁，而其他客户端请求只能等其释放锁，才能获取。</li>
+<li>EX seconds :设定key的过期时间，时间单位是秒。</li>
+<li>PX milliseconds: 设定key的过期时间，单位为毫秒</li>
+<li>XX: 仅当key存在时设置值</li>
+</ul>
+</blockquote>
+<p>伪代码demo如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(jedis.set(key_resource_id, lock_value, <span class="hljs-string">&quot;NX&quot;</span>, <span class="hljs-string">&quot;EX&quot;</span>, 100s) == <span class="hljs-number">1</span>) &#123; <span class="hljs-comment">//加锁</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">do</span> something  <span class="hljs-comment">//业务处理</span><br>    &#125; <span class="hljs-keyword">catch</span>() &#123;<br>        <br>　　&#125; <span class="hljs-keyword">finally</span> &#123;<br>       jedis.del(key_resource_id); <span class="hljs-comment">//释放锁</span><br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>但是呢，这个方案还是可能存在问题：</p>
+<ul>
+<li>问题一：<strong>锁过期释放了，业务还没执行完</strong>。假设线程a获取锁成功，一直在执行临界区的代码。但是100s过去后，它还没执行完。但是，这时候锁已经过期了，此时线程b又请求过来。显然线程b就可以获得锁成功，也开始执行临界区的代码。那么问题就来了，临界区的业务代码都不是严格串行执行的啦。</li>
+<li>问题二：<strong>锁被别的线程误删</strong>。假设线程a执行完后，去释放锁。但是它不知道当前的锁可能是线程b持有的（线程a去释放锁时，有可能过期时间已经到了，此时线程b进来占有了锁）。那线程a就把线程b的锁释放掉了，但是线程b临界区业务代码可能都还没执行完呢。</li>
+</ul>
+<h3 id="方案五：SET-EX-PX-NX-校验唯一随机值-再删除"><a href="#方案五：SET-EX-PX-NX-校验唯一随机值-再删除" class="headerlink" title="方案五：SET EX PX NX  + 校验唯一随机值,再删除"></a>方案五：SET EX PX NX  + 校验唯一随机值,再删除</h3><p>既然锁可能被别的线程误删，那我们给value值设置一个标记当前线程唯一的随机数，在删除的时候，校验一下，不就OK了嘛。伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">if</span>(jedis.set(key_resource_id, uni_request_id, <span class="hljs-string">&quot;NX&quot;</span>, <span class="hljs-string">&quot;EX&quot;</span>, 100s) == <span class="hljs-number">1</span>) &#123; <span class="hljs-comment">//加锁</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">do</span> something  <span class="hljs-comment">//业务处理</span><br>    &#125; <span class="hljs-keyword">catch</span>() &#123;<br>        <br>　　&#125; <span class="hljs-keyword">finally</span> &#123;<br>       <span class="hljs-comment">//判断是不是当前线程加的锁,是才释放</span><br>       <span class="hljs-keyword">if</span> (uni_request_id.equals(jedis.get(key_resource_id))) &#123;<br>           jedis.del(lockKey); <span class="hljs-comment">//释放锁</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>在这里，<strong>判断是不是当前线程加的锁</strong>和<strong>释放锁</strong>不是一个原子操作。如果调用jedis.del()释放锁的时候，可能这把锁已经不属于当前客户端，会解除他人加的锁。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242007379.png" srcset="/img/loading.gif" lazyload></p>
+<p>为了更严谨，一般也是用lua脚本代替。lua脚本如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs lua"><span class="hljs-keyword">if</span> redis.call(<span class="hljs-string">&#x27;get&#x27;</span>,KEYS[<span class="hljs-number">1</span>]) == ARGV[<span class="hljs-number">1</span>] <span class="hljs-keyword">then</span> <br>   <span class="hljs-keyword">return</span> redis.call(<span class="hljs-string">&#x27;del&#x27;</span>,KEYS[<span class="hljs-number">1</span>]) <br><span class="hljs-keyword">else</span><br>   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><span class="hljs-keyword">end</span>;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="Redis分布式锁方案六：Redisson框架"><a href="#Redis分布式锁方案六：Redisson框架" class="headerlink" title="Redis分布式锁方案六：Redisson框架"></a>Redis分布式锁方案六：Redisson框架</h3><p>方案五还是可能存在<strong>锁过期释放，业务没执行完</strong>的问题。有些小伙伴认为，稍微把锁过期时间设置长一些就可以啦。其实我们设想一下，是否可以给获得锁的线程，开启一个定时守护线程，每隔一段时间检查锁是否还存在，存在则对锁的过期时间延长，防止锁过期提前释放。</p>
+<p>当前开源框架Redisson解决了这个问题。我们一起来看下Redisson底层原理图吧：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242007119.png" srcset="/img/loading.gif" lazyload></p>
+<p>只要线程一加锁成功，就会启动一个<code>watch dog</code>看门狗，它是一个后台线程，会每隔10秒检查一下，如果线程1还持有锁，那么就会不断的延长锁key的生存时间。因此，Redisson就是使用Redisson解决了<strong>锁过期释放，业务没执行完</strong>问题。</p>
+<h3 id="Redis分布式锁方案七：多机实现的分布式锁Redlock-Redisson"><a href="#Redis分布式锁方案七：多机实现的分布式锁Redlock-Redisson" class="headerlink" title="Redis分布式锁方案七：多机实现的分布式锁Redlock+Redisson"></a>Redis分布式锁方案七：多机实现的分布式锁Redlock+Redisson</h3><p>前面六种方案都只是基于单机版的讨论，还不是很完美。其实Redis一般都是集群部署的：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242008389.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果线程一在Redis的master节点上拿到了锁，但是加锁的key还没同步到slave节点。恰好这时，master节点发生故障，一个slave节点就会升级为master节点。线程二就可以获取同个key的锁啦，但线程一也已经拿到锁了，锁的安全性就没了。</p>
+<p>为了解决这个问题，Redis作者 antirez提出一种高级的分布式锁算法：Redlock。Redlock核心思想是这样的：</p>
+<blockquote>
+<p>搞多个Redis master部署，以保证它们不会同时宕掉。并且这些master节点是完全相互独立的，相互之间不存在数据同步。同时，需要确保在这多个master实例上，是与在Redis单实例，使用相同方法来获取和释放锁。</p>
+</blockquote>
+<p>我们假设当前有5个Redis master节点，在5台服务器上面运行这些Redis实例。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242008448.png" srcset="/img/loading.gif" lazyload></p>
+<p>RedLock的实现步骤:如下</p>
+<blockquote>
+<ul>
+<li>1.获取当前时间，以毫秒为单位。</li>
+<li>2.按顺序向5个master节点请求加锁。客户端设置网络连接和响应超时时间，并且超时时间要小于锁的失效时间。（假设锁自动失效时间为10秒，则超时时间一般在5-50毫秒之间,我们就假设超时时间是50ms吧）。如果超时，跳过该master节点，尽快去尝试下一个master节点。</li>
+<li>3.客户端使用当前时间减去开始获取锁时间（即步骤1记录的时间），得到获取锁使用的时间。当且仅当超过一半（N/2+1，这里是5/2+1=3个节点）的Redis master节点都获得锁，并且使用的时间小于锁失效时间时，锁才算获取成功。（如上图，10s&gt; 30ms+40ms+50ms+4m0s+50ms）</li>
+<li>如果取到了锁，key的真正有效时间就变啦，需要减去获取锁所使用的时间。</li>
+<li>如果获取锁失败（没有在至少N/2+1个master实例取到锁，有或者获取锁时间已经超过了有效时间），客户端要在所有的master节点上解锁（即便有些master节点根本就没有加锁成功，也需要解锁，以防止有些漏网之鱼）。</li>
+</ul>
+</blockquote>
+<p>简化下步骤就是：</p>
+<ul>
+<li>按顺序向5个master节点请求加锁</li>
+<li>根据设置的超时时间来判断，是不是要跳过该master节点。</li>
+<li>如果大于等于三个节点加锁成功，并且使用的时间小于锁的有效期，即可认定加锁成功啦。</li>
+<li>如果获取锁失败，解锁！</li>
+</ul>
+<p>Redisson实现了redLock版本的锁，有兴趣的小伙伴，可以去了解一下哈~</p>
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903656911798285" title="redis系列：分布式锁">redis系列：分布式锁</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/dvaaj71f4fbqsxmgvdce" title="浅析 Redis 分布式锁解决方案">浅析 Redis 分布式锁解决方案</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904082860146695#heading-3" title="细说Redis分布式锁🔒">细说Redis分布式锁🔒</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU5ODUwNzY1Nw==&mid=2247484155&idx=1&sn=0c73f45f2f641ba0bf4399f57170ac9b&scene=21#wechat_redirect">Redlock：Redis分布式锁最牛逼的实现</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/%E6%97%A5%E5%BF%97%E6%89%93%E5%8D%B0%E8%A7%84%E8%8C%83/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">��־��ӡ�淶</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/%E8%81%8A%E8%81%8A%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E4%B8%AD%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91bug/">
+                        <span class="hidden-mobile">�����ճ���������μ���bug</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

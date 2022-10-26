@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="TCP协议15连问  前言TCP协议是大厂面试必问的知识点。整理了15道非常经典的TCP面试题，希望大家都找到理想的offer呀  1.  讲下TCP三次握手流程 开始客户端和服务器都处于CLOSED状态，然后服务端开始监听某个端口，进入LISTEN状态  第一次握手(SYN&#x3D;1, seq&#x3D;x)，发送完毕后，客户端进入 SYN_SEND 状态 第二次握手(SYN&#x3D;1, ACK&#x3D;1, seq&#x3D;y,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP协议15连问">
+<meta property="og:url" content="http://example.com/2022/10/26/TCP%E5%8D%8F%E8%AE%AE15%E8%BF%9E%E9%97%AE/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="TCP协议15连问  前言TCP协议是大厂面试必问的知识点。整理了15道非常经典的TCP面试题，希望大家都找到理想的offer呀  1.  讲下TCP三次握手流程 开始客户端和服务器都处于CLOSED状态，然后服务端开始监听某个端口，进入LISTEN状态  第一次握手(SYN&#x3D;1, seq&#x3D;x)，发送完毕后，客户端进入 SYN_SEND 状态 第二次握手(SYN&#x3D;1, ACK&#x3D;1, seq&#x3D;y,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232238498.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239601.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239477.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239859.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240881.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240140.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240505.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232241318.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232241645.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242072.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242439.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242360.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242339.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243696.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243958.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243737.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243780.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232244284.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245461.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245396.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245905.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245691.png">
+<meta property="article:published_time" content="2022-10-26T08:09:02.044Z">
+<meta property="article:modified_time" content="2022-10-23T14:46:46.223Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232238498.png">
+  
+  <title>TCP协议15连问 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="TCP协议15连问">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">TCP协议15连问</h1>
+            
+            <div class="markdown-body">
+              <center><h2>TCP协议15连问</h2></center>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>TCP协议是大厂面试必问的知识点。整理了15道非常经典的TCP面试题，希望大家都找到理想的offer呀</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232238498.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="1-讲下TCP三次握手流程"><a href="#1-讲下TCP三次握手流程" class="headerlink" title="1.  讲下TCP三次握手流程"></a>1.  讲下TCP三次握手流程</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239601.png" srcset="/img/loading.gif" lazyload></p>
+<p>开始客户端和服务器都处于CLOSED状态，然后服务端开始监听某个端口，进入LISTEN状态</p>
+<ul>
+<li>第一次握手(SYN=1, seq=x)，发送完毕后，客户端进入 SYN_SEND 状态</li>
+<li>第二次握手(SYN=1, ACK=1, seq=y, ACKnum=x+1)， 发送完毕后，服务器端进入 SYN_RCVD 状态。</li>
+<li>第三次握手(ACK=1，ACKnum=y+1)，发送完毕后，客户端进入 ESTABLISHED 状态，当服务器端接收到这个包时,也进入 ESTABLISHED 状态，TCP 握手，即可以开始数据传输。</li>
+</ul>
+<h3 id="2-TCP握手为什么是三次，不能是两次？不能是四次？"><a href="#2-TCP握手为什么是三次，不能是两次？不能是四次？" class="headerlink" title="2.TCP握手为什么是三次，不能是两次？不能是四次？"></a>2.TCP握手为什么是三次，不能是两次？不能是四次？</h3><p>TCP握手为什么是三次呢？为了方便理解，我们以谈恋爱为例子：两个人能走到一起，最重要的事情就是相爱，就是<strong>我爱你，并且我知道，你也爱我</strong>，接下来我们以此来模拟三次握手的过程：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239477.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>为什么握手不能是两次呢？</strong></p>
+<p>如果只有两次握手，女孩子可能就不知道，她的那句<strong>我也爱你</strong>，男孩子是否<strong>收到</strong>，恋爱关系就不能愉快展开。</p>
+<p><strong>为什么握手不能是四次呢？</strong></p>
+<p>因为握手不能是四次呢？因为三次已经够了，三次已经能让双方都知道：你爱我，我也爱你。而四次就多余了。</p>
+<h3 id="3-讲下TCP四次挥手过程"><a href="#3-讲下TCP四次挥手过程" class="headerlink" title="3. 讲下TCP四次挥手过程"></a>3. 讲下TCP四次挥手过程</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232239859.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li>第一次挥手(FIN=1，seq=u)，发送完毕后，客户端进入FIN_WAIT_1 状态</li>
+<li>第二次挥手(ACK=1，ack=u+1,seq =v)，发送完毕后，服务器端进入CLOSE_WAIT 状态，客户端接收到这个确认包之后，进入 FIN_WAIT_2 状态</li>
+<li>第三次挥手(FIN=1，ACK1,seq=w,ack=u+1)，发送完毕后，服务器端进入LAST_ACK 状态，等待来自客户端的最后一个ACK。</li>
+<li>第四次挥手(ACK=1，seq=u+1,ack=w+1)，客户端接收到来自服务器端的关闭请求，发送一个确认包，并进入 TIME_WAIT状态，<strong>等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后</strong>，没有收到服务器端的 ACK ，认为服务器端已经正常关闭连接，于是自己也关闭连接，进入 CLOSED 状态。服务器端接收到这个确认包之后，关闭连接，进入 CLOSED 状态。</li>
+</ol>
+<h3 id="4-TCP挥手为什么需要四次呢？"><a href="#4-TCP挥手为什么需要四次呢？" class="headerlink" title="4. TCP挥手为什么需要四次呢？"></a>4. TCP挥手为什么需要四次呢？</h3><p>举个例子吧!</p>
+<blockquote>
+<p>小明和小红打电话聊天，通话差不多要结束时，小红说“我没啥要说的了”，小明回答“我知道了”。但是小明可能还会有要说的话，小红不能要求小明跟着自己的节奏结束通话，于是小明可能又叽叽歪歪说了一通，最后小明说“我说完了”，小红回答“知道了”，这样通话才算结束。</p>
+</blockquote>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240881.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="5-TIME-WAIT-状态为什么需要等待-2MSL"><a href="#5-TIME-WAIT-状态为什么需要等待-2MSL" class="headerlink" title="5. TIME-WAIT 状态为什么需要等待 2MSL"></a>5. TIME-WAIT 状态为什么需要等待 2MSL</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240140.png" srcset="/img/loading.gif" lazyload></p>
+<p>2MSL，2 Maximum Segment Lifetime，即两个最大段生命周期</p>
+<blockquote>
+<ul>
+<li>1个 MSL 保证四次挥手中主动关闭方最后的 ACK 报文能最终到达对端</li>
+<li>1个 MSL 保证对端没有收到 ACK 那么进行重传的 FIN 报文能够到达</li>
+</ul>
+</blockquote>
+<h3 id="6-TCP-和-UDP-的区别"><a href="#6-TCP-和-UDP-的区别" class="headerlink" title="6.TCP 和 UDP 的区别"></a>6.TCP 和 UDP 的区别</h3><ol>
+<li>TCP面向连接（（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接。</li>
+<li>TCP要求安全性，提供可靠的服务，通过TCP连接传送的数据，不丢失、不重复、安全可靠。而UDP尽最大努力交付，即不保证可靠交付。</li>
+<li>TCP是点对点连接的，UDP一对一，一对多，多对多都可以</li>
+<li>TCP传输效率相对较低,而UDP传输效率高，它适用于对高速传输和实时性有较高的通信或广播通信。</li>
+<li>TCP适合用于网页，邮件等;UDP适合用于视频，语音广播等</li>
+<li>TCP面向字节流，UDP面向报文</li>
+</ol>
+<h3 id="7-TCP报文首部有哪些字段，说说其作用"><a href="#7-TCP报文首部有哪些字段，说说其作用" class="headerlink" title="7. TCP报文首部有哪些字段，说说其作用"></a>7. TCP报文首部有哪些字段，说说其作用</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232240505.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>16位端口号</strong>：源端口号，主机该报文段是来自哪里；目标端口号，要传给哪个上层协议或应用程序</li>
+<li><strong>32位序号</strong>：一次TCP通信（从TCP连接建立到断开）过程中某一个传输方向上的字节流的每个字节的编号。</li>
+<li><strong>32位确认号</strong>：用作对另一方发送的tcp报文段的响应。其值是收到的TCP报文段的序号值加1。</li>
+<li><strong>4位头部长度</strong>：表示tcp头部有多少个32bit字（4字节）。因为4位最大能标识15，所以TCP头部最长是60字节。</li>
+<li><strong>6位标志位</strong>：URG(紧急指针是否有效)，ACk（表示确认号是否有效），PSH（缓冲区尚未填满），RST（表示要求对方重新建立连接），SYN（建立连接消息标志接），FIN（表示告知对方本端要关闭连接了）</li>
+<li><strong>16位窗口大小</strong>：是TCP流量控制的一个手段。这里说的窗口，指的是接收通告窗口。它告诉对方本端的TCP接收缓冲区还能容纳多少字节的数据，这样对方就可以控制发送数据的速度。</li>
+<li><strong>16位校验和</strong>：由发送端填充，接收端对TCP报文段执行CRC算法以检验TCP报文段在传输过程中是否损坏。注意，这个校验不仅包括TCP头部，也包括数据部分。这也是TCP可靠传输的一个重要保障。</li>
+<li><strong>16位紧急指针</strong>：一个正的偏移量。它和序号字段的值相加表示最后一个紧急数据的下一字节的序号。因此，确切地说，这个字段是紧急指针相对当前序号的偏移，不妨称之为紧急偏移。TCP的紧急指针是发送端向接收端发送紧急数据的方法。</li>
+</ul>
+<h3 id="8-TCP-是如何保证可靠性的"><a href="#8-TCP-是如何保证可靠性的" class="headerlink" title="8. TCP 是如何保证可靠性的"></a>8. TCP 是如何保证可靠性的</h3><ul>
+<li>首先，TCP的连接是基于<strong>三次握手</strong>，而断开则是<strong>四次挥手</strong>。确保连接和断开的可靠性。</li>
+<li>其次，TCP的可靠性，还体现在<strong>有状态</strong>;TCP会记录哪些数据发送了，哪些数据被接受了，哪些没有被接受，并且保证数据包按序到达，保证数据传输不出差错。</li>
+<li>再次，TCP的可靠性，还体现在<strong>可控制</strong>。它有报文校验、ACK应答、**超时重传(发送方)**、失序数据重传（接收方）、丢弃重复数据、流量控制（滑动窗口）和拥塞控制等机制。</li>
+</ul>
+<h3 id="9-TCP-重传机制"><a href="#9-TCP-重传机制" class="headerlink" title="9. TCP 重传机制"></a>9. TCP 重传机制</h3><h4 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h4><p>TCP 为了实现可靠传输，实现了重传机制。最基本的重传机制，就是<strong>超时重传</strong>，即在发送数据报文时，设定一个定时器，每间隔一段时间，没有收到对方的ACK确认应答报文，就会重发该报文。</p>
+<p>这个间隔时间，一般设置为多少呢？我们先来看下什么叫<strong>RTT（Round-Trip Time，往返时间）</strong>。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232241318.png" srcset="/img/loading.gif" lazyload></p>
+<p>RTT就是，一个数据包从发出去到回来的时间，即<strong>数据包的一次往返时间</strong>。超时重传时间，就是Retransmission Timeout ，简称<strong>RTO</strong>。</p>
+<p><strong>RTO设置多久呢？</strong></p>
+<ul>
+<li>如果RTO比较小，那很可能数据都没有丢失，就重发了，这会导致网络阻塞，会导致更多的超时出现。</li>
+<li>如果RTO比较大，等到花儿都谢了还是没有重发，那效果就不好了。</li>
+</ul>
+<p>一般情况下，RTO略大于RTT，效果是最好的。一些小伙伴会问，超时时间有没有计算公式呢?有的！有个标准方法算RTO的公式，也叫<strong>Jacobson / Karels 算法</strong>。我们一起来看下计算RTO的公式</p>
+<p><strong>1. 先计算SRTT（计算平滑的RTT）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">SRTT = (<span class="hljs-number">1</span> - α) * SRTT + α * RTT  <span class="hljs-comment">//求 SRTT 的加权平均</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>2. 再计算RTTVAR (round-trip time variation)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">RTTVAR = (<span class="hljs-number">1</span> - β) * RTTVAR + β * (|RTT - SRTT|) <span class="hljs-comment">//计算 SRTT 与真实值的差距</span><br></code></pre></div></td></tr></table></figure>
+
+<p><strong>3. 最终的RTO</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">RTO = µ * SRTT + ∂ * RTTVAR  =  SRTT + <span class="hljs-number">4</span>·RTTVAR  <br></code></pre></div></td></tr></table></figure>
+
+<p>其中，<code>α = 0.125，β = 0.25， μ = 1，∂ = 4</code>，这些参数都是大量结果得出的最优参数。</p>
+<p>但是，超时重传会有这些缺点：</p>
+<blockquote>
+<ul>
+<li>当一个报文段丢失时，会等待一定的超时周期然后才重传分组，增加了端到端的时延。</li>
+<li>当一个报文段丢失时，在其等待超时的过程中，可能会出现这种情况：其后的报文段已经被接收端接收但却迟迟得不到确认，发送端会认为也丢失了，从而引起不必要的重传，既浪费资源也浪费时间。</li>
+</ul>
+</blockquote>
+<p>并且，TCP有个策略，就是超时时间间隔会加倍。超时重传需要<strong>等待很长时间</strong>。因此，还可以使用<strong>快速重传</strong>机制。</p>
+<h4 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h4><p><strong>快速重传</strong>机制，它不以时间驱动，而是以数据驱动。它基于接收端的反馈信息来引发重传。</p>
+<p>一起来看下快速重传流程：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232241645.png" srcset="/img/loading.gif" lazyload alt="快速重传流程"></p>
+<p>发送端发送了 1，2，3，4，5,6 份数据:</p>
+<ul>
+<li>第一份 Seq=1 先送到了，于是就 Ack 回 2；</li>
+<li>第二份 Seq=2 也送到了，假设也正常，于是ACK 回 3；</li>
+<li>第三份 Seq=3 由于网络等其他原因，没送到；</li>
+<li>第四份 Seq=4 也送到了，但是因为Seq3没收到。所以ACK回3；</li>
+<li>后面的 Seq=4,5的也送到了，但是ACK还是回复3，因为Seq=3没收到。</li>
+<li>发送端连着收到三个重复冗余ACK=3的确认（实际上是4个，但是前面一个是正常的ACK，后面三个才是重复冗余的），便知道哪个报文段在传输过程中丢失了，于是在定时器过期之前，重传该报文段。</li>
+<li>最后，接收到收到了 Seq3，此时因为 Seq=4，5，6都收到了，于是ACK回7. </li>
+</ul>
+<p>但<strong>快速重传</strong>还可能会有个问题：ACK只向发送端告知最大的有序报文段，到底是哪个报文丢失了呢？<strong>并不确定</strong>！那到底该重传多少个包呢？</p>
+<blockquote>
+<p>是重传 Seq3 呢？还是重传 Seq3、Seq4、Seq5、Seq6 呢？因为发送端并不清楚这三个连续的 ACK3 是谁传回来的。</p>
+</blockquote>
+<h4 id="带选择确认的重传（SACK）"><a href="#带选择确认的重传（SACK）" class="headerlink" title="带选择确认的重传（SACK）"></a>带选择确认的重传（SACK）</h4><p>为了解决快速重传的问题：<strong>应该重传多少个包</strong>? TCP提供了<strong>SACK方法</strong>（带选择确认的重传，Selective Acknowledgment）。</p>
+<p><strong>SACK机制</strong>就是，在快速重传的基础上，接收端返回最近收到的报文段的序列号范围，这样发送端就知道接收端哪些数据包没收到，酱紫就很清楚该重传哪些数据包啦。SACK标记是加在TCP头部<strong>选项</strong>字段里面的。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242072.png" srcset="/img/loading.gif" lazyload alt="SACK机制"></p>
+<p>如上图中，发送端收到了三次同样的ACK=30的确认报文，于是就会触发快速重发机制，通过SACK信息发现只有<code>30~39</code>这段数据丢失，于是重发时就只选择了这个<code>30~39</code>的TCP报文段进行重发。</p>
+<h4 id="D-SACK"><a href="#D-SACK" class="headerlink" title="D-SACK"></a>D-SACK</h4><p> D-SACK，即Duplicate SACK（重复SACK），在SACK的基础上做了一些扩展，，主要用来告诉发送方，有哪些数据包自己重复接受了。DSACK的目的是帮助发送方判断，是否发生了包失序、ACK丢失、包重复或伪重传。让TCP可以更好的做网络流控。来看个图吧：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242439.png" srcset="/img/loading.gif" lazyload alt="D-SACK简要流程"></p>
+<h3 id="10-聊聊TCP的滑动窗口"><a href="#10-聊聊TCP的滑动窗口" class="headerlink" title="10. 聊聊TCP的滑动窗口"></a>10. 聊聊TCP的滑动窗口</h3><p>TCP 发送一个数据，需要收到确认应答，才会发送下一个数据。这样有个缺点，就是效率会比较低。</p>
+<blockquote>
+<p>这就好像我们面对面聊天，你说完一句，我应答后，你才会说下一句。那么，如果我在忙其他事情，没有能够及时回复你。你说完一句后，要等到我忙完回复你，你才说下句，这显然很不现实。</p>
+</blockquote>
+<p>为了解决这个问题，TCP引入了<strong>窗口</strong>，它是操作系统开辟的一个缓存空间。窗口大小值表示无需等待确认应答，而可以继续发送数据的最大值。</p>
+<p>TCP头部有个字段叫win，也即那个<strong>16位的窗口大小</strong>，它告诉对方本端的TCP接收缓冲区还能容纳多少字节的数据，这样对方就可以控制发送数据的速度，从而达到<strong>流量控制</strong>的目的。</p>
+<blockquote>
+<p>通俗点讲，就是接受方每次收到数据包，在发送确认报文的时候，同时告诉发送方，自己的缓存区还有多少空余空间，缓冲区的空余空间，我们就称之为接受窗口大小。这就是win。</p>
+</blockquote>
+<p>TCP 滑动窗口分为两种: 发送窗口和接收窗口。<strong>发送端的滑动窗口</strong>包含四大部分，如下：</p>
+<ul>
+<li>已发送且已收到ACK确认</li>
+<li>已发送但未收到ACK确认</li>
+<li>未发送但可以发送</li>
+<li>未发送也不可以发送</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242360.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>虚线矩形框，就是发送窗口。</li>
+<li>SND.WND: 表示发送窗口的大小,上图虚线框的格子数就是14个。</li>
+<li>SND.UNA: 一个绝对指针，它指向的是已发送但未确认的第一个字节的序列号。</li>
+<li>SND.NXT：下一个发送的位置，它指向未发送但可以发送的第一个字节的序列号。</li>
+</ul>
+<p>接收方的滑动窗口包含三大部分，如下：</p>
+<ul>
+<li>已成功接收并确认</li>
+<li>未收到数据但可以接收</li>
+<li>未收到数据并不可以接收的数据</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232242339.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>虚线矩形框，就是接收窗口。</li>
+<li>REV.WND: 表示接收窗口的大小,上图虚线框的格子就是9个。</li>
+<li>REV.NXT:下一个接收的位置，它指向未收到但可以接收的第一个字节的序列号。</li>
+</ul>
+<h3 id="11-聊聊TCP的流量控制"><a href="#11-聊聊TCP的流量控制" class="headerlink" title="11. 聊聊TCP的流量控制"></a>11. 聊聊TCP的流量控制</h3><p>TCP三次握手，发送端和接收端进入到ESTABLISHED状态，它们即可以愉快地传输数据啦。</p>
+<p>但是发送端不能疯狂地向接收端发送数据，因为接收端接收不过来的话，接收方只能把处理不过来的数据存在缓存区里。如果缓存区都满了，发送方还在疯狂发送数据的话，接收方只能把收到的数据包丢掉，这就浪费了网络资源啦。</p>
+<blockquote>
+<p>TCP 提供一种机制可以让发送端根据接收端的实际接收能力控制发送的数据量，这就是<strong>流量控制</strong>。</p>
+</blockquote>
+<p>TCP通过滑动窗口来控制流量，我们看下流量控制的<strong>简要流程</strong>吧：</p>
+<p>首先双方三次握手，初始化各自的窗口大小，均为 400 个字节。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243696.png" srcset="/img/loading.gif" lazyload alt="TCP的流量控制"></p>
+<ol>
+<li>假如当前发送方给接收方发送了200个字节，那么，发送方的<code>SND.NXT</code>会右移200个字节，也就是说当前的可用窗口减少了200 个字节。</li>
+<li>接受方收到后，放到缓冲队列里面，REV.WND =400-200=200字节，所以win=200字节返回给发送方。接收方会在 ACK 的报文首部带上缩小后的滑动窗口200字节</li>
+<li>发送方又发送200字节过来，200字节到达，继续放到缓冲队列。不过这时候，由于大量负载的原因，接受方处理不了这么多字节，只能处理100字节，剩余的100字节继续放到缓冲队列。这时候，REV.WND = 400-200-100=100字节，即win=100返回发送方。</li>
+<li>发送方继续干活，发送100字节过来，这时候，接受窗口win变为0。</li>
+<li>发送方停止发送，开启一个定时任务，每隔一段时间，就去询问接受方，直到win大于0，才继续开始发送。</li>
+</ol>
+<h3 id="12-TCP的拥塞控制"><a href="#12-TCP的拥塞控制" class="headerlink" title="12. TCP的拥塞控制"></a>12. TCP的拥塞控制</h3><p>拥塞控制是<strong>作用于网络的，防止过多的数据包注入到网络中，避免出现网络负载过大的情况</strong>。它的目标主要是最大化利用网络上瓶颈链路的带宽。它跟<strong>流量控制</strong>又有什么区别呢？流量控制是作用于接收者的，根据<strong>接收端的实际接收能力控制发送速度</strong>，防止分组丢失的。</p>
+<p>我们可以把网络链路比喻成一根水管，如果我们想最大化利用网络来传输数据，那就是尽快让水管达到最佳充满状态。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243958.png" srcset="/img/loading.gif" lazyload></p>
+<p>发送方维护一个<strong>拥塞窗口cwnd（congestion window）</strong> 的变量，用来估算在一段时间内这条链路（水管）可以承载和运输的数据（水）的数量。它大小代表着网络的拥塞程度，并且是动态变化的，但是为了达到最大的传输效率，我们该如何知道这条水管的运送效率是多少呢？</p>
+<p>一个比较简单的方法就是不断增加传输的水量，直到水管快要爆裂为止（对应到网络上就是发生丢包），用 TCP 的描述就是：</p>
+<blockquote>
+<p>只要网络中没有出现拥塞，拥塞窗口的值就可以再增大一些，以便把更多的数据包发送出去，但只要网络出现拥塞，拥塞窗口的值就应该减小一些，以减少注入到网络中的数据包数。</p>
+</blockquote>
+<p>实际上，拥塞控制主要有这几种常用算法</p>
+<ul>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>拥塞发生</li>
+<li>快速恢复</li>
+</ul>
+<h4 id="慢启动算法"><a href="#慢启动算法" class="headerlink" title="慢启动算法"></a>慢启动算法</h4><p>慢启动算法，表面意思就是，别急慢慢来。它表示TCP建立连接完成后，一开始不要发送大量的数据，而是先探测一下网络的拥塞程度。由小到大逐渐增加拥塞窗口的大小，如果没有出现丢包，<strong>每收到一个ACK，就将拥塞窗口cwnd大小就加1（单位是MSS）</strong>。<strong>每轮次</strong>发送窗口增加一倍，呈指数增长，如果出现丢包，拥塞窗口就减半，进入拥塞避免阶段。</p>
+<ul>
+<li>TCP连接完成，初始化cwnd = 1，表明可以传一个MSS单位大小的数据。</li>
+<li>每当收到一个ACK，cwnd就加一;</li>
+<li>每当过了一个RTT，cwnd就增加一倍; 呈指数让升</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243737.png" srcset="/img/loading.gif" lazyload></p>
+<p>为了防止cwnd增长过大引起网络拥塞，还需设置一个<strong>慢启动阀值ssthresh</strong>（slow start threshold）状态变量。当<code>cwnd</code>到达该阀值后，就好像水管被关小了水龙头一样，减少拥塞状态。即当<strong>cwnd &gt;ssthresh</strong>时，进入了<strong>拥塞避免</strong>算法。</p>
+<h4 id="拥塞避免算法"><a href="#拥塞避免算法" class="headerlink" title="拥塞避免算法"></a>拥塞避免算法</h4><p>一般来说，慢启动阀值ssthresh是65535字节，<code>cwnd</code>到达<strong>慢启动阀值</strong>后</p>
+<ul>
+<li>每收到一个ACK时，cwnd = cwnd + 1/cwnd</li>
+<li>当每过一个RTT时，cwnd = cwnd + 1</li>
+</ul>
+<p>显然这是一个线性上升的算法，避免过快导致网络拥塞问题。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232243780.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="拥塞发生"><a href="#拥塞发生" class="headerlink" title="拥塞发生"></a>拥塞发生</h4><p>当网络拥塞发生<strong>丢包</strong>时，会有两种情况：</p>
+<ul>
+<li>RTO超时重传</li>
+<li>快速重传</li>
+</ul>
+<p>如果是发生了<strong>RTO超时重传</strong>，就会使用拥塞发生算法</p>
+<ul>
+<li>慢启动阀值sshthresh =  cwnd /2</li>
+<li>cwnd 重置为 1</li>
+<li>进入新的慢启动过程</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232244284.png" srcset="/img/loading.gif" lazyload></p>
+<p>这真的是<strong>辛辛苦苦几十年，一朝回到解放前</strong>。其实还有更好的处理方式，就是<strong>快速重传</strong>。发送方收到3个连续重复的ACK时，就会快速地重传，不必等待<strong>RTO超时</strong>再重传。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245461.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>慢启动阀值ssthresh 和 cwnd 变化如下：</p>
+<ul>
+<li>拥塞窗口大小 cwnd = cwnd/2 </li>
+<li>慢启动阀值 ssthresh = cwnd</li>
+<li>进入快速恢复算法</li>
+</ul>
+<h4 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h4><p>快速重传和快速恢复算法一般同时使用。快速恢复算法认为，还有3个重复ACK收到，说明网络也没那么糟糕，所以没有必要像RTO超时那么强烈。</p>
+<p>正如前面所说，进入快速恢复之前，cwnd 和 sshthresh已被更新：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs asciidoc"><span class="hljs-bullet">- </span>cwnd = cwnd /2<br><span class="hljs-bullet">- </span>sshthresh = cwnd<br></code></pre></div></td></tr></table></figure>
+
+<p>然后，真正的快速算法如下：</p>
+<ul>
+<li>cwnd = sshthresh  + 3 </li>
+<li>重传重复的那几个ACK（即丢失的那几个数据包）</li>
+<li>如果再收到重复的 ACK，那么 cwnd = cwnd +1</li>
+<li>如果收到新数据的 ACK 后, cwnd = sshthresh。因为收到新数据的 ACK，表明恢复过程已经结束，可以再次进入了拥塞避免的算法了。</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245396.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="13-半连接队列和-SYN-Flood-攻击的关系"><a href="#13-半连接队列和-SYN-Flood-攻击的关系" class="headerlink" title="13. 半连接队列和 SYN Flood 攻击的关系"></a>13. 半连接队列和 SYN Flood 攻击的关系</h3><p>TCP进入三次握手前，服务端会从<strong>CLOSED</strong>状态变为<strong>LISTEN</strong>状态,同时在内部创建了两个队列：半连接队列（SYN队列）和全连接队列（ACCEPT队列）。</p>
+<p>什么是<strong>半连接队列（SYN队列）</strong> 呢? 什么是<strong>全连接队列（ACCEPT队列）</strong> 呢？回忆下TCP三次握手的图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245905.png" srcset="/img/loading.gif" lazyload alt="三次握手"></p>
+<ul>
+<li>TCP三次握手时，客户端发送SYN到服务端，服务端收到之后，便回复<strong>ACK和SYN</strong>，状态由<strong>LISTEN变为SYN_RCVD</strong>，此时这个连接就被推入了<strong>SYN队列</strong>，即半连接队列。</li>
+<li>当客户端回复ACK, 服务端接收后，三次握手就完成了。这时连接会等待被具体的应用取走，在被取走之前，它被推入ACCEPT队列，即全连接队列。</li>
+</ul>
+<p>SYN Flood是一种典型的DoS (Denial of Service，拒绝服务) 攻击，它在短时间内，伪造<strong>不存在的IP地址</strong>,向服务器大量发起SYN报文。当服务器回复SYN+ACK报文后，不会收到ACK回应报文，导致服务器上建立大量的半连接半连接队列满了，这就无法处理正常的TCP请求啦。</p>
+<p>主要有 <strong>syn cookie</strong>和<strong>SYN Proxy防火墙</strong>等方案应对。</p>
+<ul>
+<li><p><strong>syn cookie</strong>：在收到SYN包后，服务器根据一定的方法，以数据包的源地址、端口等信息为参数计算出一个cookie值作为自己的SYNACK包的序列号，回复SYN+ACK后，服务器并不立即分配资源进行处理，等收到发送方的ACK包后，重新根据数据包的源地址、端口计算该包中的确认序列号是否正确，如果正确则建立连接，否则丢弃该包。</p>
+</li>
+<li><p><strong>SYN Proxy防火墙</strong>：服务器防火墙会对收到的每一个SYN报文进行代理和回应，并保持半连接。等发送方将ACK包返回后，再重新构造SYN包发到服务器，建立真正的TCP连接。</p>
+</li>
+</ul>
+<h3 id="14-Nagle-算法与延迟确认"><a href="#14-Nagle-算法与延迟确认" class="headerlink" title="14. Nagle 算法与延迟确认"></a>14. Nagle 算法与延迟确认</h3><h4 id="Nagle算法"><a href="#Nagle算法" class="headerlink" title="Nagle算法"></a>Nagle算法</h4><p>如果发送端疯狂地向接收端发送很小的包，比如就1个字节，那么亲爱的小伙伴，你们觉得会有什么问题呢？</p>
+<blockquote>
+<p>TCP/IP协议中，无论发送多少数据，总是要在数据前面加上协议头，同时，对方接收到数据，也需要发送ACK表示确认。为了尽可能的利用网络带宽，TCP总是希望尽可能的发送足够大的数据。<strong>Nagle算法</strong>就是为了尽可能发送大块数据，避免网络中充斥着许多小数据块。</p>
+</blockquote>
+<p>Nagle算法的基本定义是：<strong>任意时刻，最多只能有一个未被确认的小段</strong>。 所谓“小段”，指的是小于MSS尺寸的数据块，所谓“未被确认”，是指一个数据块发送出去后，没有收到对方发送的ACK确认该数据已收到。</p>
+<p>Nagle算法的实现规则：</p>
+<ul>
+<li>如果包长度达到MSS，则允许发送；</li>
+<li>如果该包含有FIN，则允许发送；</li>
+<li>设置了TCP_NODELAY选项，则允许发送；</li>
+<li>未设置TCP_CORK选项时，若所有发出去的小数据包（包长度小于MSS）均被确认，则允许发送；</li>
+<li>上述条件都未满足，但发生了超时（一般为200ms），则立即发送。</li>
+</ul>
+<h4 id="延迟确认"><a href="#延迟确认" class="headerlink" title="延迟确认"></a>延迟确认</h4><p>如果接受方刚接收到发送方的数据包，在很短很短的时间内，又接收到第二个包。那么请问接收方是一个一个地回复好点，还是合并一起回复好呢？</p>
+<blockquote>
+<p>接收方收到数据包后，如果暂时没有数据要发给对端，它可以等一段时再确认（Linux上默认是40ms）。如果这段时间刚好有数据要传给对端，ACK就随着数据传输，而不需要单独发送一次ACK。如果超过时间还没有数据要发送，也发送ACK，避免对端以为丢包。</p>
+</blockquote>
+<p>但是有些场景不能延迟确认，比如发现了<strong>乱序包</strong>、<strong>接收到了大于一个 frame 的报文，且需要调整窗口大小</strong>等。</p>
+<p>一般情况下，<strong>Nagle算法和延迟确认</strong>不能一起使用，Nagle算法意味着延迟发，<strong>延迟确认</strong>意味着延迟接收，酱紫就会造成更大的延迟，会产生性能问题。</p>
+<h3 id="15-TCP的粘包和拆包"><a href="#15-TCP的粘包和拆包" class="headerlink" title="15. TCP的粘包和拆包"></a>15. TCP的粘包和拆包</h3><p>TCP是面向流，没有界限的一串数据。TCP底层并不了解上层业务数据的具体含义，它会根据TCP缓冲区的实际情况进行包的划分，所以在业务上认为，一<strong>个完整的包可能会被TCP拆分成多个包进行发送</strong>，<strong>也有可能把多个小的包封装成一个大的数据包发送</strong>，这就是所谓的TCP粘包和拆包问题。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232245691.png" srcset="/img/loading.gif" lazyload alt="TCP的粘包和拆包"></p>
+<p><strong>为什么会产生粘包和拆包呢?</strong></p>
+<ul>
+<li>要发送的数据小于TCP发送缓冲区的大小，TCP将多次写入缓冲区的数据一次发送出去，将会发生粘包；</li>
+<li>接收数据端的应用层没有及时读取接收缓冲区中的数据，将发生粘包；</li>
+<li>要发送的数据大于TCP发送缓冲区剩余空间大小，将会发生拆包；</li>
+<li>待发送数据大于MSS（最大报文长度），TCP在传输前将进行拆包。即TCP报文长度-TCP头部长度&gt;MSS。</li>
+</ul>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li>发送端将每个数据包封装为固定长度</li>
+<li>在数据尾部增加特殊字符进行分割</li>
+<li>将数据分为两部分，一部分是头部，一部分是内容体；其中头部结构大小固定，且有一个字段声明内容体的大小。</li>
+</ul>
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/11609.html" title="TCP 的那些事儿（下）">TCP 的那些事儿（下）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76023663" title="面试头条你需要懂的 TCP 拥塞控制原理">面试头条你需要懂的 TCP 拥塞控制原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133307545" title="30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制发愁">30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制发愁</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904070889603085" title="TCP协议灵魂之问，巩固你的网路底层基础">TCP协议灵魂之问，巩固你的网路底层基础</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ailunlee/article/details/95944377" title="TCP粘包和拆包">TCP粘包和拆包</a></li>
+<li>百度百科</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/Volatile%E5%85%A8%E6%96%B9%E4%BD%8D%E8%A7%A3%E6%9E%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Volatile全方位解析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/order%20by%E8%AF%A6%E8%A7%A3/">
+                        <span class="hidden-mobile">order by详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

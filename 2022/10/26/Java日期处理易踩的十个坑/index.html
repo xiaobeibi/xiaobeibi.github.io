@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Java日期处理易踩的十个坑  前言整理了Java日期处理的十个坑，希望对大家有帮助。 一、用Calendar设置时间的坑反例： 123Calendar c &#x3D; Calendar.getInstance();c.set(Calendar.HOUR, 10);System.out.println(c.getTime()); 运行结果： 1Thu Mar 26 22:28:05 GMT+08:00 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java日期处理易踩的十个坑">
+<meta property="og:url" content="http://example.com/2022/10/26/Java%E6%97%A5%E6%9C%9F%E5%A4%84%E7%90%86%E6%98%93%E8%B8%A9%E7%9A%84%E5%8D%81%E4%B8%AA%E5%9D%91/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Java日期处理易踩的十个坑  前言整理了Java日期处理的十个坑，希望对大家有帮助。 一、用Calendar设置时间的坑反例： 123Calendar c &#x3D; Calendar.getInstance();c.set(Calendar.HOUR, 10);System.out.println(c.getTime()); 运行结果： 1Thu Mar 26 22:28:05 GMT+08:00 2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-26T08:09:01.848Z">
+<meta property="article:modified_time" content="2022-10-23T13:44:45.805Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Java日期处理易踩的十个坑 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java日期处理易踩的十个坑">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java日期处理易踩的十个坑</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Java日期处理易踩的十个坑</h2></center>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>整理了Java日期处理的十个坑，希望对大家有帮助。</p>
+<h3 id="一、用Calendar设置时间的坑"><a href="#一、用Calendar设置时间的坑" class="headerlink" title="一、用Calendar设置时间的坑"></a>一、用Calendar设置时间的坑</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar c = Calendar.getInstance();<br>c.set(Calendar.HOUR, <span class="hljs-number">10</span>);<br>System.out.println(c.getTime());<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Thu Mar 26 22:28:05 GMT+08:00 2020<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>我们设置了10小时，但运行结果是22点，而不是10点。因为Calendar.HOUR默认是按12小时制处理的，需要使用Calendar.HOUR_OF_DAY，因为它才是按24小时处理的。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar c = Calendar.getInstance();<br>c.set(Calendar.HOUR_OF_DAY, <span class="hljs-number">10</span>);<br></code></pre></div></td></tr></table></figure>
+<h3 id="二、Java日期格式化YYYY的坑"><a href="#二、Java日期格式化YYYY的坑" class="headerlink" title="二、Java日期格式化YYYY的坑"></a>二、Java日期格式化YYYY的坑</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;YYYY-MM-dd&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 YYYY-MM-dd 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">2019-12-31 转 YYYY-MM-dd 格式后 2020-12-31<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>为什么明明是2019年12月31号，就转了一下格式，就变成了2020年12月31号了？因为YYYY是基于周来计算年的，它指向当天所在周属于的年份，一周从周日开始算起，周六结束，只要本周跨年，那么这一周就算下一年的了。正确姿势是使用yyyy格式。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 yyyy-MM-dd 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="三、Java日期格式化hh的坑。"><a href="#三、Java日期格式化hh的坑。" class="headerlink" title="三、Java日期格式化hh的坑。"></a>三、Java日期格式化hh的坑。</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String str = <span class="hljs-string">&quot;2020-03-18 12:00&quot;</span>;<br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd hh:mm&quot;</span>);<br>Date newDate = dtf.parse(str);<br>System.out.println(newDate);<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Wed Mar 18 00:00:00 GMT+08:00 2020<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>设置的时间是12点，为什么运行结果是0点呢？因为hh是12制的日期格式，当时间为12点，会处理为0点。正确姿势是使用HH，它才是24小时制。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String str = <span class="hljs-string">&quot;2020-03-18 12:00&quot;</span>;<br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm&quot;</span>);<br>Date newDate = dtf.parse(str);<br>System.out.println(newDate);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="四、Calendar获取的月份比实际数字少1即-0-11"><a href="#四、Calendar获取的月份比实际数字少1即-0-11" class="headerlink" title="四、Calendar获取的月份比实际数字少1即(0-11)"></a>四、Calendar获取的月份比实际数字少1即(0-11)</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//获取当前月，当前是3月</span><br>Calendar calendar = Calendar.getInstance();<br>System.out.println(<span class="hljs-string">&quot;当前&quot;</span>+calendar.get(Calendar.MONTH)+<span class="hljs-string">&quot;月份&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">当前2月份<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">The first month of the year <span class="hljs-keyword">in</span> the Gregorian and Julian calendars<br>is &lt;code&gt;JANUARY&lt;/code&gt; <span class="hljs-built_in">which</span> is 0; <br>也就是1月对应的是下标 0，依次类推。因此获取正确月份需要加 1.<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//获取当前月，当前是3月</span><br>Calendar calendar = Calendar.getInstance();<br>System.out.println(<span class="hljs-string">&quot;当前&quot;</span>+(calendar.get(Calendar.MONTH)+<span class="hljs-number">1</span>)+<span class="hljs-string">&quot;月份&quot;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="五、Java日期格式化DD的坑"><a href="#五、Java日期格式化DD的坑" class="headerlink" title="五、Java日期格式化DD的坑"></a>五、Java日期格式化DD的坑</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-DD&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 yyyy-MM-DD 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">2019-12-31 转 yyyy-MM-DD 格式后 2019-12-365<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>DD和dd表示的不一样，DD表示的是一年中的第几天，而dd表示的是一月中的第几天，所以应该用的是dd。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2019</span>, Calendar.DECEMBER, <span class="hljs-number">31</span>);<br><br>Date testDate = calendar.getTime();<br><br>SimpleDateFormat dtf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>System.out.println(<span class="hljs-string">&quot;2019-12-31 转 yyyy-MM-dd 格式后 &quot;</span> + dtf.format(testDate));<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="六、SimleDateFormat的format初始化问题"><a href="#六、SimleDateFormat的format初始化问题" class="headerlink" title="六、SimleDateFormat的format初始化问题"></a>六、SimleDateFormat的format初始化问题</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>System.out.println(sdf.format(<span class="hljs-number">20200323</span>));<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">1970-01-01<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>用format格式化日期是，要输入的是一个Date类型的日期，而不是一个整型或者字符串。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Calendar calendar = Calendar.getInstance();<br>calendar.set(<span class="hljs-number">2020</span>, Calendar.MARCH, <span class="hljs-number">23</span>);<br>SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>System.out.println(sdf.format(calendar.getTime()));<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="七、日期本地化问题"><a href="#七、日期本地化问题" class="headerlink" title="七、日期本地化问题"></a>七、日期本地化问题</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String dateStr = <span class="hljs-string">&quot;Wed Mar 18 10:00:00 2020&quot;</span>;<br>DateTimeFormatter formatter = DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;EEE MMM dd HH:mm:ss yyyy&quot;</span>);<br>LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);<br>System.out.println(dateTime);<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">&quot;main&quot;</span> java.time.format.DateTimeParseException: Text <span class="hljs-string">&#x27;Wed Mar 18 10:00:00 2020&#x27;</span> could not be parsed at index 0<br>	at java.time.format.DateTimeFormatter.parseResolved0(DateTimeFormatter.java:1949)<br>	at java.time.format.DateTimeFormatter.parse(DateTimeFormatter.java:1851)<br>	at java.time.LocalDateTime.parse(LocalDateTime.java:492)<br>	at com.example.demo.SynchronizedTest.main(SynchronizedTest.java:19)<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>DateTimeFormatter 这个类默认进行本地化设置，如果默认是中文，解析英文字符串就会报异常。可以传入一个本地化参数（Locale.US）解决这个问题</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">String dateStr = <span class="hljs-string">&quot;Wed Mar 18 10:00:00 2020&quot;</span>;<br>DateTimeFormatter formatter = DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;EEE MMM dd HH:mm:ss yyyy&quot;</span>,Locale.US);<br>LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);<br>System.out.println(dateTime);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="八、SimpleDateFormat-解析的时间精度问题"><a href="#八、SimpleDateFormat-解析的时间精度问题" class="headerlink" title="八、SimpleDateFormat 解析的时间精度问题"></a>八、SimpleDateFormat 解析的时间精度问题</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>String time = <span class="hljs-string">&quot;2020-03&quot;</span>;<br>System.out.println(sdf.parse(time));<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong> </p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">&quot;main&quot;</span> java.text.ParseException: Unparseable date: <span class="hljs-string">&quot;2020-03&quot;</span><br>	at java.text.DateFormat.parse(DateFormat.java:366)<br>	at com.example.demo.SynchronizedTest.main(SynchronizedTest.java:19)<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>SimpleDateFormat 可以解析长于/等于它定义的时间精度，但是不能解析小于它定义的时间精度。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM&quot;</span>);<br>String time = <span class="hljs-string">&quot;2020-03&quot;</span>;<br>System.out.println(sdf.parse(time));<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="九、SimpleDateFormat-的线性安全问题"><a href="#九、SimpleDateFormat-的线性安全问题" class="headerlink" title="九、SimpleDateFormat 的线性安全问题"></a>九、SimpleDateFormat 的线性安全问题</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDateFormatTest</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ThreadPoolExecutor threadPoolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1</span>, TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="hljs-number">1000</span>));<br><br>        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>            threadPoolExecutor.execute(() -&gt; &#123;<br>                String dateString = sdf.format(<span class="hljs-keyword">new</span> Date());<br>                <span class="hljs-keyword">try</span> &#123;<br>                    Date parseDate = sdf.parse(dateString);<br>                    String dateString2 = sdf.format(parseDate);<br>                    System.out.println(dateString.equals(dateString2));<br>                &#125; <span class="hljs-keyword">catch</span> (ParseException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;);<br>        &#125;<br>    &#125;<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">&quot;pool-1-thread-49&quot;</span> java.lang.NumberFormatException: For input string: <span class="hljs-string">&quot;5151.&quot;</span><br>	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)<br>	at java.lang.Long.parseLong(Long.java:589)<br>	at java.lang.Long.parseLong(Long.java:631)<br>	at java.text.DigitList.getLong(DigitList.java:195)<br>	at java.text.DecimalFormat.parse(DecimalFormat.java:2051)<br>	at java.text.SimpleDateFormat.subParse(SimpleDateFormat.java:2162)<br>	at java.text.SimpleDateFormat.parse(SimpleDateFormat.java:1514)<br>	at java.text.DateFormat.parse(DateFormat.java:364)<br>	at com.example.demo.SimpleDateFormatTest.lambda$main<span class="hljs-variable">$0</span>(SimpleDateFormatTest.java:19)<br>	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)<br>	at java.util.concurrent.ThreadPoolExecutor<span class="hljs-variable">$Worker</span>.run(ThreadPoolExecutor.java:624)<br>	at java.lang.Thread.run(Thread.java:748)<br>Exception <span class="hljs-keyword">in</span> thread <span class="hljs-string">&quot;pool-1-thread-47&quot;</span> java.lang.NumberFormatException: For input string: <span class="hljs-string">&quot;5151.&quot;</span><br>	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)<br>	at java.lang.Long.parseLong(Long.java:589)<br>	at java.lang.Long.parseLong(Long.java:631)<br>	at java.text.DigitList.getLong(DigitList.java:195)<br>	at java.text.DecimalFormat.parse(DecimalFormat.java:2051)<br>	at java.text.SimpleDateFormat.subParse(SimpleDateFormat.java:2162)<br>	at java.text.SimpleDateFormat.parse(SimpleDateFormat.java:1514)<br>	at java.text.DateFormat.parse(DateFormat.java:364)<br>	at com.example.demo.SimpleDateFormatTest.lambda$main<span class="hljs-variable">$0</span>(SimpleDateFormatTest.java:19)<br>	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)<br>	at java.util.concurrent.ThreadPoolExecutor<span class="hljs-variable">$Worker</span>.run(ThreadPoolExecutor.java:624)<br>	at java.lang.Thread.run(Thread.java:748)<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>全局变量的SimpleDateFormat，在并发情况下，存在安全性问题。</p>
+<ul>
+<li>SimpleDateFormat继承了 DateFormat</li>
+<li>DateFormat类中维护了一个全局的Calendar变量</li>
+<li>sdf.parse(dateStr)和sdf.format(date)，都是由Calendar引用来储存的。</li>
+<li>如果SimpleDateFormat是static全局共享的，Calendar引用也会被共享。</li>
+<li>又因为Calendar内部并没有线程安全机制，所以全局共享的SimpleDateFormat不是线性安全的。</li>
+</ul>
+<p><strong>解决SimpleDateFormat线性不安全问题，有三种方式：</strong></p>
+<ul>
+<li>将SimpleDateFormat定义为局部变量</li>
+<li>使用ThreadLocal。</li>
+<li>方法加同步锁synchronized。</li>
+</ul>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDateFormatTest</span> </span>&#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DATE_FORMAT = <span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadLocal&lt;DateFormat&gt; threadLocal = <span class="hljs-keyword">new</span> ThreadLocal&lt;DateFormat&gt;();<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> DateFormat <span class="hljs-title">getDateFormat</span><span class="hljs-params">()</span> </span>&#123;<br>        DateFormat df = threadLocal.get();<br>        <span class="hljs-keyword">if</span>(df == <span class="hljs-keyword">null</span>)&#123;<br>            df = <span class="hljs-keyword">new</span> SimpleDateFormat(DATE_FORMAT);<br>            threadLocal.set(df);<br>        &#125;<br>        <span class="hljs-keyword">return</span> df;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">formatDate</span><span class="hljs-params">(Date date)</span> <span class="hljs-keyword">throws</span> ParseException </span>&#123;<br>        <span class="hljs-keyword">return</span> getDateFormat().format(date);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Date <span class="hljs-title">parse</span><span class="hljs-params">(String strDate)</span> <span class="hljs-keyword">throws</span> ParseException </span>&#123;<br>        <span class="hljs-keyword">return</span> getDateFormat().parse(strDate);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        ThreadPoolExecutor threadPoolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1</span>, TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="hljs-number">1000</span>));<br><br>        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>            threadPoolExecutor.execute(() -&gt; &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    String dateString = formatDate(<span class="hljs-keyword">new</span> Date());<br>                    Date parseDate = parse(dateString);<br>                    String dateString2 = formatDate(parseDate);<br>                    System.out.println(dateString.equals(dateString2));<br>                &#125; <span class="hljs-keyword">catch</span> (ParseException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="十、Java日期的夏令时问题"><a href="#十、Java日期的夏令时问题" class="headerlink" title="十、Java日期的夏令时问题"></a>十、Java日期的夏令时问题</h3><p><strong>反例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">TimeZone.setDefault(TimeZone.getTimeZone(<span class="hljs-string">&quot;Asia/Shanghai&quot;</span>));<br><br>SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);<br>System.out.println(sdf.parse(<span class="hljs-string">&quot;1986-05-04 00:30:00&quot;</span>));<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">Sun May 04 01:30:00 CDT 1986<br></code></pre></div></td></tr></table></figure>
+<p><strong>解析：</strong></p>
+<p>先了解一下夏令时</p>
+<blockquote>
+<ul>
+<li>夏令时，表示为了节约能源，人为规定时间的意思。</li>
+<li>一般在天亮早的夏季人为将时间调快一小时，可以使人早起早睡，减少照明量，以充分利用光照资源，从而节约照明用电。</li>
+<li>各个采纳夏时制的国家具体规定不同。目前全世界有近110个国家每年要实行夏令时。</li>
+<li>1986年4月，中国中央有关部门发出“在全国范围内实行夏时制的通知”，具体作法是：每年从四月中旬第一个星期日的凌晨2时整（北京时间），将时钟拨快一小时。(1992年起，夏令时暂停实行。)</li>
+<li>夏时令这几个时间可以注意一下哈，1986-05-04, 1987-04-12, 1988-04-10, 1989-04-16, 1990-04-15, 1991-04-14.</li>
+</ul>
+</blockquote>
+<p>结合demo代码，中国在1986-05-04当天还在使用夏令时，时间被拨快了1个小时。所以0点30分打印成了1点30分。如果要打印正确的时间，可以考虑修改时区为东8区。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">TimeZone.setDefault(TimeZone.getTimeZone(<span class="hljs-string">&quot;GMT+8&quot;</span>));<br><br>SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);<br>System.out.println(sdf.parse(<span class="hljs-string">&quot;1986-05-04 00:30:00&quot;</span>));<br></code></pre></div></td></tr></table></figure>
+
+<hr>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/JDK%205-15%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%BB%8F%E5%85%B8%E6%96%B0%E7%89%B9%E6%80%A7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JDK 5～15 的新特性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/22/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%AF%A6%E8%A7%A3/">
+                        <span class="hidden-mobile">动态规划详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

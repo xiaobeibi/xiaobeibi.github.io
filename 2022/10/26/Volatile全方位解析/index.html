@@ -1,0 +1,782 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Volatile全方位解析  前言volatile是Java程序员必备的基础，也是面试官非常喜欢问的一个话题，本文跟大家一起开启volatile学习之旅，如果有不正确的地方，也麻烦大家指出哈，一起相互学习。  1.volatile的用法 2.volatile变量的作用 3.现代计算机的内存模型（计算机模型，总线，MESI协议，嗅探技术） 4.Java内存模型（JMM） 5.并发编程的3个特性（原子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Volatile全方位解析">
+<meta property="og:url" content="http://example.com/2022/10/26/Volatile%E5%85%A8%E6%96%B9%E4%BD%8D%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Volatile全方位解析  前言volatile是Java程序员必备的基础，也是面试官非常喜欢问的一个话题，本文跟大家一起开启volatile学习之旅，如果有不正确的地方，也麻烦大家指出哈，一起相互学习。  1.volatile的用法 2.volatile变量的作用 3.现代计算机的内存模型（计算机模型，总线，MESI协议，嗅探技术） 4.Java内存模型（JMM） 5.并发编程的3个特性（原子">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251248913.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251249701.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251249119.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251257621.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251257778.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251258478.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251258333.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251300395.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251301593.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251301933.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251314207.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315332.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315169.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315374.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251317649.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251318985.png">
+<meta property="article:published_time" content="2022-10-26T08:09:02.083Z">
+<meta property="article:modified_time" content="2022-10-23T12:45:12.858Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251248913.png">
+  
+  <title>Volatile全方位解析 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Volatile全方位解析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Volatile全方位解析</h1>
+            
+            <div class="markdown-body">
+              <h2><center>Volatile全方位解析</center></h2>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>volatile是Java程序员必备的基础，也是面试官非常喜欢问的一个话题，本文跟大家一起开启volatile学习之旅，如果有不正确的地方，也麻烦大家指出哈，一起相互学习。</p>
+<ul>
+<li>1.volatile的用法</li>
+<li>2.volatile变量的作用</li>
+<li>3.现代计算机的内存模型（计算机模型，总线，MESI协议，嗅探技术）</li>
+<li>4.Java内存模型（JMM）</li>
+<li>5.并发编程的3个特性（原子性、可见性、有序性、happen-before、as-if-serial、指令重排）</li>
+<li>6.volatile的底层原理（如何保证可见性，如何保证指令重排，内存屏障）</li>
+<li>7.volatile的典型场景（状态标志，DCL单例模式）</li>
+<li>8.volatile常见面试题&amp;&amp;答案解析</li>
+</ul>
+<h3 id="1-volatile的用法"><a href="#1-volatile的用法" class="headerlink" title="1.volatile的用法"></a>1.volatile的用法</h3><p>volatile关键字是Java虚拟机提供的的<strong>最轻量级的同步机制</strong>，它作为一个修饰符出现，用来<strong>修饰变量</strong>，但是这里不包括局部变量哦。我们来看个demo吧，代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VolatileTest</span>  </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>&#123;<br>        Task task = <span class="hljs-keyword">new</span> Task();<br><br>        Thread t1 = <span class="hljs-keyword">new</span> Thread(task, <span class="hljs-string">&quot;线程t1&quot;</span>);<br>        Thread t2 = <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    Thread.sleep(<span class="hljs-number">1000</span>);<br>                    System.out.println(<span class="hljs-string">&quot;开始通知线程停止&quot;</span>);<br>                    task.stop = <span class="hljs-keyword">true</span>; <span class="hljs-comment">//修改stop变量值。</span><br>                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br>        &#125;, <span class="hljs-string">&quot;线程t2&quot;</span>);<br>        <br>        t1.start();  <span class="hljs-comment">//开启线程t1</span><br>        t2.start();  <span class="hljs-comment">//开启线程t2</span><br>        Thread.sleep(<span class="hljs-number">1000</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;<br>    <span class="hljs-keyword">boolean</span> stop = <span class="hljs-keyword">false</span>;<br>    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">long</span> s = System.currentTimeMillis();<br>        <span class="hljs-keyword">while</span> (!stop) &#123;<br>            i++;<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;线程退出&quot;</span> + (System.currentTimeMillis() - s));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p><strong>运行结果：</strong></p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251248913.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以发现线程t2，虽然把stop设置为true了，但是线程t1对t2的<strong>stop变量视而不可见</strong>，因此，它一直在死循环running中。如果给变量stop加上volatile修饰，线程t1是可以停下来的,运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">boolean</span> stop = <span class="hljs-keyword">false</span>;<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251249701.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-vlatile修饰变量的作用"><a href="#2-vlatile修饰变量的作用" class="headerlink" title="2. vlatile修饰变量的作用"></a>2. vlatile修饰变量的作用</h3><p>从以上例子，我们可以发现变量stop，加了vlatile修饰之后，线程t1对stop就可见了。其实，vlatile的作用就是：<strong>保证变量对所有线程可见性</strong>。当然，vlatile还有个作用就是，<strong>禁止指令重排</strong>，但是它<strong>不保证原子性</strong>。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251249119.png" srcset="/img/loading.gif" lazyload></p>
+<p>所以当面试官问你<strong>volatile的作用或者特性</strong>，都可以这么回答：</p>
+<ul>
+<li>保证变量对所有线程可见性;</li>
+<li>禁止指令重排序</li>
+<li>不保证原子性</li>
+</ul>
+<h3 id="3-现代计算机的内存模型（计算机模型，MESI协议，嗅探技术，总线）"><a href="#3-现代计算机的内存模型（计算机模型，MESI协议，嗅探技术，总线）" class="headerlink" title="3. 现代计算机的内存模型（计算机模型，MESI协议，嗅探技术，总线）"></a>3. 现代计算机的内存模型（计算机模型，MESI协议，嗅探技术，总线）</h3><p>为了更好理解volatile，先回顾一下计算机的内存模型与JMM（Java内存模型）吧~</p>
+<h4 id="计算机模型"><a href="#计算机模型" class="headerlink" title="计算机模型"></a>计算机模型</h4><p>计算机执行程序时，指令是由CPU处理器执行的，而打交道的数据是在主内存当中的。</p>
+<p>由于计算机的存储设备与处理器的运算速度有几个数量级的差距，总不能每次CPU执行完指令，然后等主内存慢悠悠存取数据吧，<br>所以现代计算机系统加入一层读写速度接近处理器运算速度的高速缓存（Cache），以作为来作为内存与处理器之间的缓冲。</p>
+<p>在多路处理器系统中，每个处理器都有自己的高速缓存，而它们共享同一主内存。<strong>计算机抽象内存模型</strong>如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251257621.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>程序执行时，把需要用到的数据，从主内存拷贝一份到高速缓存。</li>
+<li>CPU处理器计算时，从它的高速缓存中读取，把计算完的数据写入高速缓存。</li>
+<li>当程序运算结束，把高速缓存的数据刷新会主内存。</li>
+</ul>
+<p>随着科学技术的发展，为了效率，高速缓存又衍生出一级缓存（L1），二级缓存（L2），甚至三级缓存(L3);</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251257778.png" srcset="/img/loading.gif" lazyload></p>
+<p>当多个处理器的运算任务都涉及同一块主内存区域，可能导致<strong>缓存数据不一致</strong>问题。如何解决这个问题呢？有两种方案</p>
+<blockquote>
+<ul>
+<li>1、通过在总线加LOCK#锁的方式。</li>
+<li>2、通过缓存一致性协议（Cache Coherence Protocol）</li>
+</ul>
+</blockquote>
+<h4 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h4><blockquote>
+<p>总线（Bus）是计算机各种功能部件之间传送信息的公共通信干线，它是由导线组成的传输线束， 按照计算机所传输的信息种类，计算机的总线可以划分为数据总线、地址总线和控制总线，分别用来传输数据、数据地址和控制信号。</p>
+</blockquote>
+<p>CPU和其他功能部件是通过总线通信的，如果在总线加LOCK#锁，那么在锁住总线期间，其他CPU是无法访问内存，这样一来，<strong>效率就比较低了</strong>。</p>
+<h4 id="MESI协议"><a href="#MESI协议" class="headerlink" title="MESI协议"></a>MESI协议</h4><p>为了解决一致性问题，还可以通过缓存一致性协议。即各个处理器访问缓存时都遵循一些协议，在读写时要根据协议来进行操作，这类协议有MSI、MESI（IllinoisProtocol）、MOSI、Synapse、Firefly及DragonProtocol等。比较著名的就是Intel的MESI（Modified Exclusive Shared Or Invalid）协议，它的核心思想是：</p>
+<blockquote>
+<p> 当CPU写数据时，如果发现操作的变量是共享变量，即在其他CPU中也存在该变量的副本，会发出信号通知其他CPU将该变量的缓存行置为无效状态，因此当其他CPU需要读取这个变量时，发现自己缓存中缓存该变量的缓存行是无效的，那么它就会从内存重新读取。</p>
+</blockquote>
+<p>CPU中每个缓存行标记的4种状态（M、E、S、I）,也了解一下吧:</p>
+<table>
+<thead>
+<tr>
+<th>缓存状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M，被修改（Modified)</td>
+<td>该缓存行只被该CPU缓存，与主存的值不同，会在它被其他CPU读取之前写入内存，并设置为Shared</td>
+</tr>
+<tr>
+<td>E，独享的（Exclusive)</td>
+<td>该缓存行只被该CPU缓存，与主存的值相同，被其他CPU读取时置为Shared，被其他CPU写时置为Modified</td>
+</tr>
+<tr>
+<td>S，共享的（Shared)</td>
+<td>该缓存行可能被多个CPU缓存，各个缓存中的数据与主存数据相同</td>
+</tr>
+<tr>
+<td>I，无效的（Invalid）</td>
+<td>该缓存行数据是无效，需要时需重新从主存载入</td>
+</tr>
+</tbody></table>
+<p>MESI协议是如何实现的？如何保证当前处理器的内部缓存、主内存和其他处理器的缓存数据在总线上保持一致的？<strong>多处理器总线嗅探</strong></p>
+<h4 id="嗅探技术"><a href="#嗅探技术" class="headerlink" title="嗅探技术"></a>嗅探技术</h4><blockquote>
+<p>在多处理器下，为了保证各个处理器的缓存是一致的，就会实现缓存缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己的缓存值是不是过期了，如果处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置无效状态，当处理器对这个数据进行修改操作的时候，会重新从系统内存中把数据库读到处理器缓存中。</p>
+</blockquote>
+<h3 id="4-Java内存模型（JMM）"><a href="#4-Java内存模型（JMM）" class="headerlink" title="4. Java内存模型（JMM）"></a>4. Java内存模型（JMM）</h3><ul>
+<li>Java虚拟机规范试图定义一种Java内存模型,来<strong>屏蔽掉各种硬件和操作系统的内存访问差异</strong>，以实现让Java程序在各种平台上都能达到一致的内存访问效果。</li>
+<li>Java内存模型<strong>类比</strong>于计算机内存模型。</li>
+<li>为了更好的执行性能，java内存模型并没有限制执行引擎使用处理器的特定寄存器或缓存来和主内存打交道，也没有限制编译器进行调整代码顺序优化。所以Java内存模型<strong>会存在缓存一致性问题和指令重排序问题的</strong>。</li>
+<li>Java内存模型规定所有的变量都是存在主内存当中（类似于计算机模型中的物理内存），每个线程都有自己的工作内存（类似于计算机模型的高速缓存）。这里的<strong>变量</strong>包括实例变量和静态变量，但是<strong>不包括局部变量</strong>，因为局部变量是线程私有的。</li>
+<li>线程的工作内存保存了被该线程使用的变量的主内存副本，<strong>线程对变量的所有操作都必须在工作内存中进行</strong>，而不能直接操作操作主内存。并且每个线程不能访问其他线程的工作内存。</li>
+</ul>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251258478.png" srcset="/img/loading.gif" lazyload></p>
+<p>举个例子吧，假设i的初始值是0，执行以下语句：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">i = i + <span class="hljs-number">1</span>;<br></code></pre></div></td></tr></table></figure>
+<p>首先，执行线程t1从主内存中读取到 i=0，到工作内存。然后在工作内存中，赋值 i+1,工作内存就得到 i=1，最后把结果写回主内存。因此，如果是单线程的话，该语句执行是没问题的。但是呢，线程 t2 的本地工作内存还没过期，那么它读到的数据就是脏数据了。如图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251258333.png" srcset="/img/loading.gif" lazyload></p>
+<p>Java内存模型是围绕着如何在并发过程中如何处理<strong>原子性、可见性和有序性</strong>这3个特征来建立的，我们再来一起回顾一下~</p>
+<h3 id="5-并发编程的3个特性（原子性、可见性、有序性）"><a href="#5-并发编程的3个特性（原子性、可见性、有序性）" class="headerlink" title="5.并发编程的3个特性（原子性、可见性、有序性）"></a>5.并发编程的3个特性（原子性、可见性、有序性）</h3><h4 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h4><p>原子性，指操作是不可中断的，要么执行完成，要么不执行，基本数据类型的访问和读写都是具有原子性，当然（long和double的非原子性协定除外）。我们来看几个小例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">i = <span class="hljs-number">666</span>； <span class="hljs-comment">// 语句1</span><br>i = j;   <span class="hljs-comment">// 语句2</span><br>i = i + <span class="hljs-number">1</span>;  <span class="hljs-comment">//语句 3</span><br>i++;   <span class="hljs-comment">// 语句4</span><br></code></pre></div></td></tr></table></figure>
+<ul>
+<li>语句1操作显然是原子性的，将数值666赋值给 i，即线程执行这个语句时，直接将数值666写入到工作内存中。</li>
+<li>语句2操作看起来也是原子性的，但是它实际上涉及两个操作，先去读 j 的值，再把j的值写入工作内存，两个操作分开都是原子操作，但是合起来就不满足原子性了。</li>
+<li>语句3读取 i 的值，加 1，再写回主存，这个就不是原子性操作了。</li>
+<li>语句4 等同于语句3，也是非原子性操作。</li>
+</ul>
+<h4 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h4><ul>
+<li>可见性就是指当一个线程修改了共享变量的值时，其他线程能够立即得知这个修改。</li>
+<li>Java内存模型是通过在变量修改后将新值同步回主内存，在变量读取前从主内存刷新变量值这种依赖主内存作为传递媒介的方式来实现可见性的，无论是普通变量还是volatile变量都是如此。</li>
+<li>volatile变量，保证新值能立即同步回主内存，以及每次使用前立即从主内存刷新，所以我们说volatile保证了多线程操作变量的可见性。</li>
+<li>synchronized和Lock也能够保证可见性，线程在释放锁之前，会把共享变量值都刷回主存。final也可以实现可见性。</li>
+</ul>
+<h4 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h4><p>Java虚拟机这样描述Java程序的有序性的：如果在本线程内观察，所有的操作都是有序的；如果在一个线程中，观察另一个线程，所有的操作都是无序的。</p>
+<p>后半句意思就是，在Java内存模型中，<strong>允许编译器和处理器对指令进行重排序</strong>，会影响到多线程并发执行的正确性；前半句意思就是<strong>as-if-serial</strong>的语义，即不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不会被改变。</p>
+<p>比如以下程序代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">double</span> pi = <span class="hljs-number">3.14</span>;    <span class="hljs-comment">//A</span><br><span class="hljs-keyword">double</span> r = <span class="hljs-number">1.0</span>;     <span class="hljs-comment">//B</span><br><span class="hljs-keyword">double</span> area = pi * r * r; <span class="hljs-comment">//C</span><br></code></pre></div></td></tr></table></figure>
+<p>步骤C依赖于步骤A和B，因为指令重排的存在，程序执行顺讯可能是A-&gt;B-&gt;C,也可能是B-&gt;A-&gt;C,但是C不能在A或者B前面执行，这将违反as-if-serial语义。</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251300395.png" srcset="/img/loading.gif" lazyload></p>
+<p>看段代码吧，假设程序先执行read方法，再执行add方法，结果一定是输出sum=2嘛？</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">bool flag = <span class="hljs-keyword">false</span>;<br><span class="hljs-keyword">int</span> b = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>   b = <span class="hljs-number">1</span>;              <span class="hljs-comment">//1</span><br>   flag = <span class="hljs-keyword">true</span>;        <span class="hljs-comment">//2</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">()</span> </span>&#123;<br>   <span class="hljs-keyword">if</span> (flag) &#123;         <span class="hljs-comment">//3</span><br>       <span class="hljs-keyword">int</span> sum =b+b;   <span class="hljs-comment">//4</span><br>       System.out.println(<span class="hljs-string">&quot;bb sum is&quot;</span>+sum); <br>   &#125; <br>&#125;<br><br></code></pre></div></td></tr></table></figure>
+
+<p>如果是单线程，结果应该没问题，如果是多线程，线程t1对步骤1和2进行了<strong>指令重排序</strong>呢？结果sum就不是2了，而是0，如下图所示：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251301593.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是为啥呢？<strong>指令重排序</strong>了解一下，指令重排是指在程序执行过程中,<strong>为了提高性能</strong>, <strong>编译器和CPU可能会对指令进行重新排序</strong>。CPU重排序包括指令并行重排序和内存系统重排序，重排序类型和重排序执行过程如下：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251301933.png" srcset="/img/loading.gif" lazyload></p>
+<p>实际上，可以给flag加上volatile关键字，来保证有序性。当然，也可以通过synchronized和Lock来保证有序性。synchronized和Lock保证某一时刻是只有一个线程执行同步代码，相当于是让线程顺序执行程序代码了，自然就保证了有序性。</p>
+<p>实际上Java内存模型的有序性并不是仅靠volatile、synchronized和Lock来保证有序性的。这是因为Java语言中，有一个先行发生原则（happens-before）：</p>
+<ul>
+<li><strong>程序次序规则</strong>：在一个线程内，按照控制流顺序，书写在前面的操作先行发生于书写在后面的操作。</li>
+<li><strong>管程锁定规则</strong>：一个unLock操作先行发生于后面对同一个锁额lock操作</li>
+<li><strong>volatile变量规则</strong>：对一个变量的写操作先行发生于后面对这个变量的读操作</li>
+<li><strong>线程启动规则</strong>：Thread对象的start()方法先行发生于此线程的每个一个动作</li>
+<li><strong>线程终止规则</strong>：线程中所有的操作都先行发生于线程的终止检测，我们可以通过Thread.join()方法结束、Thread.isAlive()的返回值手段检测到线程已经终止执行</li>
+<li><strong>线程中断规则</strong>：对线程interrupt()方法的调用先行发生于被中断线程的代码检测到中断事件的发生</li>
+<li><strong>对象终结规则</strong>：一个对象的初始化完成先行发生于他的finalize()方法的开始</li>
+<li><strong>传递性</strong>：如果操作A先行发生于操作B，而操作B又先行发生于操作C，则可以得出操作A先行发生于操作C</li>
+</ul>
+<p>根据happens-before的八大规则，我们回到刚的例子，一起分析一下。给flag加上volatile关键字，look look它是如何保证有序性的，</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">volatile</span> bool flag = <span class="hljs-keyword">false</span>;<br><span class="hljs-keyword">int</span> b = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>   b = <span class="hljs-number">1</span>;              <span class="hljs-comment">//1</span><br>   flag = <span class="hljs-keyword">true</span>;        <span class="hljs-comment">//2</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">()</span> </span>&#123;<br>   <span class="hljs-keyword">if</span> (flag) &#123;         <span class="hljs-comment">//3</span><br>       <span class="hljs-keyword">int</span> sum =b+b;   <span class="hljs-comment">//4</span><br>       System.out.println(<span class="hljs-string">&quot;bb sum is&quot;</span>+sum); <br>   &#125; <br>&#125;<br></code></pre></div></td></tr></table></figure>
+<ul>
+<li>首先呢，flag加上volatile关键字，那就禁止了指令重排，也就是1 happens-before 2了</li>
+<li>根据<strong>volatile变量规则</strong>，2 happens-before 3</li>
+<li>由<strong>程序次序规则</strong>，得出 3 happens-before 4</li>
+<li>最后由<strong>传递性</strong>，得出1 happens-before 4，因此妥妥的输出sum=2啦~</li>
+</ul>
+<h3 id="6-volatile底层原理"><a href="#6-volatile底层原理" class="headerlink" title="6.volatile底层原理"></a>6.volatile底层原理</h3><p>以上讨论学习，我们知道volatile的语义就是保证变量对所有线程可见性以及禁止指令重排优化。那么，它的底层是如何保证可见性和禁止指令重排的呢？</p>
+<h4 id="图解volatile是如何保证可见性的？"><a href="#图解volatile是如何保证可见性的？" class="headerlink" title="图解volatile是如何保证可见性的？"></a>图解volatile是如何保证可见性的？</h4><p>假设flag变量的初始值false，现在有两条线程 t1 和 t2 要访问它，就可以简化为以下图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251314207.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果线程t1执行以下代码语句，并且flag没有volatile修饰的话；t1刚修改完flag的值，还没来得及刷新到主内存，t2又跑过来读取了，很容易就数据flag不一致了，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">flag = <span class="hljs-keyword">true</span>;<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315332.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果flag变量是由volatile修饰的话，就不一样了，如果线程t1修改了flag值，volatile能保证修饰的flag变量后，可以<strong>立即同步回主内存</strong>。如图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315169.png" srcset="/img/loading.gif" lazyload></p>
+<p>细心的朋友会发现，线程t2不还是flag旧的值吗，这不还有问题嘛？其实volatile还有一个保证，就是<strong>每次使用前立即先从主内存刷新最新的值</strong>，线程t1修改完后，线程t2的变量副本会过期了，如图：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251315374.png" srcset="/img/loading.gif" lazyload></p>
+<p>显然，这里还不是底层，实际上volatile保证可见性和禁止指令重排都跟<strong>内存屏障</strong>有关，我们编译volatile相关代码看看~</p>
+<h4 id="DCL单例模式（volatile）-amp-编译对比"><a href="#DCL单例模式（volatile）-amp-编译对比" class="headerlink" title="DCL单例模式（volatile）&amp;编译对比"></a>DCL单例模式（volatile）&amp;编译对比</h4><p>DCL单例模式（Double Check Lock，双重检查锁）比较常用，它是需要volatile修饰的，所以就拿这段代码编译吧</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">static</span> Singleton instance;  <br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span> <span class="hljs-params">()</span> </span>&#123;&#125;  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;  <br>        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;  <br>            <span class="hljs-keyword">synchronized</span> (Singleton.class) &#123;  <br>                <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;  <br>                    instance = <span class="hljs-keyword">new</span> Singleton();  <br>                &#125;  <br>            &#125;  <br>        &#125;  <br>        <span class="hljs-keyword">return</span> instance;  <br>    &#125;  <br>&#125;  <br></code></pre></div></td></tr></table></figure>
+<p>编译这段代码后，观察有volatile关键字和没有volatile关键字时的instance所生成的汇编代码发现，有volatile关键字修饰时，会多出一个lock addl $0x0,(%esp)，即多出一个lock前缀指令</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-number">0x01a3de0f</span>: mov    $<span class="hljs-number">0x3375cdb0</span>,%esi   ;...beb0cd75 <span class="hljs-number">33</span>  <br>                                        ;   &#123;oop(<span class="hljs-string">&#x27;Singleton&#x27;</span>)&#125;  <br><span class="hljs-number">0x01a3de14</span>: mov    %eax,<span class="hljs-number">0x150</span>(%esi)   ;..<span class="hljs-number">.89865001</span> <span class="hljs-number">0000</span>  <br><span class="hljs-number">0x01a3de1a</span>: shr    $<span class="hljs-number">0x9</span>,%esi          ;...c1ee09  <br><span class="hljs-number">0x01a3de1d</span>: movb   $<span class="hljs-number">0x0</span>,<span class="hljs-number">0x1104800</span>(%esi)  ;...c6860048 <span class="hljs-number">100100</span>  <br><span class="hljs-number">0x01a3de24</span>: lock addl $<span class="hljs-number">0x0</span>,(%esp)     ;...f0830424 <span class="hljs-number">00</span>  <br>                                        ;*putstatic instance  <br>                                        ; - Singleton::getInstance@<span class="hljs-number">24</span> <br></code></pre></div></td></tr></table></figure>
+<p> lock指令相当于一个<strong>内存屏障</strong>，它保证以下这几点：</p>
+<blockquote>
+<ul>
+<li>1.重排序时不能把后面的指令重排序到内存屏障之前的位置</li>
+<li>2.将本处理器的缓存写入内存</li>
+<li>3.如果是写入动作，会导致其他处理器中对应的缓存无效。</li>
+</ul>
+</blockquote>
+<p>显然，第2、3点不就是volatile保证可见性的体现嘛，第1点就是禁止指令重排列的体现。</p>
+<h4 id="内存屏障"><a href="#内存屏障" class="headerlink" title="内存屏障"></a>内存屏障</h4><p>内存屏障四大分类：（Load 代表读取指令，Store代表写入指令）</p>
+<table>
+<thead>
+<tr>
+<th>内存屏障类型</th>
+<th>抽象场景</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LoadLoad屏障</td>
+<td>Load1; LoadLoad; Load2</td>
+<td>在Load2要读取的数据被访问前，保证Load1要读取的数据被读取完毕。</td>
+</tr>
+<tr>
+<td>StoreStore屏障</td>
+<td>Store1; StoreStore; Store2</td>
+<td>在Store2写入执行前，保证Store1的写入操作对其它处理器可见</td>
+</tr>
+<tr>
+<td>LoadStore屏障</td>
+<td>Load1; LoadStore; Store2</td>
+<td>在Store2被写入前，保证Load1要读取的数据被读取完毕。</td>
+</tr>
+<tr>
+<td>StoreLoad屏障</td>
+<td>Store1; StoreLoad; Load2</td>
+<td>在Load2读取操作执行前，保证Store1的写入对所有处理器可见。</td>
+</tr>
+</tbody></table>
+<p>为了实现volatile的内存语义，Java内存模型采取以下的保守策略</p>
+<ul>
+<li>在每个volatile写操作的前面插入一个StoreStore屏障。</li>
+<li>在每个volatile写操作的后面插入一个StoreLoad屏障。</li>
+<li>在每个volatile读操作的后面插入一个LoadLoad屏障。</li>
+<li>在每个volatile读操作的后面插入一个LoadStore屏障。</li>
+</ul>
+<p>有些小伙伴，可能对这个还是有点疑惑，内存屏障这玩意太抽象了。我们照着代码看下吧（LoadLoad内存屏障也是在flag后面哈，图片有误）：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251317649.png" srcset="/img/loading.gif" lazyload></p>
+<p>内存屏障保证前面的指令先执行，所以这就保证了禁止了指令重排啦，同时内存屏障保证缓存写入内存和其他处理器缓存失效，这也就保证了可见性，哈哈~</p>
+<h3 id="7-volatile的典型场景"><a href="#7-volatile的典型场景" class="headerlink" title="7.volatile的典型场景"></a>7.volatile的典型场景</h3><p>通常来说，使用volatile必须具备以下2个条件：</p>
+<ul>
+<li>1）对变量的写操作不依赖于当前值</li>
+<li>2）该变量没有包含在具有其他变量的不变式中</li>
+</ul>
+<p>实际上，volatile场景一般就是<strong>状态标志</strong>，以及<strong>DCL单例模式</strong>。</p>
+<h4 id="7-1-状态标志"><a href="#7-1-状态标志" class="headerlink" title="7.1 状态标志"></a>7.1 状态标志</h4><p>深入理解Java虚拟机，书中的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Map configOptions;<br><span class="hljs-keyword">char</span>[] configText;<br><span class="hljs-comment">// 此变量必须定义为 volatile</span><br><span class="hljs-keyword">volatile</span> <span class="hljs-keyword">boolean</span> initialized = <span class="hljs-keyword">false</span>;<br><br><span class="hljs-comment">// 假设以下代码在线程 A 中运行</span><br><span class="hljs-comment">// 模拟读取配置信息, 当读取完成后将 initialized 设置为 true 以告知其他线程配置可用</span><br>configOptions = <span class="hljs-keyword">new</span> HashMap();<br>configText = readConfigFile(fileName);<br>processConfigOptions(configText, configOptions);<br>initialized = <span class="hljs-keyword">true</span>;<br>      <br><span class="hljs-comment">// 假设以下代码在线程 B 中运行</span><br><span class="hljs-comment">// 等待 initialized 为 true, 代表线程 A 已经把配置信息初始化完成</span><br><span class="hljs-keyword">while</span>(!initialized) &#123;<br>   sleep();<br>&#125;<br><span class="hljs-comment">// 使用线程 A 中初始化好的配置信息</span><br>doSomethingWithConfig();<br></code></pre></div></td></tr></table></figure>
+
+
+<h4 id="7-2-DCL单例模式"><a href="#7-2-DCL单例模式" class="headerlink" title="7.2 DCL单例模式"></a>7.2 DCL单例模式</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">static</span> Singleton instance = <span class="hljs-keyword">null</span>;<br>     <br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span> </span>&#123;   <br>    &#125;<br>     <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(instance==<span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">synchronized</span> (Singleton.class) &#123;<br>                <span class="hljs-keyword">if</span>(instance==<span class="hljs-keyword">null</span>)<br>                    instance = <span class="hljs-keyword">new</span> Singleton();<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> instance;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+<h3 id="8-volatile相关经典面试题"><a href="#8-volatile相关经典面试题" class="headerlink" title="8. volatile相关经典面试题"></a>8. volatile相关经典面试题</h3><ul>
+<li>谈谈volatile的特性</li>
+<li>volatile的内存语义  </li>
+<li>说说并发编程的3大特性</li>
+<li>什么是内存可见性，什么是指令重排序？</li>
+<li>volatile是如何解决java并发中可见性的问题</li>
+<li>volatile如何防止指令重排</li>
+<li>volatile可以解决原子性嘛？为什么？</li>
+<li>volatile底层的实现机制</li>
+<li>volatile和synchronized的区别？</li>
+</ul>
+<h4 id="8-1-谈谈volatile的特性"><a href="#8-1-谈谈volatile的特性" class="headerlink" title="8.1 谈谈volatile的特性"></a>8.1 谈谈volatile的特性</h4><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202207251318985.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="8-2-volatile的内存语义"><a href="#8-2-volatile的内存语义" class="headerlink" title="8.2  volatile的内存语义"></a>8.2  volatile的内存语义</h4><ul>
+<li>当写一个 volatile 变量时，JMM 会把该线程对应的本地内存中的共享变量值刷新到主内存。</li>
+<li>当读一个 volatile 变量时，JMM 会把该线程对应的本地内存置为无效。线程接下来将从主内存中读取共享变量。</li>
+</ul>
+<h4 id="8-3-说说并发编程的3大特性"><a href="#8-3-说说并发编程的3大特性" class="headerlink" title="8.3 说说并发编程的3大特性"></a>8.3 说说并发编程的3大特性</h4><ul>
+<li>原子性</li>
+<li>可见性</li>
+<li>有序性</li>
+</ul>
+<h4 id="8-4-什么是内存可见性，什么是指令重排序？"><a href="#8-4-什么是内存可见性，什么是指令重排序？" class="headerlink" title="8.4 什么是内存可见性，什么是指令重排序？"></a>8.4 什么是内存可见性，什么是指令重排序？</h4><ul>
+<li>可见性就是指当一个线程修改了共享变量的值时，其他线程能够立即得知这个修改。</li>
+<li>指令重排是指JVM在编译Java代码的时候，或者CPU在执行JVM字节码的时候，对现有的指令顺序进行重新排序。</li>
+</ul>
+<h4 id="8-5-volatile是如何解决java并发中可见性的问题"><a href="#8-5-volatile是如何解决java并发中可见性的问题" class="headerlink" title="8.5 volatile是如何解决java并发中可见性的问题"></a>8.5 volatile是如何解决java并发中可见性的问题</h4><p>底层是通过内存屏障实现的哦，volatile能保证修饰的变量后，可以立即同步回主内存，每次使用前立即先从主内存刷新最新的值。</p>
+<h4 id="8-6-volatile如何防止指令重排"><a href="#8-6-volatile如何防止指令重排" class="headerlink" title="8.6 volatile如何防止指令重排"></a>8.6 volatile如何防止指令重排</h4><p>也是内存屏障哦，跟面试官讲下Java内存的保守策略：</p>
+<ul>
+<li>在每个volatile写操作的前面插入一个StoreStore屏障。</li>
+<li>在每个volatile写操作的后面插入一个StoreLoad屏障。</li>
+<li>在每个volatile读操作的后面插入一个LoadLoad屏障。</li>
+<li>在每个volatile读操作的后面插入一个LoadStore屏障。</li>
+</ul>
+<p>再讲下volatile的语义哦，重排序时不能把内存屏障后面的指令重排序到内存屏障之前的位置</p>
+<h4 id="8-7-volatile可以解决原子性嘛？为什么？"><a href="#8-7-volatile可以解决原子性嘛？为什么？" class="headerlink" title="8.7 volatile可以解决原子性嘛？为什么？"></a>8.7 volatile可以解决原子性嘛？为什么？</h4><p>不可以，可以直接举i++那个例子，原子性需要synchronzied或者lock保证</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> race = <span class="hljs-number">0</span>;<br>     <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">increase</span><span class="hljs-params">()</span> </span>&#123;<br>        race++;<br>    &#125;<br>     <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">final</span> Test test = <span class="hljs-keyword">new</span> Test();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>            <span class="hljs-keyword">new</span> Thread() &#123;<br>                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;<br>                    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">100</span>; j++)<br>                        test.increase();<br>                &#125;;<br>            &#125;.start();<br>        &#125;<br>        <span class="hljs-comment">//等待所有累加线程结束</span><br>        <span class="hljs-keyword">while</span>(Thread.activeCount() &gt; <span class="hljs-number">1</span>)  <br>            Thread.yield();<br>        System.out.println(test.race);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="8-8-volatile底层的实现机制"><a href="#8-8-volatile底层的实现机制" class="headerlink" title="8.8 volatile底层的实现机制"></a>8.8 volatile底层的实现机制</h4><p> 可以看本文的第六小节，volatile底层原理哈，主要你要跟面试官讲述，volatile如何保证可见性和禁止指令重排，需要讲到内存屏障~</p>
+<h4 id="8-9-volatile和synchronized的区别？"><a href="#8-9-volatile和synchronized的区别？" class="headerlink" title="8.9 volatile和synchronized的区别？"></a>8.9 volatile和synchronized的区别？</h4><ul>
+<li>volatile修饰的是变量，synchronized一般修饰代码块或者方法</li>
+<li>volatile保证可见性、禁止指令重排，但是不保证原子性；synchronized可以保证原子性</li>
+<li>volatile不会造成线程阻塞，synchronized可能会造成线程的阻塞，所以后面才有锁优化那么多故事~</li>
+<li>哈哈，你还有补充嘛~</li>
+</ul>
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><ul>
+<li>&lt;&lt;深入理解Java虚拟机&gt;&gt;</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dolphin0520/p/3920373.html">Java并发编程：volatile关键字解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903520760496141">面试官最爱的volatile关键字</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904149536997384"> 面试官没想到一个Volatile，我都能跟他扯半小时</a></li>
+<li><a target="_blank" rel="noopener" href="http://47.103.216.138/archives/2550">再有人问你Java内存模型是什么，就把这篇文章发给他。</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/z00377750/p/9180644.html">【并发编程】MESI–CPU缓存一致性协议</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sohu.com/a/211287207_684445">漫画：volatile对指令重排的影响 </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/765e3abbe89a">volatile三大特性详解</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/%E8%81%8A%E8%81%8A%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E4%B8%AD%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91bug/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">�����ճ���������μ���bug</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/TCP%E5%8D%8F%E8%AE%AE15%E8%BF%9E%E9%97%AE/">
+                        <span class="hidden-mobile">TCP协议15连问</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

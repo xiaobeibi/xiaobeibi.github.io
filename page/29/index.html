@@ -203,37 +203,347 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210609130111.webp" srcset="/img/loading.gif" lazyload alt="超详细 Kafka 入门（最佳实践）">
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109121238595.webp" srcset="/img/loading.gif" lazyload alt="MySQL定时备份数据库">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
-          超详细 Kafka 入门（最佳实践）
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
+          MySQL定时备份数据库
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Kafka%E5%85%A5%E9%97%A8/" target="_self">
+        <a href="/2022/03/25/MySQL%20%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93/" target="_self">
           
           
             
           
-          超详细 Kafka 入门（最佳实践）
+          MySQL 定时备份数据库
 
-认识 kafkakafka简介Kafka 是一个分布式流媒体平台，kafka官网：http://kafka.apache.org/
-1）流媒体平台有三个关键功能：
+在操作数据过程中，可能会导致数据错误，甚至数据库奔溃，而有效的定时备份能很好地保护数据库。本篇文章主要讲述了几种方法进行 MySQL 定时备份数据库。
+一. mysqldump命令备份数据在MySQL中提供了命令行导出数据库数据以及文件的一种方便的工具mysqldump,我们可以通过命令行直接实现数据库内容的导出dump,首先我们简单了解一下mysqldump命令用法
+        </a>
+      </p>
 
-发布和订阅记录流，类似于消息队列或企业消息传递系统。
-以容错的持久方式存储记录流。
-记录发生时处理流。
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
-2）Kafka通常用于两大类应用：
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622112630.png" srcset="/img/loading.gif" lazyload alt="MySQL调优">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
+          MySQL调优
+        </a>
+      </h1>
 
-构建可在系统或应用程序之间可靠获取数据的实时流数据
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MySQL%20%E8%B0%83%E4%BC%98/" target="_self">
+          
+          
+            
+          
+          MySQL 调优
+
+一般传统互联网公司很少接触到 SQL 优化问题，其原因是数据量小，大部分厂商的数据库性能能够满足日常的业务需求，所以不需要进行 SQL 优化，但是随着应用程序的不断变大，数据量的激增，数据库自身的性能跟不上了，此时就需要从 SQL 自身角度来进行优化，这也是我们这篇文章所讨论的。
+SQL 优化步骤当面对一个需要优化的 SQL 时，我们有哪几种排查思路呢？
+通过 show sta
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MySQL%20%E5%A4%A7%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%87%E6%BB%A4%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
+          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL大批量插入，如何过滤掉重复数据？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MySQL%20%E5%A4%A7%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%87%E6%BB%A4%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
+          MySQL大批量插入，如何过滤掉重复数据？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MySQL%20%E5%A4%A7%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%87%E6%BB%A4%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          MySQL 大批量插入，如何过滤掉重复数据？
+
+线上库有6个表存在重复数据，其中2个表比较大，一个96万+、一个30万+，因为之前处理过相同的问题，就直接拿来了上次的Python去重脚本，脚本很简单，就是连接数据库，查出来重复数据，循环删除。
+emmmm，但是这个效率嘛，实在是太低了，1秒一条，重复数据大约2万+，预估时间大约在8个小时左右。。。
+盲目依靠前人的东西，而不去自己思考是有问题的！总去
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL 8.0 新特性：直方图">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          MySQL 8.0 新特性：直方图
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MySQL%208.0%20%E6%96%B0%E7%89%B9%E6%80%A7%EF%BC%9A%E7%9B%B4%E6%96%B9%E5%9B%BE/" target="_self">
+          
+          
+            
+          
+          MySQL 8.0 新特性：直方图
+
+查询优化器负责将SQL查询转换为尽可能高效的执行计划，但随着数据环境不断变化，查询优化器可能无法找到最佳的执行计划，导致SQL效率低下。造成这种情况的原因是优化器对查询的数据了解的不够充足，例如：每个表有多少行数据，每列中有多少不同的值，每列的数据分布情况。
+因此MySQL8.0.3推出了直方图(histogram)功能，直方图是列的数据分布的近似值，其向优化
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MySQL%20+%20JSON%20=%20%E7%8E%8B%E7%82%B8%EF%BC%81%EF%BC%81/" target="_self">
+          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL + JSON = 王炸！！">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MySQL%20+%20JSON%20=%20%E7%8E%8B%E7%82%B8%EF%BC%81%EF%BC%81/" target="_self">
+          MySQL + JSON = 王炸！！
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MySQL%20+%20JSON%20=%20%E7%8E%8B%E7%82%B8%EF%BC%81%EF%BC%81/" target="_self">
+          
+          
+            
+          
+          MySQL + JSON = 王炸！！
+
+关系型的结构化存储存在一定的弊端，因为它需要预先定义好所有的列以及列对应的类型。但是业务在发展过程中，或许需要扩展单个列的描述功能，这时，如果能用好 JSON 数据类型，那就能打通关系型和非关系型数据的存储之间的界限，为业务提供更好的架构选择。
+当然，很多同学在用 JSON 数据类型时会遇到各种各样的问题，其中最容易犯的误区就是将类型 JSON 简单理解成
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/MyBatis-Plus%20%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210601102655.png" srcset="/img/loading.gif" lazyload alt="MyBatis-Plus 看这篇就够了">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/MyBatis-Plus%20%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_self">
+          MyBatis-Plus 看这篇就够了
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/MyBatis-Plus%20%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_self">
+          
+          
+            
+          
+          MyBatis-Plus 看这篇就够了
+
+本文作者：yogurtzzz ；juejin.cn/post/6961721367846715428
+MyBatis-plus 是一款 Mybatis 增强工具，用于简化开发，提高效率。下文使用缩写 mp来简化表示 MyBatis-plus，本文主要介绍 mp 搭配 Spring Boot 的使用。
+注：本文使用的 mp 版本是当前最新的3.4.2，早期版
         </a>
       </p>
 
@@ -252,7 +562,7 @@
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Kafka/">Kafka</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -262,7 +572,7 @@
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Kafka/">Kafka</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -274,29 +584,36 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210622120347.webp" srcset="/img/loading.gif" lazyload alt="K8S和Docker什么关系？">
+        <a href="/2022/03/25/Mybatis-Plus%20%E5%AE%98%E6%96%B9%E7%A5%9E%E5%99%A8%E5%8F%91%E5%B8%83/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109042016267.webp" srcset="/img/loading.gif" lazyload alt="Mybatis-Plus 官方神器发布">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
-          K8S和Docker什么关系？
+        <a href="/2022/03/25/Mybatis-Plus%20%E5%AE%98%E6%96%B9%E7%A5%9E%E5%99%A8%E5%8F%91%E5%B8%83/" target="_self">
+          Mybatis-Plus 官方神器发布
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/K8S%20%E5%92%8C%20Docker%20%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB%EF%BC%9F/" target="_self">
+        <a href="/2022/03/25/Mybatis-Plus%20%E5%AE%98%E6%96%B9%E7%A5%9E%E5%99%A8%E5%8F%91%E5%B8%83/" target="_self">
           
           
             
           
-          K8S 和 Docker 什么关系？
+          Mybatis-Plus 官方神器发布
 
-最近项目用到kubernetes（以下简称k8s，k和s之间有8个字母)。虽然之前也有简单使用过，但最近发现k8s概念较多，命令也有些不够用了，故想借此机会写点东西，更全面认识并使用k8s。
-本篇文章目的：让你更全面了解k8s概念，以及学到在工作中常用的操作。整体更偏向于原理和应用。在正式开始k8s之前，我们先看看k8s和Docker的关系，分别从虚拟化角度
+今天介绍一个 MyBatis - Plus 官方发布的神器：mybatis-mate 为 mp 企业级模块，支持分库分表，数据审计、数据敏感词过滤（AC算法），字段加密，字典回写（数据绑定），数据权限，表结构自动生成 SQL 维护等，旨在更敏捷优雅处理数据。
+主要功能
+字典绑定
+字段加密
+数据脱敏
+表结构动态维护
+数据审计记录
+数据范围（数据权限）
+数据库
         </a>
       </p>
 
@@ -315,7 +632,7 @@
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Docker/">Docker</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -325,7 +642,7 @@
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Docker/">Docker</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -337,102 +654,29 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608150440.png" srcset="/img/loading.gif" lazyload alt="JVM学习">
+        <a href="/2022/03/25/MyBatis%20%E9%80%9F%E6%88%90%E6%89%8B%E5%86%8C/" target="_self">
+          <img src="/img/Substitute9.jpg" srcset="/img/loading.gif" lazyload alt="MyBatis 速成手册">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
-          JVM学习
+        <a href="/2022/03/25/MyBatis%20%E9%80%9F%E6%88%90%E6%89%8B%E5%86%8C/" target="_self">
+          MyBatis 速成手册
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/JVM%E5%AD%A6%E4%B9%A0/" target="_self">
+        <a href="/2022/03/25/MyBatis%20%E9%80%9F%E6%88%90%E6%89%8B%E5%86%8C/" target="_self">
           
           
             
           
-          JVM学习
+          MyBatis 速成手册
 
-本博客是根据解密JVM【黑马程序员出品】教学视频学习时，所做的笔记
-一、什么是JVM定义Java Virtual Machine，JAVA程序的运行环境（JAVA二进制字节码的运行环境）
-好处
-一次编写，到处运行
-自动内存管理，垃圾回收机制
-数组下标越界检查
-
-比较JVM JRE JDK的区别
-
-二、内存结构整体架构
-1、程序计数器作用用于保存JVM中下一条所要执行的指令的地址
-特点
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JPA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210416182849.png" srcset="/img/loading.gif" lazyload alt="Spring Data JPA">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/JPA/" target="_self">
-          Spring Data JPA
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/JPA/" target="_self">
-          
-          
-            
-          
-          Spring Data JPA
-
-1. ORM概述ORM（Object-Relational Mapping） 表示对象关系映射。在面向对象的软件开发中，通过ORM，就可以把对象映射到关系型数据库中。只要有一套程序能够做到建立对象与数据库的关联，操作对象就可以直接操作数据库数据，就可以说这套程序实现了ORM对象关系映射.
-简单的说：ORM就是建立实体类和数据库表之间的关系，从而达到操作实体类就相当
+MyBatis 是一款优秀的持久层框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生信息，将接口和 Java 的 POJOs(Plain Ordinary Java Object,普通的 Java对象)映射成数据库中的记录。
+既然M
         </a>
       </p>
 
@@ -451,7 +695,7 @@
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/SpringData/">SpringData</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -461,7 +705,7 @@
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/SpringData/">SpringData</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -473,97 +717,34 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200610224442.png" srcset="/img/loading.gif" lazyload alt="Java数据结构与算法">
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142142726.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 三种批量插入方式的比较">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
-          Java数据结构与算法
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
+          MyBatis 三种批量插入方式的比较
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" target="_self">
+        <a href="/2022/03/25/MyBatis%20%E4%B8%89%E7%A7%8D%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83/" target="_self">
           
           
             
           
-          Java数据结构与算法
+          MyBatis 三种批量插入方式的比较
 
-该博客是根据Java -韩顺平 图解Java 数据结构 和 算法-尚硅谷学习时，所做的笔记
-一、稀疏数组和队列1、稀疏数组基本功能当一个数组中大部分元素为０，或者为同一个值的数组时，可以使用稀疏数组来保存该数组。
-处理方法
-记录数组一共有几行几列，有多少个不同的值
-把具有不同值的元素的行列及值记录在一个小规模的数组中，从而缩小程序的规模
+数据库使用的是SQLServer，JDK版本1.8，运行在SpringBoot环境下 对比3种可用的方式
 
+反复执行单条插入语句
+xml拼接sql
+批处理执行
 
-如图，把一个6X7的二维数组变
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
-          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="Java必会的工具库">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
-          Java必会的工具库
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Java%E5%BF%85%E4%BC%9A%E7%9A%84%E5%B7%A5%E5%85%B7%E5%BA%93/" target="_self">
-          
-          
-            
-          
-          Java必会的工具库
-
-1. Java自带工具方法1.1 List集合拼接成以逗号分隔的字符串12345678// 如何把list集合拼接成以逗号分隔的字符串 a,b,c  List&lt;String&gt; list = Arrays.asList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);  // 第一种方法，可以用stream流  Strin
+先说结论：少量插入请使用反复插入单条数据，方便。数量较多请使用批处理方式。（可以考虑以有需求的插入数据量20条左右为界吧，在我的测试和数据库环境下耗时都是百毫秒级的，方便最重要）无论何时都不用xm
         </a>
       </p>
 
@@ -582,7 +763,7 @@
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -592,7 +773,7 @@
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -604,35 +785,30 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/JavaBlog/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203081547166.jpg" srcset="/img/loading.gif" lazyload alt="Java博客项目">
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210508212520.webp" srcset="/img/loading.gif" lazyload alt="MyBatis 如何找到要执行的 SQL ？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/JavaBlog/" target="_self">
-          Java博客项目
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
+          MyBatis 如何找到要执行的 SQL ？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/JavaBlog/" target="_self">
+        <a href="/2022/03/25/MyBatis%20%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E8%A6%81%E6%89%A7%E8%A1%8C%E7%9A%84%20SQL%20%EF%BC%9F/" target="_self">
           
           
             
           
-          Java博客项目
+          MyBatis 如何找到要执行的 SQL ？
 
-项目效果：http://obgeqwh.top:8080
-
-
-项目技术后端：Springboot + MybatisPlus + Redis + MySQL
-前端：Vue + Axios
-MySQL表结构
-统一异常处理对加了 @Controller 注解的方法进行拦截处理——AOP 的实现
-12345678910@ControllerAdvicepublic class All
+MyBatis 如何找到要执行的 SQL 语句的？今天展开聊聊。 要回答这个问题，我们需要搭建一个 mybatis 应用案例来深入研究 mybatis 的执行逻辑原理，这样我们就能知道 mybatis 如何找到要对应执行的 sql 语句。 
+1. 案例搭建1.1 使用 idea 快速创建一个 maven 项目，pom.xml 添加如下依赖:
+1234
         </a>
       </p>
 
@@ -651,7 +827,7 @@ MySQL表结构
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -661,211 +837,7 @@ MySQL表结构
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/JavaDemo/">JavaDemo</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="Java 项目构建基础">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
-          Java 项目构建基础
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" target="_self">
-          
-          
-            
-          
-          Java 项目构建基础
-
-统一结果返回
-目前的前后端开发大部分数据的传输格式都是json，因此定义一个统一规范的数据格式有利于前后端的交互与UI的展示。
-
-统一结果的一般形式
-是否响应成功；
-响应状态码；
-状态码描述；
-响应数据
-其他标识符
-
-结果类枚举
-前三者可定义结果枚举，如：success，code，message
-
-1234567891011121314151617181920@Gette
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210715114848.png" srcset="/img/loading.gif" lazyload alt="Java 线程池配置的常见误区">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
-          Java 线程池配置的常见误区
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%85%8D%E7%BD%AE%E7%9A%84%E5%B8%B8%E8%A7%81%E8%AF%AF%E5%8C%BA/" target="_self">
-          
-          
-            
-          
-          Java 线程池配置的常见误区
-
-前言由于线程的创建和销毁对操作系统来说都是比较重量级的操作，所以线程的池化在各种语言内都有实践，当然在 Java 语言中线程池是也非常重要的一部分，有 Doug Lea 大神对线程池的封装，我们使用的时候是非常方便，但也可能会因为不了解其具体实现，对线程池的配置参数存在误解。
-我们经常在一些技术书籍或博客上看到，向线程池提交任务时，线程池的执行逻辑如下：
-
-1、当
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202006757.webp" srcset="/img/loading.gif" lazyload alt="Java 日志体系详解">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
-          Java 日志体系详解
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Java%20%E6%97%A5%E5%BF%97%E4%BD%93%E7%B3%BB%E8%AF%A6%E8%A7%A3/" target="_self">
-          
-          
-            
-          
-          Java 日志体系详解
-
-本文的目的是搞清楚Java中各种日志Log之间是怎么的关系，如何作用、依赖，好让我们平时在工作中如果遇到“日志打不出”或者“日志jar包冲突”等之类的问题知道该如何入手解决，以及在各种场景下如何调整项目中的各个框架的日志输出，使得输出统一。
-Log日志体系在日常工作中我们可能看到项目中依赖的跟日志相关的jar包有很多：
-1`commons-logging.jar`、`lo
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -877,7 +849,7 @@ Log日志体系在日常工作中我们可能看到项目中依赖的跟日志�
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/28/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/#board">30</a><a class="page-number" href="/page/31/#board">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/30/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/28/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/#board">30</a><a class="page-number" href="/page/31/#board">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/#board">38</a><a class="extend next" rel="next" href="/page/30/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

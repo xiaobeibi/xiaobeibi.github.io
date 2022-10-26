@@ -203,33 +203,31 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%A0%E7%94%A8%20a.equals(b)%20%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E7%9B%B8%E7%AD%89/" target="_self">
-          <img src="/img/Substitute12.jpg" srcset="/img/loading.gif" lazyload alt="不建议你用 a.equals(b) 判断对象相等">
+        <a href="/2022/03/25/%E5%A4%8D%E7%8E%B0%20Log4j2%20%E6%BC%8F%E6%B4%9E/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201634040.webp" srcset="/img/loading.gif" lazyload alt="复现 Log4j2 漏洞">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%A0%E7%94%A8%20a.equals(b)%20%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E7%9B%B8%E7%AD%89/" target="_self">
-          不建议你用 a.equals(b) 判断对象相等
+        <a href="/2022/03/25/%E5%A4%8D%E7%8E%B0%20Log4j2%20%E6%BC%8F%E6%B4%9E/" target="_self">
+          复现 Log4j2 漏洞
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%A0%E7%94%A8%20a.equals(b)%20%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E7%9B%B8%E7%AD%89/" target="_self">
+        <a href="/2022/03/25/%E5%A4%8D%E7%8E%B0%20Log4j2%20%E6%BC%8F%E6%B4%9E/" target="_self">
           
           
             
           
-          不建议你用 a.equals(b) 判断对象相等
+          复现 Log4j2 漏洞
 
-一直以为这个方法是java8的，今天才知道是是1.7的时候，然后翻了一下源码。
-这片文章中会总结一下与a.equals(b)的区别，然后对源码做一个小分析。
-一，值是null的情况：
-a.equals(b) , a 是null, 抛出NullPointException异常。
-
-a.equals(b) , a不是null, b是null,  返回
+1. 简介ApacheLog4j2是一个开源的Java日志框架，被广泛地应用在中间件、开发框架与Web应用中。
+2. 漏洞概述该漏洞是由于Apache Log4j2某些功能存在递归解析功能，未经身份验证的攻击者通过发送特定恶意数据包，可在目标服务器上执行任意代码。
+3. 影响范围Apache Log4j 2.x &lt;= 2.15.0-rc1
+4. 环境搭建1、创建一
         </a>
       </p>
 
@@ -248,7 +246,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
+              <a href="/categories/Java/Log/">Log</a>
             
           </div>
         
@@ -258,7 +256,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/JavaSE/">JavaSE</a>
+              <a href="/tags/Log/">Log</a>
             
           </div>
         
@@ -270,28 +268,246 @@ a.equals(b) , a不是null, b是null,  返回
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E7%BC%96%E5%86%99%20Spring%20MVC%20%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%2014%20%E4%B8%AA%E6%8A%80%E5%B7%A7/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021202447.webp" srcset="/img/loading.gif" lazyload alt="编写 Spring MVC 控制器的 14 个技巧">
+        <a href="/2022/03/25/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%90%8E%20id%20%E4%B8%BB%E9%94%AE%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210729110345.png" srcset="/img/loading.gif" lazyload alt="分库分表后 id 主键如何处理？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E7%BC%96%E5%86%99%20Spring%20MVC%20%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%2014%20%E4%B8%AA%E6%8A%80%E5%B7%A7/" target="_self">
-          编写 Spring MVC 控制器的 14 个技巧
+        <a href="/2022/03/25/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%90%8E%20id%20%E4%B8%BB%E9%94%AE%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F/" target="_self">
+          分库分表后 id 主键如何处理？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E7%BC%96%E5%86%99%20Spring%20MVC%20%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%2014%20%E4%B8%AA%E6%8A%80%E5%B7%A7/" target="_self">
+        <a href="/2022/03/25/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%90%8E%20id%20%E4%B8%BB%E9%94%AE%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F/" target="_self">
           
           
             
           
-          编写 Spring MVC 控制器的 14 个技巧
+          分库分表后 id 主键如何处理？
 
-通常，在Spring MVC中，我们编写一个控制器类来处理来自客户端的请求。然后，控制器调用业务类来处理与业务相关的任务，然后将客户端重定向到逻辑视图名称，该名称由Spring的调度程序Servlet解析，以呈现结果或输出。这样就完成了典型的请求-响应周期的往返。今天整理了一下编写Spring MVC控制器的14个技巧，你今天get到了吗？ \
+其实这是分库分表之后你必然要面对的一个问题，就是 id 咋生成？因为要是分成多个表之后，每个表都是从 1 开始累加，那肯定不对啊，需要一个全局唯一的 id 来支持。所以这都是你实际生产环境中必须考虑的问题。
+基于数据库的实现方案:数据库自增 id这个就是说你的系统里每次得到一个 id，都是往一个库的一个表里插入一条没什么业务含义的数据，然后获取一个数据库自增的一
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/MySQL/">MySQL</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/MySQL/">MySQL</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210501114106.webp" srcset="/img/loading.gif" lazyload alt="分布式事务原理">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" target="_self">
+          分布式事务原理
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" target="_self">
+          
+          
+            
+          
+          分布式事务原理
+
+本文提纲如下
+
+前言
+
+单数据源事务 &amp; 多数据源事务
+
+常见分布式事务解决方案
+
+
+2.1. 分布式事务模型
+2.2. 二将军问题和幂等性
+2.3. 两阶段提交（2PC） &amp; 三阶段提交（3PC）方案
+2.4. TCC 方案
+2.5. 事务状态表方案
+2.6. 基于消息中间件的最终一致性事务方案
+
+
+Seata in AT mode 的实现
+
+
+3.1. Sea
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Transaction/">Transaction</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/%E4%BA%8B%E5%8A%A1/">事务</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%206%20%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          <img src="/img/Substitute6.jfif" srcset="/img/loading.gif" lazyload alt="分布式事务的6种解决方案">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%206%20%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          分布式事务的6种解决方案
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%206%20%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          
+          
+            
+          
+          分布式事务的 6 种解决方案
+
+在分布式系统、微服务架构大行其道的今天，服务间互相调用出现失败已经成为常态。如何处理异常，如何保证数据一致性，成为微服务设计过程中，绕不开的一个难题。在不同的业务场景下，解决方案会有所差异，常见的方式有：
+
+阻塞式重试；
+2PC、3PC 传统事务；
+使用队列，后台异步处理；
+TCC 补偿事务；
+本地消息表（异步确保）；
+MQ 事务。
+
+本文侧重于其他几项，关于 2P
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Transaction/">Transaction</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/%E4%BA%8B%E5%8A%A1/">事务</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E6%94%BE%E5%BC%83%20MyBatis%EF%BC%81%E6%88%91%E9%80%89%E6%8B%A9%20JDBCTemplate%EF%BC%81/" target="_self">
+          <img src="/img/Substitute.jpg" srcset="/img/loading.gif" lazyload alt="放弃 MyBatis！我选择 JDBCTemplate！">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E6%94%BE%E5%BC%83%20MyBatis%EF%BC%81%E6%88%91%E9%80%89%E6%8B%A9%20JDBCTemplate%EF%BC%81/" target="_self">
+          放弃 MyBatis！我选择 JDBCTemplate！
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E6%94%BE%E5%BC%83%20MyBatis%EF%BC%81%E6%88%91%E9%80%89%E6%8B%A9%20JDBCTemplate%EF%BC%81/" target="_self">
+          
+          
+            
+          
+          放弃 MyBatis！我选择 JDBCTemplate！
+
+因为项目需要选择数据持久化框架，看了一下主要几个流行的和不流行的框架，对于复杂业务系统，最终的结论是，JOOQ是总体上最好的，可惜不是完全免费，最终选择JDBC Template。
+Hibernate和Mybatis是使用最多的两个主流框架，而JOOQ、Ebean等小众框架则知道的人不多，但也有很多独特的优点；
+而JPA则是一组Java持
         </a>
       </p>
 
@@ -310,7 +526,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/SpringMVC/">SpringMVC</a>
+              <a href="/categories/Java/JDBC/">JDBC</a>
             
           </div>
         
@@ -320,7 +536,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/SpringMVC/">SpringMVC</a>
+              <a href="/tags/JDBC/">JDBC</a>
             
           </div>
         
@@ -332,33 +548,163 @@ a.equals(b) , a不是null, b是null,  返回
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301522591.webp" srcset="/img/loading.gif" lazyload alt="避免消息重复消费的解决方案">
+        <a href="/2022/03/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/" target="_self">
+          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200608144621.png" srcset="/img/loading.gif" lazyload alt="Java并发">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
-          避免消息重复消费的解决方案
+        <a href="/2022/03/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/" target="_self">
+          Java并发
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E9%81%BF%E5%85%8D%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+        <a href="/2022/03/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/" target="_self">
           
           
             
           
-          避免消息重复消费的解决方案
+          Java并发
 
-消息中间件是分布式系统常用的组件，无论是异步化、解耦、削峰等都有广泛的应用价值。
-我们通常会认为，消息中间件是一个可靠的组件——这里所谓的可靠是指，只要我把消息成功投递到了消息中间件，消息就不会丢。
-即消息肯定会至少保证消息能被消费者成功消费一次，这是消息中间件最基本的特性之一。
-也就是我们常说的“AT LEAST ONCE”，即消息至少会被“成功消费一遍”。
+一、基本概念1、进程与线程进程
+程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至 CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理 IO 的。
+当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。
+进程就可以视为程序的一个实例。大部分程序可以同时运行多个实例进程（例如记事本、画图、浏览
+        </a>
+      </p>
 
-一个
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+            
+              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E5%A4%9A%E4%BA%BA%E8%BF%9C%E7%A8%8B%E7%BC%96%E7%A8%8B%EF%BC%81%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%20IDEA%20%E6%8F%92%E4%BB%B6/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201222355625.webp" srcset="/img/loading.gif" lazyload alt="多人远程编程！推荐一款 IDEA 插件">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E5%A4%9A%E4%BA%BA%E8%BF%9C%E7%A8%8B%E7%BC%96%E7%A8%8B%EF%BC%81%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%20IDEA%20%E6%8F%92%E4%BB%B6/" target="_self">
+          多人远程编程！推荐一款 IDEA 插件
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E5%A4%9A%E4%BA%BA%E8%BF%9C%E7%A8%8B%E7%BC%96%E7%A8%8B%EF%BC%81%E6%8E%A8%E8%8D%90%E4%B8%80%E6%AC%BE%20IDEA%20%E6%8F%92%E4%BB%B6/" target="_self">
+          
+          
+            
+          
+          多人远程编程！推荐一款 IDEA 插件
+
+主机必需：IntelliJ IDEA 2020.2.1 及更高版本，已下载并启用 Code With Me 插件
+访客必需：无需下载 IDEA，只需要下载一个 code with me 程序（600kb 左右)
+一、code with me是什么？Code With Me 是一款功能强大的工具，可让您协同工作以处理代码。直接多人协调gayhub
+二、使用步
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Java/">Java</a>
+            
+              <a href="/categories/Java/IDEA/">IDEA</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">Java</a>
+            
+              <a href="/tags/IDEA/">IDEA</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109121611789.webp" srcset="/img/loading.gif" lazyload alt="短信验证码登录流程思路及详细步骤">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          短信验证码登录流程思路及详细步骤
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF%E5%8F%8A%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" target="_self">
+          
+          
+            
+          
+          短信验证码登录流程思路及详细步骤
+
+Part1业务流程
+构造手机验证码：使用random对象生成要求的随机数作为验证码，例如4位验证码:1000~9999之间随机数；
+
+使用接口向短信平台发送手机号和验证码数据，然后短信平台再把验证码发送到制定手机号上，接口参数一般包括：目标手机号，随机验证码(或包含失效时间)，平台接口地址，平台口令；
+
+保存接口返回的信息（一般为json文本数据，然后需转换为j
         </a>
       </p>
 
@@ -395,30 +741,30 @@ a.equals(b) , a不是null, b是null,  返回
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201827569.png" srcset="/img/loading.gif" lazyload alt="本机号码一键登录原理与应用">
+        <a href="/2022/03/25/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110131912084.webp" srcset="/img/loading.gif" lazyload alt="单点登录解决方案：SpringSecurity + JWT">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" target="_self">
-          本机号码一键登录原理与应用
+        <a href="/2022/03/25/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
+          单点登录解决方案：SpringSecurity + JWT
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8/" target="_self">
+        <a href="/2022/03/25/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" target="_self">
           
           
             
           
-          本机号码一键登录原理与应用
+          单点登录解决方案：SpringSecurity + JWT
 
-很多APP的目前都支持“本机号码一键登录”功能。本机号码一键登录是基于运营商独有网关认证能力推出的账号认证产品。用户只需一键授权，即可实现以本机号码注册/登录，相比先前的短信验证码流程体验更优。
-目前市面上有很多厂商提供三网验证的服务，只不过是对三大运营商的包装。要了解具体的原理可直接看三大运营商相关的介绍。
-中国移动中国移动号码认证服务支支持移动、联通、电信三网号码
+通过前面几天文章我们详细的介绍了SpringSecurity的使用，本文我们来看下，结合JWT来实现单点登录操作。
+一、什么是单点登陆单点登录（Single Sign On），简称为 SSO，是目前比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统
+二、简单的运行机制
         </a>
       </p>
 
@@ -437,7 +783,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Demo/">Demo</a>
+              <a href="/categories/Java/SpringSecurity/">SpringSecurity</a>
             
           </div>
         
@@ -447,7 +793,7 @@ a.equals(b) , a不是null, b是null,  返回
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Demo/">Demo</a>
+              <a href="/tags/SpringSecurity/">SpringSecurity</a>
             
           </div>
         
@@ -459,357 +805,37 @@ a.equals(b) , a不是null, b是null,  返回
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%EF%BC%9F/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201181921070.webp" srcset="/img/loading.gif" lazyload alt="本机号码一键登录？">
+        <a href="/2022/03/25/%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E4%B8%AD%20Dao%EF%BC%8CService%EF%BC%8CController%EF%BC%8CUtil%EF%BC%8CModel%20%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112151347053.webp" srcset="/img/loading.gif" lazyload alt="代码结构中 Dao，Service，Controller，Util，Model 是什么意思">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%EF%BC%9F/" target="_self">
-          本机号码一键登录？
+        <a href="/2022/03/25/%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E4%B8%AD%20Dao%EF%BC%8CService%EF%BC%8CController%EF%BC%8CUtil%EF%BC%8CModel%20%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" target="_self">
+          代码结构中 Dao，Service，Controller，Util，Model 是什么意思
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/%E6%9C%AC%E6%9C%BA%E5%8F%B7%E7%A0%81%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95%EF%BC%9F/" target="_self">
+        <a href="/2022/03/25/%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E4%B8%AD%20Dao%EF%BC%8CService%EF%BC%8CController%EF%BC%8CUtil%EF%BC%8CModel%20%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" target="_self">
           
           
             
           
-          本机号码一键登录？
+          代码结构中 Dao，Service，Controller，Util，Model 是什么意思
 
-很多 APP 的目前都支持「本机号码一键登录」功能。本机号码一键登录是基于运营商独有网关认证能力推出的账号认证产品。用户只需一键授权，即可实现以本机号码注册/登录，相比先前的短信验证码流程体验更优。
-目前市面上有很多厂商提供三网验证的服务，只不过是对三大运营商的包装。要了解具体的原理可直接看三大运营商相关的介绍。
-中国移动中国移动号码认证服务支持移动、联通、电信三网号码。主要
-        </a>
-      </p>
+内容大纲：
+1.为什么需要一个好的代码结构
+2.什么样才是一个好的结构
+3.每一个分类代表什么含义
+4.是否适用于WEB，Android和IOS？
+5.进一步的学习的话，是要学习系统架构么？
+一 为什么需要一个好的代码结构
+好的代码结构并不仅仅是为了看上去清晰，它更像是我们对一个系统的拆解和组装。
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Web/">Web</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Web/">Web</a>
-            
-              <a href="/tags/%E7%99%BB%E5%BD%95/">登录</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E5%8C%97%E6%B5%B7%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201423927.jpg" srcset="/img/loading.gif" lazyload alt="北海上位机软件">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E5%8C%97%E6%B5%B7%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
-          北海上位机软件
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E5%8C%97%E6%B5%B7%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
-          
-          
-            
-          
-          北海上位机
-
-介绍本上位机软件为广西北海渔场监控项目定制的监控上位机软件
-
-开发环境
-Visual Studio 2019 社区版
-开发框架：WinForm
-使用控件：BeauGaugeInstrumentationSuitePro
-主要语言：C#
-
-主要功能介绍1. 使用环境
-在数据资料目录下先安装： BeauGaugeInstrumentationSuitePro.msi 控件
-再安装本上位机
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C/">C#</a>
-            
-              <a href="/categories/C/%E4%B8%8A%E4%BD%8D%E6%9C%BA/">上位机</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C#</a>
-            
-              <a href="/tags/WPF/">WPF</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/%E4%BF%9D%E6%8A%A4%20Java%20%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8D%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201202218344.webp" srcset="/img/loading.gif" lazyload alt="保护 Java 字节码不被反编译">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/%E4%BF%9D%E6%8A%A4%20Java%20%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8D%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91/" target="_self">
-          保护 Java 字节码不被反编译
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/%E4%BF%9D%E6%8A%A4%20Java%20%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%8D%E8%A2%AB%E5%8F%8D%E7%BC%96%E8%AF%91/" target="_self">
-          
-          
-            
-          
-          保护 Java 字节码不被反编译
-
-由于Java字节码的抽象级别较高，因此它们较容易被反编译。本节介绍了几种常用的方法，用于保护Java字节码不被反编译。通常，这些方法不能够绝对防止程序被反编译，而是加大反编译的难度而已，因为这些方法都有自己的使用环境和弱点。
-隔离Java程序最简单的方法就是让用户不能够访问到Java Class程序，这种方法是最根本的方法，具体实现有多种方式。例如，开发人员可以
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/JavaSE/">JavaSE</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Zookeeper%20%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%9C%BA%E6%99%AF/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110202027948.webp" srcset="/img/loading.gif" lazyload alt="Zookeeper 典型应用场景场景">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Zookeeper%20%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%9C%BA%E6%99%AF/" target="_self">
-          Zookeeper 典型应用场景场景
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Zookeeper%20%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%9C%BA%E6%99%AF/" target="_self">
-          
-          
-            
-          
-          Zookeeper 典型应用场景场景
-
-之前自己写了一些关于Zookeeper的基础知识，Zookeeper作为一种协调分布式应用高性能的调度服务，实际的应用场景也非常的广泛，这里主要通过几个例子来具体的说明Zookeeper在特定场景下的使用方式（下面的这些功能估计consul和etcd也能实现，以后学到了再说吧）。
-2.1.一致性配置管理我们在开发的时候，有时候需要获取一些公共的配置，比如数据
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-              <a href="/categories/Java/Zookeeper/">Zookeeper</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">Java</a>
-            
-              <a href="/tags/Zookeeper/">Zookeeper</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/WiFiStepUpComputer/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210617154243.PNG" srcset="/img/loading.gif" lazyload alt="蓝牙转WIFI计步上位机">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/WiFiStepUpComputer/" target="_self">
-          蓝牙转WIFI计步上位机
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/WiFiStepUpComputer/" target="_self">
-          
-          
-            
-          
-          蓝牙转WIFI计步上位机
-
-1. 设计简介本上位机采用.NET平台下的WPF实现一个MPU6050数据从蓝牙从机——&gt;蓝牙主机——&gt;WIFI的UDP接收数据传输并可视化的功能。
-
-1.1 运行环境.Net平台下的WPF。VS2019（需安装C#支持的环境）。拿到源码打开    BluetoothPC.sln 运行正常即可。
-设计了一个很好看的UI图标：）
-
-2. 设计流程2.1 设计框
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C/">C#</a>
-            
-              <a href="/categories/C/%E4%B8%8A%E4%BD%8D%E6%9C%BA/">上位机</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/C/">C#</a>
-            
-              <a href="/tags/WPF/">WPF</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Web%E7%99%BB%E5%BD%95%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%9F%E5%BC%80%E7%8E%A9%E7%AC%91%EF%BC%81/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102155094.webp" srcset="/img/loading.gif" lazyload alt="Web登录很简单？开玩笑！">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Web%E7%99%BB%E5%BD%95%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%9F%E5%BC%80%E7%8E%A9%E7%AC%91%EF%BC%81/" target="_self">
-          Web登录很简单？开玩笑！
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Web%E7%99%BB%E5%BD%95%E5%BE%88%E7%AE%80%E5%8D%95%EF%BC%9F%E5%BC%80%E7%8E%A9%E7%AC%91%EF%BC%81/" target="_self">
-          
-          
-            
-          
-          Web登录很简单？开玩笑！
-
-本文通过 Web 登录的例子探讨安全问题，登录不仅仅是简单地表达提交和记录写入，其安全问题才是重中之重。
-1. 一个简单的HTML例子看看用户信息安全标准的HTML语法中，支持在form表单中使用标签来创建一个HTTP提交的属性，现代的WEB登录中，常见的是下面这样的表单：
-12345&lt;form action= &quot;Application/login&q
+好的
         </a>
       </p>
 
@@ -848,7 +874,7 @@ Visual Studio 2019 社区版
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/17/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/#board">16</a><a class="page-number" href="/page/17/#board">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/#board">19</a><a class="page-number" href="/page/20/#board">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/19/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/17/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/#board">16</a><a class="page-number" href="/page/17/#board">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/#board">19</a><a class="page-number" href="/page/20/#board">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/#board">38</a><a class="extend next" rel="next" href="/page/19/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

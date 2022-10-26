@@ -1,0 +1,628 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="Mysql中21个写SQL的好习惯  前言每一个好习惯都是一笔财富，本文分SQL后悔药， SQL性能优化，SQL规范优雅三个方向，分享写SQL的21个好习惯，谢谢阅读，加油 1. 写完SQL先explain查看执行计划（SQL性能优化）日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。 1explain select * from user">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql中21个写SQL的好习惯">
+<meta property="og:url" content="http://example.com/2022/10/26/Mysql%E4%B8%AD21%E4%B8%AA%E5%86%99SQL%E7%9A%84%E5%A5%BD%E4%B9%A0%E6%83%AF/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="Mysql中21个写SQL的好习惯  前言每一个好习惯都是一笔财富，本文分SQL后悔药， SQL性能优化，SQL规范优雅三个方向，分享写SQL的21个好习惯，谢谢阅读，加油 1. 写完SQL先explain查看执行计划（SQL性能优化）日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。 1explain select * from user">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232215004.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232216515.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217946.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217836.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217126.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217681.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232218251.png">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232219924.png">
+<meta property="article:published_time" content="2022-10-26T08:09:02.017Z">
+<meta property="article:modified_time" content="2022-10-23T14:20:58.155Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232215004.png">
+  
+  <title>Mysql中21个写SQL的好习惯 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Mysql中21个写SQL的好习惯">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.1k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Mysql中21个写SQL的好习惯</h1>
+            
+            <div class="markdown-body">
+              <center><h2>Mysql中21个写SQL的好习惯</h2></center>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>每一个好习惯都是一笔财富，本文分SQL后悔药， SQL性能优化，SQL规范优雅三个方向，分享写SQL的21个好习惯，谢谢阅读，加油</p>
+<h3 id="1-写完SQL先explain查看执行计划（SQL性能优化）"><a href="#1-写完SQL先explain查看执行计划（SQL性能优化）" class="headerlink" title="1. 写完SQL先explain查看执行计划（SQL性能优化）"></a>1. 写完SQL先explain查看执行计划（SQL性能优化）</h3><p>日常开发写SQL的时候，尽量养成这个好习惯呀：写完SQL后，用explain分析一下，尤其注意走不走索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">explain <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> userid <span class="hljs-operator">=</span><span class="hljs-number">10086</span> <span class="hljs-keyword">or</span> age <span class="hljs-operator">=</span><span class="hljs-number">18</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232215004.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2、操作delete或者update语句，加个limit-SQL后悔药）"><a href="#2、操作delete或者update语句，加个limit-SQL后悔药）" class="headerlink" title="2、操作delete或者update语句，加个limit(SQL后悔药）"></a>2、操作delete或者update语句，加个limit(SQL后悔药）</h3><p>在执行删除或者更新语句，尽量加上limit，以下面的这条 SQL 为例吧：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> euser <span class="hljs-keyword">where</span> age <span class="hljs-operator">&gt;</span> <span class="hljs-number">30</span> limit <span class="hljs-number">200</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p>因为加了limit 主要有这些好处：</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232216515.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>降低写错SQL的代价</strong>, 你在命令行执行这个SQL的时候，如果不加limit，执行的时候一个<strong>不小心手抖</strong>，可能数据全删掉了，如果<strong>删错</strong>了呢？加了limit 200，就不一样了。删错也只是丢失200条数据，可以通过binlog日志快速恢复的。</li>
+<li><strong>SQL效率很可能更高</strong>，你在SQL行中，加了limit 1，如果第一条就命中目标return， 没有limit的话，还会继续执行扫描表。</li>
+<li><strong>避免了长事务</strong>，delete执行时,如果age加了索引，MySQL会将所有相关的行加写锁和间隙锁，所有执行相关行会被锁住，如果删除数量大，会直接影响相关业务无法使用。</li>
+<li><strong>数据量大的话，容易把CPU打满</strong> ,如果你删除数据量很大时，不加 limit限制一下记录数，容易把cpu打满，导致越删越慢的。</li>
+</ul>
+<h3 id="3-设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）"><a href="#3-设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）" class="headerlink" title="3. 设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）"></a>3. 设计表的时候，所有表和字段都添加相应的注释（SQL规范优雅）</h3><p>这个好习惯一定要养成啦，设计数据库表的时候，所有表和字段都添加相应的注释，后面更容易维护。</p>
+<p><strong>正例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `account` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT COMMENT <span class="hljs-string">&#x27;主键Id&#x27;</span>,<br>  `name` <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;账户名&#x27;</span>,<br>  `balance` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;余额&#x27;</span>,<br>  `create_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;创建时间&#x27;</span>,<br>  `update_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">ON</span> UPDATE <span class="hljs-built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="hljs-string">&#x27;更新时间&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`),<br>  KEY `idx_name` (`name`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">1570068</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8 ROW_FORMAT<span class="hljs-operator">=</span>REDUNDANT COMMENT<span class="hljs-operator">=</span><span class="hljs-string">&#x27;账户表&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+<p><strong>反例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `account` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,<br>  `name` <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `balance` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>  `create_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> ,<br>  `update_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">ON</span> UPDATE <span class="hljs-built_in">CURRENT_TIMESTAMP</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`),<br>  KEY `idx_name` (`name`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">1570068</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="4-SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）"><a href="#4-SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）" class="headerlink" title="4. SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）"></a>4. SQL书写格式，关键字大小保持一致，使用缩进。（SQL规范优雅）</h3><p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> stu.name, <span class="hljs-built_in">sum</span>(stu.score)<br><span class="hljs-keyword">FROM</span> Student stu<br><span class="hljs-keyword">WHERE</span> stu.classNo <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1班&#x27;</span><br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> stu.name<br></code></pre></div></td></tr></table></figure>
+
+<p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> stu.name, <span class="hljs-built_in">sum</span>(stu.score) <span class="hljs-keyword">from</span> Student stu <span class="hljs-keyword">WHERE</span> stu.classNo <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1班&#x27;</span> <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> stu.name.<br></code></pre></div></td></tr></table></figure>
+<p>显然，统一关键字大小写一致，使用缩进对齐，会使你的SQL看起来更优雅~</p>
+<h3 id="5-INSERT语句标明对应的字段名称（SQL规范优雅）"><a href="#5-INSERT语句标明对应的字段名称（SQL规范优雅）" class="headerlink" title="5. INSERT语句标明对应的字段名称（SQL规范优雅）"></a>5. INSERT语句标明对应的字段名称（SQL规范优雅）</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> Student <span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;666&#x27;</span>,<span class="hljs-string">&#x27;捡田螺的小男孩&#x27;</span>,<span class="hljs-string">&#x27;100&#x27;</span>);<br></code></pre></div></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> Student(student_id,name,score) <span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;666&#x27;</span>,<span class="hljs-string">&#x27;捡田螺的小男孩&#x27;</span>,<span class="hljs-string">&#x27;100&#x27;</span>);<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="6-变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）"><a href="#6-变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）" class="headerlink" title="6. 变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）"></a>6. 变更SQL操作先在测试环境执行，写明详细的操作步骤以及回滚方案，并在上生产前review。（SQL后悔药）</h3><ul>
+<li>变更SQL操作先在测试环境测试，避免有语法错误就放到生产上了。</li>
+<li>变更Sql操作需要写明详细操作步骤，尤其有依赖关系的时候，如：先修改表结构再补充对应的数据。</li>
+<li>变更Sql操作有回滚方案，并在上生产前，review对应变更SQL。</li>
+</ul>
+<h3 id="7-设计数据库表的时候，加上三个字段：主键，create-time-update-time。（SQL规范优雅）"><a href="#7-设计数据库表的时候，加上三个字段：主键，create-time-update-time。（SQL规范优雅）" class="headerlink" title="7.设计数据库表的时候，加上三个字段：主键，create_time,update_time。（SQL规范优雅）"></a>7.设计数据库表的时候，加上三个字段：主键，create_time,update_time。（SQL规范优雅）</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `account` (<br>  `name` <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;账户名&#x27;</span>,<br>  `balance` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;余额&#x27;</span>,<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">1570068</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8 ROW_FORMAT<span class="hljs-operator">=</span>REDUNDANT COMMENT<span class="hljs-operator">=</span><span class="hljs-string">&#x27;账户表&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `account` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT COMMENT <span class="hljs-string">&#x27;主键Id&#x27;</span>,<br>  `name` <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;账户名&#x27;</span>,<br>  `balance` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;余额&#x27;</span>,<br>  `create_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;创建时间&#x27;</span>,<br>  `update_time` datetime <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">ON</span> UPDATE <span class="hljs-built_in">CURRENT_TIMESTAMP</span> COMMENT <span class="hljs-string">&#x27;更新时间&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`),<br>  KEY `idx_name` (`name`) <span class="hljs-keyword">USING</span> BTREE<br>) ENGINE<span class="hljs-operator">=</span>InnoDB AUTO_INCREMENT<span class="hljs-operator">=</span><span class="hljs-number">1570068</span> <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8 ROW_FORMAT<span class="hljs-operator">=</span>REDUNDANT COMMENT<span class="hljs-operator">=</span><span class="hljs-string">&#x27;账户表&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>主键一定要加上的，没有主键的表是没有灵魂的</li>
+<li>创建时间和更新时间的话，还是建议加上吧，详细审计、跟踪记录，都是有用的。</li>
+</ul>
+<p>阿里开发手册也提到这个点，如图</p>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217946.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="8-写完SQL语句，检查where-order-by-group-by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）"><a href="#8-写完SQL语句，检查where-order-by-group-by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）" class="headerlink" title="8. 写完SQL语句，检查where,order by,group by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）"></a>8. 写完SQL语句，检查where,order by,group by后面的列，多表关联的列是否已加索引，优先考虑组合索引。（SQL性能优化）</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> address <span class="hljs-operator">=</span><span class="hljs-string">&#x27;深圳&#x27;</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> age ;<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217836.png" srcset="/img/loading.gif" lazyload></p>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">添加索引<br><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">add</span> index idx_address_age (address,age)<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217126.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="9-修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）"><a href="#9-修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）" class="headerlink" title="9.修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）"></a>9.修改或删除重要数据前，要先备份，先备份，先备份（SQL后悔药）</h3><p>如果要修改或删除数据，在执行SQL前一定要先备份要修改的数据，万一误操作，还能吃口<strong>后悔药</strong>~</p>
+<h3 id="10-where后面的字段，留意其数据类型的隐式转换（SQL性能优化）"><a href="#10-where后面的字段，留意其数据类型的隐式转换（SQL性能优化）" class="headerlink" title="10. where后面的字段，留意其数据类型的隐式转换（SQL性能优化）"></a>10. where后面的字段，留意其数据类型的隐式转换（SQL性能优化）</h3><p><strong>反例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-operator">/</span><span class="hljs-operator">/</span>userid 是<span class="hljs-type">varchar</span>字符串类型<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> userid <span class="hljs-operator">=</span><span class="hljs-number">123</span>;<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232217681.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>正例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> userid <span class="hljs-operator">=</span><span class="hljs-string">&#x27;123&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+<p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232218251.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>理由：</strong></p>
+<ul>
+<li>因为不加单引号时，是字符串跟数字的比较，它们类型不匹配，MySQL会做隐式的类型转换，把它们转换为浮点数再做比较，最后导致索引失效</li>
+</ul>
+<h3 id="11-尽量把所有列定义为NOT-NULL（SQL规范优雅）"><a href="#11-尽量把所有列定义为NOT-NULL（SQL规范优雅）" class="headerlink" title="11. 尽量把所有列定义为NOT NULL（SQL规范优雅）"></a>11. 尽量把所有列定义为NOT NULL（SQL规范优雅）</h3><ul>
+<li><strong>NOT NULL列更节省空间</strong>，NULL列需要一个额外字节作为判断是否为 NULL 的标志位。</li>
+<li><strong>NULL列需要注意空指针问题</strong>，NULL列在计算和比较的时候，需要注意空指针问题。</li>
+</ul>
+<h3 id="12-修改或者删除SQL，先写WHERE查一下，确认后再补充-delete-或-update（SQL后悔药）"><a href="#12-修改或者删除SQL，先写WHERE查一下，确认后再补充-delete-或-update（SQL后悔药）" class="headerlink" title="12.修改或者删除SQL，先写WHERE查一下，确认后再补充 delete 或 update（SQL后悔药）"></a>12.修改或者删除SQL，先写WHERE查一下，确认后再补充 delete 或 update（SQL后悔药）</h3><p>尤其在操作生产的数据时，遇到修改或者删除的SQL，先加个where查询一下，确认OK之后，再执行update或者delete操作</p>
+<h3 id="13-减少不必要的字段返回，如使用select-lt-具体字段-gt-代替-select-（SQL性能优化）"><a href="#13-减少不必要的字段返回，如使用select-lt-具体字段-gt-代替-select-（SQL性能优化）" class="headerlink" title="13.减少不必要的字段返回，如使用select &lt;具体字段&gt; 代替 select * （SQL性能优化）"></a>13.减少不必要的字段返回，如使用select &lt;具体字段&gt; 代替 select * （SQL性能优化）</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> employee;<br></code></pre></div></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> id，name <span class="hljs-keyword">from</span> employee;<br></code></pre></div></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>节省资源、减少网络开销。</li>
+<li>可能用到覆盖索引，减少回表，提高查询效率。</li>
+</ul>
+<h3 id="14-所有表必须使用Innodb存储引擎（SQL规范优雅）"><a href="#14-所有表必须使用Innodb存储引擎（SQL规范优雅）" class="headerlink" title="14.所有表必须使用Innodb存储引擎（SQL规范优雅）"></a>14.所有表必须使用Innodb存储引擎（SQL规范优雅）</h3><p>Innodb 支持事务，支持行级锁，更好的恢复性，高并发下性能更好，所以呢，没有特殊要求（即Innodb无法满足的功能如：列存储，存储空间数据等）的情况下，所有表必须使用Innodb存储引擎</p>
+<h3 id="15-数据库和表的字符集统一使用UTF8（SQL规范优雅）"><a href="#15-数据库和表的字符集统一使用UTF8（SQL规范优雅）" class="headerlink" title="15.数据库和表的字符集统一使用UTF8（SQL规范优雅）"></a>15.数据库和表的字符集统一使用UTF8（SQL规范优雅）</h3><p>统一使用UTF8编码</p>
+<ul>
+<li>可以避免乱码问题</li>
+<li>可以避免，不同字符集比较转换，导致的索引失效问题</li>
+</ul>
+<p>如果是存储表情的，可以考虑 utf8mb4</p>
+<h3 id="16-尽量使用varchar代替-char。（SQL性能优化）"><a href="#16-尽量使用varchar代替-char。（SQL性能优化）" class="headerlink" title="16. 尽量使用varchar代替 char。（SQL性能优化）"></a>16. 尽量使用varchar代替 char。（SQL性能优化）</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">`deptName` <span class="hljs-type">char</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;部门名称&#x27;</span><br></code></pre></div></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">`deptName` <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span> COMMENT <span class="hljs-string">&#x27;部门名称&#x27;</span><br></code></pre></div></td></tr></table></figure>
+<p>理由：</p>
+<ul>
+<li>因为首先变长字段存储空间小，可以节省存储空间。</li>
+</ul>
+<h3 id="17-如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。-（SQL规范优雅）"><a href="#17-如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。-（SQL规范优雅）" class="headerlink" title="17. 如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。 （SQL规范优雅）"></a>17. 如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。 （SQL规范优雅）</h3><p>这个点，是阿里开发手册中，Mysql的规约。你的字段，尤其是表示枚举状态时，如果含义被修改了，或者状态追加时，为了后面更好维护，需要即时更新字段的注释。</p>
+<h3 id="18-SQL修改数据，养成begin-commit-事务的习惯；-SQL后悔药"><a href="#18-SQL修改数据，养成begin-commit-事务的习惯；-SQL后悔药" class="headerlink" title="18. SQL修改数据，养成begin + commit 事务的习惯；(SQL后悔药)"></a>18. SQL修改数据，养成begin + commit 事务的习惯；(SQL后悔药)</h3><p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">begin</span>;<br>update account <span class="hljs-keyword">set</span> balance <span class="hljs-operator">=</span><span class="hljs-number">1000000</span><br><span class="hljs-keyword">where</span> name <span class="hljs-operator">=</span><span class="hljs-string">&#x27;捡田螺的小男孩&#x27;</span>;<br><span class="hljs-keyword">commit</span>;<br></code></pre></div></td></tr></table></figure>
+<p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">update account <span class="hljs-keyword">set</span> balance <span class="hljs-operator">=</span><span class="hljs-number">1000000</span><br><span class="hljs-keyword">where</span> name <span class="hljs-operator">=</span><span class="hljs-string">&#x27;捡田螺的小男孩&#x27;</span>;<br></code></pre></div></td></tr></table></figure>
+
+
+<h3 id="19-索引命名要规范，主键索引名为-pk-字段名；唯一索引名为-uk-字段名-；-普通索引名则为-idx-字段名。（SQL规范优雅）"><a href="#19-索引命名要规范，主键索引名为-pk-字段名；唯一索引名为-uk-字段名-；-普通索引名则为-idx-字段名。（SQL规范优雅）" class="headerlink" title="19. 索引命名要规范，主键索引名为 pk_ 字段名；唯一索引名为 uk _字段名 ； 普通索引名则为 idx _字段名。（SQL规范优雅）"></a>19. 索引命名要规范，主键索引名为 pk_ 字段名；唯一索引名为 uk _字段名 ； 普通索引名则为 idx _字段名。（SQL规范优雅）</h3><p>说明： pk_  即 primary key；uk _ 即  unique key；idx _ 即 index 的简称。</p>
+<h3 id="20-WHERE从句中不对列进行函数转换和表达式计算"><a href="#20-WHERE从句中不对列进行函数转换和表达式计算" class="headerlink" title="20. WHERE从句中不对列进行函数转换和表达式计算"></a>20. WHERE从句中不对列进行函数转换和表达式计算</h3><p>假设loginTime加了索引</p>
+<p><strong>反例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> userId,loginTime <span class="hljs-keyword">from</span> loginuser <span class="hljs-keyword">where</span> Date_ADD(loginTime,<span class="hljs-type">Interval</span> <span class="hljs-number">7</span> <span class="hljs-keyword">DAY</span>) <span class="hljs-operator">&gt;=</span> now();<br></code></pre></div></td></tr></table></figure>
+<p><strong>正例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql">explain  <span class="hljs-keyword">select</span> userId,loginTime <span class="hljs-keyword">from</span> loginuser <span class="hljs-keyword">where</span>  loginTime <span class="hljs-operator">&gt;=</span> Date_ADD(NOW(),<span class="hljs-type">INTERVAL</span> <span class="hljs-operator">-</span> <span class="hljs-number">7</span> <span class="hljs-keyword">DAY</span>);<br></code></pre></div></td></tr></table></figure>
+<p><strong>理由：</strong></p>
+<ul>
+<li>索引列上使用mysql的内置函数，索引失效<br><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210232219924.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h3 id="21-如果修改-更新数据过多，考虑批量进行。"><a href="#21-如果修改-更新数据过多，考虑批量进行。" class="headerlink" title="21.如果修改\更新数据过多，考虑批量进行。"></a>21.如果修改\更新数据过多，考虑批量进行。</h3><p>反例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> account limit <span class="hljs-number">100000</span>;<br></code></pre></div></td></tr></table></figure>
+<p>正例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span>(<span class="hljs-number">200</span>次)<br>&#123;<br> <span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> account  limit <span class="hljs-number">500</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<p>理由：</p>
+<ul>
+<li>大批量操作会会造成主从延迟。</li>
+<li>大批量操作会产生大事务，阻塞。</li>
+<li>大批量操作，数据量过大，会把cpu打满。</li>
+</ul>
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39390545/article/details/107519747">delete后加 limit是个好习惯么</a></li>
+<li>《阿里开发手册》</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/order%20by%E8%AF%A6%E8%A7%A3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">order by详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/jstack%E5%91%BD%E4%BB%A4%E8%A7%A3%E6%9E%90/">
+                        <span class="hidden-mobile">Jstack命令解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

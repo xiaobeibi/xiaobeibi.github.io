@@ -203,32 +203,631 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Netty%EF%BC%9AJava%20%E9%A2%86%E5%9F%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8E%8B%E8%80%85/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112142201876.webp" srcset="/img/loading.gif" lazyload alt="Netty：Java 领域网络编程的王者">
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210614210600.png" srcset="/img/loading.gif" lazyload alt="Redis与MySQL双写一致性如何保证？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Netty%EF%BC%9AJava%20%E9%A2%86%E5%9F%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8E%8B%E8%80%85/" target="_self">
-          Netty：Java 领域网络编程的王者
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
+          Redis与MySQL双写一致性如何保证？
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Netty%EF%BC%9AJava%20%E9%A2%86%E5%9F%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8E%8B%E8%80%85/" target="_self">
+        <a href="/2022/03/25/Redis%20%E4%B8%8E%20MySQL%20%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F/" target="_self">
           
           
             
           
-          Netty：Java 领域网络编程的王者
+          Redis 与 MySQL 双写一致性如何保证？
 
-一、简介1. 课程背景分布式系统的根基在于网络编程，而 Netty 是 Java 领域网络编程的王者。
-2. 课程内容
-第一部分 NIO 编程，三大组件
-第二部分 Netty 入门学习，EventLoop、Channel、Future、Pipeline、Handler、ByteBuf
-第三部分 Netty 进阶学习，粘包半包的解决方法、协议的设计、序列化
+四月份的时候，有位好朋友去美团面试。他说，被问到Redis与MySQL双写一致性如何保证？这道题其实就是在问缓存和数据库在双写场景下，一致性是如何保证的？本文将跟大家一起来探讨如何回答这个问题。
+
+谈谈一致性
+一致性就是数据保持一致，在分布式系统中，可以理解为多个节点中数据的值是一致的。
+
+强一致性：这种一致性级别是最符合用户直觉的，它要求系统写
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201232133402.webp" srcset="/img/loading.gif" lazyload alt="Redis 延时任务">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
+          Redis 延时任务
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%20%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" target="_self">
+          
+          
+            
+          
+          Redis 延时任务
+
+引言在开发中，往往会遇到一些关于延时任务的需求。例如
+
+生成订单30分钟未支付，则自动取消
+生成订单60秒后,给用户发短信
+
+对上述的任务，我们给一个专业的名字来形容，那就是延时任务。那么这里就会产生一个问题，这个延时任务和定时任务的区别究竟在哪里呢？一共有如下几点区别
+
+定时任务有明确的触发时间，延时任务没有
+定时任务有执行周期，而延时任务在某事件触发后一段时间内执行，没
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%20%E6%98%AF%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102109353.png" srcset="/img/loading.gif" lazyload alt="Redis是并发安全的吗？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%20%E6%98%AF%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F/" target="_self">
+          Redis是并发安全的吗？
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%20%E6%98%AF%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F/" target="_self">
+          
+          
+            
+          
+          Redis 是并发安全的吗？
+
+Redis 作为一个非常成功的数据库，提供了非常丰富的数据类型和命令，使用这些，我们可以轻易而高效地完成很多缓存操作，可是总有一些比较特殊问题或需求需要解决，这时候可能就需要我们自己定制自己的 Redis 数据结构和命令。
+Redis命令问题“线程安全”问题我们都知道 Redis 是单线程的，可是它怎么会有线程安全问题呢？
+我们正常理解的线程安全问题是指单进程多线程
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108301332136.webp" srcset="/img/loading.gif" lazyload alt="Redis面试题">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+          Redis面试题
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+          
+          
+            
+          
+          Redis 面试题
+
+1、谈下你对 Redis 的了解？Redis（全称：Remote Dictionary Server 远程字典服务）是一个开源的使用 ANSI C 语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value 数据库，并提供多种语言的 API。
+2、Redis 一般都有哪些使用场景？
+Redis 适合的场景
+
+缓存：减轻 MySQL 的查询压力，提升系统性能；
+排行榜
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%20%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202201201826256.webp" srcset="/img/loading.gif" lazyload alt="Redis 缓存使用技巧和设计方案">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%20%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" target="_self">
+          Redis 缓存使用技巧和设计方案
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%20%E7%BC%93%E5%AD%98%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E5%92%8C%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" target="_self">
+          
+          
+            
+          
+          Redis 缓存使用技巧和设计方案
+
+缓存能够有效地加速应用的读写速度，同时也可以降低后端负载，对日常应用的开发至关重要。下面会介绍缓存使用技巧和设计方案，包含如下内容：缓存的收益和成本分析、缓存更新策略的选择和使用场景、缓存粒度控制方法、穿透问题优化、无底洞问题优化、雪崩问题优化、热点key重建优化。
+1）缓存的收益和成本分析下图左侧为客户端直接调用存储层的架构，右侧为比较典型的缓存层+存储层架
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202109232004266.webp" srcset="/img/loading.gif" lazyload alt="Redis的拓展方案">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
+          Redis的拓展方案
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Redis%20%E7%9A%84%E6%8B%93%E5%B1%95%E6%96%B9%E6%A1%88/" target="_self">
+          
+          
+            
+          
+          Redis 的拓展方案
+
+Redis大家都不陌生，就算是没用过，也都听说过了。作为最广泛使用的KV内存数据库之一，在当今的大流量时代，单机模式略显单薄，免不了要有一些拓展的方案。
+笔者下文会对各种方案进行介绍，并且给出 场景，实现 等等概述，还会提到一些新手常见的误区。
+| 正文先从基础的拓展方式开始，这样更便于理解较高级的模式。
+ps: 本文背景是以笔者落笔时官网最新稳定版5.0.8为准，虽然还
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Redis/">Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/PCB-Ruler/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507204221.png" srcset="/img/loading.gif" lazyload alt="PCB-Ruler">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/PCB-Ruler/" target="_self">
+          PCB-Ruler
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/PCB-Ruler/" target="_self">
+          
+          
+            
+          
+          PCB-Ruler
+
+注：此PCB沉金尺为本站主版权所有，获取请注明出处，为大家学习参考打板使用
+
+1 正面（从左往右）
+
+全长：250mm（9500mil）
+
+孔径：16mil~120mil
+
+Resistor &amp; Capacitor：0201    0402    0603    0805    RP0402    RP0603    1206    1210    1812    2
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Singlechip/">Singlechip</a>
+            
+              <a href="/categories/Singlechip/PCB/">PCB</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/">单片机</a>
+            
+              <a href="/tags/PCB/">PCB</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
+          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="Oracle学习笔记续">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
+          Oracle学习笔记续
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%BB%AD/" target="_self">
+          
+          
+            
+          
+          Oracle学习笔记续
+
+一:DDL(data definition language)语句管理表12345678910111213141516171819202122232425--  1.创建空间表格式:/*create tablespace 表空间名称datafile 数据文件路径size 100mautoextend onnext 10m;*/ -- 创建itcast001空间表creat
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Oracle/">Oracle</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Oracle/">Oracle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+          <img src="/img/Substitute9.jpg" srcset="/img/loading.gif" lazyload alt="Oracle学习笔记">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+          Oracle学习笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Oracle%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_self">
+          
+          
+            
+          
+          Oracle学习笔记
+
+一:基本查询​    1.查询1981-1-1到1981-12-31号入职的雇员
+1select * from emp where to_date(&#x27;1981-1-1&#x27;,&#x27;yyyy-MM-dd&#x27;) and to_date(&#x27;1981-12-31&#x27;,&#x27;yyyy-MM-dd&#x27;);
+
+​    2.查
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Database/">Database</a>
+            
+              <a href="/categories/Database/Oracle/">Oracle</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+              <a href="/tags/Oracle/">Oracle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/OnlineBiddingSystem/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210511161056.png" srcset="/img/loading.gif" lazyload alt="在线招标Demo">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/OnlineBiddingSystem/" target="_self">
+          在线招标Demo
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/OnlineBiddingSystem/" target="_self">
+          
+          
+            
+          
+          在线招标Demo
+
+1. Demo简介本Demo基于Spring+SpringMVC+Hibernate分层，MySQL持久化，Jsp前端显示的在线招标/投标小系统，实现服务商发布招标、企业投标、服务商选择中标的功能。
+
+1.1 实现技术
+Spring
+SpringMVC
+Hibernate
+Jsp
+MySQL
+Servlet
+
+1.2 数据库MySQL表采用Hibernate自动创建，首次运行建
         </a>
       </p>
 
@@ -247,7 +846,7 @@
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Netty/">Netty</a>
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -257,594 +856,7 @@
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Netty/">Netty</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Netty/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20210420132155.png" srcset="/img/loading.gif" lazyload alt="Netty基础学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/Netty/" target="_self">
-          Netty基础学习
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/Netty/" target="_self">
-          
-          
-            
-          
-          Netty
-
-一、概述1、什么是Netty12Netty is an asynchronous event-driven network application framework.for rapid development of maintainable high performance protocol servers &amp; clients.
-
-Netty 是一个异步的、基于事件驱动的网
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108201156831.png" srcset="/img/loading.gif" lazyload alt="MySQL优化工具AWR">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
-          MySQL优化工具AWR
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E4%BC%98%E5%8C%96%E5%B7%A5%E5%85%B7AWR/" target="_self">
-          
-          
-            
-          
-          MySQL优化工具AWR
-
-对于正在运行的mysql，性能如何，参数设置的是否合理，账号设置的是否存在安全隐患，你是否了然于胸呢？
-俗话说工欲善其事，必先利其器，定期对你的MYSQL数据库进行一个体检，是保证数据库安全运行的重要手段，因为，好的工具是使你的工作效率倍增！
-今天和大家分享几个mysql 优化的工具，你可以使用它们对你的mysql进行一个体检，生成awr报告，让你从整体上把握你的数据库
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200807154719.png" srcset="/img/loading.gif" lazyload alt="MySQL基础学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
-          MySQL基础学习
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          MySQL基础学习
-
-一、基本操作1、创建数据库和表创建数据库语句
-1CREATE DATABASE database;
-
-展示所有数据库
-1SHOW DATABASES;
-
-使用指定数据库
-1USE database;
-
-创建表
-1234567CREATE TABLE student(    s_no VARCHAR(20) PRIMARY KEY COMMENT&#x27;学生学号&#x27;
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
-          <img src="/img/Substitute13.jpg" srcset="/img/loading.gif" lazyload alt="MySQL高性能优化规范建议">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
-          MySQL高性能优化规范建议
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A7%84%E8%8C%83%E5%BB%BA%E8%AE%AE/" target="_self">
-          
-          
-            
-          
-          MySQL高性能优化规范建议
-
-数据库命令规范
-所有数据库对象名称必须使用小写字母并用下划线分割
-所有数据库对象名称禁止使用 MySQL 保留关键字（如果表名中包含关键字查询时，需要将其用单引号括起来）
-数据库对象的命名要能做到见名识意，并且最后不要超过 32 个字符
-临时库表必须以 tmp_为前缀并以日期为后缀，备份表必须以 bak_为前缀并以日期 (时间戳) 为后缀
-所有存储相同数据的列名和列
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20200813170808.png" srcset="/img/loading.gif" lazyload alt="MySQL高级学习">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          MySQL高级学习
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%E9%AB%98%E7%BA%A7%E5%AD%A6%E4%B9%A0/" target="_self">
-          
-          
-            
-          
-          MySQL高级学习
-
-一、Mysql逻辑架构1、整体架构
-连接层最上层是一些客服端和连接服务，包括socket通信和大多数基于客服端/服务端工具实现的类似于tcp/ip的通信，主要完成一些类似于连接处理、授权认证及相关安全的方案，在该层上引入了线程池的概念，为通过认证安全接入的客服端提供线程，同样在该层上可以实现基于SSL的安全的连接，服务器也会为安全接入的每个客户端验证它所具有的操作权限
-服务层
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">知识图谱</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-            
-              <a href="/tags/%E7%9F%A5%E8%AF%86/">知识</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210628095555.webp" srcset="/img/loading.gif" lazyload alt="MySQL自增 ID 超大问题查询">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
-          MySQL自增 ID 超大问题查询
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E8%87%AA%E5%A2%9E%20ID%20%E8%B6%85%E5%A4%A7%E9%97%AE%E9%A2%98%E6%9F%A5%E8%AF%A2/" target="_self">
-          
-          
-            
-          
-          MySQL 自增 ID 超大问题查询
-
-引言小A正在balabala写代码呢，DBA小B突然发来了一条消息，“快看看你的用户特定信息表T，里面的主键，也就是自增id，都到16亿了，这才多久，在这样下去过不了多久主键就要超出范围了，插入就会失败，balabala……”
-我记得没有这么多，最多1k多万，count了下，果然是1100万。原来运维是通过 auto_increment那个值看的，就是说，表
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210705141206.webp" srcset="/img/loading.gif" lazyload alt="MySQL优化原理">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
-          MySQL优化原理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86/" target="_self">
-          
-          
-            
-          
-          MySQL 优化原理
-
-说起MySQL的查询优化，相信大家收藏了一堆奇技淫巧：
-不能使用SELECT *、不使用NULL字段、合理创建索引、为字段选择合适的数据类型… 
-你是否真的理解这些优化技巧？是否理解其背后的工作原理？在实际场景下性能真有提升吗？我想未必。因而理解这些优化建议背后的原理就尤为重要，希望本文能让你重新审视这些优化建议，并在实际业务场景下合理的运用。
-MySQL逻辑架构如果能在头
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL团队开发规范">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
-          MySQL团队开发规范
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" target="_self">
-          
-          
-            
-          
-          MySQL 团队开发规范
-
-数据库对象命名规范数据库对象数据库对象是数据库的组成部分，常见的有以下几种：表（Table ）、索引（Index）、视图（View）、图表（Diagram）、缺省值（Default）、规则（Rule）、触发器（Trigger）、存储过程（Stored Procedure）、 用户（User）等。命名规范是指数据库对象如数据库（SCHEMA）、表（TABLE）、索引（IN
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          <img src="/img/Substitute14.jpg" srcset="/img/loading.gif" lazyload alt="MySQL批量插入：如何不插入重复数据？">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          MySQL批量插入：如何不插入重复数据？
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/MySQL%20%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%EF%BC%9A%E5%A6%82%E4%BD%95%E4%B8%8D%E6%8F%92%E5%85%A5%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%EF%BC%9F/" target="_self">
-          
-          
-            
-          
-          MySQL 批量插入：如何不插入重复数据？
-
-业务很简单：需要批量插入一些数据，数据来源可能是其他数据库的表，也可能是一个外部excel的导入
-那么问题来了，是不是每次插入之前都要查一遍，看看重不重复，在代码里筛选一下数据，重复的就过滤掉呢？
-向大数据数据库中插入值时，还要判断插入是否重复，然后插入。如何提高效率
-看来这个问题不止我一个人苦恼过。
-解决的办法有很多种，不同的场景解决方案也不一样，数
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -856,7 +868,7 @@ MySQL逻辑架构如果能在头
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/25/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/27/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/25/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/#board">24</a><a class="page-number" href="/page/25/#board">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/#board">27</a><a class="page-number" href="/page/28/#board">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/#board">38</a><a class="extend next" rel="next" href="/page/27/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

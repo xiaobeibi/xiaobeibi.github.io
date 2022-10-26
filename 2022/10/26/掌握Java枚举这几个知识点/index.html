@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon_ico.png">
+  <link rel="icon" href="/img/favicon_ico.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="分享总结个人的学习路程">
+  <meta name="author" content="屠雍">
+  <meta name="keywords" content="PCB, 单片机, 物联网, 嵌入式, Java, Linux, Web前端">
+  <meta name="description" content="掌握Java枚举这几个知识点  前言 一、枚举类型是什么？JDK5引入了一种新特性，关键字enum可以将一组具名的值的有限集合创建为一种新的类型，而这些具名的值可以作为常规的程序组件使用，这就是枚举类型。 一个枚举的简单例子 123enum SeasonEnum &amp;#123;    SPRING,SUMMER,FALL,WINTER;&amp;#125; 二、 枚举类的常用方法Enum常用方法有以下几种:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="掌握Java枚举这几个知识点">
+<meta property="og:url" content="http://example.com/2022/10/26/%E6%8E%8C%E6%8F%A1Java%E6%9E%9A%E4%B8%BE%E8%BF%99%E5%87%A0%E4%B8%AA%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="小贝比">
+<meta property="og:description" content="掌握Java枚举这几个知识点  前言 一、枚举类型是什么？JDK5引入了一种新特性，关键字enum可以将一组具名的值的有限集合创建为一种新的类型，而这些具名的值可以作为常规的程序组件使用，这就是枚举类型。 一个枚举的简单例子 123enum SeasonEnum &amp;#123;    SPRING,SUMMER,FALL,WINTER;&amp;#125; 二、 枚举类的常用方法Enum常用方法有以下几种:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242233768.png">
+<meta property="article:published_time" content="2022-10-26T08:09:02.269Z">
+<meta property="article:modified_time" content="2022-10-24T14:34:32.492Z">
+<meta property="article:author" content="屠雍">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242233768.png">
+  
+  <title>掌握Java枚举这几个知识点 - 小贝比</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>小贝比的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background7.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="掌握Java枚举这几个知识点">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-26 16:09" pubdate>
+        2022年10月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">掌握Java枚举这几个知识点</h1>
+            
+            <div class="markdown-body">
+              <center><h2>掌握Java枚举这几个知识点</h2></center>
+
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202210242233768.png" srcset="/img/loading.gif" lazyload alt="Java中枚举类型"></p>
+<h3 id="一、枚举类型是什么？"><a href="#一、枚举类型是什么？" class="headerlink" title="一、枚举类型是什么？"></a>一、枚举类型是什么？</h3><p>JDK5引入了一种新特性，关键字enum可以将一组具名的值的有限集合创建为一种新的类型，而这些具名的值可以作为常规的程序组件使用，这就是枚举类型。</p>
+<p>一个枚举的简单例子</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">SeasonEnum</span> </span>&#123;<br>    SPRING,SUMMER,FALL,WINTER;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h3 id="二、-枚举类的常用方法"><a href="#二、-枚举类的常用方法" class="headerlink" title="二、 枚举类的常用方法"></a>二、 枚举类的常用方法</h3><p>Enum常用方法有以下几种:</p>
+<ul>
+<li>name();  返回enum实例声明时的名字。</li>
+<li>ordinal();  返回一个int值，表示enum实例在声明的次序。</li>
+<li>equals();  返回布尔值，enum实例判断相等</li>
+<li>compareTo() 比较enum实例与指定对象的顺序</li>
+<li>values();  返回enum实例的数组</li>
+<li>valueOf(String name)  由名称获取枚举类中定义的常量 </li>
+</ul>
+<p>直接看例子吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Shrubbery</span> </span>&#123;<br>    GROUND, CRAWLING, HANGING<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EnumClassTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">//values 返回enum实例的数组</span><br>        <span class="hljs-keyword">for</span> (Shrubbery temp : Shrubbery.values()) &#123;<br>            <span class="hljs-comment">// name 返回实例enum声明的名字</span><br>            System.out.println(temp.name() + <span class="hljs-string">&quot; ordinal is &quot;</span> + temp.ordinal() + <span class="hljs-string">&quot; ,equal result is &quot;</span> +<br>                    Shrubbery.CRAWLING.equals(temp) + <span class="hljs-string">&quot;,compare result is &quot;</span> + Shrubbery.CRAWLING.compareTo(temp));<br>        &#125;<br>        <span class="hljs-comment">//由名称获取枚举类中定义的常量值</span><br>        System.out.println(Shrubbery.valueOf(<span class="hljs-string">&quot;CRAWLING&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">GROUND ordinal <span class="hljs-keyword">is</span> <span class="hljs-number">0</span> ,<span class="hljs-keyword">equal</span> <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-literal">false</span>,compare <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-number">1</span><br>CRAWLING ordinal <span class="hljs-keyword">is</span> <span class="hljs-number">1</span> ,<span class="hljs-keyword">equal</span> <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-literal">true</span>,compare <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-number">0</span><br>HANGING ordinal <span class="hljs-keyword">is</span> <span class="hljs-number">2</span> ,<span class="hljs-keyword">equal</span> <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-literal">false</span>,compare <span class="hljs-literal">result</span> <span class="hljs-keyword">is</span> <span class="hljs-number">-1</span><br>CRAWLING<br></code></pre></div></td></tr></table></figure>
+
+
+<h3 id="三、枚举类的真面目"><a href="#三、枚举类的真面目" class="headerlink" title="三、枚举类的真面目"></a>三、枚举类的真面目</h3><p>枚举类型到底是什么类呢？我们新建一个简单枚举例子，看看它的庐山真面目。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Shrubbery</span> </span>&#123;<br>    GROUND, CRAWLING, HANGING<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>使用javac编译上面的枚举类，可得Shrubbery.class文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">javac Shrubbery.java<br></code></pre></div></td></tr></table></figure>
+<p>再用javap命令，反编译得到字节码文件。如：执行<code>javap Shrubbery.class</code>可到以下字节码文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java">Compiled from <span class="hljs-string">&quot;Shrubbery.java&quot;</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">enumtest</span>.<span class="hljs-title">Shrubbery</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">Enum</span>&lt;<span class="hljs-title">enumtest</span>.<span class="hljs-title">Shrubbery</span>&gt; </span>&#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> enumtest.Shrubbery GROUND;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> enumtest.Shrubbery CRAWLING;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> enumtest.Shrubbery HANGING;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> enumtest.Shrubbery[] values();<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> enumtest.<span class="hljs-function">Shrubbery <span class="hljs-title">valueOf</span><span class="hljs-params">(java.lang.String)</span></span>;<br>  <span class="hljs-keyword">static</span> &#123;&#125;;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>从字节码文件可以发现：</p>
+<ul>
+<li>Shrubbery枚举变成了一个final修饰的类，也就是说，它不能被继承啦。</li>
+<li>Shrubbery是java.lang.Enum的子类。</li>
+<li>Shrubbery定义的枚举值都是public static final修饰的，即都是静态常量。</li>
+</ul>
+<p>为了看得更仔细，javap反编译加多个参数-c，执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs sh">javap -c Shrubbery.class<br></code></pre></div></td></tr></table></figure>
+<p>静态代码块的字节码文件如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml">  <span class="hljs-string">static</span> &#123;&#125;<span class="hljs-string">;</span><br>    <span class="hljs-attr">Code:</span><br>       <span class="hljs-attr">0:</span> <span class="hljs-string">new</span>           <span class="hljs-comment">#4                  // class enumtest/Shrubbery</span><br>       <span class="hljs-attr">3:</span> <span class="hljs-string">dup</span><br>       <span class="hljs-attr">4:</span> <span class="hljs-string">ldc</span>           <span class="hljs-comment">#7                  // String GROUND</span><br>       <span class="hljs-attr">6:</span> <span class="hljs-string">iconst_0</span><br>       <span class="hljs-attr">7:</span> <span class="hljs-string">invokespecial</span> <span class="hljs-comment">#8                  // Method &quot;&lt;init&gt;&quot;:(Ljava/lang/String;I)V</span><br>      <span class="hljs-attr">10:</span> <span class="hljs-string">putstatic</span>     <span class="hljs-comment">#9                  // Field GROUND:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">13:</span> <span class="hljs-string">new</span>           <span class="hljs-comment">#4                  // class enumtest/Shrubbery</span><br>      <span class="hljs-attr">16:</span> <span class="hljs-string">dup</span><br>      <span class="hljs-attr">17:</span> <span class="hljs-string">ldc</span>           <span class="hljs-comment">#10                 // String CRAWLING</span><br>      <span class="hljs-attr">19:</span> <span class="hljs-string">iconst_1</span><br>      <span class="hljs-attr">20:</span> <span class="hljs-string">invokespecial</span> <span class="hljs-comment">#8                  // Method &quot;&lt;init&gt;&quot;:(Ljava/lang/String;I)V</span><br>      <span class="hljs-attr">23:</span> <span class="hljs-string">putstatic</span>     <span class="hljs-comment">#11                 // Field CRAWLING:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">26:</span> <span class="hljs-string">new</span>           <span class="hljs-comment">#4                  // class enumtest/Shrubbery</span><br>      <span class="hljs-attr">29:</span> <span class="hljs-string">dup</span><br>      <span class="hljs-attr">30:</span> <span class="hljs-string">ldc</span>           <span class="hljs-comment">#12                 // String HANGING</span><br>      <span class="hljs-attr">32:</span> <span class="hljs-string">iconst_2</span><br>      <span class="hljs-attr">33:</span> <span class="hljs-string">invokespecial</span> <span class="hljs-comment">#8                  // Method &quot;&lt;init&gt;&quot;:(Ljava/lang/String;I)V</span><br>      <span class="hljs-attr">36:</span> <span class="hljs-string">putstatic</span>     <span class="hljs-comment">#13                 // Field HANGING:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">39:</span> <span class="hljs-string">iconst_3</span><br>      <span class="hljs-attr">40:</span> <span class="hljs-string">anewarray</span>     <span class="hljs-comment">#4                  // class enumtest/Shrubbery</span><br>      <span class="hljs-attr">43:</span> <span class="hljs-string">dup</span><br>      <span class="hljs-attr">44:</span> <span class="hljs-string">iconst_0</span><br>      <span class="hljs-attr">45:</span> <span class="hljs-string">getstatic</span>     <span class="hljs-comment">#9                  // Field GROUND:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">48:</span> <span class="hljs-string">aastore</span><br>      <span class="hljs-attr">49:</span> <span class="hljs-string">dup</span><br>      <span class="hljs-attr">50:</span> <span class="hljs-string">iconst_1</span><br>      <span class="hljs-attr">51:</span> <span class="hljs-string">getstatic</span>     <span class="hljs-comment">#11                 // Field CRAWLING:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">54:</span> <span class="hljs-string">aastore</span><br>      <span class="hljs-attr">55:</span> <span class="hljs-string">dup</span><br>      <span class="hljs-attr">56:</span> <span class="hljs-string">iconst_2</span><br>      <span class="hljs-attr">57:</span> <span class="hljs-string">getstatic</span>     <span class="hljs-comment">#13                 // Field HANGING:Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">60:</span> <span class="hljs-string">aastore</span><br>      <span class="hljs-attr">61:</span> <span class="hljs-string">putstatic</span>     <span class="hljs-comment">#1                  // Field $VALUES:[Lenumtest/Shrubbery;</span><br>      <span class="hljs-attr">64:</span> <span class="hljs-string">return</span><br><span class="hljs-string">&#125;</span><br></code></pre></div></td></tr></table></figure>
+<ul>
+<li>0-39行实例化了Shrubbery枚举类的GROUND,CRAWLING, HANGING；</li>
+<li>40-64为创建Shrubbery[]数组$VALUES,并将上面的三个实例化对象放入数组的操作。</li>
+<li>因此，枚举类方法values()返回enum枚举实例的数组是不是豁然开朗啦。</li>
+</ul>
+<h3 id="四、枚举类的优点"><a href="#四、枚举类的优点" class="headerlink" title="四、枚举类的优点"></a>四、枚举类的优点</h3><p>枚举类有什么优点呢？就是我们为什么要选择使用枚举类呢？因为它可以增强<strong>代码的可读性，可维护性</strong>，同时，它也具有<strong>安全</strong>性。</p>
+<h4 id="枚举类可以增强可读性、可维护性"><a href="#枚举类可以增强可读性、可维护性" class="headerlink" title="枚举类可以增强可读性、可维护性"></a>枚举类可以增强可读性、可维护性</h4><p>假设现在有这样的业务场景：订单完成后，通知买家评论。很容易有以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//订单已完成</span><br><span class="hljs-keyword">if</span>(<span class="hljs-number">3</span> == orderStatus) &#123;<br>    <span class="hljs-comment">//do something    </span><br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>很显然，这段代码出现了魔法数，如果你没写注释，谁知道3表示订单什么状态呢，不仅阅读起来比较困难，维护起来也很蛋疼？如果使用<strong>枚举类</strong>呢，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">OrderStatusEnum</span> </span>&#123;<br>    UNPAID(<span class="hljs-number">0</span>, <span class="hljs-string">&quot;未付款&quot;</span>), PAID(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;已付款&quot;</span>), SEND(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;已发货&quot;</span>), FINISH(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;已完成&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> index;<br><br>    <span class="hljs-keyword">private</span> String desc;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getIndex</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> index;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDesc</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> desc;<br>    &#125;<br><br>    OrderStatusEnum(<span class="hljs-keyword">int</span> index, String desc) &#123;<br>        <span class="hljs-keyword">this</span>.index = index;<br>        <span class="hljs-keyword">this</span>.desc = desc;<br>    &#125;<br>&#125;<br><br> <span class="hljs-comment">//订单已完成</span><br> <span class="hljs-keyword">if</span>(OrderStatusEnum.FINISH.getIndex() == orderStatus) &#123;<br>  <span class="hljs-comment">//do something</span><br> &#125;<br></code></pre></div></td></tr></table></figure>
+<p>可见，枚举类让这段代码可读性更强，也比较好维护，后面加个新的订单状态，直接添加多一种枚举状态就可以了。有些朋友认为，<code>public static final int</code>这种静态常量也可以实现该功能呀，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderStatus</span> </span>&#123;<br>    <span class="hljs-comment">//未付款</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> UNPAID = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> PAID = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SENDED = <span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> FINISH = <span class="hljs-number">3</span>;<br>&#125;<br><br> <span class="hljs-comment">//订单已完成</span><br> <span class="hljs-keyword">if</span>(OrderStatus.FINISH == orderStatus) &#123;<br>     <span class="hljs-comment">//do something</span><br> &#125;<br></code></pre></div></td></tr></table></figure>
+<p>当然，静态常量这种方式实现，可读性是没有任何问题的，日常工作中代码这样写也无可厚非。但是，定义int值相同的变量，容易混淆，如你定义<code>PAID</code>和<code>SENDED</code>状态都是2，编译器是不会报错的。</p>
+<p>因此，枚举类第一个优点就是<strong>可读性，可维护性都不错</strong>，所以推荐。</p>
+<h4 id="枚举类安全性"><a href="#枚举类安全性" class="headerlink" title="枚举类安全性"></a>枚举类安全性</h4><p>除了可读性、可维护性外，枚举类还有个巨大的优点，就是安全性。</p>
+<p>从上一节枚举类字节码分析，我们知道：</p>
+<ul>
+<li>一个枚举类是被final关键字修饰的，不能被继承。</li>
+<li>并且它的变量都是public static final修饰的，都是静态变量。</li>
+</ul>
+<p>当一个Java类第一次被真正使用到的时候静态资源被初始化、Java类的加载和初始化过程都是线程安全的。</p>
+<h3 id="五、枚举的常见用法"><a href="#五、枚举的常见用法" class="headerlink" title="五、枚举的常见用法"></a>五、枚举的常见用法</h3><h4 id="enum组织常量"><a href="#enum组织常量" class="headerlink" title="enum组织常量"></a>enum组织常量</h4><p>在JDK5之前，常量定义都是这样，先定义一个类或者接口，属性类型都是public static final…，有了枚举之后，可以把常量组织到枚举类了，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">SeasonEnum</span> </span>&#123;<br>    SPRING,SUMMER,FALL,WINTER;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h4 id="enum与switch-环环相扣"><a href="#enum与switch-环环相扣" class="headerlink" title="enum与switch 环环相扣"></a>enum与switch 环环相扣</h4><p>一般来说，switch-case中只能使用整数值，但是枚举实例天生就具备整数值的次序，因此，在switch语句中是可以使用enum的，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">OrderStatusEnum</span> </span>&#123;<br>   UNPAID, PAID, SEND, FINISH<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderStatusTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        changeByOrderStatus(OrderStatusEnum.FINISH);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">changeByOrderStatus</span><span class="hljs-params">(OrderStatusEnum orderStatusEnum)</span> </span>&#123;<br>        <span class="hljs-keyword">switch</span> (orderStatusEnum) &#123;<br>            <span class="hljs-keyword">case</span> UNPAID:<br>                System.out.println(<span class="hljs-string">&quot;老板，你下单了，赶紧付钱吧&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> PAID:<br>                System.out.println(<span class="hljs-string">&quot;我已经付钱啦&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> SENDED:<br>                System.out.println(<span class="hljs-string">&quot;已发货&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> FINISH:<br>                System.out.println(<span class="hljs-string">&quot;订单完成啦&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>在日常开发中，enum与switch一起使用，会让你的代码可读性更好哦。</p>
+<h4 id="向枚举中添加新的方法"><a href="#向枚举中添加新的方法" class="headerlink" title="向枚举中添加新的方法"></a>向枚举中添加新的方法</h4><p>可以向枚举类添加新方法的，如get方法，普通方法等，以下是日常工作最常用的一种枚举写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">OrderStatusEnum</span> </span>&#123;<br>    UNPAID(<span class="hljs-number">0</span>, <span class="hljs-string">&quot;未付款&quot;</span>), PAID(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;已付款&quot;</span>), SENDED(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;已发货&quot;</span>), FINISH(<span class="hljs-number">3</span>, <span class="hljs-string">&quot;已完成&quot;</span>);<br><br>    <span class="hljs-comment">//成员变量</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> index;<br>    <span class="hljs-keyword">private</span> String desc;<br><br>    <span class="hljs-comment">//get方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getIndex</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> index;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDesc</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> desc;<br>    &#125;<br><br>    <span class="hljs-comment">//构造器方法</span><br>     OrderStatusEnum(<span class="hljs-keyword">int</span> index, String desc) &#123;<br>        <span class="hljs-keyword">this</span>.index = index;<br>        <span class="hljs-keyword">this</span>.desc = desc;<br>    &#125;<br><br>    <span class="hljs-comment">//普通方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> OrderStatusEnum <span class="hljs-title">of</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span></span>&#123;<br>        <span class="hljs-keyword">for</span> (OrderStatusEnum temp : values()) &#123;<br>            <span class="hljs-keyword">if</span> (temp.getIndex() == index) &#123;<br>                <span class="hljs-keyword">return</span> temp;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="枚举实现接口"><a href="#枚举实现接口" class="headerlink" title="枚举实现接口"></a>枚举实现接口</h4><p>所有枚举类都继承于java.lang.Enum,所以枚举不能再继承其他类了。但是枚举可以实现接口呀，这给枚举增添了不少色彩。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ISeasonBehaviour</span> </span>&#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">showSeasonBeauty</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-function">String <span class="hljs-title">getSeasonName</span><span class="hljs-params">()</span></span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">SeasonEnum</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ISeasonBehaviour</span> </span>&#123;<br>    SPRING(<span class="hljs-number">1</span>,<span class="hljs-string">&quot;春天&quot;</span>),SUMMER(<span class="hljs-number">2</span>,<span class="hljs-string">&quot;夏天&quot;</span>),FALL(<span class="hljs-number">3</span>,<span class="hljs-string">&quot;秋天&quot;</span>),WINTER(<span class="hljs-number">4</span>,<span class="hljs-string">&quot;冬天&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> index;<br>    <span class="hljs-keyword">private</span> String name;<br><br>    SeasonEnum(<span class="hljs-keyword">int</span> index, String name) &#123;<br>        <span class="hljs-keyword">this</span>.index = index;<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getIndex</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> index;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br><br>    <span class="hljs-comment">//接口方法</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showSeasonBeauty</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;welcome to &quot;</span> + <span class="hljs-keyword">this</span>.name);<br>    &#125;<br><br>    <span class="hljs-comment">//接口方法</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getSeasonName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h4 id="使用接口组织枚举"><a href="#使用接口组织枚举" class="headerlink" title="使用接口组织枚举"></a>使用接口组织枚举</h4><figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Food</span> </span>&#123;<br>    <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Coffee</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Food</span> </span>&#123;  <br>        BLACK_COFFEE, DECAF_COFFEE, LATTE, CAPPUCCINO  <br>    &#125;  <br>    <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Dessert</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Food</span> </span>&#123;  <br>        FRUIT, CAKE, GELATO  <br>    &#125;  <br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="六、枚举类比较是用-还是equals？"><a href="#六、枚举类比较是用-还是equals？" class="headerlink" title="六、枚举类比较是用==还是equals？"></a>六、枚举类比较是用==还是equals？</h3><p>先看一个例子，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EnumTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Shrubbery s1 = Shrubbery.CRAWLING;<br>        Shrubbery s2 = Shrubbery.GROUND;<br>        Shrubbery s3 = Shrubbery.CRAWLING;<br><br>        System.out.println(<span class="hljs-string">&quot;s1==s2,result: &quot;</span> + (s1 == s2));<br>        System.out.println(<span class="hljs-string">&quot;s1==s3,result: &quot;</span> + (s1 == s3));<br>        System.out.println(<span class="hljs-string">&quot;Shrubbery.CRAWLING.equals(s1)，result: &quot;</span>+Shrubbery.CRAWLING.equals(s1));<br>        System.out.println(<span class="hljs-string">&quot;Shrubbery.CRAWLING.equals(s2),result: &quot;</span>+Shrubbery.CRAWLING.equals(s2));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs applescript">s1==s2,<span class="hljs-literal">result</span>: <span class="hljs-literal">false</span><br>s1==s3,<span class="hljs-literal">result</span>: <span class="hljs-literal">true</span><br>Shrubbery.CRAWLING.<span class="hljs-keyword">equals</span>(s1)，<span class="hljs-literal">result</span>: <span class="hljs-literal">true</span><br>Shrubbery.CRAWLING.<span class="hljs-keyword">equals</span>(s2),<span class="hljs-literal">result</span>: <span class="hljs-literal">false</span><br></code></pre></div></td></tr></table></figure>
+
+<p>可以发现不管用==还是equals，都是可以的。其实枚举的equals方法，就是用==比较的，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object other)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span> == other;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="七、枚举实现的单例"><a href="#七、枚举实现的单例" class="headerlink" title="七、枚举实现的单例"></a>七、枚举实现的单例</h3><p>effective java提过，<strong>最佳的单例实现模式就是枚举模式</strong>。单例模式的实现有好几种方式，为什么是枚举实现的方式最佳呢？</p>
+<p>因为枚举实现的单例有以下优点：</p>
+<ul>
+<li>枚举单例写法简单</li>
+<li>枚举可解决线程安全问题</li>
+<li>枚举可解决反序列化会破坏单例的问题</li>
+</ul>
+<p>一个枚举单例demo如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingletonEnumTest</span> </span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">SingletonEnum</span> </span>&#123;<br>        INSTANCE;<br>        <span class="hljs-keyword">private</span> String name;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> name;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;<br>            <span class="hljs-keyword">this</span>.name = name;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SingletonEnum.INSTANCE.setName(<span class="hljs-string">&quot;jay@huaxiao&quot;</span>);<br>        System.out.println(SingletonEnum.INSTANCE.getName());<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+
+
+
+<h3 id="八、EnumSet-和EnumMap"><a href="#八、EnumSet-和EnumMap" class="headerlink" title="八、EnumSet 和EnumMap"></a>八、EnumSet 和EnumMap</h3><h4 id="EnumSet"><a href="#EnumSet" class="headerlink" title="EnumSet"></a>EnumSet</h4><p>显然，EnumSet也实现了set接口，相比于HashSet，它有以下优点：</p>
+<ul>
+<li>消耗较少的内存</li>
+<li>效率更高，因为是位向量实现的。</li>
+<li>可以预测的遍历顺序（enum常量的声明顺序）</li>
+<li>拒绝加null</li>
+</ul>
+<p><strong>EnumSet就是set的高性能实现，它的要求就是存放必须是同一枚举类型。</strong> EnumSet的常用方法：</p>
+<ul>
+<li>allof()  创建一个包含指定枚举类里所有枚举值的EnumSet集合</li>
+<li>range()  获取某个范围的枚举实例</li>
+<li>of()  创建一个包括参数中所有枚举元素的EnumSet集合</li>
+<li>complementOf（） 初始枚举集合包括指定枚举集合的补集</li>
+</ul>
+<p>看实例，最实际：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EnumTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        <span class="hljs-comment">// Creating a set</span><br>        EnumSet&lt;SeasonEnum&gt; set1, set2, set3, set4;<br><br>        <span class="hljs-comment">// Adding elements</span><br>        set1 = EnumSet.of(SeasonEnum.SPRING,  SeasonEnum.FALL, SeasonEnum.WINTER);<br>        set2 = EnumSet.complementOf(set1);<br>        set3 = EnumSet.allOf(SeasonEnum.class);<br>        set4 = EnumSet.range(SeasonEnum.SUMMER,SeasonEnum.WINTER);<br>        System.out.println(<span class="hljs-string">&quot;Set 1: &quot;</span> + set1);<br>        System.out.println(<span class="hljs-string">&quot;Set 2: &quot;</span> + set2);<br>        System.out.println(<span class="hljs-string">&quot;Set 3: &quot;</span> + set3);<br>        System.out.println(<span class="hljs-string">&quot;Set 4: &quot;</span> + set4);<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">Set</span> <span class="hljs-number">1</span>:<span class="hljs-meta"> [SPRING, FALL, WINTER]</span><br><span class="hljs-attribute">Set</span> <span class="hljs-number">2</span>:<span class="hljs-meta"> [SUMMER]</span><br><span class="hljs-attribute">Set</span> <span class="hljs-number">3</span>:<span class="hljs-meta"> [SPRING, SUMMER, FALL, WINTER]</span><br><span class="hljs-attribute">Set</span> <span class="hljs-number">4</span>:<span class="hljs-meta"> [SUMMER, FALL, WINTER]</span><br></code></pre></div></td></tr></table></figure>
+
+<h4 id="EnumMap"><a href="#EnumMap" class="headerlink" title="EnumMap"></a>EnumMap</h4><p>EnumMap也实现了Map接口，相对于HashMap，它也有这些优点：</p>
+<ul>
+<li>消耗较少的内存</li>
+<li>效率更高</li>
+<li>可以预测的遍历顺序</li>
+<li>拒绝null</li>
+</ul>
+<p><strong>EnumMap就是map的高性能实现。</strong> 它的常用方法跟HashMap是一致的，唯一约束是枚举相关。</p>
+<p>看实例，最实际：</p>
+<figure class="highlight java"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EnumTest</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        Map&lt;SeasonEnum, String&gt; map = <span class="hljs-keyword">new</span> EnumMap&lt;&gt;(SeasonEnum.class);<br>        map.put(SeasonEnum.SPRING, <span class="hljs-string">&quot;春天&quot;</span>);<br>        map.put(SeasonEnum.SUMMER, <span class="hljs-string">&quot;夏天&quot;</span>);<br>        map.put(SeasonEnum.FALL, <span class="hljs-string">&quot;秋天&quot;</span>);<br>        map.put(SeasonEnum.WINTER, <span class="hljs-string">&quot;冬天&quot;</span>);<br>        System.out.println(map);<br>        System.out.println(map.get(SeasonEnum.SPRING));<br>    &#125;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">&#123;<span class="hljs-attribute">SPRING</span>=春天, <span class="hljs-attribute">SUMMER</span>=夏天, <span class="hljs-attribute">FALL</span>=秋天, <span class="hljs-attribute">WINTER</span>=冬天&#125;<br>春天<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="九、待更新"><a href="#九、待更新" class="headerlink" title="九、待更新"></a>九、待更新</h3><p>有关于枚举关键知识点，亲爱的朋友，你有没有要补充的呢？</p>
+<h3 id="参考与感谢"><a href="#参考与感谢" class="headerlink" title="参考与感谢"></a>参考与感谢</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://droidyue.com/blog/2016/11/29/dive-into-enum/">关于Java中枚举Enum的深入剖析</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.hollischuang.com/archives/197">深度分析Java的枚举类型—-枚举的线程安全性及序列化问题</a></li>
+<li> <a target="_blank" rel="noopener" href="https://juejin.im/post/5b285d236fb9a00e9b39fdd2#heading-3">为什么我墙裂建议大家使用枚举来实现单例。</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/javazejian/article/details/71333103#enumset%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90">深入理解Java枚举类型(enum)</a></li>
+<li> <a target="_blank" rel="noopener" href="https://juejin.im/post/5c90efacf265da60ce379e17#heading-16">深入理解 Java 枚举</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/enumset-class-java/">EnumSet in Java</a></li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27093465/article/details/52180865">Java 枚举(enum) 详解7种常见的用法</a></li>
+<li>《Java编程思想》</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/interview/">interview</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9D%A2%E7%BB%8F/">面经</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/26/50%E4%B8%AA%E8%AE%A9%E4%BD%A0%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%A5%BD%E7%9A%84%E5%B0%8F%E5%BB%BA%E8%AE%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">50�����������õ�С����</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/%E4%BC%98%E5%8C%96%E4%BB%A3%E7%A0%81%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/">
+                        <span class="hidden-mobile">优化代码的几个小技巧</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://github.com/xiaobeibi" target="_blank" rel="nofollow noopener"><span>Github</span></a> <i class="iconfont icon-love"></i> <a href="https://gitee.com/tytokongjian" target="_blank" rel="nofollow noopener"><span>Gitee</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

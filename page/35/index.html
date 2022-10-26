@@ -203,41 +203,37 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/AUV%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202202161253974.jpg" srcset="/img/loading.gif" lazyload alt="AUV上位机使用手册 V1.0">
+        <a href="/2022/03/25/GNU_C05/" target="_self">
+          <img src="/img/Substitute4.jpg" srcset="/img/loading.gif" lazyload alt="零长度数组">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/AUV%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
-          AUV上位机使用手册 V1.0
+        <a href="/2022/03/25/GNU_C05/" target="_self">
+          零长度数组
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/AUV%E4%B8%8A%E4%BD%8D%E6%9C%BA/" target="_self">
+        <a href="/2022/03/25/GNU_C05/" target="_self">
           
           
             
           
-          AUV上位机使用手册 V1.0
+          零长度数组
 
-功能使用手册本上位机实现命令控制AUV在水面时的运动过程以及反馈各传感器的状态信息。
-此文档实时更新中。。。
+5.1 什么是零长度数组顾名思义，零长度数组就是长度为0的数组。
+ANSI C 标准规定：定义一个数组时，数组的长度必须是一个常数，即数组的长度在编译的时候是确定的。在ANSI C 中定义一个数组的方法如下：
+1int  a[10];
 
-启动程序
-在解压文件中找到此 exe 即为上位机启动程序。
+C99 新标准规定：可以定义一个变长数组。
+1int len;
 
-控制界面双击软件启动界面如下：
+1int a[len];
 
-界面左侧为各功能导航栏。
-界面中间为AUV控制界面：
-
-各按键功能都已在界面提示中标注。
-中间红色按钮为手柄连接开关，其下方为手柄控制开关。
-中心滑动条为运动
+也就是说，数组的长度在编译时是未确定的，在程序运行的时
         </a>
       </p>
 
@@ -254,9 +250,9 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/C/">C#</a>
+              <a href="/categories/C/">C</a>
             
-              <a href="/categories/C/%E4%B8%8A%E4%BD%8D%E6%9C%BA/">上位机</a>
+              <a href="/categories/C/GNU/">GNU</a>
             
           </div>
         
@@ -264,9 +260,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/C/">C#</a>
+              <a href="/tags/GNU/">GNU</a>
             
-              <a href="/tags/WPF/">WPF</a>
+              <a href="/tags/C/">C</a>
             
           </div>
         
@@ -278,30 +274,287 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/Apache%20Log4j%20%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E%EF%BC%81/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112152057127.webp" srcset="/img/loading.gif" lazyload alt="Apache Log4j 高危漏洞！">
+        <a href="/2022/03/25/GNU_C04/" target="_self">
+          <img src="/img/Substitute3.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核第一宏：container_of">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/Apache%20Log4j%20%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E%EF%BC%81/" target="_self">
-          Apache Log4j 高危漏洞！
+        <a href="/2022/03/25/GNU_C04/" target="_self">
+          Linux 内核第一宏：container_of
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/Apache%20Log4j%20%E9%AB%98%E5%8D%B1%E6%BC%8F%E6%B4%9E%EF%BC%81/" target="_self">
+        <a href="/2022/03/25/GNU_C04/" target="_self">
           
           
             
           
-          Apache Log4j 高危漏洞！
+          Linux 内核第一宏：container_of
 
-01. 概要Apache Log4j2 存在一处远程代码执行漏洞，该漏洞影响范围极广，漏洞危害极大。估计昨天所有的 Java 工程师都在熬夜修改这个漏洞。
+4.1 typeof 关键字ANSI C 定义了 sizeof 关键字，用来获取一个变量或数据类型在内存中所占的存储字节数。GNU C 扩展了一个关键字 typeof，用来获取一个变量或表达式的类型。这里使用关键字可能不太合适，因为毕竟 typeof 还没有被写入 C 标准，是 GCC 扩展的一个关键字。为了方便，我们就姑且称之为关键字吧。
+通过
+        </a>
+      </p>
 
-Apache Log4j2 是一个基于 Java 的日志记录工具。该工具重写了 Log4j 框架，并且引入了大量丰富的特性。该日志框架被大量用于业务系统开发，用来记录日志信息。大多数情况下，开发者可能会
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/GNU_C03/" target="_self">
+          <img src="/img/Substitute2.jpg" srcset="/img/loading.gif" lazyload alt="宏构造利器：语句表达式">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/GNU_C03/" target="_self">
+          宏构造利器：语句表达式
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/GNU_C03/" target="_self">
+          
+          
+            
+          
+          宏构造利器：语句表达式
+
+3.1 基础复习：表达式、语句和代码块表达式表达式和语句是 C 语言中的基础概念。什么是表达式呢？表达式就是由一系列操作符和操作数构成的式子。操作符可以是 C 语言标准规定的各种算术运算符、逻辑运算符、赋值运算符、比较运算符等。操作数可以是一个常量，也可以是一个变量。表达式也可以没有操作符，单独的一个常量甚至是一个字符串，也是一个表达式。下面的字符序列都是表达式：
+
+2 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/GNU_C02/" target="_self">
+          <img src="/img/Substitute1.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核驱动中的指定初始化">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/GNU_C02/" target="_self">
+          Linux 内核驱动中的指定初始化
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/GNU_C02/" target="_self">
+          
+          
+            
+          
+          Linux 内核驱动中的指定初始化
+
+2.1 什么是指定初始化在标准 C 中，当我们定义并初始化一个数组时，常用方法如下：
+1int a[10] = &#123;0,1,2,3,4,5,6,7,8&#125;;
+
+按照这种固定的顺序，我们可以依次给 a[0] 和 a[8] 赋值。因为没有对 a[9] 赋值，所以编译器会将 a[9] 默认设置为0。当数组长度比较小时，使用这种方式初始化比较方便。当数
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/GNU_C01/" target="_self">
+          <img src="/img/Substitute.jpg" srcset="/img/loading.gif" lazyload alt="Linux 内核中的 C 语言语法扩展">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/GNU_C01/" target="_self">
+          Linux 内核中的 C 语言语法扩展
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/GNU_C01/" target="_self">
+          
+          
+            
+          
+          Linux 内核中的 C 语言语法扩展
+
+
+
+1.1 Linux 内核驱动中的奇怪语法大家在看一些 GNU 开源软件，或者阅读 Linux 内核、驱动源码时会发现，在 Linux 内核源码中，有大量的 C 程序看起来“怪怪的”。说它是C语言吧，貌似又跟教材中的写法不太一样；说它不是 C 语言呢，但是这些程序确确实实是在一个 C 文件中。此时，你肯定怀疑你看到的是一个“假的 C 语言”！
+比如，下面
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-03-25 21:46" pubdate>
+              2022-03-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C/">C</a>
+            
+              <a href="/categories/C/GNU/">GNU</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GNU/">GNU</a>
+            
+              <a href="/tags/C/">C</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131648442.webp" srcset="/img/loading.gif" lazyload alt="Git各指令的本质">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
+          Git各指令的本质
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/03/25/Git%20%E5%90%84%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9C%AC%E8%B4%A8/" target="_self">
+          
+          
+            
+          
+          Git 各指令的本质
+
+作为当前世界上最强大的代码管理工具Git相信大家都很熟悉，但据我所知有很大一批人停留在clone、commit、pull、push…的阶段，是不是对rebase心里没底只敢用merge？
+碰见版本回退就抓瞎？别问我怎么知道的，问就是：“我曾经就是这样啊～～”。
+针对这些问题，今天我就将这几年对Git的认知和理解分享出来，尽可能的从本质去讲解Git，帮助你一步一步去了解Git
         </a>
       </p>
 
@@ -320,7 +573,7 @@ Apache Log4j2 是一个基于 Java 的日志记录工具。该工具重写了 Lo
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Log/">Log</a>
+              <a href="/categories/Java/Git/">Git</a>
             
           </div>
         
@@ -330,7 +583,7 @@ Apache Log4j2 是一个基于 Java 的日志记录工具。该工具重写了 Lo
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Log/">Log</a>
+              <a href="/tags/Git/">Git</a>
             
           </div>
         
@@ -342,157 +595,41 @@ Apache Log4j2 是一个基于 Java 的日志记录工具。该工具重写了 Lo
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/30000%20%E5%AD%97%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%89%8B%E5%86%8C/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131335936.webp" srcset="/img/loading.gif" lazyload alt="30000 字的设计模式手册">
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202110021328914.webp" srcset="/img/loading.gif" lazyload alt="Git常用命令速查表">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/30000%20%E5%AD%97%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%89%8B%E5%86%8C/" target="_self">
-          30000 字的设计模式手册
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
+          Git常用命令速查表
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/30000%20%E5%AD%97%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%89%8B%E5%86%8C/" target="_self">
+        <a href="/2022/03/25/Git%20%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E8%A1%A8/" target="_self">
           
           
             
           
-          30000 字的设计模式手册
+          Git 常用命令速查表
 
-设计模式是对大家实际工作中写的各种代码进行高层次抽象的总结，其中最出名的当属 Gang of Four (GoF) 的分类了，他们将设计模式分类为 23 种经典的模式，根据用途我们又可以分为三大类，分别为创建型模式、结构型模式和行为型模式。
-有一些重要的设计原则在开篇和大家分享下，这些原则将贯通全文：
+名词
 
-面向接口编程，而不是面向实现。这个很重要，也是优雅的、可扩展的
-        </a>
-      </p>
+master: 默认开发分支
+origin: 默认远程版本库
+Index / Stage：暂存区
+Workspace：工作区
+Repository：仓库区（或本地仓库）
+Remote：远程仓库
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84/">设计架构</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+一、新建代码库
+二、配置Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/15000%20%E5%AD%97%E7%9A%84%20MySQL%20%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202112131232979.webp" srcset="/img/loading.gif" lazyload alt="15000字的MySQL速查手册">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/15000%20%E5%AD%97%E7%9A%84%20MySQL%20%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
-          15000字的MySQL速查手册
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/15000%20%E5%AD%97%E7%9A%84%20MySQL%20%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C/" target="_self">
-          
-          
-            
-          
-          15000 字的 MySQL 速查手册
-
-SQL基础知识整理
-
-
-select 查询结果，如: [学号,平均成绩：组函数avg(成绩)]
-from 从哪张表中查找数据，如:[涉及到成绩：成绩表score]
-where 查询条件，如:[b.课程号=&#39;0003&#39; and b.成绩&gt;80]
-group by 分组，如:[每个学生的平均：按学号分组](oracle,SQL serve
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Database/">Database</a>
-            
-              <a href="/categories/Database/MySQL/">MySQL</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/2021%20%E6%9C%80%E6%96%B0%20Spring%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102213800.webp" srcset="/img/loading.gif" lazyload alt="2021 最新 Spring 面试题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/2021%20%E6%9C%80%E6%96%B0%20Spring%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          2021 最新 Spring 面试题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/2021%20%E6%9C%80%E6%96%B0%20Spring%20%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          
-          
-            
-          
-          2021 最新 Spring 面试题
-
-Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有Rod Johnson创建，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个分层的JavaSE/JavaEE full-stack（一站式）轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注
+三、增加/删除/修改文件
+四、代码提
         </a>
       </p>
 
@@ -511,7 +648,7 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Spring/">Spring</a>
+              <a href="/categories/Java/Git/">Git</a>
             
           </div>
         
@@ -521,7 +658,7 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Spring/">Spring</a>
+              <a href="/tags/Git/">Git</a>
             
           </div>
         
@@ -533,87 +670,30 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/600%20%E6%9D%A1%E6%9C%80%E5%BC%BA%20Linux%20%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" target="_self">
-          <img src="/img/Substitute4.jpg" srcset="/img/loading.gif" lazyload alt="600 条最强 Linux 命令总结">
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202108102031350.png" srcset="/img/loading.gif" lazyload alt="Fluent Mybatis 牛逼！">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/600%20%E6%9D%A1%E6%9C%80%E5%BC%BA%20Linux%20%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" target="_self">
-          600 条最强 Linux 命令总结
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
+          Fluent Mybatis 牛逼！
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/600%20%E6%9D%A1%E6%9C%80%E5%BC%BA%20Linux%20%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" target="_self">
+        <a href="/2022/03/25/Fluent%20Mybatis%20%E7%89%9B%E9%80%BC%EF%BC%81/" target="_self">
           
           
             
           
-          600 条最强 Linux 命令总结
+          Fluent Mybatis 牛逼！
 
-1. 基本命令123456789101112131415161718192021222324uname -m 显示机器的处理器架构uname -r 显示正在使用的内核版本dmidecode -q 显示硬件系统部件(SMBIOS / DMI) hdparm -i /dev/hda 罗列一个磁盘的架构特性hdparm -tT /dev/sda 在磁盘上执行测试性
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux/">Linux</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Linux/">Linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/100%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E9%80%8F%E5%BD%BB%E8%A7%A3%E6%9E%90%20RPC%20%E5%8E%9F%E7%90%86/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/202203201700031.png" srcset="/img/loading.gif" lazyload alt="100 行代码透彻解析 RPC 原理">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/100%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E9%80%8F%E5%BD%BB%E8%A7%A3%E6%9E%90%20RPC%20%E5%8E%9F%E7%90%86/" target="_self">
-          100 行代码透彻解析 RPC 原理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/100%20%E8%A1%8C%E4%BB%A3%E7%A0%81%E9%80%8F%E5%BD%BB%E8%A7%A3%E6%9E%90%20RPC%20%E5%8E%9F%E7%90%86/" target="_self">
-          
-          
-            
-          
-          100 行代码透彻解析 RPC 原理
-
-本文主要论述的是“RPC 实现原理”，那么首先明确一个问题什么是 RPC 呢？RPC 是 Remote Procedure Call 的缩写，即，远程过程调用。RPC 是一个计算机通信协议。该协议允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互编程。
-值得注意是，两个或多个应用程序都分布在不同的服务器上，它们之间的调用都像是
+使用fluent mybatis可以不用写具体的xml文件，通过java api可以构造出比较复杂的业务sql语句，做到代码逻辑和sql逻辑的合一。不再需要在Dao中组装查询或更新操作，在xml或mapper中再组装参数。那对比原生Mybatis, Mybatis Plus或者其他框架，FluentMybatis提供了哪些便利呢？
+场景需求设置
+我们通过一个
         </a>
       </p>
 
@@ -632,7 +712,7 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Netty/">Netty</a>
+              <a href="/categories/Java/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -642,7 +722,7 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Netty/">Netty</a>
+              <a href="/tags/Mybatis/">Mybatis</a>
             
           </div>
         
@@ -654,95 +734,42 @@ Spring概述什么是spring?Spring是一个轻量级Java开发框架，最早有
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/100%20%E9%81%93%20Linux%20%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210601114559.png" srcset="/img/loading.gif" lazyload alt="100 道 Linux 常见面试题">
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210507155311.png" srcset="/img/loading.gif" lazyload alt="简易理财管理系统">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/100%20%E9%81%93%20Linux%20%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          100 道 Linux 常见面试题
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
+          简易理财管理系统
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/100%20%E9%81%93%20Linux%20%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+        <a href="/2022/03/25/FinancialManagementSystem/" target="_self">
           
           
             
           
-          100 道 Linux 常见面试题
+          简易理财管理系统
 
-本文一共 2W + 字，分别从 Linux概述、磁盘、目录、文件、安全、语法级、实战、文件管理命令、文档编辑命令、磁盘管理命令、网络通讯命令、系统管理命令、备份压缩命令等方面拆解 Linux 知识点。
-本文预计阅读时间 2h，可以先收藏，慢慢读。
-一、Linux 概述1. 什么是Linux
-Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于PO
-        </a>
-      </p>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-25 21:46" pubdate>
-              2022-03-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux/">Linux</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Linux/">Linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+1. 简介1.1 主要技术实现
+Spring Boot
+Thymeleaf
+MyBatis
+MySQL
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/50%E4%B8%AA%E7%BB%8F%E5%85%B8Spring%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210501103744.webp" srcset="/img/loading.gif" lazyload alt="50 个 经典 Spring 面试题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/25/50%E4%B8%AA%E7%BB%8F%E5%85%B8Spring%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          50 个 经典 Spring 面试题
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/25/50%E4%B8%AA%E7%BB%8F%E5%85%B8Spring%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
-          
-          
-            
-          
-          50 个 经典 Spring 面试题
-
-1、基础概念1.1. 不同版本的 Spring Framework 有哪些主要功能？
-
-1.2. 什么是 Spring Framework？
-Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。
-它是轻量级、松散耦合的。
-它具有分层体系结构，允许用户选择组件，同时还为 J2EE 应用程序开发提供了一个有凝聚力的框架。
-它可以集成其他框架，如 St
+1.2 相关技术支持
+SpringBoot：实现MVC分层
+MyBatis：采用逆向工程生成 entity 和 mapper
+MySQL：数据库持久化实现
+Shiro：管理权限
+Thymeleaf：前端模板引擎
+Pagehelper：分页插件
+Druid：阿里巴巴数据库连
         </a>
       </p>
 
@@ -761,7 +788,7 @@ Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度�
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/Spring/">Spring</a>
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -771,7 +798,7 @@ Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度�
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/Spring/">Spring</a>
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -783,29 +810,37 @@ Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度�
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/25/40%20%E4%B8%AA%20Spring%20Boot%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" target="_self">
-          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210729100756.jpeg" srcset="/img/loading.gif" lazyload alt="40 个 Spring Boot 常用注解">
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
+          <img src="https://tuyong.oss-cn-hangzhou.aliyuncs.com/img/20210511111816.png" srcset="/img/loading.gif" lazyload alt="疫情数据显示Demo">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2022/03/25/40%20%E4%B8%AA%20Spring%20Boot%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" target="_self">
-          40 个 Spring Boot 常用注解
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
+          疫情数据显示Demo
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2022/03/25/40%20%E4%B8%AA%20Spring%20Boot%20%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" target="_self">
+        <a href="/2022/03/25/EpidemicDataDisplaySystem/" target="_self">
           
           
             
           
-          40 个 Spring Boot 常用注解
+          疫情数据显示Demo
 
-Spring Web MVC 与 Spring Bean 注解一、Spring Web MVC 注解@RequestMapping@RequestMapping注解的主要用途是将Web请求与请求处理类中的方法进行映射。
-Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp
+本小Demo使用HttpURLConnection实时的从网站获取最新疫情数据内容，并通过echarts显示在前端，基于SpringBoot + MyBatis Plus + Thymeleaf的疫情数据显示Demo
+1. 使用技术
+SpringBoot
+Mybatis Plus
+MySQL
+Thymeleaf
+Echarts
+Gson
+
+1.1 数据库调整数据获取时间，可
         </a>
       </p>
 
@@ -824,7 +859,7 @@ Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp
             
               <a href="/categories/Java/">Java</a>
             
-              <a href="/categories/Java/SpringBoot/">SpringBoot</a>
+              <a href="/categories/Java/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -834,7 +869,7 @@ Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp
             
               <a href="/tags/Java/">Java</a>
             
-              <a href="/tags/SpringBoot/">SpringBoot</a>
+              <a href="/tags/JavaDemo/">JavaDemo</a>
             
           </div>
         
@@ -846,7 +881,7 @@ Spring MVC和Spring WebFlux都通过RquestMappingHandlerMapping和RequestMapp
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/34/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="page-number" href="/page/34/#board">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/#board">36</a><a class="extend next" rel="next" href="/page/36/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/34/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="page-number" href="/page/34/#board">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/#board">36</a><a class="page-number" href="/page/37/#board">37</a><a class="page-number" href="/page/38/#board">38</a><a class="extend next" rel="next" href="/page/36/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
